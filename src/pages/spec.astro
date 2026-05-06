@@ -19,6 +19,16 @@ const sections = [
 ] as const;
 
 const REPO = 'https://github.com/adamant-protocol/adamant';
+
+const WP_FILES: Record<string, string> = {
+  crypto: '03-cryptographic-foundation.md',
+  identity: '04-identity-accounts.md',
+  objects: '05-object-model-state.md',
+  vm: '06-execution-vm.md',
+  privacy: '07-privacy-layer.md',
+  consensus: '08-consensus.md',
+  networking: '09-networking-mempool.md',
+};
 ---
 
 <BaseLayout
@@ -68,7 +78,7 @@ const REPO = 'https://github.com/adamant-protocol/adamant';
         <h4 class="mb-6 border-b border-rule pb-3.5 font-mono text-[11px] uppercase tracking-[0.22em] text-ink-3">Sections</h4>
         <ol class="flex flex-col" style="counter-reset:sec -1">
           {sections.map((s) => {
-            const href = s.kind === 'genesis' ? '/genesis' : s.kind === 'github' ? `${REPO}/tree/main/whitepaper` : `#${s.id}`;
+            const href = s.kind === 'genesis' ? '/genesis' : s.kind === 'github' ? `${REPO}/blob/main/whitepaper/${WP_FILES[s.id]}` : `#${s.id}`;
             const tag = s.kind === 'github' ? 'GITHUB' : s.kind === 'genesis' ? '/GENESIS' : null;
             return (
               <li style="counter-increment:sec">

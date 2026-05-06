@@ -20,7 +20,6 @@ const GITHUB = 'https://github.com/adamant-protocol/adamant';
         <ul class="flex flex-col gap-3">
           <li><a href="/spec" class="text-[14.5px] text-ink-2 transition-colors hover:text-ink">Whitepaper</a></li>
           <li><a href="/genesis" class="text-[14.5px] text-ink-2 transition-colors hover:text-ink">Genesis</a></li>
-          <li><a href={GITHUB} class="text-[14.5px] text-ink-2 transition-colors hover:text-ink">Reference impl</a></li>
           <li><a href="/about" class="text-[14.5px] text-ink-2 transition-colors hover:text-ink">About</a></li>
         </ul>
       </div>
@@ -44,9 +43,11 @@ const GITHUB = 'https://github.com/adamant-protocol/adamant';
     </div>
 
     <div class="flex flex-col items-start gap-4 border-t border-rule pt-8 font-mono text-[11px] uppercase tracking-[0.12em] text-ink-3 md:flex-row md:items-center md:justify-between">
-      <span class="inline-flex items-center gap-3.5">
+      <span class="inline-flex flex-wrap items-center gap-x-3 gap-y-1.5">
         <Mark size={18} />
-        <span>Apache 2.0 · github.com/adamant-protocol</span>
+        <a href={`${GITHUB}/blob/main/LICENSE`} class="transition-colors hover:text-ink-2">Apache 2.0</a>
+        <span class="text-ink-4">·</span>
+        <a href="https://github.com/adamant-protocol" class="transition-colors hover:text-ink-2">github.com/adamant-protocol</a>
       </span>
       <span>No endorsements · No promises · No master</span>
     </div>
