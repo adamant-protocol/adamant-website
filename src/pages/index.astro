@@ -1,0 +1,691 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Starfield from '@/components/Starfield.astro';
+---
+
+<BaseLayout active="home">
+  <!-- ───────── HERO ───────── -->
+  <section class="relative min-h-[80vh] md:min-h-[88vh] overflow-hidden pt-16 md:pt-32 pb-16 md:pb-20 flex flex-col">
+    <Starfield />
+    <div class="pointer-events-none absolute inset-0 z-[1] glow-pulse" style="background:radial-gradient(ellipse 70% 50% at 65% 45%, rgba(255,125,77,0.08), transparent 70%)"></div>
+
+    <div class="wrap relative z-[3] flex-1 flex flex-col">
+      <div class="grid items-start gap-12 md:gap-16 lg:gap-24 lg:grid-cols-[1.3fr_1fr]">
+        <div data-reveal>
+          <span class="eyebrow">
+            <span class="dot"></span>
+            A Layer 1 with no foundation
+          </span>
+          <h1 class="mt-9 max-w-[13ch] font-display font-medium leading-none tracking-[-0.035em]" style="font-size:clamp(48px,7vw,108px)">
+            <span class="block font-light text-ink-2">The chain you use</span>
+            <span class="block font-semibold">when you don't</span>
+            <span class="block font-bold text-ember">trust anyone.</span>
+          </h1>
+          <p class="mt-11 max-w-[48ch] text-[17px] leading-[1.65] text-ink-2">
+            Privacy by default. Verifiable on a phone. Two hundred thousand transactions a second. No premine, no admin keys, no upgrade authority. Adamant is fixed at genesis and changed only by social consensus among the people who run it.
+          </p>
+          <div class="mt-11 flex flex-wrap gap-4">
+            <a href="/about" class="btn-link solid">New here? Start here <span class="arrow"></span></a>
+            <a href="/spec" class="btn-link">Read the spec <span class="arrow"></span></a>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-4 md:gap-6 pb-2 md:mt-4" data-reveal style="transition-delay:120ms">
+          <div class="flex items-baseline justify-between border-b border-rule pb-4">
+            <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-3">Throughput</span>
+            <span class="font-display text-[26px] md:text-[32px] font-medium leading-none tracking-[-0.025em]">200,000<small class="ml-1.5 font-mono text-[10px] font-normal tracking-[0.18em] text-ink-3">TPS</small></span>
+          </div>
+          <div class="flex items-baseline justify-between border-b border-rule pb-4">
+            <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-3">Finality · owned-obj</span>
+            <span class="font-display text-[26px] md:text-[32px] font-medium leading-none tracking-[-0.025em]">≈500<small class="ml-1.5 font-mono text-[10px] font-normal tracking-[0.18em] text-ink-3">MS</small></span>
+          </div>
+          <div class="flex items-baseline justify-between border-b border-rule pb-4">
+            <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-3">Active set</span>
+            <span class="font-display text-[26px] md:text-[32px] font-medium leading-none tracking-[-0.025em]">200<small class="ml-1.5 font-mono text-[10px] font-normal tracking-[0.18em] text-ink-3">VALIDATORS</small></span>
+          </div>
+          <div class="flex items-baseline justify-between border-b border-rule pb-4">
+            <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-3">Fee · transparent</span>
+            <span class="font-display text-[26px] md:text-[32px] font-medium leading-none tracking-[-0.025em]">$0.0001<small class="ml-1.5 font-mono text-[10px] font-normal tracking-[0.18em] text-ink-3">USD</small></span>
+          </div>
+          <div class="flex items-baseline justify-between border-b border-rule pb-4">
+            <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-3">Default state</span>
+            <span class="font-display text-[26px] md:text-[32px] font-medium leading-none tracking-[-0.025em]">Shielded</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-auto pt-16 flex items-end justify-between border-t border-rule">
+        <span class="font-mono text-[11px] tracking-[0.18em] text-ink-3">PRE-LAUNCH · NO TOKEN SALE · NO ALLOCATIONS</span>
+        <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-2 hidden md:flex items-center gap-3.5">
+          Continue
+          <span class="inline-block h-px w-6 relative bg-ink-2 after:absolute after:right-0 after:-top-[3px] after:size-[7px] after:border-r after:border-b after:border-ink-2 after:rotate-[-45deg]"></span>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── §01 / THE GAP ───────── -->
+  <section class="border-t border-rule">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="num">§01 / THE GAP</span>
+          <h2><span class="light">Each property exists.</span>None of them together.</h2>
+        </div>
+        <p class="desc">
+          Seven properties define a usable chain in 2026. Every one is demonstrated in production somewhere. <strong class="text-ink">No single chain currently combines more than three of them.</strong>
+        </p>
+      </div>
+
+      <!-- Seven property cards: each shows what chain proved it possible, and what's missing -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-rule-2 border border-rule-2">
+        {[
+          {
+            n: '01',
+            prop: '200k+ TPS · sub-second finality',
+            chain: 'Sui (Mysticeti)',
+            year: '2024',
+            lacks: 'No default privacy. Foundation-controlled.',
+          },
+          {
+            n: '02',
+            prop: 'Programmable privacy',
+            chain: 'Aztec',
+            year: '2025',
+            lacks: 'L2 only. Multi-second proving. Not a sovereign chain.',
+          },
+          {
+            n: '03',
+            prop: 'Encrypted mempool (in production)',
+            chain: 'Shutter / Gnosis',
+            year: '2024',
+            lacks: '≈3 minute inclusion latency. No programmable privacy.',
+          },
+          {
+            n: '04',
+            prop: 'Phone-verifiable chain',
+            chain: 'Mina',
+            year: '2021',
+            lacks: 'Low throughput. No default privacy.',
+          },
+          {
+            n: '05',
+            prop: 'Native account abstraction',
+            chain: 'zkSync · StarkNet · Aptos',
+            year: '2022–24',
+            lacks: 'Each on a different chain, with different trade-offs.',
+          },
+          {
+            n: '06',
+            prop: 'Post-quantum signatures',
+            chain: 'NIST standardisation',
+            year: '2024',
+            lacks: 'No major chain has launched with these by default.',
+          },
+        ].map((p) => (
+          <article class="bg-bg-2 p-6 md:p-7 flex flex-col gap-3 min-h-[200px] card-hover" data-reveal>
+            <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-3">PROPERTY {p.n}</span>
+            <h3 class="font-display text-[17px] md:text-[18px] font-medium leading-[1.25] tracking-[-0.015em] text-ink">{p.prop}</h3>
+            <div class="mt-1 flex items-baseline gap-2 font-mono text-[11px] tracking-[0.1em]">
+              <span class="text-ember">{p.chain}</span>
+              <span class="text-ink-4">·</span>
+              <span class="text-ink-3">{p.year}</span>
+            </div>
+            <p class="mt-auto pt-3 border-t border-rule text-[12.5px] leading-[1.55] text-ink-3 italic">but lacks: {p.lacks}</p>
+          </article>
+        ))}
+
+        <!-- Property 07: spans full width on lg to eliminate empty cells and anchor the section -->
+        <article class="bg-bg-2 p-6 md:p-9 lg:p-10 flex flex-col md:flex-row md:items-center gap-5 md:gap-12 lg:col-span-3 card-hover relative overflow-hidden" data-reveal>
+          <div class="pointer-events-none absolute inset-0 opacity-30" style="background:linear-gradient(90deg, transparent 0%, rgba(255,125,77,0.04) 100%)"></div>
+          <div class="relative md:flex-1">
+            <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-3">PROPERTY 07 · THE ANCHOR</span>
+            <h3 class="mt-3 font-display text-[20px] md:text-[24px] font-medium leading-[1.25] tracking-[-0.015em] text-ink max-w-[24ch]">Credibly neutral governance</h3>
+          </div>
+          <div class="relative md:flex-shrink-0 flex items-baseline gap-2 font-mono text-[12px] tracking-[0.1em]">
+            <span class="text-ember">Bitcoin</span>
+            <span class="text-ink-4">·</span>
+            <span class="text-ember">Monero</span>
+            <span class="text-ink-4">·</span>
+            <span class="text-ink-3">2009 · 2014</span>
+          </div>
+          <p class="relative md:max-w-[36ch] text-[13px] leading-[1.55] text-ink-3 italic md:border-l border-rule md:pl-8 md:py-2">but lacks: No programmability. No high throughput.</p>
+        </article>
+      </div>
+
+      <!-- Adamant card: full width, highlighted, all seven properties -->
+      <div class="mt-px bg-bg-3 border border-rule-2 p-8 md:p-12 lg:p-14 relative overflow-hidden card-hover" data-reveal>
+        <div class="pointer-events-none absolute inset-0 opacity-50" style="background:radial-gradient(ellipse 80% 80% at 50% 50%, rgba(255,125,77,0.08), transparent 70%)"></div>
+        <div class="relative grid items-start gap-8 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
+          <div>
+            <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-ember">ADAMANT · ALL SEVEN</span>
+            <h3 class="mt-4 font-display font-medium leading-[1.05] tracking-[-0.03em]" style="font-size:clamp(28px,3.6vw,52px)">
+              <span class="block font-light text-ink-2">All seven properties.</span>
+              <span class="font-semibold text-ember">In one Layer 1.</span>
+            </h3>
+            <p class="mt-6 max-w-[40ch] text-[14.5px] leading-[1.65] text-ink-2">
+              Not by inventing new cryptography — by integrating standard, peer-reviewed primitives into a single coherent architecture, with credible neutrality enforced at genesis.
+            </p>
+          </div>
+
+          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 font-mono text-[12.5px] tracking-[0.05em]">
+            {[
+              '200k+ TPS · sub-second finality',
+              'Programmable privacy by default',
+              'Threshold-encrypted mempool',
+              'Phone-verifiable chain',
+              'Native account abstraction',
+              'Post-quantum signatures',
+              'Credibly neutral governance',
+            ].map((p) => (
+              <li class="flex items-baseline gap-3 text-ink">
+                <span class="text-ember font-bold">✓</span>
+                <span>{p}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── §02 / HOW IT WORKS ───────── -->
+  <section class="border-t border-rule">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="num">§02 / HOW IT WORKS</span>
+          <h2><span class="light">Four things done</span>differently from every other chain.</h2>
+        </div>
+        <p class="desc">
+          Each mechanism is the answer to one or more properties no chain has delivered together. None of these is invented here — what's new is the synthesis.
+        </p>
+      </div>
+
+      <!-- ────── MECHANISM 01: DAG CONSENSUS ────── -->
+      <div class="mechanism border-y border-rule-2 grid lg:grid-cols-2" data-reveal>
+        <div class="bg-bg-2 p-8 md:p-12 lg:p-16 flex flex-col justify-center min-h-[420px]">
+          <div class="mb-6 flex items-baseline justify-between gap-3">
+            <span class="font-mono text-[11px] uppercase tracking-[0.22em] text-ember">MECHANISM 01 · CONSENSUS</span>
+            <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §8</span>
+          </div>
+          <div class="dag-viz relative h-[220px] -mx-2">
+            <svg viewBox="0 0 320 180" class="block w-full h-full" aria-hidden="true">
+              <g stroke="currentColor" stroke-width="0.5" class="text-cold/50" fill="none">
+                <!-- R0→R1: each R1 vertex references 3 of 4 R0 vertices (2/3+1 quorum requirement, §8.3.1) -->
+                <path d="M40 36 L100 36 M40 72 L100 36 M40 108 L100 36 M40 36 L100 72 M40 72 L100 72 M40 144 L100 72 M40 36 L100 108 M40 108 L100 108 M40 144 L100 108 M40 72 L100 144 M40 108 L100 144 M40 144 L100 144" class="dag-line" style="animation-delay:0.2s"/>
+                <!-- R1→R2 -->
+                <path d="M100 36 L160 36 M100 72 L160 36 M100 108 L160 36 M100 36 L160 72 M100 72 L160 72 M100 144 L160 72 M100 36 L160 108 M100 108 L160 108 M100 144 L160 108 M100 72 L160 144 M100 108 L160 144 M100 144 L160 144" class="dag-line" style="animation-delay:1.0s"/>
+                <!-- R2→R3 -->
+                <path d="M160 36 L220 36 M160 72 L220 36 M160 108 L220 36 M160 36 L220 72 M160 72 L220 72 M160 144 L220 72 M160 36 L220 108 M160 108 L220 108 M160 144 L220 108 M160 72 L220 144 M160 108 L220 144 M160 144 L220 144" class="dag-line" style="animation-delay:1.8s"/>
+                <!-- R3→R4 -->
+                <path d="M220 36 L280 36 M220 72 L280 36 M220 108 L280 36 M220 36 L280 72 M220 72 L280 72 M220 144 L280 72 M220 36 L280 108 M220 108 L280 108 M220 144 L280 108 M220 72 L280 144 M220 108 L280 144 M220 144 L280 144" class="dag-line" style="animation-delay:2.6s"/>
+              </g>
+              <g fill="currentColor" class="text-ember">
+                <circle cx="40" cy="36" r="3.5" class="dag-vertex" style="animation-delay:0s"/>
+                <circle cx="40" cy="72" r="3.5" class="dag-vertex" style="animation-delay:0.05s"/>
+                <circle cx="40" cy="108" r="3.5" class="dag-vertex" style="animation-delay:0.1s"/>
+                <circle cx="40" cy="144" r="3.5" class="dag-vertex" style="animation-delay:0.15s"/>
+                <circle cx="100" cy="36" r="3.5" class="dag-vertex" style="animation-delay:0.8s"/>
+                <circle cx="100" cy="72" r="3.5" class="dag-vertex" style="animation-delay:0.85s"/>
+                <circle cx="100" cy="108" r="3.5" class="dag-vertex" style="animation-delay:0.9s"/>
+                <circle cx="100" cy="144" r="3.5" class="dag-vertex" style="animation-delay:0.95s"/>
+                <circle cx="160" cy="36" r="3.5" class="dag-vertex" style="animation-delay:1.6s"/>
+                <circle cx="160" cy="72" r="3.5" class="dag-vertex" style="animation-delay:1.65s"/>
+                <circle cx="160" cy="108" r="3.5" class="dag-vertex" style="animation-delay:1.7s"/>
+                <circle cx="160" cy="144" r="3.5" class="dag-vertex" style="animation-delay:1.75s"/>
+                <circle cx="220" cy="36" r="3.5" class="dag-vertex" style="animation-delay:2.4s"/>
+                <circle cx="220" cy="72" r="3.5" class="dag-vertex" style="animation-delay:2.45s"/>
+                <circle cx="220" cy="108" r="3.5" class="dag-vertex" style="animation-delay:2.5s"/>
+                <circle cx="220" cy="144" r="3.5" class="dag-vertex" style="animation-delay:2.55s"/>
+                <circle cx="280" cy="36" r="3.5" class="dag-vertex" style="animation-delay:3.2s"/>
+                <circle cx="280" cy="72" r="3.5" class="dag-vertex" style="animation-delay:3.25s"/>
+                <circle cx="280" cy="108" r="3.5" class="dag-vertex" style="animation-delay:3.3s"/>
+                <circle cx="280" cy="144" r="3.5" class="dag-vertex" style="animation-delay:3.35s"/>
+              </g>
+              <g fill="currentColor" class="text-ink-4" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="1.5">
+                <text x="40" y="170" text-anchor="middle">R0</text>
+                <text x="100" y="170" text-anchor="middle">R1</text>
+                <text x="160" y="170" text-anchor="middle">R2</text>
+                <text x="220" y="170" text-anchor="middle">R3</text>
+                <text x="280" y="170" text-anchor="middle">R4</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="p-8 md:p-12 lg:p-16 flex flex-col justify-center gap-6 lg:border-l border-rule-2">
+          <h3 class="font-display font-medium leading-[1.1] tracking-[-0.025em]" style="font-size:clamp(26px,2.6vw,38px)">
+            <span class="block font-light text-ink-2">Parallel</span>
+            by design.
+          </h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-2">
+            <div class="border-l-2 border-ink-4 pl-4">
+              <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ink-3 mb-2">Most chains</span>
+              <p class="text-[13.5px] leading-[1.55] text-ink-2">One leader proposes a block. The next leader proposes the next. Throughput is bounded by the slowest leader.</p>
+            </div>
+            <div class="border-l-2 border-ember pl-4">
+              <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ember mb-2">Adamant</span>
+              <p class="text-[13.5px] leading-[1.55] text-ink">Mysticeti-based DAG. All 200 active validators produce one vertex per 250ms round, each referencing 2/3+1 (134) of the prior round's vertices. Ordering emerges via commit waves every 4 rounds. 144 rounds per 36-second epoch.</p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-2 mt-3 pt-5 border-t border-rule font-mono text-[10.5px] uppercase tracking-[0.18em] text-ink-3">
+            <span class="text-ink-2">→ Property delivered:</span>
+            <span class="text-ember">200,000+ TPS</span>
+            <span class="text-ink-4">·</span>
+            <span class="text-ember">~500ms finality</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ────── MECHANISM 02: ENCRYPTED MEMPOOL ────── -->
+      <div class="mechanism border-b border-rule-2 grid lg:grid-cols-2" data-reveal>
+        <div class="lg:order-2 bg-bg-2 p-8 md:p-12 lg:p-16 flex flex-col justify-center min-h-[420px]">
+          <div class="mb-6 flex items-baseline justify-between gap-3">
+            <span class="font-mono text-[11px] uppercase tracking-[0.22em] text-ember">MECHANISM 02 · MEMPOOL</span>
+            <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §3.6 · §8.4</span>
+          </div>
+          <div class="mempool-viz relative h-[220px] -mx-2">
+            <svg viewBox="0 0 320 180" class="block w-full h-full" aria-hidden="true">
+              <g stroke="currentColor" stroke-width="0.5" class="text-rule-2" stroke-dasharray="2 3">
+                <line x1="20" y1="90" x2="300" y2="90"/>
+              </g>
+              <g fill="currentColor" class="text-ink-4" font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="1.2">
+                <text x="40" y="160" text-anchor="middle">SUBMIT</text>
+                <text x="120" y="160" text-anchor="middle">ORDER (E)</text>
+                <text x="200" y="160" text-anchor="middle">DECRYPT</text>
+                <text x="280" y="160" text-anchor="middle">EXEC (E+1)</text>
+              </g>
+              <g fill="currentColor" class="text-ink-4">
+                <circle cx="40" cy="90" r="2"/>
+                <circle cx="120" cy="90" r="2"/>
+                <circle cx="200" cy="90" r="2"/>
+                <circle cx="280" cy="90" r="2"/>
+              </g>
+              <g fill="currentColor" class="text-cold mempool-keypers" opacity="0">
+                <circle cx="220" cy="50" r="2"/>
+                <circle cx="240" cy="44" r="2"/>
+                <circle cx="260" cy="50" r="2"/>
+              </g>
+              <g class="mempool-tx">
+                <rect x="-22" y="80" width="44" height="20" rx="10" fill="currentColor" class="text-ember mempool-pill" />
+                <g class="mempool-lock" stroke="currentColor" stroke-width="1.4" fill="none" opacity="0">
+                  <rect x="-5" y="86" width="10" height="8" rx="1" stroke="#000"/>
+                  <path d="M -3 86 L -3 83 Q -3 80 0 80 Q 3 80 3 83 L 3 86" stroke="#000"/>
+                </g>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="lg:order-1 p-8 md:p-12 lg:p-16 flex flex-col justify-center gap-6 lg:border-r border-rule-2">
+          <h3 class="font-display font-medium leading-[1.1] tracking-[-0.025em]" style="font-size:clamp(26px,2.6vw,38px)">
+            <span class="block font-light text-ink-2">Encrypted</span>
+            in flight.
+          </h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-2">
+            <div class="border-l-2 border-ink-4 pl-4">
+              <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ink-3 mb-2">Most chains</span>
+              <p class="text-[13.5px] leading-[1.55] text-ink-2">Public mempool. Validators see every pending transaction. Over $1.8B has been extracted from users via front-running on Ethereum alone.</p>
+            </div>
+            <div class="border-l-2 border-ember pl-4">
+              <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ember mb-2">Adamant</span>
+              <p class="text-[13.5px] leading-[1.55] text-ink">Users encrypt to the upcoming epoch's threshold key. Validators include and order encrypted blobs during epoch E. At the E→E+1 boundary, validators publish 2/3+1 decryption shares as a side-effect of vertex production. Decrypted txs execute in epoch E+1.</p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-2 mt-3 pt-5 border-t border-rule font-mono text-[10.5px] uppercase tracking-[0.18em] text-ink-3">
+            <span class="text-ink-2">→ Property delivered:</span>
+            <span class="text-ember">No front-running</span>
+            <span class="text-ink-4">·</span>
+            <span class="text-ember">Censorship resistance</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ────── MECHANISM 03: RECURSIVE PROOFS ────── -->
+      <div class="mechanism border-b border-rule-2 grid lg:grid-cols-2" data-reveal>
+        <div class="bg-bg-2 p-8 md:p-12 lg:p-16 flex flex-col justify-center min-h-[420px]">
+          <div class="mb-6 flex items-baseline justify-between gap-3">
+            <span class="font-mono text-[11px] uppercase tracking-[0.22em] text-ember">MECHANISM 03 · VERIFICATION</span>
+            <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §8.5</span>
+          </div>
+          <div class="proof-viz relative h-[220px] -mx-2">
+            <svg viewBox="0 0 320 180" class="block w-full h-full" aria-hidden="true">
+              <g class="proof-chain" fill="currentColor">
+                <g class="text-ink-4">
+                  <rect x="10" y="55" width="3" height="50"/>
+                  <rect x="16" y="60" width="3" height="40"/>
+                  <rect x="22" y="50" width="3" height="60"/>
+                  <rect x="28" y="58" width="3" height="44"/>
+                  <rect x="34" y="52" width="3" height="56"/>
+                  <rect x="40" y="60" width="3" height="40"/>
+                  <rect x="46" y="55" width="3" height="50"/>
+                  <rect x="52" y="48" width="3" height="64"/>
+                  <rect x="58" y="62" width="3" height="36"/>
+                  <rect x="64" y="55" width="3" height="50"/>
+                  <rect x="70" y="58" width="3" height="44"/>
+                  <rect x="76" y="50" width="3" height="60"/>
+                  <rect x="82" y="60" width="3" height="40"/>
+                  <rect x="88" y="55" width="3" height="50"/>
+                  <rect x="94" y="52" width="3" height="56"/>
+                </g>
+                <text x="55" y="135" text-anchor="middle" fill="currentColor" class="text-ink-4" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="1.2">CHAIN HISTORY</text>
+              </g>
+              <g class="text-ink-4" fill="currentColor" stroke="currentColor">
+                <path d="M115 80 L135 80" stroke-width="0.7"/>
+                <path d="M132 77 L135 80 L132 83" fill="none" stroke-width="0.7"/>
+              </g>
+              <g class="proof-card">
+                <rect x="145" y="60" width="50" height="40" rx="2" fill="none" stroke="currentColor" stroke-width="1" class="text-ember"/>
+                <text x="170" y="76" text-anchor="middle" fill="currentColor" class="text-ember" font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="0.5">π</text>
+                <text x="170" y="86" text-anchor="middle" fill="currentColor" class="text-ember" font-family="JetBrains Mono, monospace" font-size="4.5" letter-spacing="0.5">5–10 KB</text>
+                <text x="170" y="95" text-anchor="middle" fill="currentColor" class="text-ember" font-family="JetBrains Mono, monospace" font-size="4.5" letter-spacing="0.6">HALO 2</text>
+                <text x="170" y="135" text-anchor="middle" fill="currentColor" class="text-ink-4" font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="1.2">RECURSIVE ZK</text>
+              </g>
+              <g class="text-ink-4" fill="currentColor" stroke="currentColor">
+                <path d="M205 80 L225 80" stroke-width="0.7"/>
+                <path d="M222 77 L225 80 L222 83" fill="none" stroke-width="0.7"/>
+              </g>
+              <g class="proof-phone">
+                <rect x="240" y="40" width="40" height="68" rx="5" fill="none" stroke="currentColor" stroke-width="1.2" class="text-ink-2"/>
+                <rect x="244" y="46" width="32" height="50" rx="1" fill="currentColor" class="text-bg-3"/>
+                <g class="proof-check" opacity="0">
+                  <path d="M252 71 L258 77 L268 65" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-ember"/>
+                </g>
+                <g class="proof-spinner">
+                  <circle cx="260" cy="71" r="6" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="9 28" class="text-ember"/>
+                </g>
+                <rect x="252" y="100" width="16" height="2" rx="1" fill="currentColor" class="text-ink-3"/>
+                <text x="260" y="130" text-anchor="middle" fill="currentColor" class="text-ember" font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="1">50–200 MS</text>
+                <text x="260" y="142" text-anchor="middle" fill="currentColor" class="text-ink-4" font-family="JetBrains Mono, monospace" font-size="5.5" letter-spacing="1.2">CONSUMER PHONE</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="p-8 md:p-12 lg:p-16 flex flex-col justify-center gap-6 lg:border-l border-rule-2">
+          <h3 class="font-display font-medium leading-[1.1] tracking-[-0.025em]" style="font-size:clamp(26px,2.6vw,38px)">
+            <span class="block font-light text-ink-2">Verified</span>
+            on a phone.
+          </h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-2">
+            <div class="border-l-2 border-ink-4 pl-4">
+              <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ink-3 mb-2">Most chains</span>
+              <p class="text-[13.5px] leading-[1.55] text-ink-2">To verify the chain, you run a full node — gigabytes of state, hours to sync. Or you trust a hosted RPC. Either way, verification is gated by infrastructure.</p>
+            </div>
+            <div class="border-l-2 border-ember pl-4">
+              <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ember mb-2">Adamant</span>
+              <p class="text-[13.5px] leading-[1.55] text-ink">Validators generate a Halo 2 recursive proof at every epoch boundary. Each epoch's proof verifies the prior epoch's proof plus all per-tx proofs in this epoch. The total proof at any point is one ~5–10 KB artifact verifying the entire chain. Verification: 50–200ms on a smartphone.</p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-2 mt-3 pt-5 border-t border-rule font-mono text-[10.5px] uppercase tracking-[0.18em] text-ink-3">
+            <span class="text-ink-2">→ Property delivered:</span>
+            <span class="text-ember">Phone-verifiable</span>
+            <span class="text-ink-4">·</span>
+            <span class="text-ember">No light-client trust</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ────── MECHANISM 04: CONSTITUTIONAL IMMUTABILITY ────── -->
+      <div class="mechanism border-b border-rule-2 grid lg:grid-cols-2" data-reveal>
+        <div class="lg:order-2 bg-bg-2 p-8 md:p-12 lg:p-16 flex flex-col justify-center min-h-[420px]">
+          <div class="mb-6 flex items-baseline justify-between gap-3">
+            <span class="font-mono text-[11px] uppercase tracking-[0.22em] text-ember">MECHANISM 04 · GOVERNANCE</span>
+            <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §11</span>
+          </div>
+          <div class="immut-viz relative h-[220px] -mx-2">
+            <svg viewBox="0 0 320 180" class="block w-full h-full" aria-hidden="true">
+              <!-- Locked rules core -->
+              <g class="immut-core">
+                <rect x="125" y="65" width="70" height="50" rx="3" fill="none" stroke="currentColor" stroke-width="1.2" class="text-ember"/>
+                <!-- Padlock body -->
+                <rect x="153" y="82" width="14" height="11" rx="1.5" fill="currentColor" class="text-ember"/>
+                <!-- Padlock shackle -->
+                <path d="M156 82 L156 78 Q156 74 160 74 Q164 74 164 78 L164 82" fill="none" stroke="currentColor" stroke-width="1.4" class="text-ember"/>
+                <text x="160" y="105" text-anchor="middle" fill="currentColor" class="text-ember" font-family="JetBrains Mono, monospace" font-size="5" letter-spacing="0.8">GENESIS RULES</text>
+                <text x="160" y="135" text-anchor="middle" fill="currentColor" class="text-ink-4" font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="1" class="text-ink-3">FIXED · NO ADMIN</text>
+              </g>
+
+              <!-- Validators arranged around the core, each with their own pulse delay -->
+              <g class="immut-validators" fill="currentColor" class="text-cold">
+                <!-- Top row -->
+                <circle cx="60" cy="40" r="4" class="immut-validator" style="animation-delay:0s"/>
+                <circle cx="100" cy="32" r="4" class="immut-validator" style="animation-delay:0.4s"/>
+                <circle cx="160" cy="28" r="4" class="immut-validator" style="animation-delay:0.8s"/>
+                <circle cx="220" cy="32" r="4" class="immut-validator" style="animation-delay:1.2s"/>
+                <circle cx="260" cy="40" r="4" class="immut-validator" style="animation-delay:1.6s"/>
+                <!-- Bottom row -->
+                <circle cx="60" cy="140" r="4" class="immut-validator" style="animation-delay:2.0s"/>
+                <circle cx="100" cy="148" r="4" class="immut-validator" style="animation-delay:2.4s"/>
+                <circle cx="220" cy="148" r="4" class="immut-validator" style="animation-delay:2.8s"/>
+                <circle cx="260" cy="140" r="4" class="immut-validator" style="animation-delay:3.2s"/>
+              </g>
+
+              <!-- Subtle radiating circles to suggest sovereignty -->
+              <g class="immut-radiate" fill="none" stroke="currentColor" class="text-ember" opacity="0.18">
+                <circle cx="160" cy="90" r="55" stroke-width="0.5"/>
+                <circle cx="160" cy="90" r="80" stroke-width="0.4"/>
+              </g>
+
+              <text x="160" y="172" text-anchor="middle" fill="currentColor" class="text-ink-4" font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="1.2">EACH NODE OPERATOR · INDEPENDENT</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="lg:order-1 p-8 md:p-12 lg:p-16 flex flex-col justify-center gap-6 lg:border-r border-rule-2">
+          <h3 class="font-display font-medium leading-[1.1] tracking-[-0.025em]" style="font-size:clamp(26px,2.6vw,38px)">
+            <span class="block font-light text-ink-2">No master.</span>
+            No off switch.
+          </h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-2">
+            <div class="border-l-2 border-ink-4 pl-4">
+              <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ink-3 mb-2">Most chains</span>
+              <p class="text-[13.5px] leading-[1.55] text-ink-2">A foundation, multisig, or token-holder vote can change consensus rules, gas costs, issuance, or system contracts. The capability is permanent once established.</p>
+            </div>
+            <div class="border-l-2 border-ember pl-4">
+              <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ember mb-2">Adamant</span>
+              <p class="text-[13.5px] leading-[1.55] text-ink">No on-chain governance. No admin keys. No upgrade authority. Change requires a published spec, a public reference implementation, and 2/3+1-by-stake of validators each independently choosing to run new software. Validators who don't upgrade either stay on the existing chain or migrate voluntarily.</p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-2 mt-3 pt-5 border-t border-rule font-mono text-[10.5px] uppercase tracking-[0.18em] text-ink-3">
+            <span class="text-ink-2">→ Property delivered:</span>
+            <span class="text-ember">Credibly neutral</span>
+            <span class="text-ink-4">·</span>
+            <span class="text-ember">Capture-resistant</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Connect-the-dots summary -->
+      <div class="mt-px bg-bg-2 border border-rule-2 border-t-0 px-8 md:px-12 lg:px-16 py-10 md:py-12" data-reveal>
+        <p class="max-w-[68ch] mx-auto text-center font-display text-[18px] md:text-[22px] leading-[1.4] tracking-[-0.015em] text-ink-2">
+          <span class="text-ink">Each mechanism solves one of the seven gaps.</span>
+          Together, they deliver every property no other chain has combined.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── §03 / WHERE WE ARE ───────── -->
+  <section class="border-t border-rule">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="num">§03 / WHERE WE ARE</span>
+          <h2><span class="light">Specification phase.</span>No token. No timeline.</h2>
+        </div>
+        <p class="desc">
+          Adamant is a draft specification. There is no chain running yet. There is no token to buy. There is no allocation. This page exists to document the design and let people follow progress.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-px bg-rule-2 border border-rule-2">
+        <div class="bg-bg-2 p-8 md:p-12 flex flex-col gap-4 min-h-[260px] card-hover" data-reveal>
+          <span class="font-mono text-[10px] tracking-[0.22em] uppercase text-ember">PHASE 01 · CURRENT</span>
+          <h3 class="font-display text-[22px] md:text-[24px] font-semibold leading-[1.15] tracking-[-0.02em]">Specification</h3>
+          <p class="text-[14px] leading-[1.65] text-ink-2">Whitepaper draft v0.1. Public for review and comment. Cryptographic primitives selected; consensus model documented; genesis mechanism defined.</p>
+        </div>
+        <div class="bg-bg-2 p-8 md:p-12 flex flex-col gap-4 min-h-[260px] card-hover" data-reveal style="transition-delay:80ms">
+          <span class="font-mono text-[10px] tracking-[0.22em] uppercase text-ink-3">PHASE 02 · NEXT</span>
+          <h3 class="font-display text-[22px] md:text-[24px] font-semibold leading-[1.15] tracking-[-0.02em] text-ink-2">Reference implementation</h3>
+          <p class="text-[14px] leading-[1.65] text-ink-3">Rust implementation, Apache 2.0. Public from the first commit. No private fork, no closed beta.</p>
+        </div>
+        <div class="bg-bg-2 p-8 md:p-12 flex flex-col gap-4 min-h-[260px] card-hover" data-reveal style="transition-delay:160ms">
+          <span class="font-mono text-[10px] tracking-[0.22em] uppercase text-ink-3">PHASE 03 · LATER</span>
+          <h3 class="font-display text-[22px] md:text-[24px] font-semibold leading-[1.15] tracking-[-0.02em] text-ink-2">Public testnet · audits · genesis</h3>
+          <p class="text-[14px] leading-[1.65] text-ink-3">Testnet open to anyone. Independent audits before mainnet. Genesis only when the work is ready.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── MANIFESTO ───────── -->
+  <section class="relative overflow-hidden py-40 md:py-60 text-center">
+    <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse at center, rgba(255,125,77,0.06), transparent 60%)"></div>
+    <div class="wrap relative z-[2]" data-reveal>
+      <div class="mx-auto mb-12 font-mono text-[11px] tracking-[0.4em] uppercase text-ember-dim">— · —</div>
+      <h2 class="mx-auto max-w-[22ch] font-display font-medium leading-[1.05] tracking-[-0.035em]" style="font-size:clamp(36px,5vw,72px)">
+        <span class="block font-light text-ink-2">Trust the protocol.</span>
+        Not the people <span class="font-semibold text-ember">who built it.</span>
+      </h2>
+      <div class="mt-12 font-mono text-[11px] md:text-[13px] tracking-[0.24em] uppercase text-ink-3">
+        No foundation · No admin keys · No upgrade authority
+      </div>
+    </div>
+  </section>
+
+  <style is:global>
+    /* ───────── DAG consensus animation ───────── */
+    @keyframes dag-vertex-pulse {
+      0%, 100% { opacity: 0.25; transform: scale(0.85); }
+      8%, 50% { opacity: 1; transform: scale(1.15); }
+      80% { opacity: 0.55; transform: scale(1); }
+    }
+    .dag-vertex {
+      transform-origin: center;
+      transform-box: fill-box;
+      animation: dag-vertex-pulse 4s ease-in-out infinite;
+    }
+    @keyframes dag-line-draw {
+      0%, 100% { stroke-dashoffset: 60; opacity: 0.1; }
+      15%, 60% { stroke-dashoffset: 0; opacity: 0.55; }
+      85% { stroke-dashoffset: 0; opacity: 0.2; }
+    }
+    .dag-line {
+      stroke-dasharray: 60;
+      stroke-dashoffset: 60;
+      animation: dag-line-draw 4s ease-in-out infinite;
+    }
+
+    /* ───────── Encrypted mempool animation ───────── */
+    @keyframes mempool-tx-travel {
+      0% { transform: translateX(40px); }
+      18% { transform: translateX(40px); }
+      28%, 50% { transform: translateX(120px); }
+      60%, 78% { transform: translateX(200px); }
+      88%, 100% { transform: translateX(280px); }
+    }
+    .mempool-tx { animation: mempool-tx-travel 6s ease-in-out infinite; }
+    @keyframes mempool-pill-encrypt {
+      0%, 17% { fill: #ff7d4d; }
+      28%, 78% { fill: #2e3140; }
+      88%, 100% { fill: #ff7d4d; }
+    }
+    .mempool-pill { animation: mempool-pill-encrypt 6s ease-in-out infinite; }
+    @keyframes mempool-lock-show {
+      0%, 22% { opacity: 0; }
+      28%, 75% { opacity: 1; }
+      82%, 100% { opacity: 0; }
+    }
+    .mempool-lock { animation: mempool-lock-show 6s ease-in-out infinite; }
+    @keyframes mempool-keypers-show {
+      0%, 55% { opacity: 0; transform: translateY(4px); }
+      62%, 78% { opacity: 1; transform: translateY(0); }
+      85%, 100% { opacity: 0; }
+    }
+    .mempool-keypers {
+      animation: mempool-keypers-show 6s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    /* ───────── Recursive proof animation ───────── */
+    @keyframes proof-chain-pulse {
+      0%, 30% { opacity: 0.4; }
+      40%, 60% { opacity: 1; }
+      70%, 100% { opacity: 0.4; }
+    }
+    .proof-chain { animation: proof-chain-pulse 5s ease-in-out infinite; }
+    @keyframes proof-spinner-spin {
+      0%, 60% { transform: rotate(0deg); opacity: 1; }
+      90%, 100% { opacity: 0; }
+    }
+    .proof-spinner {
+      animation: proof-spinner-spin 5s linear infinite;
+      transform-origin: 260px 71px;
+      transform-box: view-box;
+    }
+    @keyframes proof-spinner-rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(720deg); }
+    }
+    .proof-spinner > circle {
+      animation: proof-spinner-rotate 5s linear infinite;
+      transform-origin: 260px 71px;
+      transform-box: view-box;
+    }
+    @keyframes proof-check-show {
+      0%, 65% { opacity: 0; transform: scale(0.5); }
+      75%, 95% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1); }
+    }
+    .proof-check {
+      transform-origin: 260px 71px;
+      transform-box: fill-box;
+      animation: proof-check-show 5s ease-out infinite;
+    }
+
+    /* ───────── Constitutional immutability animation ───────── */
+    @keyframes immut-validator-pulse {
+      0%, 100% { opacity: 0.4; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.15); }
+    }
+    .immut-validator {
+      transform-origin: center;
+      transform-box: fill-box;
+      animation: immut-validator-pulse 3.6s ease-in-out infinite;
+    }
+    @keyframes immut-radiate-pulse {
+      0%, 100% { opacity: 0.1; transform: scale(0.96); }
+      50% { opacity: 0.25; transform: scale(1.04); }
+    }
+    .immut-radiate {
+      transform-origin: 160px 90px;
+      transform-box: view-box;
+      animation: immut-radiate-pulse 4s ease-in-out infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dag-vertex, .dag-line, .mempool-tx, .mempool-pill, .mempool-lock,
+      .mempool-keypers, .proof-chain, .proof-spinner, .proof-spinner > circle,
+      .proof-check, .immut-validator, .immut-radiate {
+        animation: none !important;
+      }
+      .mempool-tx { transform: translateX(40px); }
+      .dag-vertex { opacity: 1; transform: scale(1); }
+      .dag-line { stroke-dashoffset: 0; opacity: 0.4; }
+      .proof-check { opacity: 1; }
+      .proof-spinner { opacity: 0; }
+      .mempool-lock { opacity: 1; }
+      .immut-validator { opacity: 1; }
+    }
+  </style>
+</BaseLayout>

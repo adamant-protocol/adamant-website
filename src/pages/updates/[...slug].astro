@@ -1,0 +1,144 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('updates', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'updates'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const fmtDate = (d: Date) =>
+  d.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<BaseLayout
+  active="updates"
+  title={`${post.data.title} — Adamant`}
+  description={post.data.description}
+>
+  <!-- Header -->
+  <article>
+    <header class="border-b border-rule pt-[120px] pb-16">
+      <div class="wrap">
+        <a href="/updates" class="mb-12 inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.22em] text-ink-3 hover:text-ember transition-colors">
+          <span class="inline-block h-px w-6 relative bg-current after:absolute after:left-0 after:-top-[3px] after:size-[7px] after:border-l after:border-t after:border-current after:rotate-[-45deg]"></span>
+          All updates
+        </a>
+        <div class="grid items-end gap-12 lg:grid-cols-[1.4fr_1fr]">
+          <div>
+            <span class="font-mono text-[11px] uppercase tracking-[0.22em] text-ember">{fmtDate(post.data.date)}</span>
+            <h1 class="mt-6 max-w-[18ch] font-display font-medium leading-[1.05] tracking-[-0.03em]" style="font-size:clamp(36px,5vw,72px)">
+              {post.data.title}
+            </h1>
+          </div>
+          <p class="max-w-[42ch] pb-2 text-[16px] leading-[1.65] text-ink-2">
+            {post.data.description}
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Body -->
+    <div class="wrap py-24">
+      <div class="prose-adamant mx-auto max-w-[680px]">
+        <Content />
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style is:global>
+  /* Prose styling for MDX content — kept on the host page so MDX components render unstyled and inherit. */
+  .prose-adamant { color: #ece8df; font-size: 17px; line-height: 1.75; }
+  .prose-adamant > * + * { margin-top: 1.5em; }
+  .prose-adamant h2 {
+    font-family: 'Unbounded', system-ui, sans-serif;
+    font-weight: 500;
+    font-size: clamp(24px, 3vw, 36px);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-top: 2.5em;
+    margin-bottom: 0.6em;
+  }
+  .prose-adamant h3 {
+    font-family: 'Unbounded', system-ui, sans-serif;
+    font-weight: 500;
+    font-size: clamp(20px, 2.2vw, 26px);
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+  }
+  .prose-adamant p { color: #ece8df; }
+  .prose-adamant a {
+    color: #ff7d4d;
+    text-decoration: underline;
+    text-decoration-color: rgba(255,125,77,0.4);
+    text-underline-offset: 4px;
+    transition: text-decoration-color 0.2s;
+  }
+  .prose-adamant a:hover { text-decoration-color: currentColor; }
+  .prose-adamant strong { font-weight: 600; color: #ece8df; }
+  .prose-adamant em { font-style: italic; color: #a8aab5; }
+  .prose-adamant ul, .prose-adamant ol { padding-left: 1.5em; }
+  .prose-adamant ul { list-style: none; }
+  .prose-adamant ul > li { position: relative; padding-left: 1em; margin-top: 0.5em; }
+  .prose-adamant ul > li::before {
+    content: '—';
+    position: absolute;
+    left: -0.4em;
+    color: #ff7d4d;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .prose-adamant ol > li { margin-top: 0.5em; }
+  .prose-adamant blockquote {
+    border-left: 2px solid #ff7d4d;
+    background: rgba(255,125,77,0.05);
+    padding: 1.5em 2em;
+    margin: 2em 0;
+    font-family: 'Unbounded', system-ui, sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.5;
+    letter-spacing: -0.015em;
+  }
+  .prose-adamant code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88em;
+    background: #07080e;
+    border: 1px solid rgba(236,232,223,0.06);
+    padding: 0.15em 0.45em;
+    border-radius: 2px;
+  }
+  .prose-adamant pre {
+    background: #07080e;
+    border: 1px solid rgba(236,232,223,0.06);
+    padding: 1.5em;
+    overflow-x: auto;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+  .prose-adamant pre code { background: none; border: none; padding: 0; }
+  .prose-adamant hr {
+    border: none;
+    text-align: center;
+    margin: 3em 0;
+    color: #2e3140;
+  }
+  .prose-adamant hr::before {
+    content: '· · ·';
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.4em;
+    font-size: 11px;
+  }
+</style>

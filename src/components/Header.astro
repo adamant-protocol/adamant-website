@@ -1,0 +1,167 @@
+---
+import Mark from './Mark.astro';
+
+interface Props {
+  active?: 'home' | 'about' | 'genesis' | 'spec' | 'updates' | null;
+}
+
+const { active = null } = Astro.props;
+
+const navItems = [
+  { id: 'about', label: 'About', href: '/about' },
+  { id: 'genesis', label: 'Genesis', href: '/genesis' },
+  { id: 'spec', label: 'Spec', href: '/spec' },
+  { id: 'updates', label: 'Updates', href: '/updates' },
+] as const;
+---
+
+<header class="relative z-50 pt-6 md:pt-8">
+  <div class="wrap">
+    <div class="flex items-center justify-between gap-4 border-b border-rule pb-5 md:pb-6">
+      <a href="/" class="flex items-center gap-3 md:gap-3.5" aria-label="Adamant — home">
+        <Mark size={30} class="md:!w-[34px] md:!h-[34px]" />
+        <span class="font-display text-[16px] md:text-[18px] font-semibold leading-none tracking-[0.02em]">Adamant</span>
+        <span class="ml-1 md:ml-1.5 hidden sm:inline-block font-mono text-[10px] tracking-[0.2em] text-ink-3">v0.1 · DRAFT</span>
+      </a>
+
+      <!-- Desktop nav -->
+      <nav class="hidden md:block">
+        <ul class="flex gap-6 lg:gap-8 font-mono text-[11px] uppercase tracking-[0.18em]">
+          {navItems.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class:list={[
+                  'transition-colors duration-200',
+                  active === item.id ? 'text-ink' : 'text-ink-2 hover:text-ink',
+                ]}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="hidden lg:flex items-center gap-6">
+        <span class="inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.12em] text-ink-2">
+          <span class="size-[7px] rounded-full bg-ember shadow-[0_0_0_4px_rgba(255,125,77,0.12)]"></span>
+          Pre-launch · Specification
+        </span>
+      </div>
+
+      <!-- Mobile menu toggle -->
+      <button
+        id="mobile-menu-toggle"
+        class="md:hidden inline-flex flex-col items-end gap-[5px] p-2 -mr-2"
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span class="block h-px w-6 bg-ink transition-transform duration-200 origin-right" data-bar="1"></span>
+        <span class="block h-px w-4 bg-ink transition-all duration-200 origin-right" data-bar="2"></span>
+        <span class="block h-px w-6 bg-ink transition-transform duration-200 origin-right" data-bar="3"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu overlay -->
+  <div
+    id="mobile-menu"
+    class="fixed inset-0 z-40 bg-bg/95 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300 md:hidden"
+    aria-hidden="true"
+  >
+    <div class="flex h-full flex-col">
+      <div class="border-b border-rule px-6 pt-6 pb-5 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-3" aria-label="Adamant — home">
+          <Mark size={30} />
+          <span class="font-display text-[16px] font-semibold leading-none tracking-[0.02em]">Adamant</span>
+        </a>
+        <button
+          id="mobile-menu-close"
+          class="p-2 -mr-2 inline-flex items-center justify-center"
+          aria-label="Close menu"
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M4 4 L16 16 M16 4 L4 16" stroke="currentColor" stroke-width="1.5" />
+          </svg>
+        </button>
+      </div>
+
+      <nav class="flex-1 overflow-y-auto px-6 py-12">
+        <ol class="flex flex-col" style="counter-reset:nav">
+          {navItems.map((item) => (
+            <li class="border-b border-rule" style="counter-increment:nav">
+              <a
+                href={item.href}
+                class:list={[
+                  'flex items-baseline gap-5 py-6 transition-colors',
+                  active === item.id ? 'text-ember' : 'text-ink hover:text-ember',
+                ]}
+              >
+                <span class="font-mono text-[10px] tracking-[0.22em] text-ink-3 before:content-[counter(nav,decimal-leading-zero)]"></span>
+                <span class="font-display text-[28px] font-medium leading-none tracking-[-0.02em]">{item.label}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+
+        <div class="mt-12 flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.18em] text-ink-2">
+          <span class="size-[7px] rounded-full bg-ember"></span>
+          Pre-launch · Specification
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<script>
+  function initMobileMenu() {
+    const toggle = document.getElementById('mobile-menu-toggle');
+    const closeBtn = document.getElementById('mobile-menu-close');
+    const menu = document.getElementById('mobile-menu');
+    if (!toggle || !menu || !closeBtn) return;
+    if ((toggle as any).__init) return;
+    (toggle as any).__init = true;
+
+    const bar1 = toggle.querySelector('[data-bar="1"]') as HTMLElement;
+    const bar2 = toggle.querySelector('[data-bar="2"]') as HTMLElement;
+    const bar3 = toggle.querySelector('[data-bar="3"]') as HTMLElement;
+
+    let isOpen = false;
+    const open = () => {
+      isOpen = true;
+      menu.classList.remove('opacity-0', 'pointer-events-none');
+      menu.classList.add('opacity-100');
+      menu.setAttribute('aria-hidden', 'false');
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      bar1.style.transform = 'rotate(-45deg) translateY(2px)';
+      bar2.style.opacity = '0';
+      bar2.style.width = '0';
+      bar3.style.transform = 'rotate(45deg) translateY(-2px)';
+    };
+    const close = () => {
+      isOpen = false;
+      menu.classList.add('opacity-0', 'pointer-events-none');
+      menu.classList.remove('opacity-100');
+      menu.setAttribute('aria-hidden', 'true');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      bar1.style.transform = '';
+      bar2.style.opacity = '';
+      bar2.style.width = '';
+      bar3.style.transform = '';
+    };
+
+    toggle.addEventListener('click', () => (isOpen ? close() : open()));
+    closeBtn.addEventListener('click', close);
+    menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', close));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen) close();
+    });
+  }
+
+  initMobileMenu();
+  document.addEventListener('astro:page-load', initMobileMenu);
+</script>

@@ -1,0 +1,74 @@
+---
+/**
+ * Decorative starfield canvas. Renders a layer of twinkling dots behind hero
+ * sections. Cheap (no external libs), pauses when offscreen.
+ *
+ * Usage: place inside a relatively-positioned hero container.
+ */
+---
+
+<canvas class="starfield pointer-events-none absolute inset-0 z-0 h-full w-full"></canvas>
+
+<script>
+  function initStarfields() {
+    const canvases = document.querySelectorAll<HTMLCanvasElement>('canvas.starfield');
+    canvases.forEach((c) => {
+      if ((c as any).__init) return;
+      (c as any).__init = true;
+
+      const ctx = c.getContext('2d');
+      if (!ctx) return;
+
+      let w = 0;
+      let h = 0;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      let stars: { x: number; y: number; z: number; s: number; tw: number }[] = [];
+      let raf = 0;
+
+      function size() {
+        w = c.clientWidth;
+        h = c.clientHeight;
+        c.width = w * dpr;
+        c.height = h * dpr;
+        ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const n = Math.floor((w * h) / 3500);
+        stars = Array.from({ length: n }, () => ({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          z: Math.random() * 0.8 + 0.2,
+          s: Math.random() * 1.4 + 0.2,
+          tw: Math.random() * Math.PI * 2,
+        }));
+      }
+
+      function draw(t: number) {
+        ctx!.clearRect(0, 0, w, h);
+        for (const s of stars) {
+          const tw = (Math.sin(t * 0.0008 + s.tw) + 1) * 0.5;
+          ctx!.fillStyle = `rgba(236,232,223,${(0.25 + tw * 0.6) * s.z})`;
+          ctx!.fillRect(s.x, s.y, s.s, s.s);
+        }
+        raf = requestAnimationFrame(draw);
+      }
+
+      const ro = new ResizeObserver(size);
+      ro.observe(c);
+      size();
+      raf = requestAnimationFrame(draw);
+
+      // Pause when tab hidden
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          cancelAnimationFrame(raf);
+        } else {
+          raf = requestAnimationFrame(draw);
+        }
+      });
+    });
+  }
+
+  // Run on initial load
+  initStarfields();
+  // And re-run on Astro page transitions if/when enabled
+  document.addEventListener('astro:page-load', initStarfields);
+</script>

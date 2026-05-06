@@ -1,0 +1,374 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Starfield from '@/components/Starfield.astro';
+
+const sections = [
+  { id: 'abstract', label: 'Abstract', kind: 'inline' },
+  { id: 'intro', label: 'Introduction & motivation', kind: 'inline' },
+  { id: 'principles', label: 'Design principles', kind: 'inline' },
+  { id: 'crypto', label: 'Cryptographic foundation', kind: 'github' },
+  { id: 'identity', label: 'Identity & accounts', kind: 'github' },
+  { id: 'objects', label: 'Object model & state', kind: 'github' },
+  { id: 'vm', label: 'Execution & VM', kind: 'github' },
+  { id: 'privacy', label: 'Privacy layer', kind: 'github' },
+  { id: 'consensus', label: 'Consensus', kind: 'github' },
+  { id: 'networking', label: 'Networking & mempool', kind: 'github' },
+  { id: 'economics', label: 'Economics & incentives', kind: 'genesis' },
+  { id: 'genesis', label: 'Genesis & constitution', kind: 'inline' },
+  { id: 'conclusion', label: 'Conclusion & open problems', kind: 'inline' },
+] as const;
+
+const REPO = 'https://github.com/adamant-protocol/adamant';
+---
+
+<BaseLayout
+  active="spec"
+  title="Adamant — Specification (whitepaper v0.1)"
+  description="The Adamant protocol whitepaper. Draft v0.1. Published for public review."
+>
+  <!-- Reading-progress bar -->
+  <div id="spec-progress" class="fixed top-0 left-0 right-0 z-[60] h-px pointer-events-none">
+    <div id="spec-progress-bar" class="h-full bg-ember origin-left" style="transform: scaleX(0); width:100%"></div>
+  </div>
+
+  <!-- Hero -->
+  <section class="relative overflow-hidden pt-[120px] pb-20">
+    <Starfield />
+    <div class="wrap relative z-[3]">
+      <div class="grid items-end gap-16 lg:gap-24 lg:grid-cols-[1.4fr_1fr]">
+        <div data-reveal>
+          <span class="eyebrow"><span class="dot"></span>Whitepaper · v0.1 · Draft</span>
+          <h1 class="mt-9 max-w-[14ch] font-display font-medium leading-none tracking-[-0.035em]" style="font-size:clamp(40px,5.5vw,84px)">
+            <span class="block font-light text-ink-2">The protocol,</span>
+            <span class="font-semibold text-ember">specified in full.</span>
+          </h1>
+          <p class="mt-9 max-w-[46ch] text-[15.5px] leading-[1.7] text-ink-2">
+            This document specifies the Adamant protocol in detail sufficient to implement it. Twelve sections, draft v0.1, published for public review. Published here as a reading-friendly summary; the canonical source lives in the repo.
+          </p>
+        </div>
+        <div class="flex flex-col gap-5 pb-2" data-reveal>
+          <div class="flex items-baseline justify-between border-b border-rule pb-4"><span class="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-3">Version</span><span class="font-mono text-[13px] text-ink tracking-[0.05em]">v0.1 — DRAFT</span></div>
+          <div class="flex items-baseline justify-between border-b border-rule pb-4"><span class="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-3">Sections</span><span class="font-mono text-[13px] text-ink tracking-[0.05em]">13</span></div>
+          <div class="flex items-baseline justify-between border-b border-rule pb-4"><span class="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-3">Implementation</span><span class="font-mono text-[13px] text-ink tracking-[0.05em]">Rust · Apache 2.0</span></div>
+          <div class="flex items-baseline justify-between border-b border-rule pb-4"><span class="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-3">Status</span><span class="font-mono text-[13px] text-ember tracking-[0.05em]">Public review</span></div>
+        </div>
+      </div>
+      <div class="mt-12 lg:mt-16 flex flex-wrap gap-3 md:gap-4">
+        <a href="#abstract" class="btn-link solid">Read abstract <span class="arrow"></span></a>
+        <a href={REPO} class="btn-link">Source on GitHub <span class="arrow"></span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reader -->
+  <section class="border-t border-rule py-20 lg:py-32">
+    <div class="wrap grid gap-12 lg:gap-20 lg:grid-cols-[280px_1fr]">
+      <!-- TOC -->
+      <aside class="lg:sticky lg:top-8 lg:self-start lg:max-h-[calc(100vh-64px)] lg:overflow-y-auto">
+        <h4 class="mb-6 border-b border-rule pb-3.5 font-mono text-[11px] uppercase tracking-[0.22em] text-ink-3">Sections</h4>
+        <ol class="flex flex-col" style="counter-reset:sec -1">
+          {sections.map((s) => {
+            const href = s.kind === 'genesis' ? '/genesis' : s.kind === 'github' ? `${REPO}/tree/main/whitepaper` : `#${s.id}`;
+            const tag = s.kind === 'github' ? 'GITHUB' : s.kind === 'genesis' ? '/GENESIS' : null;
+            return (
+              <li style="counter-increment:sec">
+                <a
+                  href={href}
+                  class:list={[
+                    'flex items-baseline gap-3.5 border-b border-rule py-2.5 text-[13.5px] transition-colors',
+                    s.kind === 'github' ? 'text-ink-3 hover:text-ink-2' : 'text-ink-2 hover:text-ink',
+                  ]}
+                >
+                  <span class="w-6 shrink-0 font-mono text-[10px] tracking-[0.18em] text-ink-4 before:content-[counter(sec,decimal-leading-zero)]"></span>
+                  <span class="flex-1">{s.label}</span>
+                  {tag && <span class="ml-auto font-mono text-[8px] tracking-[0.15em] text-ink-4">{tag}</span>}
+                </a>
+              </li>
+            );
+          })}
+        </ol>
+      </aside>
+
+      <!-- Body -->
+      <article class="max-w-[680px]">
+        <!-- ABSTRACT -->
+        <div id="abstract" data-reveal>
+          <span class="block mb-4 font-mono text-[11px] uppercase tracking-[0.22em] text-ink-3">SECTION 0 · ABSTRACT</span>
+          <h2 class="mb-8 font-display font-medium leading-[1.05] tracking-[-0.03em]" style="font-size:clamp(28px,3.6vw,48px)">
+            <span class="block font-light text-ink-2">A Layer 1 protocol for users who require properties</span>no existing programmable chain delivers in combination.
+          </h2>
+          <p class="mb-6 text-[16.5px] leading-[1.75] text-ink">
+            Adamant is a Layer 1 blockchain protocol designed to serve users who require properties that no existing programmable chain delivers in combination: <strong class="font-medium">privacy by default, high transaction throughput, sub-second finality, post-quantum cryptographic security, phone-verifiable correctness, and credibly neutral governance</strong> with no foundation, no premine, no admin keys, and no upgrade authority after genesis.
+          </p>
+          <p class="mb-6 text-[16.5px] leading-[1.75] text-ink">
+            The protocol combines a directed-acyclic-graph (DAG) consensus mechanism, an object-based parallel execution model, threshold-encrypted transaction propagation, recursive zero-knowledge proofs of state validity, and a fixed constitutional rule set established at genesis. Every transaction is shielded by default, with users retaining the ability to selectively disclose specific information through cryptographically verifiable view keys. Smart contracts declare their mutability rules — <code class="font-mono text-[14.5px] bg-bg-2 border border-rule px-1.5 py-0.5">IMMUTABLE</code>, <code class="font-mono text-[14.5px] bg-bg-2 border border-rule px-1.5 py-0.5">OWNER_UPGRADEABLE</code>, <code class="font-mono text-[14.5px] bg-bg-2 border border-rule px-1.5 py-0.5">VOTE_UPGRADEABLE</code>, <code class="font-mono text-[14.5px] bg-bg-2 border border-rule px-1.5 py-0.5">UPGRADEABLE_UNTIL_FROZEN</code>, or a custom rule — at deployment, and these declarations are themselves immutable and visible to users before interaction.
+          </p>
+          <blockquote class="my-8 border-l-2 border-ember bg-ember/5 px-6 md:px-8 py-6 md:py-7 font-display text-[17px] md:text-[18px] leading-[1.5] tracking-[-0.015em] text-ink">
+            The chain rejects on-chain governance by design. The protocol's consensus rules, virtual machine, token issuance schedule, and validity logic are fixed at genesis and cannot be modified by any party, including the original implementers.
+          </blockquote>
+          <p class="mb-6 text-[16.5px] leading-[1.75] text-ink">
+            Adamant targets a sustained throughput of <strong class="font-medium">at least 200,000 transactions per second</strong> on a single shard, a finality latency of approximately <strong class="font-medium">500 milliseconds</strong> for transactions not requiring consensus on shared state, and a per-transaction fee floor on the order of <strong class="font-medium">$0.0001 USD-equivalent</strong> at design throughput. Fee accounting is multi-dimensional, separating the costs of state storage, computation, and proof verification rather than collapsing them into a single gas number. Fees are paid in the native token (working name ADM) and burned via an EIP-1559-style mechanism, producing deflationary token economics under network usage.
+          </p>
+          <p class="mb-6 text-[16.5px] leading-[1.75] text-ink">
+            The protocol uses standard, peer-reviewed cryptographic primitives — Ed25519 and ML-DSA (CRYSTALS-Dilithium, FIPS 204) for signatures, BLS12-381 for signature aggregation, SHA-3 for hashing, and the Halo 2 proving system for zero-knowledge proofs. <em class="text-ink-2 italic">No novel cryptography is introduced.</em> The protocol's contribution is the systems-level synthesis of these primitives into a coherent architecture meeting the property set described above.
+          </p>
+        </div>
+
+        <div class="my-16 lg:my-20 text-center font-mono text-[11px] tracking-[0.4em] text-ink-4">· · ·</div>
+
+        <!-- SECTION 1 - INTRODUCTION -->
+        <div id="intro" data-reveal>
+          <span class="block mb-4 font-mono text-[11px] uppercase tracking-[0.22em] text-ink-3">SECTION 1 · INTRODUCTION & MOTIVATION</span>
+          <h2 class="mb-8 font-display font-medium leading-[1.05] tracking-[-0.03em]" style="font-size:clamp(28px,3.6vw,48px)">
+            <span class="block font-light text-ink-2">The state of the art (2026)</span>and the gap that remains.
+          </h2>
+          <p class="mb-6 text-[16.5px] leading-[1.75] text-ink">
+            Public blockchains have matured along several distinct axes since the Bitcoin whitepaper was published in 2008. Each axis has produced exemplary systems, and each has produced trade-offs that the broader ecosystem has implicitly accepted as inherent.
+          </p>
+          <h3 class="mt-12 mb-4 font-display text-[22px] md:text-[24px] font-medium leading-[1.2] tracking-[-0.02em]">The seven properties, and where each is best demonstrated</h3>
+          <div class="my-6 border border-rule-2 bg-bg-2 overflow-hidden">
+            <table class="w-full font-mono text-[12.5px]">
+              <thead>
+                <tr class="border-b border-rule-2">
+                  <th class="px-4 md:px-5 py-3 text-left uppercase tracking-[0.18em] text-ink-3 font-normal text-[10.5px]">Property</th>
+                  <th class="px-4 md:px-5 py-3 text-left uppercase tracking-[0.18em] text-ink-3 font-normal text-[10.5px]">Demonstrated by</th>
+                  <th class="px-4 md:px-5 py-3 text-right uppercase tracking-[0.18em] text-ink-3 font-normal text-[10.5px]">Year</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ['200k+ TPS, sub-second finality', 'Mysticeti / Sui', '2024'],
+                  ['Programmable privacy', 'Aztec', '2025'],
+                  ['Encrypted mempool (in production)', 'Shutter / Gnosis', '2024'],
+                  ['Phone-verifiable chain', 'Mina', '2021'],
+                  ['Native account abstraction', 'zkSync, StarkNet, Aptos', '2022–24'],
+                  ['Post-quantum signatures', 'NIST standardisation', '2024'],
+                  ['Credible neutrality', 'Bitcoin, Monero', '2009, 2014'],
+                ].map(([prop, dem, yr]) => (
+                  <tr class="border-b border-rule last:border-0">
+                    <td class="px-4 md:px-5 py-3 text-ink">{prop}</td>
+                    <td class="px-4 md:px-5 py-3 text-ink-2">{dem}</td>
+                    <td class="px-4 md:px-5 py-3 text-right text-ink-3">{yr}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p class="mb-6 text-[16.5px] leading-[1.75] text-ink">
+            <strong class="font-medium">No single chain in the present landscape combines more than three of these properties.</strong> The chains that combine credible neutrality with anything else (Bitcoin, Monero) lack programmability and high throughput. The chains that combine programmable privacy with anything else (Aztec, Aleo) lack the throughput tier and credibly neutral governance. The high-throughput chains (Sui, Solana, Aptos, Monad) have neither default privacy nor credibly neutral governance.
+          </p>
+          <blockquote class="my-8 border-l-2 border-ember bg-ember/5 px-6 md:px-8 py-6 md:py-7 font-display text-[17px] md:text-[18px] leading-[1.5] tracking-[-0.015em] text-ink">
+            This is the gap Adamant is designed to fill. The contribution is not the invention of new cryptographic primitives — those are taken from peer-reviewed literature unchanged — but the systems-level synthesis of these properties into a single coherent architecture, with credible neutrality enforced at genesis.
+          </blockquote>
+        </div>
+
+        <div class="my-16 lg:my-20 text-center font-mono text-[11px] tracking-[0.4em] text-ink-4">· · ·</div>
+
+        <!-- SECTION 2 - PRINCIPLES -->
+        <div id="principles" data-reveal>
+          <span class="block mb-4 font-mono text-[11px] uppercase tracking-[0.22em] text-ink-3">SECTION 2 · DESIGN PRINCIPLES</span>
+          <h2 class="mb-8 font-display font-medium leading-[1.05] tracking-[-0.03em]" style="font-size:clamp(28px,3.6vw,48px)">
+            <span class="block font-light text-ink-2">Seven principles,</span>in priority order.
+          </h2>
+          <p class="mb-6 text-[16.5px] leading-[1.75] text-ink">
+            Every protocol decision in this document is derivable from one or more of seven principles. When principles conflict, the higher-numbered principle yields to the lower. The principles are listed in priority order:
+          </p>
+
+          <div class="my-10 flex flex-col">
+            {[
+              {
+                rom: 'I',
+                title: 'Credible neutrality',
+                must: 'The protocol MUST NOT admit any party with the unilateral capability to alter its operation.',
+                expand: 'No on-chain governance. No foundation, treasury, or admin keys. No premine or founder allocation. Forks require individual opt-in. No protected contracts or precompiles favouring the implementers.',
+              },
+              {
+                rom: 'II',
+                title: 'Privacy by default',
+                must: 'Transactions on the protocol MUST be private by default. Users MUST retain the ability to selectively disclose specific information to specific parties through cryptographically verifiable means.',
+                expand: 'Default shielded execution. Selective disclosure via view keys. No backdoor decryption. Optional transparency as a per-transaction choice.',
+              },
+              {
+                rom: 'III',
+                title: 'Verifiability without trust',
+                must: 'Any participant MUST be able to verify the correctness of the protocol\'s operation using only consumer-grade hardware, without trusting any third party.',
+                expand: 'Phone-verifiable verification via recursive zero-knowledge proofs. No light-client trust assumptions. Open verification: free, open-source, runnable without permission.',
+              },
+              {
+                rom: 'IV',
+                title: 'Performance sufficient for use',
+                must: 'The protocol MUST provide throughput, latency, and cost properties consistent with practical use as a payment network and smart-contract platform.',
+                expand: '200,000 TPS on a single shard. ~500ms finality for non-shared-state transactions. $0.0001 USD-equivalent fee floor. Phone-friendly proving (≤10s for typical operations).',
+              },
+              {
+                rom: 'V',
+                title: 'Mutability is a property of objects, not the chain',
+                must: 'The chain\'s consensus rules MUST be immutable. Objects living on the chain MAY declare their own mutability rules at creation, and those declarations MUST themselves be immutable and visible to users before interaction.',
+                expand: 'Standard policies: IMMUTABLE, OWNER_UPGRADEABLE, VOTE_UPGRADEABLE, UPGRADEABLE_UNTIL_FROZEN, CUSTOM. No proxy-pattern hiding.',
+              },
+              {
+                rom: 'VI',
+                title: 'Standard primitives, novel synthesis',
+                must: 'The protocol MUST use standard, peer-reviewed cryptographic primitives. The protocol MUST NOT introduce novel cryptographic constructions.',
+                expand: 'Ed25519, ML-DSA (FIPS 204), BLS12-381, SHA-3, Halo 2. Audited libraries from the dalek, arkworks, blst, and ml_dsa ecosystems. Innovation at the systems layer, not the primitive layer.',
+              },
+              {
+                rom: 'VII',
+                title: 'Permissionless participation',
+                must: 'Participation in the protocol MUST NOT require permission from any party.',
+                expand: 'Permissionless validation, transaction submission, development, and verification. No identity requirements at the protocol layer.',
+              },
+            ].map((p) => (
+              <article class="grid items-start gap-4 md:gap-6 border-b border-rule py-7 md:grid-cols-[64px_1fr]">
+                <div class="font-display text-[34px] md:text-[40px] font-light leading-none text-ember tracking-[-0.04em] tabular-nums">{p.rom}</div>
+                <div>
+                  <h3 class="mb-3 font-display text-[20px] md:text-[22px] font-semibold leading-[1.2] tracking-[-0.02em]">{p.title}</h3>
+                  <p class="mb-3 text-[14.5px] leading-[1.65] text-ink italic">{p.must}</p>
+                  <p class="text-[13.5px] leading-[1.65] text-ink-2">{p.expand}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <p class="mb-6 text-[16.5px] leading-[1.75] text-ink">
+            A future revision of this whitepaper that proposes to add on-chain governance, a foundation, an emergency pause mechanism, identity verification at the protocol layer, or any precompiles favouring the implementers, would by definition be specifying a different protocol — not a revised Adamant.
+          </p>
+        </div>
+
+        <div class="my-16 lg:my-20 text-center font-mono text-[11px] tracking-[0.4em] text-ink-4">· · ·</div>
+
+        <!-- TECHNICAL SECTIONS - REDIRECT -->
+        <div class="my-12 border border-rule-2 bg-bg-2 p-7 md:p-9" data-reveal>
+          <span class="block mb-3 font-mono text-[11px] uppercase tracking-[0.22em] text-ink-3">SECTIONS 3–10 · TECHNICAL ARCHITECTURE</span>
+          <h3 class="mb-4 font-display text-[20px] md:text-[24px] font-medium leading-[1.2] tracking-[-0.02em]">Cryptography, identity, objects, VM, privacy, consensus, networking, economics.</h3>
+          <p class="mb-6 text-[14.5px] leading-[1.65] text-ink-2">Sections 3 through 10 specify the technical mechanism in detail sufficient to implement. Together they cover roughly two hundred pages: the cryptographic primitives, the identity and account model, the object model and state, the Adamant Move VM, the Halo 2 privacy layer, the DAG consensus mechanism, the libp2p networking layer, and the multi-dimensional gas accounting and issuance schedule.</p>
+          <p class="mb-6 text-[14.5px] leading-[1.65] text-ink-2">These sections are too dense to inline here. They live in the repo as the canonical source.</p>
+          <div class="flex flex-wrap gap-3 md:gap-4">
+            <a href={`${REPO}/tree/main/whitepaper`} class="btn-link solid">Read sections 3–10 on GitHub <span class="arrow"></span></a>
+            <a href="/genesis" class="btn-link">Section 10 highlights (visual) <span class="arrow"></span></a>
+          </div>
+        </div>
+
+        <div class="my-16 lg:my-20 text-center font-mono text-[11px] tracking-[0.4em] text-ink-4">· · ·</div>
+
+        <!-- SECTION 11 - CONSTITUTION -->
+        <div id="genesis" data-reveal>
+          <span class="block mb-4 font-mono text-[11px] uppercase tracking-[0.22em] text-ink-3">SECTION 11 · GENESIS & CONSTITUTION</span>
+          <h2 class="mb-8 font-display font-medium leading-[1.05] tracking-[-0.03em]" style="font-size:clamp(28px,3.6vw,48px)">
+            <span class="block font-light text-ink-2">What is fixed forever,</span>and how change still happens.
+          </h2>
+          <p class="mb-6 text-[16.5px] leading-[1.75] text-ink">
+            At genesis, the protocol's specification — every section of this whitepaper, the parameters defined within it, and the reference implementation that realises it — is fixed. The fixing is enforced not by a foundation, not by a multisig, not by an on-chain governance mechanism, but by <strong class="font-medium">the structural absence of any mechanism to modify the protocol</strong>.
+          </p>
+
+          <h3 class="mt-12 mb-4 font-display text-[22px] md:text-[24px] font-medium leading-[1.2] tracking-[-0.02em]">There is no party with the authority to:</h3>
+          <ul class="my-6 grid grid-cols-1 sm:grid-cols-2 gap-x-8">
+            {[
+              'Add a new validity rule',
+              'Change a gas cost',
+              'Modify the issuance schedule',
+              'Add a new system contract',
+              'Freeze any account or transaction',
+              'Censor any participant',
+              'Pause the chain',
+              'Issue an emergency fix',
+              'Coordinate an automatic upgrade',
+              'Change consensus parameters',
+            ].map((t) => (
+              <li class="flex gap-3 py-1.5 text-[14.5px] leading-[1.55] text-ink-2"><span class="font-mono text-ember shrink-0">×</span><span>{t}</span></li>
+            ))}
+          </ul>
+          <p class="mb-6 text-[16.5px] leading-[1.75] text-ink">
+            Each of these operations is technically <em class="italic text-ink-2">possible</em> — anyone can write a modified Rust implementation that does any of them. What is <em class="italic text-ink-2">impossible</em> is for any party to make such modifications take effect on the running network without the explicit cooperation of the validators running the existing implementation.
+          </p>
+          <blockquote class="my-8 border-l-2 border-ember bg-ember/5 px-6 md:px-8 py-6 md:py-7 font-display text-[17px] md:text-[18px] leading-[1.5] tracking-[-0.015em] text-ink">
+            The credibility of credible neutrality comes from the protocol's design making misbehaviour infeasible, not from the implementers' promises.
+          </blockquote>
+
+          <h3 class="mt-12 mb-4 font-display text-[22px] md:text-[24px] font-medium leading-[1.2] tracking-[-0.02em]">The fork mechanism</h3>
+          <p class="mb-6 text-[16.5px] leading-[1.75] text-ink">
+            Despite all of this, the protocol <em class="italic text-ink-2">can</em> change. The mechanism is the same one Bitcoin uses:
+          </p>
+          <ol class="my-6 flex flex-col gap-3">
+            {[
+              ['1', 'Specification revision.', 'Someone proposes a change as a revised section, a new reference implementation, or both.'],
+              ['2', 'Public discussion.', 'The proposal is debated in public forums. Anyone may participate.'],
+              ['3', 'Implementation.', 'A reference implementation of the change is published. Anyone may write or audit it.'],
+              ['4', 'Validator opt-in.', 'Validators choose whether to upgrade their software. Each decision is independent.'],
+              ['5', 'Activation.', 'When a 2/3+1 supermajority by stake has upgraded, the new rules become effective on that network. Validators who didn\'t upgrade either find themselves on a minority chain or upgrade voluntarily.'],
+            ].map(([n, t, p]) => (
+              <li class="flex gap-5 border-b border-rule py-4">
+                <span class="font-mono text-[12px] text-ember shrink-0 pt-0.5 tracking-[0.18em]">{n}</span>
+                <div>
+                  <strong class="font-medium text-ink block mb-1">{t}</strong>
+                  <span class="text-[14.5px] leading-[1.65] text-ink-2">{p}</span>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <p class="mb-6 text-[16.5px] leading-[1.75] text-ink">
+            There is no point at which any party — including the proposers, the implementers, or any subset of validators — can force the upgrade onto unwilling participants. The minority chain remains operational as long as any validator is willing to maintain it.
+          </p>
+        </div>
+
+        <div class="my-16 lg:my-20 text-center font-mono text-[11px] tracking-[0.4em] text-ink-4">· · ·</div>
+
+        <!-- SECTION 12 - CONCLUSION -->
+        <div id="conclusion" data-reveal>
+          <span class="block mb-4 font-mono text-[11px] uppercase tracking-[0.22em] text-ink-3">SECTION 12 · CONCLUSION & OPEN PROBLEMS</span>
+          <h2 class="mb-8 font-display font-medium leading-[1.05] tracking-[-0.03em]" style="font-size:clamp(28px,3.6vw,48px)">
+            <span class="block font-light text-ink-2">A maze of compromises.</span>Adamant is for the users not served by them.
+          </h2>
+          <p class="mb-6 text-[16.5px] leading-[1.75] text-ink">
+            The blockchain ecosystem in 2026 is a maze of compromises. Most chains compromise neutrality for governance flexibility; many compromise privacy for compliance friendliness; some compromise verifiability for performance. Each compromise produces real users who chose that chain because the compromise suited them.
+          </p>
+          <p class="mb-6 text-[16.5px] leading-[1.75] text-ink">
+            Adamant is for the users who are <em class="italic text-ink-2">not</em> served by these compromises. It is for users whose threat model includes their own government, their own foundation, their own validators. It is for users for whom "the chain has a foundation" is a security flaw, not a feature. It is for users who want to commit value to a system whose rules they can verify with cryptographic finality.
+          </p>
+
+          <h3 class="mt-12 mb-4 font-display text-[22px] md:text-[24px] font-medium leading-[1.2] tracking-[-0.02em]">What remains to be done</h3>
+          <p class="mb-6 text-[16.5px] leading-[1.75] text-ink">
+            This whitepaper is a specification. Substantial work remains before genesis: a Rust reference implementation estimated at 150,000–250,000 lines across 20–30 crates; calibration of gas costs against hardware benchmarks; formalisation of distributed proof-generation and DKG protocol details; multiple independent security audits; public testnets at progressively realistic load.
+          </p>
+          <p class="mb-6 text-[16.5px] leading-[1.75] text-ink">
+            A realistic timeline is 24–36 months for one or two engineers, 18–24 months for a small team. <strong class="font-medium">The protocol's value is in being right at genesis, not in being early.</strong> If delays are needed to ensure correctness, they will be taken.
+          </p>
+
+          <blockquote class="my-8 border-l-2 border-ember bg-ember/5 px-6 md:px-8 py-6 md:py-7 font-display text-[17px] md:text-[18px] leading-[1.5] tracking-[-0.015em] text-ink">
+            This whitepaper specifies how to build that chain. The next document — and the next several years of work — is how it gets built.
+          </blockquote>
+        </div>
+
+        <div class="mt-16 lg:mt-20 border border-rule-2 bg-bg-2 p-7 md:p-9 text-center" data-reveal>
+          <span class="font-mono text-[11px] uppercase tracking-[0.22em] text-ink-3">Read the canonical version</span>
+          <p class="mt-3 mb-6 text-[14.5px] leading-[1.6] text-ink-2">The full whitepaper — every section in full, including the eight technical sections summarised here — lives in the repository.</p>
+          <div class="flex flex-wrap justify-center gap-3 md:gap-4">
+            <a href={`${REPO}/tree/main/whitepaper`} class="btn-link solid">Whitepaper on GitHub <span class="arrow"></span></a>
+            <a href="/genesis" class="btn-link">Genesis mechanism <span class="arrow"></span></a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <script>
+    function initSpecProgress() {
+      const bar = document.getElementById('spec-progress-bar');
+      if (!bar) return;
+      let raf = 0;
+      const update = () => {
+        const doc = document.documentElement;
+        const max = doc.scrollHeight - doc.clientHeight;
+        const pct = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+        bar.style.transform = `scaleX(${pct})`;
+        raf = 0;
+      };
+      const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      update();
+    }
+    initSpecProgress();
+    document.addEventListener('astro:page-load', initSpecProgress);
+  </script>
+</BaseLayout>
