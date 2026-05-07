@@ -2,6 +2,7 @@
 import '@/styles/global.css';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
+import Analytics from '@vercel/analytics/astro';
 
 interface Props {
   title?: string;
@@ -82,5 +83,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
       initReveals();
       document.addEventListener('astro:page-load', initReveals);
     </script>
+
+    <Analytics />
   </body>
 </html>
