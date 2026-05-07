@@ -143,12 +143,68 @@ import Starfield from '@/components/Starfield.astro';
     </div>
   </section>
 
-  <!-- What is NOT happening -->
+  <!-- ───────── §03 / POST-LAUNCH ISSUANCE ───────── -->
   <section>
     <div class="wrap">
       <div class="section-head">
         <div>
-          <span class="num">§03 / WHAT IS NOT HAPPENING</span>
+          <span class="num">§03 / POST-LAUNCH ISSUANCE</span>
+          <h2><span class="light">After the launch phase,</span>new ADM is issued only to validators.</h2>
+        </div>
+        <p class="desc">Once the genesis pool exhausts (or the five-year cap is reached), the protocol transitions to a perpetual issuance schedule. The rate is fixed at genesis and cannot be modified without a hard fork. Issuance flows entirely to validators and their delegators — never to a foundation, never to a treasury, never to the implementers.</p>
+      </div>
+
+      <!-- Issuance schedule grid -->
+      <div class="border border-rule-2 bg-bg-2/60 backdrop-blur-sm overflow-hidden">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-rule-2">
+          {[
+            { phase: 'Years 1–5', rate: '4%', desc: 'Substantial early rewards to bootstrap a robust validator set.' },
+            { phase: 'Years 6–10', rate: '3%', desc: 'Inflation tapers as the chain matures and fee revenue grows.' },
+            { phase: 'Years 11–20', rate: '2%', desc: 'Continued tapering toward long-run equilibrium.' },
+            { phase: 'Year 21+', rate: '1%', desc: 'Asymptotic floor in perpetuity. Balances against fee burn.', em: true },
+          ].map((p) => (
+            <div class:list={['bg-bg-2/70 backdrop-blur-sm p-6 lg:p-7 flex flex-col gap-4 min-h-[210px] min-w-0 overflow-hidden', p.em && 'bg-bg-3/80']}>
+              <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-3">{p.phase}</span>
+              <span
+                class:list={[
+                  'font-display font-medium leading-none tracking-[-0.035em]',
+                  p.em ? 'text-ember text-[clamp(34px,3.6vw,44px)]' : 'text-ink text-[clamp(34px,3.6vw,44px)]',
+                ]}
+              >{p.rate}<small class="ml-1.5 font-mono text-[10px] font-normal tracking-[0.16em] text-ink-3">/ YEAR</small></span>
+              <p class="text-[12.5px] leading-[1.6] text-ink-2 mt-auto">{p.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Where it goes + supply dynamics -->
+      <div class="mt-px grid grid-cols-1 md:grid-cols-2 gap-px bg-rule-2 border border-rule-2">
+        <article class="bg-bg-2/70 backdrop-blur-sm p-7 md:p-9 flex flex-col gap-3.5" data-reveal>
+          <div class="flex items-baseline justify-between">
+            <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-ember">WHERE ISSUANCE GOES</span>
+            <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §10.3.2</span>
+          </div>
+          <h3 class="font-display text-[22px] md:text-[26px] font-semibold leading-[1.15] tracking-[-0.025em]">Validators and their delegators. Nothing else.</h3>
+          <p class="text-[14px] leading-[1.65] text-ink-2">Each epoch, issuance is distributed across the active set in proportion to bonded stake, including delegations. Each validator's share is then split between the validator and their delegators per the validator's commission rate (typically 5–15%). No portion is reserved for a foundation, a development fund, or any other recipient.</p>
+        </article>
+        <article class="bg-bg-2/70 backdrop-blur-sm p-7 md:p-9 flex flex-col gap-3.5" data-reveal>
+          <div class="flex items-baseline justify-between">
+            <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-ember">SUPPLY DYNAMICS</span>
+            <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §10.4.4</span>
+          </div>
+          <h3 class="font-display text-[22px] md:text-[26px] font-semibold leading-[1.15] tracking-[-0.025em]">Issuance balanced against fee burn.</h3>
+          <p class="text-[14px] leading-[1.65] text-ink-2">Base fees on every transaction are destroyed via an EIP-1559-style mechanism; tips go to validators. Under typical usage, fee burn approximately equals issuance, producing roughly stable supply. Heavy usage produces net deflation; light usage produces modest inflation.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── §04 / WHAT IS NOT HAPPENING ───────── -->
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="num">§04 / WHAT IS NOT HAPPENING</span>
           <h2><span class="light">Notable absences,</span>by design.</h2>
         </div>
         <p class="desc">Most chain launches involve at least some of these. Adamant deliberately involves none. The negative space is the point.</p>
