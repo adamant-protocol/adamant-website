@@ -212,48 +212,143 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
       <!-- ────── MECHANISM 01: DAG CONSENSUS ────── -->
       <div class="mechanism border-y border-rule-2 grid lg:grid-cols-2" data-reveal>
-        <div class="bg-bg-2/60 backdrop-blur-sm p-8 md:p-12 lg:p-16 flex flex-col justify-center min-h-[340px]">
-          <div class="mb-6 flex items-baseline justify-between gap-3">
+        <div class="bg-bg-2/60 backdrop-blur-sm p-8 md:p-12 lg:p-16 flex flex-col justify-center min-h-[420px]">
+          <div class="mb-8 flex items-baseline justify-between gap-3">
             <span class="font-mono text-[11px] uppercase tracking-[0.22em] text-ember">MECHANISM 01 · CONSENSUS</span>
-            <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §8</span>
+            <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §8.3</span>
           </div>
-          <div class="dag-viz relative h-[220px] -mx-2">
-            <svg viewBox="0 0 320 180" class="block w-full h-full" aria-hidden="true">
-              <g stroke="currentColor" stroke-width="0.5" class="text-cold/50" fill="none">
-                <path d="M40 36 L100 36 M40 72 L100 36 M40 108 L100 36 M40 36 L100 72 M40 72 L100 72 M40 144 L100 72 M40 36 L100 108 M40 108 L100 108 M40 144 L100 108 M40 72 L100 144 M40 108 L100 144 M40 144 L100 144" class="dag-line" style="animation-delay:0.2s"/>
-                <path d="M100 36 L160 36 M100 72 L160 36 M100 108 L160 36 M100 36 L160 72 M100 72 L160 72 M100 144 L160 72 M100 36 L160 108 M100 108 L160 108 M100 144 L160 108 M100 72 L160 144 M100 108 L160 144 M100 144 L160 144" class="dag-line" style="animation-delay:1.0s"/>
-                <path d="M160 36 L220 36 M160 72 L220 36 M160 108 L220 36 M160 36 L220 72 M160 72 L220 72 M160 144 L220 72 M160 36 L220 108 M160 108 L220 108 M160 144 L220 108 M160 72 L220 144 M160 108 L220 144 M160 144 L220 144" class="dag-line" style="animation-delay:1.8s"/>
-                <path d="M220 36 L280 36 M220 72 L280 36 M220 108 L280 36 M220 36 L280 72 M220 72 L280 72 M220 144 L280 72 M220 36 L280 108 M220 108 L280 108 M220 144 L280 108 M220 72 L280 144 M220 108 L280 144 M220 144 L280 144" class="dag-line" style="animation-delay:2.6s"/>
+
+          <!-- Parameter strip -->
+          <div class="mb-6 grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3 font-mono text-[10px] tracking-[0.06em]">
+            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">N</span><span class="text-ink"><span class="text-ember">200</span> validators</span></div>
+            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">Δ round</span><span class="text-ink"><span class="text-ember">250</span> ms</span></div>
+            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">k commit</span><span class="text-ink">every <span class="text-ember">4</span> rounds</span></div>
+            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">finality</span><span class="text-ink">≈ <span class="text-ember">500</span> ms</span></div>
+          </div>
+
+          <div class="dag2-viz relative h-[230px]">
+            <svg viewBox="0 0 420 240" class="block w-full h-full" aria-hidden="true">
+              <!-- Top hairline + axis -->
+              <line x1="20" y1="32" x2="400" y2="32" stroke="currentColor" stroke-width="0.4" class="text-rule-2"/>
+              <line x1="20" y1="208" x2="400" y2="208" stroke="currentColor" stroke-width="0.4" class="text-rule-2"/>
+
+              <!-- Reference arcs: r → r+1 (drawn as hairline beziers) -->
+              <g stroke="currentColor" stroke-width="0.5" fill="none" class="text-cold/45" stroke-linecap="round">
+                <!-- R → R+1 -->
+                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,55 C100,55 100,70 130,70"/>
+                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,55 C100,55 100,100 130,100"/>
+                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,85 C100,85 100,70 130,70"/>
+                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,85 C100,85 100,100 130,100"/>
+                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,85 C100,85 100,135 130,135"/>
+                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,115 C100,115 100,70 130,70"/>
+                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,115 C100,115 100,135 130,135"/>
+                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,115 C100,115 100,165 130,165"/>
+                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,150 C100,150 100,100 130,100"/>
+                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,150 C100,150 100,135 130,135"/>
+                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,150 C100,150 100,165 130,165"/>
+                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,180 C100,180 100,135 130,135"/>
+                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,180 C100,180 100,165 130,165"/>
+
+                <!-- R+1 → R+2 -->
+                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,70 C180,70 180,55 210,55"/>
+                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,70 C180,70 180,90 210,90"/>
+                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,100 C180,100 180,55 210,55"/>
+                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,100 C180,100 180,90 210,90"/>
+                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,100 C180,100 180,125 210,125"/>
+                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,135 C180,135 180,90 210,90"/>
+                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,135 C180,135 180,125 210,125"/>
+                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,135 C180,135 180,160 210,160"/>
+                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,165 C180,165 180,125 210,125"/>
+                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,165 C180,165 180,160 210,160"/>
+                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,165 C180,165 180,185 210,185"/>
+                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,180 C180,180 180,160 210,160"/>
+                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,180 C180,180 180,185 210,185"/>
+
+                <!-- R+2 → R+3 -->
+                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,55 C260,55 260,65 290,65"/>
+                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,55 C260,55 260,95 290,95"/>
+                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,90 C260,90 260,65 290,65"/>
+                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,90 C260,90 260,95 290,95"/>
+                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,90 C260,90 260,128 290,128"/>
+                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,125 C260,125 260,95 290,95"/>
+                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,125 C260,125 260,128 290,128"/>
+                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,125 C260,125 260,158 290,158"/>
+                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,160 C260,160 260,128 290,128"/>
+                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,160 C260,160 260,158 290,158"/>
+                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,160 C260,160 260,182 290,182"/>
+                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,185 C260,185 260,158 290,158"/>
+                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,185 C260,185 260,182 290,182"/>
+
+                <!-- R+3 → R+4 -->
+                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,65 C340,65 340,55 370,55"/>
+                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,65 C340,65 340,90 370,90"/>
+                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,95 C340,95 340,55 370,55"/>
+                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,95 C340,95 340,90 370,90"/>
+                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,95 C340,95 340,125 370,125"/>
+                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,128 C340,128 340,90 370,90"/>
+                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,128 C340,128 340,125 370,125"/>
+                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,128 C340,128 340,160 370,160"/>
+                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,158 C340,158 340,125 370,125"/>
+                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,158 C340,158 340,160 370,160"/>
+                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,158 C340,158 340,185 370,185"/>
+                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,182 C340,182 340,160 370,160"/>
+                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,182 C340,182 340,185 370,185"/>
               </g>
-              <g fill="currentColor" class="text-ember">
-                <circle cx="40" cy="36" r="3.5" class="dag-vertex" style="animation-delay:0s"/>
-                <circle cx="40" cy="72" r="3.5" class="dag-vertex" style="animation-delay:0.05s"/>
-                <circle cx="40" cy="108" r="3.5" class="dag-vertex" style="animation-delay:0.1s"/>
-                <circle cx="40" cy="144" r="3.5" class="dag-vertex" style="animation-delay:0.15s"/>
-                <circle cx="100" cy="36" r="3.5" class="dag-vertex" style="animation-delay:0.8s"/>
-                <circle cx="100" cy="72" r="3.5" class="dag-vertex" style="animation-delay:0.85s"/>
-                <circle cx="100" cy="108" r="3.5" class="dag-vertex" style="animation-delay:0.9s"/>
-                <circle cx="100" cy="144" r="3.5" class="dag-vertex" style="animation-delay:0.95s"/>
-                <circle cx="160" cy="36" r="3.5" class="dag-vertex" style="animation-delay:1.6s"/>
-                <circle cx="160" cy="72" r="3.5" class="dag-vertex" style="animation-delay:1.65s"/>
-                <circle cx="160" cy="108" r="3.5" class="dag-vertex" style="animation-delay:1.7s"/>
-                <circle cx="160" cy="144" r="3.5" class="dag-vertex" style="animation-delay:1.75s"/>
-                <circle cx="220" cy="36" r="3.5" class="dag-vertex" style="animation-delay:2.4s"/>
-                <circle cx="220" cy="72" r="3.5" class="dag-vertex" style="animation-delay:2.45s"/>
-                <circle cx="220" cy="108" r="3.5" class="dag-vertex" style="animation-delay:2.5s"/>
-                <circle cx="220" cy="144" r="3.5" class="dag-vertex" style="animation-delay:2.55s"/>
-                <circle cx="280" cy="36" r="3.5" class="dag-vertex" style="animation-delay:3.2s"/>
-                <circle cx="280" cy="72" r="3.5" class="dag-vertex" style="animation-delay:3.25s"/>
-                <circle cx="280" cy="108" r="3.5" class="dag-vertex" style="animation-delay:3.3s"/>
-                <circle cx="280" cy="144" r="3.5" class="dag-vertex" style="animation-delay:3.35s"/>
+
+              <!-- Vertices: 5 columns × 5 vertices -->
+              <g class="dag2-verts">
+                <!-- Round R (col 0, x=70) — delay 0s -->
+                <circle cx="70" cy="55" r="2.5" class="dag2-vtx" style="--c:0"/>
+                <circle cx="70" cy="85" r="2.5" class="dag2-vtx" style="--c:0"/>
+                <circle cx="70" cy="115" r="2.5" class="dag2-vtx" style="--c:0"/>
+                <circle cx="70" cy="150" r="2.5" class="dag2-vtx" style="--c:0"/>
+                <circle cx="70" cy="180" r="2.5" class="dag2-vtx" style="--c:0"/>
+                <!-- Round R+1 (x=140) -->
+                <circle cx="140" cy="70" r="2.5" class="dag2-vtx" style="--c:1"/>
+                <circle cx="140" cy="100" r="2.5" class="dag2-vtx" style="--c:1"/>
+                <circle cx="140" cy="135" r="2.5" class="dag2-vtx" style="--c:1"/>
+                <circle cx="140" cy="165" r="2.5" class="dag2-vtx" style="--c:1"/>
+                <circle cx="140" cy="180" r="2.5" class="dag2-vtx" style="--c:1"/>
+                <!-- Round R+2 (x=220) -->
+                <circle cx="220" cy="55" r="2.5" class="dag2-vtx" style="--c:2"/>
+                <circle cx="220" cy="90" r="2.5" class="dag2-vtx" style="--c:2"/>
+                <circle cx="220" cy="125" r="2.5" class="dag2-vtx" style="--c:2"/>
+                <circle cx="220" cy="160" r="2.5" class="dag2-vtx" style="--c:2"/>
+                <circle cx="220" cy="185" r="2.5" class="dag2-vtx" style="--c:2"/>
+                <!-- Round R+3 (x=300) -->
+                <circle cx="300" cy="65" r="2.5" class="dag2-vtx" style="--c:3"/>
+                <circle cx="300" cy="95" r="2.5" class="dag2-vtx" style="--c:3"/>
+                <circle cx="300" cy="128" r="2.5" class="dag2-vtx" style="--c:3"/>
+                <circle cx="300" cy="158" r="2.5" class="dag2-vtx" style="--c:3"/>
+                <circle cx="300" cy="182" r="2.5" class="dag2-vtx" style="--c:3"/>
+                <!-- Round R+4 (x=380) — leader / commit-wave round -->
+                <circle cx="380" cy="55" r="2.5" class="dag2-vtx" style="--c:4"/>
+                <circle cx="380" cy="90" r="2.5" class="dag2-vtx" style="--c:4"/>
+                <circle cx="380" cy="125" r="2.5" class="dag2-vtx" style="--c:4"/>
+                <circle cx="380" cy="160" r="2.5" class="dag2-vtx" style="--c:4"/>
+                <circle cx="380" cy="185" r="2.5" class="dag2-vtx" style="--c:4"/>
               </g>
-              <g fill="currentColor" class="text-ink-4" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="1.5">
-                <text x="40" y="170" text-anchor="middle">R0</text>
-                <text x="100" y="170" text-anchor="middle">R1</text>
-                <text x="160" y="170" text-anchor="middle">R2</text>
-                <text x="220" y="170" text-anchor="middle">R3</text>
-                <text x="280" y="170" text-anchor="middle">R4</text>
+
+              <!-- Leader vertex highlight on R+4 (commit wave) -->
+              <circle cx="380" cy="125" r="6" fill="none" stroke="#ff7d4d" stroke-width="0.7" class="dag2-leader" opacity="0"/>
+              <text x="380" y="40" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="1" fill="#ff7d4d" class="dag2-leader-label" opacity="0">leader</text>
+
+              <!-- Commit wave (vertical glow line that sweeps) -->
+              <line x1="0" y1="36" x2="0" y2="204" stroke="#ff7d4d" stroke-width="1" opacity="0" class="dag2-wave"/>
+
+              <!-- Round labels (bottom) -->
+              <g font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="1.2" fill="currentColor" class="text-ink-3">
+                <text x="70" y="222" text-anchor="middle">r</text>
+                <text x="140" y="222" text-anchor="middle">r+1</text>
+                <text x="220" y="222" text-anchor="middle">r+2</text>
+                <text x="300" y="222" text-anchor="middle">r+3</text>
+                <text x="380" y="222" text-anchor="middle">r+4</text>
               </g>
+
+              <!-- Bottom annotation: relation -->
+              <text x="210" y="237" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="0.5" fill="currentColor" class="text-ink-4">
+                V<tspan baseline-shift="sub" font-size="5">i</tspan><tspan baseline-shift="super" font-size="5">r+1</tspan>  →  refs ⌈2N⁄3⌉ + 1 vertices in round r
+              </text>
             </svg>
           </div>
         </div>
@@ -286,39 +381,98 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
       <!-- ────── MECHANISM 02: ENCRYPTED MEMPOOL ────── -->
       <div class="mechanism border-b border-rule-2 grid lg:grid-cols-2" data-reveal>
-        <div class="lg:order-2 bg-bg-2/60 backdrop-blur-sm p-8 md:p-12 lg:p-16 flex flex-col justify-center min-h-[340px]">
-          <div class="mb-6 flex items-baseline justify-between gap-3">
+        <div class="lg:order-2 bg-bg-2/60 backdrop-blur-sm p-8 md:p-12 lg:p-16 flex flex-col justify-center min-h-[420px]">
+          <div class="mb-8 flex items-baseline justify-between gap-3">
             <span class="font-mono text-[11px] uppercase tracking-[0.22em] text-ember">MECHANISM 02 · MEMPOOL</span>
             <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §3.6 · §8.4</span>
           </div>
-          <div class="mempool-viz relative h-[220px] -mx-2">
-            <svg viewBox="0 0 320 180" class="block w-full h-full" aria-hidden="true">
-              <g stroke="currentColor" stroke-width="0.5" class="text-rule-2" stroke-dasharray="2 3">
-                <line x1="20" y1="90" x2="300" y2="90"/>
+
+          <!-- Parameter strip -->
+          <div class="mb-6 grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3 font-mono text-[10px] tracking-[0.06em]">
+            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">scheme</span><span class="text-ink"><span class="text-ember">BLS</span> threshold</span></div>
+            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">threshold</span><span class="text-ink">⌈<span class="text-ember">2N⁄3</span>⌉ + 1</span></div>
+            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">key rotation</span><span class="text-ink">every <span class="text-ember">epoch</span></span></div>
+            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">epoch length</span><span class="text-ink">≈ <span class="text-ember">36</span> s</span></div>
+          </div>
+
+          <div class="mp2-viz relative h-[230px]">
+            <svg viewBox="0 0 420 240" class="block w-full h-full" aria-hidden="true">
+              <!-- Top + bottom hairlines -->
+              <line x1="20" y1="32" x2="400" y2="32" stroke="currentColor" stroke-width="0.4" class="text-rule-2"/>
+              <line x1="20" y1="208" x2="400" y2="208" stroke="currentColor" stroke-width="0.4" class="text-rule-2"/>
+
+              <!-- Section labels -->
+              <g font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="1.4" fill="currentColor" class="text-ink-3">
+                <text x="80" y="48" text-anchor="middle">epoch E · ciphertexts</text>
+                <text x="210" y="48" text-anchor="middle">epoch boundary</text>
+                <text x="340" y="48" text-anchor="middle">epoch E+1 · plaintexts</text>
               </g>
-              <g fill="currentColor" class="text-ink-4" font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="1.2">
-                <text x="40" y="160" text-anchor="middle">SUBMIT</text>
-                <text x="120" y="160" text-anchor="middle">ORDER (E)</text>
-                <text x="200" y="160" text-anchor="middle">DECRYPT</text>
-                <text x="280" y="160" text-anchor="middle">EXEC (E+1)</text>
+
+              <!-- Encrypted blobs (left): rectangles with "hex bytes" -->
+              <g class="mp2-blobs-enc">
+                {[70, 100, 130, 160].map((y, i) => (
+                  <g class="mp2-blob-enc" style={`--i:${i}`}>
+                    <rect x="30" y={y} width="100" height="20" fill="none" stroke="currentColor" stroke-width="0.6" class="text-ember/70"/>
+                    {/* mini hex blocks inside */}
+                    {[0, 1, 2, 3, 4, 5, 6, 7].map((k) => (
+                      <rect x={36 + k * 11} y={y + 4} width="9" height="12" fill="currentColor" class="text-ember/40"/>
+                    ))}
+                  </g>
+                ))}
               </g>
-              <g fill="currentColor" class="text-ink-4">
-                <circle cx="40" cy="90" r="2"/>
-                <circle cx="120" cy="90" r="2"/>
-                <circle cx="200" cy="90" r="2"/>
-                <circle cx="280" cy="90" r="2"/>
+
+              <!-- Vertical epoch boundary (dashed) -->
+              <line x1="210" y1="60" x2="210" y2="195" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3" class="text-ink-3"/>
+
+              <!-- Keypers (above the boundary) — N small dots with k highlighted at threshold -->
+              <g class="mp2-keypers">
+                {[
+                  { x: 168, y: 78, k: true },
+                  { x: 184, y: 70, k: true },
+                  { x: 200, y: 64, k: true },
+                  { x: 216, y: 64, k: false },
+                  { x: 232, y: 70, k: true },
+                  { x: 248, y: 78, k: false },
+                ].map((kp, i) => (
+                  <circle cx={kp.x} cy={kp.y} r="2.4"
+                    fill="currentColor"
+                    class:list={[kp.k ? 'text-ember mp2-keyper-active' : 'text-ink-4 mp2-keyper-idle']}
+                    style={`--i:${i}`}/>
+                ))}
+                <text x="210" y="108" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" letter-spacing="0.8" fill="currentColor" class="text-ink-3">k = ⌈2N⁄3⌉ + 1 share​s</text>
               </g>
-              <g fill="currentColor" class="text-cold mempool-keypers" opacity="0">
-                <circle cx="220" cy="50" r="2"/>
-                <circle cx="240" cy="44" r="2"/>
-                <circle cx="260" cy="50" r="2"/>
+
+              <!-- Share-converge lines from active keypers down to a single point at boundary -->
+              <g stroke="currentColor" stroke-width="0.5" fill="none" stroke-linecap="round" class="text-ember/45 mp2-shares">
+                <path d="M168,80 Q190,110 210,128"/>
+                <path d="M184,72 Q198,108 210,128"/>
+                <path d="M200,66 Q205,108 210,128"/>
+                <path d="M232,72 Q220,108 210,128"/>
               </g>
-              <g class="mempool-tx">
-                <rect x="-22" y="80" width="44" height="20" rx="10" fill="currentColor" class="text-ember mempool-pill" />
-                <g class="mempool-lock" stroke="currentColor" stroke-width="1.4" fill="none" opacity="0">
-                  <rect x="-5" y="86" width="10" height="8" rx="1" stroke="#000"/>
-                  <path d="M -3 86 L -3 83 Q -3 80 0 80 Q 3 80 3 83 L 3 86" stroke="#000"/>
-                </g>
+              <!-- Decryption point -->
+              <circle cx="210" cy="128" r="3" fill="#ff7d4d" class="mp2-decrypt"/>
+
+              <!-- Decrypted blobs (right): rectangles with clean horizontal lines -->
+              <g class="mp2-blobs-dec">
+                {[70, 100, 130, 160].map((y, i) => (
+                  <g class="mp2-blob-dec" style={`--i:${i}`}>
+                    <rect x="290" y={y} width="100" height="20" fill="none" stroke="currentColor" stroke-width="0.6" class="text-ink"/>
+                    <line x1="296" y1={y + 7}  x2="368" y2={y + 7}  stroke="currentColor" stroke-width="0.5" class="text-ink-3"/>
+                    <line x1="296" y1={y + 12} x2="356" y2={y + 12} stroke="currentColor" stroke-width="0.5" class="text-ink-3"/>
+                    <line x1="296" y1={y + 16.5} x2="344" y2={y + 16.5} stroke="currentColor" stroke-width="0.5" class="text-ink-3"/>
+                  </g>
+                ))}
+              </g>
+
+              <!-- Mid arrow connecting boundary point to first decrypted blob (visual cue) -->
+              <g stroke="currentColor" stroke-width="0.5" fill="none" class="text-ink-4">
+                <path d="M214,128 L286,128"/>
+                <path d="M283,125 L286,128 L283,131"/>
+              </g>
+
+              <!-- Bottom captions -->
+              <g font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="0.5" fill="currentColor">
+                <text x="210" y="226" text-anchor="middle" class="text-ink-3">c<tspan baseline-shift="sub" font-size="5">i</tspan> = Enc(pk<tspan baseline-shift="sub" font-size="5">E</tspan>, tx<tspan baseline-shift="sub" font-size="5">i</tspan>)  ·  σ<tspan baseline-shift="sub" font-size="5">j</tspan> ← Dec<tspan baseline-shift="sub" font-size="5">j</tspan>(sk<tspan baseline-shift="sub" font-size="5">j</tspan>, c<tspan baseline-shift="sub" font-size="5">i</tspan>)  ·  collect ⌈2N⁄3⌉+1  ⇒  tx<tspan baseline-shift="sub" font-size="5">i</tspan></text>
               </g>
             </svg>
           </div>
@@ -352,60 +506,105 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
       <!-- ────── MECHANISM 03: RECURSIVE PROOFS ────── -->
       <div class="mechanism border-b border-rule-2 grid lg:grid-cols-2" data-reveal>
-        <div class="bg-bg-2/60 backdrop-blur-sm p-8 md:p-12 lg:p-16 flex flex-col justify-center min-h-[340px]">
-          <div class="mb-6 flex items-baseline justify-between gap-3">
+        <div class="bg-bg-2/60 backdrop-blur-sm p-8 md:p-12 lg:p-16 flex flex-col justify-center min-h-[420px]">
+          <div class="mb-8 flex items-baseline justify-between gap-3">
             <span class="font-mono text-[11px] uppercase tracking-[0.22em] text-ember">MECHANISM 03 · VERIFICATION</span>
             <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §8.5</span>
           </div>
-          <div class="proof-viz relative h-[220px] -mx-2">
-            <svg viewBox="0 0 320 180" class="block w-full h-full" aria-hidden="true">
-              <g class="proof-chain" fill="currentColor">
-                <g class="text-ink-4">
-                  <rect x="10" y="55" width="3" height="50"/>
-                  <rect x="16" y="60" width="3" height="40"/>
-                  <rect x="22" y="50" width="3" height="60"/>
-                  <rect x="28" y="58" width="3" height="44"/>
-                  <rect x="34" y="52" width="3" height="56"/>
-                  <rect x="40" y="60" width="3" height="40"/>
-                  <rect x="46" y="55" width="3" height="50"/>
-                  <rect x="52" y="48" width="3" height="64"/>
-                  <rect x="58" y="62" width="3" height="36"/>
-                  <rect x="64" y="55" width="3" height="50"/>
-                  <rect x="70" y="58" width="3" height="44"/>
-                  <rect x="76" y="50" width="3" height="60"/>
-                  <rect x="82" y="60" width="3" height="40"/>
-                  <rect x="88" y="55" width="3" height="50"/>
-                  <rect x="94" y="52" width="3" height="56"/>
+
+          <!-- Parameter strip -->
+          <div class="mb-6 grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3 font-mono text-[10px] tracking-[0.06em]">
+            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">system</span><span class="text-ink"><span class="text-ember">Halo 2</span> · Pasta</span></div>
+            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">|π<sub>n</sub>|</span><span class="text-ink"><span class="text-ember">5–10</span> KB</span></div>
+            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">verify</span><span class="text-ink">≤ <span class="text-ember">200</span> ms</span></div>
+            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">recursion</span><span class="text-ink">O(<span class="text-ember">log</span> n)</span></div>
+          </div>
+
+          <div class="rp2-viz relative h-[230px]">
+            <svg viewBox="0 0 420 240" class="block w-full h-full" aria-hidden="true">
+              <!-- Top + bottom hairlines -->
+              <line x1="20" y1="32" x2="400" y2="32" stroke="currentColor" stroke-width="0.4" class="text-rule-2"/>
+              <line x1="20" y1="208" x2="400" y2="208" stroke="currentColor" stroke-width="0.4" class="text-rule-2"/>
+
+              <!-- Stage labels -->
+              <g font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="1.2" fill="currentColor" class="text-ink-3">
+                <text x="58" y="48" text-anchor="middle">chain history</text>
+                <text x="160" y="48" text-anchor="middle">prior proof</text>
+                <text x="232" y="48" text-anchor="middle">epoch txs</text>
+                <text x="310" y="48" text-anchor="middle">π<tspan baseline-shift="sub" font-size="5">n</tspan> = Prove(·)</text>
+                <text x="378" y="48" text-anchor="middle">verify</text>
+              </g>
+
+              <!-- Chain history bars (left) — accumulating epochs -->
+              <g class="rp2-chain">
+                {Array.from({ length: 18 }).map((_, i) => {
+                  const x = 22 + i * 4.2;
+                  const h = 36 + ((i * 13) % 28);
+                  const y = 130 - h / 2;
+                  return <rect x={x} y={y} width="2.6" height={h} fill="currentColor" class="text-ink-4 rp2-bar" style={`--i:${i}`}/>;
+                })}
+              </g>
+
+              <!-- Arrow → π_{n-1} -->
+              <g stroke="currentColor" stroke-width="0.6" fill="none" class="text-ink-4">
+                <path d="M104,128 L130,128"/>
+                <path d="M127,125 L130,128 L127,131"/>
+              </g>
+
+              <!-- π_{n-1} small box -->
+              <g class="rp2-prior">
+                <rect x="132" y="100" width="56" height="56" fill="none" stroke="currentColor" stroke-width="0.6" class="text-cold/70"/>
+                <text x="160" y="124" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="currentColor" class="text-cold">π<tspan baseline-shift="sub" font-size="6">n−1</tspan></text>
+                <text x="160" y="138" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" letter-spacing="0.5" fill="currentColor" class="text-ink-3">prior epoch</text>
+              </g>
+
+              <!-- Plus + epoch txs -->
+              <text x="200" y="132" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="currentColor" class="text-ink-3">+</text>
+              <g class="rp2-txs">
+                <rect x="210" y="108" width="48" height="44" fill="none" stroke="currentColor" stroke-width="0.6" class="text-ink-3" stroke-dasharray="2 2"/>
+                {[114, 121, 128, 135, 142].map((y, i) => (
+                  <line x1="216" y1={y} x2="252" y2={y} stroke="currentColor" stroke-width="0.5" class="text-ink-3 rp2-tx" style={`--i:${i}`}/>
+                ))}
+                <text x="234" y="161" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" letter-spacing="0.5" fill="currentColor" class="text-ink-4">txs<tspan baseline-shift="sub" font-size="3.5">E</tspan></text>
+              </g>
+
+              <!-- Arrow → Prove -->
+              <g stroke="currentColor" stroke-width="0.6" fill="none" class="text-ink-4">
+                <path d="M262,128 L284,128"/>
+                <path d="M281,125 L284,128 L281,131"/>
+              </g>
+
+              <!-- π_n new artifact (ember-bordered) -->
+              <g class="rp2-pi-n">
+                <rect x="286" y="92" width="62" height="72" fill="none" stroke="#ff7d4d" stroke-width="0.8" class="rp2-pi-glow"/>
+                <text x="317" y="118" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="14" fill="currentColor" class="text-ember">π<tspan baseline-shift="sub" font-size="8">n</tspan></text>
+                <text x="317" y="135" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" letter-spacing="0.5" fill="currentColor" class="text-ember">5–10 KB</text>
+                <text x="317" y="150" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" letter-spacing="0.6" fill="currentColor" class="text-ink-3">recursive</text>
+              </g>
+
+              <!-- Arrow → verifier -->
+              <g stroke="currentColor" stroke-width="0.6" fill="none" class="text-ink-4">
+                <path d="M352,128 L364,128"/>
+                <path d="M361,125 L364,128 L361,131"/>
+              </g>
+
+              <!-- Phone verifier (right) -->
+              <g class="rp2-phone">
+                <rect x="366" y="84" width="34" height="86" rx="3" fill="none" stroke="currentColor" stroke-width="1" class="text-ink-2"/>
+                <rect x="370" y="91" width="26" height="60" rx="1" fill="currentColor" class="text-bg-3"/>
+                <g class="rp2-spinner">
+                  <circle cx="383" cy="120" r="6" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="9 28" class="text-ember"/>
                 </g>
-                <text x="55" y="135" text-anchor="middle" fill="currentColor" class="text-ink-4" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="1.2">CHAIN HISTORY</text>
-              </g>
-              <g class="text-ink-4" fill="currentColor" stroke="currentColor">
-                <path d="M115 80 L135 80" stroke-width="0.7"/>
-                <path d="M132 77 L135 80 L132 83" fill="none" stroke-width="0.7"/>
-              </g>
-              <g class="proof-card">
-                <rect x="145" y="60" width="50" height="40" rx="2" fill="none" stroke="currentColor" stroke-width="1" class="text-ember"/>
-                <text x="170" y="76" text-anchor="middle" fill="currentColor" class="text-ember" font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="0.5">π</text>
-                <text x="170" y="86" text-anchor="middle" fill="currentColor" class="text-ember" font-family="JetBrains Mono, monospace" font-size="4.5" letter-spacing="0.5">5–10 KB</text>
-                <text x="170" y="95" text-anchor="middle" fill="currentColor" class="text-ember" font-family="JetBrains Mono, monospace" font-size="4.5" letter-spacing="0.6">HALO 2</text>
-                <text x="170" y="135" text-anchor="middle" fill="currentColor" class="text-ink-4" font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="1.2">RECURSIVE ZK</text>
-              </g>
-              <g class="text-ink-4" fill="currentColor" stroke="currentColor">
-                <path d="M205 80 L225 80" stroke-width="0.7"/>
-                <path d="M222 77 L225 80 L222 83" fill="none" stroke-width="0.7"/>
-              </g>
-              <g class="proof-phone">
-                <rect x="240" y="40" width="40" height="68" rx="5" fill="none" stroke="currentColor" stroke-width="1.2" class="text-ink-2"/>
-                <rect x="244" y="46" width="32" height="50" rx="1" fill="currentColor" class="text-bg-3"/>
-                <g class="proof-check" opacity="0">
-                  <path d="M252 71 L258 77 L268 65" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-ember"/>
+                <g class="rp2-check" opacity="0">
+                  <path d="M375 121 L381 127 L391 113" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-ember"/>
                 </g>
-                <g class="proof-spinner">
-                  <circle cx="260" cy="71" r="6" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="9 28" class="text-ember"/>
-                </g>
-                <rect x="252" y="100" width="16" height="2" rx="1" fill="currentColor" class="text-ink-3"/>
-                <text x="260" y="130" text-anchor="middle" fill="currentColor" class="text-ember" font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="1">50–200 MS</text>
-                <text x="260" y="142" text-anchor="middle" fill="currentColor" class="text-ink-4" font-family="JetBrains Mono, monospace" font-size="5.5" letter-spacing="1.2">CONSUMER PHONE</text>
+                <rect x="377" y="158" width="12" height="2" rx="1" fill="currentColor" class="text-ink-3"/>
+                <text x="383" y="184" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" letter-spacing="0.6" fill="currentColor" class="text-ember">≤ 200 ms</text>
+              </g>
+
+              <!-- Bottom relation caption -->
+              <g font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="0.5" fill="currentColor">
+                <text x="210" y="226" text-anchor="middle" class="text-ink-3">π<tspan baseline-shift="sub" font-size="5">n</tspan> = Prove(C<tspan baseline-shift="sub" font-size="5">chain</tspan> ; π<tspan baseline-shift="sub" font-size="5">n−1</tspan>, txs<tspan baseline-shift="sub" font-size="5">E</tspan>)  ·  Verify(π<tspan baseline-shift="sub" font-size="5">n</tspan>) → {0, 1}</text>
               </g>
             </svg>
           </div>
@@ -439,39 +638,80 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
       <!-- ────── MECHANISM 04: CONSTITUTIONAL IMMUTABILITY ────── -->
       <div class="mechanism border-b border-rule-2 grid lg:grid-cols-2" data-reveal>
-        <div class="lg:order-2 bg-bg-2/60 backdrop-blur-sm p-8 md:p-12 lg:p-16 flex flex-col justify-center min-h-[340px]">
-          <div class="mb-6 flex items-baseline justify-between gap-3">
+        <div class="lg:order-2 bg-bg-2/60 backdrop-blur-sm p-8 md:p-12 lg:p-16 flex flex-col justify-center min-h-[420px]">
+          <div class="mb-8 flex items-baseline justify-between gap-3">
             <span class="font-mono text-[11px] uppercase tracking-[0.22em] text-ember">MECHANISM 04 · GOVERNANCE</span>
-            <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §11</span>
+            <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §11.1</span>
           </div>
-          <div class="immut-viz relative h-[220px] -mx-2">
-            <svg viewBox="0 0 320 180" class="block w-full h-full" aria-hidden="true">
-              <g class="immut-core">
-                <rect x="125" y="65" width="70" height="50" rx="3" fill="none" stroke="currentColor" stroke-width="1.2" class="text-ember"/>
-                <rect x="153" y="82" width="14" height="11" rx="1.5" fill="currentColor" class="text-ember"/>
-                <path d="M156 82 L156 78 Q156 74 160 74 Q164 74 164 78 L164 82" fill="none" stroke="currentColor" stroke-width="1.4" class="text-ember"/>
-                <text x="160" y="105" text-anchor="middle" fill="currentColor" class="text-ember" font-family="JetBrains Mono, monospace" font-size="5" letter-spacing="0.8">GENESIS RULES</text>
-                <text x="160" y="135" text-anchor="middle" fill="currentColor" class="text-ink-4" font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="1">FIXED · NO ADMIN</text>
+
+          <!-- Parameter strip -->
+          <div class="mb-6 grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3 font-mono text-[10px] tracking-[0.06em]">
+            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">spec</span><span class="text-ink"><span class="text-ember">v1.0</span> · frozen</span></div>
+            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">admin keys</span><span class="text-ink"><span class="text-ember">∅</span></span></div>
+            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">on-chain gov</span><span class="text-ink"><span class="text-ember">∅</span></span></div>
+            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">fork stake</span><span class="text-ink">≥ ⌈<span class="text-ember">2N⁄3</span>⌉ + 1</span></div>
+          </div>
+
+          <div class="im2-viz relative h-[230px]">
+            <svg viewBox="0 0 420 240" class="block w-full h-full" aria-hidden="true">
+              <!-- Top + bottom hairlines -->
+              <line x1="20" y1="32" x2="400" y2="32" stroke="currentColor" stroke-width="0.4" class="text-rule-2"/>
+              <line x1="20" y1="208" x2="400" y2="208" stroke="currentColor" stroke-width="0.4" class="text-rule-2"/>
+
+              <!-- Top: list of rejected control mechanisms with strike-through -->
+              <g class="im2-rejected" font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="0.8" fill="currentColor">
+                {[
+                  { x: 50,  label: 'foundation' },
+                  { x: 130, label: 'multisig' },
+                  { x: 200, label: 'admin key' },
+                  { x: 268, label: 'on-chain vote' },
+                  { x: 350, label: 'pause switch' },
+                ].map((r, i) => (
+                  <g style={`--i:${i}`} class="im2-reject-item">
+                    <text x={r.x} y="50" text-anchor="middle" class="text-ink-4">{r.label}</text>
+                    <line x1={r.x - 32} y1="48" x2={r.x + 32} y2="48" stroke="#ff7d4d" stroke-width="0.7" class="im2-strike"/>
+                  </g>
+                ))}
               </g>
 
-              <g class="immut-validators" fill="currentColor" class="text-cold">
-                <circle cx="60" cy="40" r="4" class="immut-validator" style="animation-delay:0s"/>
-                <circle cx="100" cy="32" r="4" class="immut-validator" style="animation-delay:0.4s"/>
-                <circle cx="160" cy="28" r="4" class="immut-validator" style="animation-delay:0.8s"/>
-                <circle cx="220" cy="32" r="4" class="immut-validator" style="animation-delay:1.2s"/>
-                <circle cx="260" cy="40" r="4" class="immut-validator" style="animation-delay:1.6s"/>
-                <circle cx="60" cy="140" r="4" class="immut-validator" style="animation-delay:2.0s"/>
-                <circle cx="100" cy="148" r="4" class="immut-validator" style="animation-delay:2.4s"/>
-                <circle cx="220" cy="148" r="4" class="immut-validator" style="animation-delay:2.8s"/>
-                <circle cx="260" cy="140" r="4" class="immut-validator" style="animation-delay:3.2s"/>
+              <!-- Center: spec_v1 anchor box with hash -->
+              <g class="im2-anchor">
+                <rect x="160" y="78" width="100" height="56" fill="none" stroke="currentColor" stroke-width="0.8" class="text-ember"/>
+                <text x="210" y="98" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="0.4" fill="currentColor" class="text-ember">spec<tspan baseline-shift="sub" font-size="6">v1</tspan></text>
+                <text x="210" y="115" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" letter-spacing="0.6" fill="currentColor" class="text-ember">H = 0x9a2f7c4e…</text>
+                <text x="210" y="127" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" letter-spacing="0.8" fill="currentColor" class="text-ink-3">fixed at genesis</text>
               </g>
 
-              <g class="immut-radiate" fill="none" stroke="currentColor" class="text-ember" opacity="0.18">
-                <circle cx="160" cy="90" r="55" stroke-width="0.5"/>
-                <circle cx="160" cy="90" r="80" stroke-width="0.4"/>
+              <!-- Validator nodes (around the anchor) — independent operators -->
+              <g class="im2-vals">
+                {[
+                  { x: 60,  y: 100, d: 0 },
+                  { x: 92,  y: 145, d: 0.3 },
+                  { x: 60,  y: 170, d: 0.6 },
+                  { x: 130, y: 175, d: 0.9 },
+                  { x: 175, y: 168, d: 1.2 },
+                  { x: 220, y: 175, d: 1.5 },
+                  { x: 265, y: 168, d: 1.8 },
+                  { x: 305, y: 175, d: 2.1 },
+                  { x: 360, y: 170, d: 2.4 },
+                  { x: 330, y: 145, d: 2.7 },
+                  { x: 360, y: 100, d: 3.0 },
+                ].map((v, i) => (
+                  <g style={`--d:${v.d}s`}>
+                    <circle cx={v.x} cy={v.y} r="3" fill="currentColor" class="text-cold im2-val" style={`--d:${v.d}s`}/>
+                    {/* tiny hairline from validator to anchor */}
+                    <line x1={v.x} y1={v.y} x2={v.x < 210 ? 162 : 258} y2={v.y < 110 ? 90 : 130} stroke="currentColor" stroke-width="0.3" class="text-cold/30"/>
+                  </g>
+                ))}
               </g>
 
-              <text x="160" y="172" text-anchor="middle" fill="currentColor" class="text-ink-4" font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="1.2">EACH NODE OPERATOR · INDEPENDENT</text>
+              <!-- Annotation between rejected list and anchor -->
+              <text x="210" y="68" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="0.8" fill="currentColor" class="text-ink-3">no central coordinator exists</text>
+
+              <!-- Bottom relation caption -->
+              <g font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="0.5" fill="currentColor">
+                <text x="210" y="226" text-anchor="middle" class="text-ink-3">change ⇔ ⌈2N⁄3⌉ + 1 validators independently run client(spec′)</text>
+              </g>
             </svg>
           </div>
         </div>
@@ -502,52 +742,96 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
         </div>
       </div>
 
-      <!-- ────── MECHANISM 05: SERVICE-NODE MARKET (NEW) ────── -->
+      <!-- ────── MECHANISM 05: SERVICE-NODE MARKET ────── -->
       <div class="mechanism border-b border-rule-2 grid lg:grid-cols-2" data-reveal>
-        <div class="bg-bg-2/60 backdrop-blur-sm p-8 md:p-12 lg:p-16 flex flex-col justify-center min-h-[340px]">
-          <div class="mb-6 flex items-baseline justify-between gap-3">
+        <div class="bg-bg-2/60 backdrop-blur-sm p-8 md:p-12 lg:p-16 flex flex-col justify-center min-h-[420px]">
+          <div class="mb-8 flex items-baseline justify-between gap-3">
             <span class="font-mono text-[11px] uppercase tracking-[0.22em] text-ember">MECHANISM 05 · INFRASTRUCTURE</span>
             <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §9.10 · §10.5.5</span>
           </div>
-          <div class="svc-viz relative h-[220px] -mx-2">
-            <svg viewBox="0 0 320 180" class="block w-full h-full" aria-hidden="true">
+
+          <!-- Parameter strip -->
+          <div class="mb-6 grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3 font-mono text-[10px] tracking-[0.06em]">
+            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">operators</span><span class="text-ink"><span class="text-ember">permissionless</span></span></div>
+            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">queries</span><span class="text-ink"><span class="text-ember">standardised</span></span></div>
+            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">payment</span><span class="text-ink">channel · sponsor</span></div>
+            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">issuance</span><span class="text-ink">→ <span class="text-ember">validators only</span></span></div>
+          </div>
+
+          <div class="sn2-viz relative h-[230px]">
+            <svg viewBox="0 0 420 240" class="block w-full h-full" aria-hidden="true">
+              <!-- Top + bottom hairlines -->
+              <line x1="20" y1="32" x2="400" y2="32" stroke="currentColor" stroke-width="0.4" class="text-rule-2"/>
+              <line x1="20" y1="208" x2="400" y2="208" stroke="currentColor" stroke-width="0.4" class="text-rule-2"/>
+
+              <!-- Section labels (top) -->
+              <g font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="1.2" fill="currentColor" class="text-ink-3">
+                <text x="55" y="48" text-anchor="middle">light client</text>
+                <text x="210" y="48" text-anchor="middle">service-node market</text>
+                <text x="365" y="48" text-anchor="middle">validators</text>
+              </g>
+
               <!-- Wallet (left) -->
-              <g class="text-ink-2" fill="currentColor">
-                <rect x="20" y="64" width="44" height="58" rx="5" fill="none" stroke="currentColor" stroke-width="1.2"/>
-                <rect x="24" y="70" width="36" height="38" rx="1" fill="currentColor" class="text-bg-3"/>
-                <text x="42" y="140" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="1.2" class="text-ink-4">WALLET</text>
+              <g class="sn2-wallet">
+                <rect x="30" y="100" width="50" height="68" rx="3" fill="none" stroke="currentColor" stroke-width="0.8" class="text-ink-2"/>
+                <rect x="34" y="106" width="42" height="50" rx="1" fill="currentColor" class="text-bg-3"/>
+                <line x1="40" y1="118" x2="68" y2="118" stroke="currentColor" stroke-width="0.5" class="text-ink-3"/>
+                <line x1="40" y1="125" x2="60" y2="125" stroke="currentColor" stroke-width="0.5" class="text-ink-3"/>
+                <line x1="40" y1="132" x2="64" y2="132" stroke="currentColor" stroke-width="0.5" class="text-ink-3"/>
+                <text x="55" y="186" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" letter-spacing="0.6" fill="currentColor" class="text-ink-3">wallet</text>
               </g>
 
-              <!-- Service nodes (middle, plural) -->
-              <g class="text-ember" fill="currentColor">
-                <rect x="130" y="50" width="42" height="22" rx="2" fill="none" stroke="currentColor" stroke-width="1" class="svc-node" style="animation-delay:0.2s"/>
-                <text x="151" y="64" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" letter-spacing="0.8">NODE</text>
-                <rect x="140" y="80" width="42" height="22" rx="2" fill="none" stroke="currentColor" stroke-width="1" class="svc-node" style="animation-delay:0.6s"/>
-                <text x="161" y="94" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" letter-spacing="0.8">NODE</text>
-                <rect x="130" y="110" width="42" height="22" rx="2" fill="none" stroke="currentColor" stroke-width="1" class="svc-node" style="animation-delay:1.0s"/>
-                <text x="151" y="124" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" letter-spacing="0.8">NODE</text>
-                <text x="151" y="148" text-anchor="middle" fill="currentColor" class="text-ink-4" font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="1.2">SERVICE NODES</text>
+              <!-- Service-node cluster (middle) — irregular topology with many nodes -->
+              <g class="sn2-nodes">
+                {[
+                  { x: 130, y: 80,  label: 'sn₁' },
+                  { x: 175, y: 110, label: 'sn₂' },
+                  { x: 145, y: 145, label: 'sn₃' },
+                  { x: 210, y: 75,  label: 'sn₄' },
+                  { x: 245, y: 115, label: 'sn₅' },
+                  { x: 215, y: 155, label: 'sn₆' },
+                  { x: 280, y: 90,  label: 'sn₇' },
+                  { x: 290, y: 145, label: 'sn₈' },
+                ].map((n, i) => (
+                  <g style={`--i:${i}`} class="sn2-node-grp">
+                    <rect x={n.x - 14} y={n.y - 8} width="28" height="16" rx="1" fill="none" stroke="currentColor" stroke-width="0.6" class="text-ember/70 sn2-node"/>
+                    <text x={n.x} y={n.y + 2.5} text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5.5" letter-spacing="0.4" fill="currentColor" class="text-ember">{n.label}</text>
+                  </g>
+                ))}
+                <text x="210" y="186" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" letter-spacing="0.6" fill="currentColor" class="text-ink-3">{`{ sn₁ … sn_k } ⊆ open set`}</text>
               </g>
 
-              <!-- Connecting lines: wallet → nodes -->
-              <g stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3" class="text-ink-3" fill="none">
-                <line x1="64" y1="93" x2="130" y2="61"/>
-                <line x1="64" y1="93" x2="140" y2="91"/>
-                <line x1="64" y1="93" x2="130" y2="121"/>
+              <!-- Wallet → service nodes: query/response (dashed lines, with arrows on a few) -->
+              <g stroke="currentColor" stroke-width="0.5" stroke-dasharray="2 3" fill="none" class="text-ink-3 sn2-queries">
+                <path d="M82,124 Q105,100 116,84"/>
+                <path d="M82,128 Q120,118 161,110"/>
+                <path d="M82,135 Q108,140 131,145"/>
+                <path d="M82,118 Q140,82 196,75"/>
               </g>
 
-              <!-- Validator (right) funding nodes -->
-              <g class="text-cold" fill="currentColor">
-                <circle cx="270" cy="60" r="5" class="svc-validator"/>
-                <circle cx="285" cy="78" r="5" class="svc-validator" style="animation-delay:0.4s"/>
-                <circle cx="262" cy="92" r="5" class="svc-validator" style="animation-delay:0.8s"/>
-                <text x="278" y="148" text-anchor="middle" fill="currentColor" class="text-ink-4" font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="1.2">VALIDATORS</text>
+              <!-- Validators (right) -->
+              <g class="sn2-vals">
+                {[
+                  { x: 350, y: 88,  d: 0 },
+                  { x: 375, y: 110, d: 0.4 },
+                  { x: 348, y: 130, d: 0.8 },
+                  { x: 380, y: 150, d: 1.2 },
+                ].map((v, i) => (
+                  <circle cx={v.x} cy={v.y} r="3.5" fill="currentColor" class="text-cold sn2-val" style={`--d:${v.d}s`}/>
+                ))}
+                <text x="365" y="186" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" letter-spacing="0.6" fill="currentColor" class="text-ink-3">N validators</text>
               </g>
 
-              <!-- Funding flow: validators → nodes (ember dotted) -->
-              <g stroke="currentColor" stroke-width="0.6" stroke-dasharray="3 3" class="text-ember/60" fill="none">
-                <path d="M260 90 Q220 100 175 95"/>
-                <path d="M260 67 Q215 75 175 60"/>
+              <!-- Validator-funded infrastructure flow (validators → nodes) — solid ember hairlines -->
+              <g stroke="currentColor" stroke-width="0.5" fill="none" class="text-ember/55 sn2-funding">
+                <path d="M345,90 Q310,90 294,90"/>
+                <path d="M348,128 Q310,135 261,115"/>
+                <path d="M380,150 Q335,148 304,145"/>
+              </g>
+
+              <!-- Bottom relation caption -->
+              <g font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="0.5" fill="currentColor">
+                <text x="210" y="226" text-anchor="middle" class="text-ink-3">q ∈ {"{"}get_state, get_proof, submit_tx{"}"}  ·  receipt = σ<tspan baseline-shift="sub" font-size="5">sn</tspan>(q, response)</text>
               </g>
             </svg>
           </div>
@@ -586,6 +870,11 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
           Together, they deliver the property set no chain has combined, with credible neutrality enforced at genesis.
         </p>
       </div>
+
+      <!-- Footnote: diagram disclaimer -->
+      <p class="mt-8 mx-auto max-w-[68ch] text-center font-mono text-[10px] tracking-[0.18em] uppercase text-ink-4 leading-[1.7]">
+        Diagrams illustrate the protocol as specified. Parameters drawn from whitepaper §8 · §9 · §11. No chain is running; the protocol is in specification phase.
+      </p>
     </div>
   </section>
 
@@ -638,148 +927,276 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
   </section>
 
   <style is:global>
-    /* ───────── DAG consensus animation ───────── */
-    @keyframes dag-vertex-pulse {
-      0%, 100% { opacity: 0.25; transform: scale(0.85); }
-      8%, 50% { opacity: 1; transform: scale(1.15); }
-      80% { opacity: 0.55; transform: scale(1); }
+    /* ───────── DAG consensus (Mechanism 01, refreshed) ───────── */
+    /* Vertices: appear column-by-column, then "finalise" as the commit wave passes */
+    @keyframes dag2-vtx-life {
+      0%, 4%        { opacity: 0; transform: scale(0.6); fill: #2e3140; }
+      8%, 50%       { opacity: 1; transform: scale(1);   fill: #c9c5b9; }
+      62%, 92%      { opacity: 1; transform: scale(1.15); fill: #ff7d4d; }
+      100%          { opacity: 0; transform: scale(0.6); fill: #2e3140; }
     }
-    .dag-vertex {
+    .dag2-vtx {
       transform-origin: center;
       transform-box: fill-box;
-      animation: dag-vertex-pulse 4s ease-in-out infinite;
+      animation: dag2-vtx-life 8s ease-in-out infinite;
+      animation-delay: calc(var(--c, 0) * 0.4s);
     }
-    @keyframes dag-line-draw {
-      0%, 100% { stroke-dashoffset: 60; opacity: 0.1; }
-      15%, 60% { stroke-dashoffset: 0; opacity: 0.55; }
-      85% { stroke-dashoffset: 0; opacity: 0.2; }
+    /* Edges: hairlines that draw in once both endpoints are produced */
+    @keyframes dag2-edge-draw {
+      0%, 5%        { opacity: 0; stroke-dashoffset: 30; }
+      15%, 50%      { opacity: 0.5; stroke-dashoffset: 0; }
+      62%, 92%      { opacity: 0.22; stroke-dashoffset: 0; }
+      100%          { opacity: 0; stroke-dashoffset: 30; }
     }
-    .dag-line {
-      stroke-dasharray: 60;
-      stroke-dashoffset: 60;
-      animation: dag-line-draw 4s ease-in-out infinite;
+    .dag2-edge {
+      stroke-dasharray: 30;
+      stroke-dashoffset: 30;
+      animation: dag2-edge-draw 8s ease-in-out infinite;
+    }
+    /* Commit wave: a vertical glow line that sweeps L→R every cycle */
+    @keyframes dag2-wave-sweep {
+      0%, 50%       { transform: translateX(0px);    opacity: 0; }
+      55%           { transform: translateX(70px);   opacity: 0.9; }
+      62%           { transform: translateX(140px);  opacity: 0.9; }
+      72%           { transform: translateX(220px);  opacity: 0.9; }
+      82%           { transform: translateX(300px);  opacity: 0.9; }
+      90%           { transform: translateX(380px);  opacity: 0.6; }
+      96%, 100%     { transform: translateX(380px);  opacity: 0; }
+    }
+    .dag2-wave {
+      animation: dag2-wave-sweep 8s ease-in-out infinite;
+      filter: drop-shadow(0 0 6px rgba(255,125,77,0.55));
+      will-change: transform;
+    }
+    /* Leader (commit-vertex on round r+4) — appears at the end of the cycle */
+    @keyframes dag2-leader-show {
+      0%, 80%       { opacity: 0; transform: scale(0.5); }
+      88%, 96%      { opacity: 1; transform: scale(1); }
+      100%          { opacity: 0; transform: scale(1); }
+    }
+    .dag2-leader {
+      transform-origin: 380px 125px;
+      transform-box: view-box;
+      animation: dag2-leader-show 8s ease-in-out infinite;
+    }
+    @keyframes dag2-leader-label-show {
+      0%, 80%       { opacity: 0; }
+      90%, 96%      { opacity: 0.9; }
+      100%          { opacity: 0; }
+    }
+    .dag2-leader-label {
+      animation: dag2-leader-label-show 8s ease-in-out infinite;
     }
 
-    /* ───────── Encrypted mempool animation ───────── */
-    @keyframes mempool-tx-travel {
-      0% { transform: translateX(40px); }
-      18% { transform: translateX(40px); }
-      28%, 50% { transform: translateX(120px); }
-      60%, 78% { transform: translateX(200px); }
-      88%, 100% { transform: translateX(280px); }
-    }
-    .mempool-tx { animation: mempool-tx-travel 6s ease-in-out infinite; }
-    @keyframes mempool-pill-encrypt {
-      0%, 17% { fill: #ff7d4d; }
-      28%, 78% { fill: #2e3140; }
-      88%, 100% { fill: #ff7d4d; }
-    }
-    .mempool-pill { animation: mempool-pill-encrypt 6s ease-in-out infinite; }
-    @keyframes mempool-lock-show {
-      0%, 22% { opacity: 0; }
-      28%, 75% { opacity: 1; }
-      82%, 100% { opacity: 0; }
-    }
-    .mempool-lock { animation: mempool-lock-show 6s ease-in-out infinite; }
-    @keyframes mempool-keypers-show {
-      0%, 55% { opacity: 0; transform: translateY(4px); }
-      62%, 78% { opacity: 1; transform: translateY(0); }
+    /* ───────── Encrypted mempool (Mechanism 02, refreshed) ───────── */
+    /* Encrypted blobs appear staggered, then "decrypt" mid-cycle */
+    @keyframes mp2-blob-enc-life {
+      0%, 4%   { opacity: 0; transform: translateX(-12px); }
+      10%, 50% { opacity: 1; transform: translateX(0); }
+      55%, 70% { opacity: 0.35; }
       85%, 100% { opacity: 0; }
     }
-    .mempool-keypers {
-      animation: mempool-keypers-show 6s ease-in-out infinite;
+    .mp2-blob-enc {
+      transform-box: fill-box;
+      animation: mp2-blob-enc-life 8s ease-in-out infinite;
+      animation-delay: calc(var(--i, 0) * 0.18s);
+    }
+    /* Active keypers glow when threshold contributes */
+    @keyframes mp2-keyper-active {
+      0%, 40%  { opacity: 0.35; transform: scale(0.85); }
+      50%, 75% { opacity: 1;    transform: scale(1.15); }
+      85%, 100% { opacity: 0.35; transform: scale(0.85); }
+    }
+    .mp2-keyper-active {
       transform-origin: center;
+      transform-box: fill-box;
+      animation: mp2-keyper-active 8s ease-in-out infinite;
+      animation-delay: calc(var(--i, 0) * 0.07s);
+    }
+    .mp2-keyper-idle { opacity: 0.3; }
+    /* Share lines draw from keypers to decrypt point */
+    @keyframes mp2-share-draw {
+      0%, 40%  { stroke-dashoffset: 50; opacity: 0; }
+      50%, 75% { stroke-dashoffset: 0; opacity: 0.8; }
+      85%, 100% { stroke-dashoffset: 50; opacity: 0; }
+    }
+    .mp2-shares path {
+      stroke-dasharray: 50;
+      stroke-dashoffset: 50;
+      animation: mp2-share-draw 8s ease-in-out infinite;
+    }
+    /* Decrypt point pulses ember when threshold reached */
+    @keyframes mp2-decrypt-flash {
+      0%, 50%  { opacity: 0; r: 2; }
+      55%, 70% { opacity: 1; r: 4; }
+      80%, 100% { opacity: 0; r: 2; }
+    }
+    .mp2-decrypt {
+      animation: mp2-decrypt-flash 8s ease-in-out infinite;
+      filter: drop-shadow(0 0 4px rgba(255,125,77,0.7));
+    }
+    /* Decrypted blobs appear after the threshold flash */
+    @keyframes mp2-blob-dec-life {
+      0%, 55%  { opacity: 0; transform: translateX(8px); }
+      65%, 92% { opacity: 1; transform: translateX(0); }
+      100%     { opacity: 0; transform: translateX(8px); }
+    }
+    .mp2-blob-dec {
+      transform-box: fill-box;
+      animation: mp2-blob-dec-life 8s ease-in-out infinite;
+      animation-delay: calc(var(--i, 0) * 0.12s);
     }
 
-    /* ───────── Recursive proof animation ───────── */
-    @keyframes proof-chain-pulse {
-      0%, 30% { opacity: 0.4; }
-      40%, 60% { opacity: 1; }
-      70%, 100% { opacity: 0.4; }
+    /* ───────── Recursive proof (Mechanism 03, refreshed) ───────── */
+    @keyframes rp2-bar-pulse {
+      0%, 100% { opacity: 0.45; }
+      50%      { opacity: 0.85; }
     }
-    .proof-chain { animation: proof-chain-pulse 5s ease-in-out infinite; }
-    @keyframes proof-spinner-spin {
-      0%, 60% { transform: rotate(0deg); opacity: 1; }
-      90%, 100% { opacity: 0; }
+    .rp2-bar {
+      animation: rp2-bar-pulse 5s ease-in-out infinite;
+      animation-delay: calc(var(--i, 0) * 0.08s);
     }
-    .proof-spinner {
-      animation: proof-spinner-spin 5s linear infinite;
-      transform-origin: 260px 71px;
-      transform-box: view-box;
+    @keyframes rp2-tx-fade {
+      0%, 30%  { opacity: 0; }
+      40%, 65% { opacity: 0.7; }
+      75%, 100% { opacity: 0.25; }
     }
-    @keyframes proof-spinner-rotate {
-      0% { transform: rotate(0deg); }
+    .rp2-tx {
+      animation: rp2-tx-fade 5s ease-in-out infinite;
+      animation-delay: calc(var(--i, 0) * 0.06s);
+    }
+    @keyframes rp2-pi-glow {
+      0%, 65%  { opacity: 0.5; filter: drop-shadow(0 0 0 rgba(255,125,77,0)); }
+      75%, 95% { opacity: 1;   filter: drop-shadow(0 0 6px rgba(255,125,77,0.55)); }
+      100%     { opacity: 0.5; filter: drop-shadow(0 0 0 rgba(255,125,77,0)); }
+    }
+    .rp2-pi-glow {
+      animation: rp2-pi-glow 5s ease-in-out infinite;
+    }
+    @keyframes rp2-spinner-show {
+      0%, 60%  { opacity: 1; }
+      80%, 100% { opacity: 0; }
+    }
+    .rp2-spinner {
+      animation: rp2-spinner-show 5s linear infinite;
+    }
+    @keyframes rp2-spinner-rot {
+      0%   { transform: rotate(0deg); }
       100% { transform: rotate(720deg); }
     }
-    .proof-spinner > circle {
-      animation: proof-spinner-rotate 5s linear infinite;
-      transform-origin: 260px 71px;
+    .rp2-spinner > circle {
+      transform-origin: 383px 120px;
       transform-box: view-box;
+      animation: rp2-spinner-rot 5s linear infinite;
     }
-    @keyframes proof-check-show {
-      0%, 65% { opacity: 0; transform: scale(0.5); }
-      75%, 95% { opacity: 1; transform: scale(1); }
-      100% { opacity: 0; transform: scale(1); }
+    @keyframes rp2-check-show {
+      0%, 70%  { opacity: 0; transform: scale(0.6); }
+      80%, 95% { opacity: 1; transform: scale(1); }
+      100%     { opacity: 0; }
     }
-    .proof-check {
-      transform-origin: 260px 71px;
-      transform-box: fill-box;
-      animation: proof-check-show 5s ease-out infinite;
+    .rp2-check {
+      transform-origin: 383px 120px;
+      transform-box: view-box;
+      animation: rp2-check-show 5s ease-out infinite;
     }
 
-    /* ───────── Constitutional immutability animation ───────── */
-    @keyframes immut-validator-pulse {
-      0%, 100% { opacity: 0.4; transform: scale(0.9); }
-      50% { opacity: 1; transform: scale(1.15); }
+    /* ───────── Constitutional immutability (Mechanism 04, refreshed) ───────── */
+    /* Rejected items: strike-through draws and item dims */
+    @keyframes im2-strike-draw {
+      0%       { stroke-dashoffset: 64; opacity: 0; }
+      30%, 100% { stroke-dashoffset: 0; opacity: 0.7; }
     }
-    .immut-validator {
+    .im2-strike {
+      stroke-dasharray: 64;
+      stroke-dashoffset: 64;
+      animation: im2-strike-draw 5s ease-out infinite;
+      animation-delay: calc(var(--i, 0) * 0.18s);
+    }
+    @keyframes im2-reject-fade {
+      0%       { opacity: 1; }
+      30%, 100% { opacity: 0.45; }
+    }
+    .im2-reject-item text {
+      animation: im2-reject-fade 5s ease-out infinite;
+      animation-delay: calc(var(--i, 0) * 0.18s);
+    }
+    /* Each validator pulses independently with a per-validator phase delay */
+    @keyframes im2-val-pulse {
+      0%, 100% { opacity: 0.5; transform: scale(0.9); }
+      50%      { opacity: 1;   transform: scale(1.15); }
+    }
+    .im2-val {
       transform-origin: center;
       transform-box: fill-box;
-      animation: immut-validator-pulse 3.6s ease-in-out infinite;
-    }
-    @keyframes immut-radiate-pulse {
-      0%, 100% { opacity: 0.1; transform: scale(0.96); }
-      50% { opacity: 0.25; transform: scale(1.04); }
-    }
-    .immut-radiate {
-      transform-origin: 160px 90px;
-      transform-box: view-box;
-      animation: immut-radiate-pulse 4s ease-in-out infinite;
+      animation: im2-val-pulse 3.4s ease-in-out infinite;
+      animation-delay: var(--d, 0s);
     }
 
-    /* ───────── Service-node market animation ───────── */
-    @keyframes svc-node-pulse {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 1; }
+    /* ───────── Service-node market (Mechanism 05, refreshed) ───────── */
+    @keyframes sn2-node-pulse {
+      0%, 100% { opacity: 0.55; }
+      50%      { opacity: 1; }
     }
-    .svc-node {
-      animation: svc-node-pulse 3s ease-in-out infinite;
+    .sn2-node {
+      animation: sn2-node-pulse 3.6s ease-in-out infinite;
     }
-    @keyframes svc-validator-pulse {
-      0%, 100% { opacity: 0.5; transform: scale(0.95); }
-      50% { opacity: 1; transform: scale(1.1); }
+    .sn2-node-grp {
+      animation: sn2-node-pulse 3.6s ease-in-out infinite;
+      animation-delay: calc(var(--i, 0) * 0.22s);
     }
-    .svc-validator {
+    @keyframes sn2-val-pulse {
+      0%, 100% { opacity: 0.55; transform: scale(0.95); }
+      50%      { opacity: 1;    transform: scale(1.1); }
+    }
+    .sn2-val {
       transform-origin: center;
       transform-box: fill-box;
-      animation: svc-validator-pulse 3.4s ease-in-out infinite;
+      animation: sn2-val-pulse 3.4s ease-in-out infinite;
+      animation-delay: var(--d, 0s);
+    }
+    @keyframes sn2-query-flow {
+      0%   { stroke-dashoffset: 80; opacity: 0.2; }
+      50%  { opacity: 0.8; }
+      100% { stroke-dashoffset: 0; opacity: 0.2; }
+    }
+    .sn2-queries path {
+      stroke-dasharray: 4 5;
+      animation: sn2-query-flow 4s linear infinite;
+    }
+    @keyframes sn2-funding-flow {
+      0%   { stroke-dashoffset: 50; opacity: 0.3; }
+      50%  { opacity: 0.9; }
+      100% { stroke-dashoffset: 0; opacity: 0.3; }
+    }
+    .sn2-funding path {
+      stroke-dasharray: 3 4;
+      animation: sn2-funding-flow 5s linear infinite;
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .dag-vertex, .dag-line, .mempool-tx, .mempool-pill, .mempool-lock,
-      .mempool-keypers, .proof-chain, .proof-spinner, .proof-spinner > circle,
-      .proof-check, .immut-validator, .immut-radiate, .svc-node, .svc-validator {
+      .dag2-vtx, .dag2-edge, .dag2-wave, .dag2-leader, .dag2-leader-label,
+      .mp2-blob-enc, .mp2-keyper-active, .mp2-shares path, .mp2-decrypt, .mp2-blob-dec,
+      .rp2-bar, .rp2-tx, .rp2-pi-glow, .rp2-spinner, .rp2-spinner > circle, .rp2-check,
+      .im2-strike, .im2-reject-item text, .im2-val,
+      .sn2-node, .sn2-node-grp, .sn2-val, .sn2-queries path, .sn2-funding path {
         animation: none !important;
       }
-      .mempool-tx { transform: translateX(40px); }
-      .dag-vertex { opacity: 1; transform: scale(1); }
-      .dag-line { stroke-dashoffset: 0; opacity: 0.4; }
-      .proof-check { opacity: 1; }
-      .proof-spinner { opacity: 0; }
-      .mempool-lock { opacity: 1; }
-      .immut-validator { opacity: 1; }
-      .svc-node { opacity: 1; }
-      .svc-validator { opacity: 1; }
+      .dag2-vtx { opacity: 1; transform: scale(1); fill: #c9c5b9; }
+      .dag2-edge { stroke-dashoffset: 0; opacity: 0.35; }
+      .dag2-wave { opacity: 0; }
+      .dag2-leader, .dag2-leader-label { opacity: 1; }
+      .mp2-blob-enc, .mp2-blob-dec { opacity: 1; transform: none; }
+      .mp2-shares path { stroke-dashoffset: 0; opacity: 0.5; }
+      .mp2-decrypt { opacity: 1; }
+      .rp2-tx, .rp2-bar { opacity: 1; }
+      .rp2-pi-glow { opacity: 1; }
+      .rp2-spinner { opacity: 0; }
+      .rp2-check { opacity: 1; transform: scale(1); }
+      .im2-strike { stroke-dashoffset: 0; opacity: 0.7; }
+      .im2-reject-item text { opacity: 0.5; }
+      .im2-val { opacity: 1; transform: scale(1); }
+      .sn2-node, .sn2-node-grp, .sn2-val { opacity: 1; transform: scale(1); }
+      .sn2-queries path, .sn2-funding path { stroke-dashoffset: 0; opacity: 0.5; }
     }
   </style>
 </BaseLayout>
