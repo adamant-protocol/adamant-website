@@ -220,7 +220,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
           <!-- Parameter strip -->
           <div class="mb-6 grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3 font-mono text-[10px] tracking-[0.06em]">
-            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">N</span><span class="text-ink"><span class="text-ember">200</span> validators</span></div>
+            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">N</span><span class="text-ink"><span class="text-ember">200</span> node runners</span></div>
             <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">Δ round</span><span class="text-ink"><span class="text-ember">250</span> ms</span></div>
             <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">k commit</span><span class="text-ink">every <span class="text-ember">4</span> rounds</span></div>
             <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">finality</span><span class="text-ink">≈ <span class="text-ember">500</span> ms</span></div>
@@ -366,7 +366,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
             </div>
             <div class="border-l-2 border-ember pl-4">
               <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ember mb-2">Adamant</span>
-              <p class="text-[13.5px] leading-[1.6] text-ink">Mysticeti-based DAG. All 200 active validators publish a vertex every 250&nbsp;ms, each referencing 2/3+1 of the prior round. Order emerges from the structure itself — every 4 rounds, a commit wave finalises blocks.</p>
+              <p class="text-[13.5px] leading-[1.6] text-ink">Mysticeti-based DAG. All 200 active <strong class="font-semibold text-ember">Node Runners</strong> (validators in the spec) publish a vertex every 250&nbsp;ms, each referencing 2/3+1 of the prior round. Order emerges from the structure itself — every 4 rounds, a commit wave finalises blocks.</p>
             </div>
           </div>
 
@@ -612,8 +612,8 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
         <div class="p-8 md:p-12 lg:p-16 flex flex-col justify-center gap-6 lg:border-l border-rule-2">
           <h3 class="font-display font-medium leading-[1.05] tracking-[-0.03em]" style="font-size:clamp(28px,2.8vw,42px)">
-            <span class="block font-light text-ink-2">Verified</span>
-            on a phone.
+            <span class="block font-light text-ink-2">Anyone with a phone</span>
+            becomes a Node Watcher.
           </h3>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-2">
@@ -623,7 +623,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
             </div>
             <div class="border-l-2 border-ember pl-4">
               <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ember mb-2">Adamant</span>
-              <p class="text-[13.5px] leading-[1.6] text-ink">A Halo 2 recursive proof at every epoch boundary verifies the previous proof plus this epoch's transactions. The proof-of-everything is one ~5–10 KB artifact. Verification: 50–200&nbsp;ms on a smartphone.</p>
+              <p class="text-[13.5px] leading-[1.6] text-ink">A Halo 2 recursive proof at every epoch boundary verifies the previous proof plus this epoch's transactions. The proof-of-everything is one ~5–10 KB artifact. <strong class="font-semibold text-ember">Node Watchers</strong> (light verifiers in the spec) verify it in 50–200 ms on a smartphone — no node, no RPC, no trust.</p>
             </div>
           </div>
 
@@ -729,7 +729,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
             </div>
             <div class="border-l-2 border-ember pl-4">
               <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ember mb-2">Adamant</span>
-              <p class="text-[13.5px] leading-[1.6] text-ink">No on-chain governance. No admin keys. No upgrade authority. Change requires a published spec, a public reference implementation, and 2/3+1-by-stake of validators each independently choosing to run new software. Validators that don't upgrade simply stay on the existing chain.</p>
+              <p class="text-[13.5px] leading-[1.6] text-ink">No on-chain governance. No admin keys. No upgrade authority. Change requires a published spec, a public reference implementation, and 2/3+1-by-stake of Node Runners each independently choosing to run new software. Node Runners that don't upgrade simply stay on the existing chain.</p>
             </div>
           </div>
 
@@ -755,7 +755,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
             <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">operators</span><span class="text-ink"><span class="text-ember">permissionless</span></span></div>
             <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">queries</span><span class="text-ink"><span class="text-ember">standardised</span></span></div>
             <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">payment</span><span class="text-ink">channel · sponsor</span></div>
-            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">issuance</span><span class="text-ink">→ <span class="text-ember">validators only</span></span></div>
+            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">issuance</span><span class="text-ink">→ <span class="text-ember">node runners only</span></span></div>
           </div>
 
           <div class="sn2-viz relative h-[230px]">
@@ -766,9 +766,9 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
               <!-- Section labels (top) -->
               <g font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="1.2" fill="currentColor" class="text-ink-3">
-                <text x="55" y="48" text-anchor="middle">light client</text>
+                <text x="55" y="48" text-anchor="middle">node watcher</text>
                 <text x="210" y="48" text-anchor="middle">service-node market</text>
-                <text x="365" y="48" text-anchor="middle">validators</text>
+                <text x="365" y="48" text-anchor="middle">node runners</text>
               </g>
 
               <!-- Wallet (left) -->
@@ -819,7 +819,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
                 ].map((v, i) => (
                   <circle cx={v.x} cy={v.y} r="3.5" fill="currentColor" class="text-cold sn2-val" style={`--d:${v.d}s`}/>
                 ))}
-                <text x="365" y="186" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" letter-spacing="0.6" fill="currentColor" class="text-ink-3">N validators</text>
+                <text x="365" y="186" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" letter-spacing="0.6" fill="currentColor" class="text-ink-3">N node runners</text>
               </g>
 
               <!-- Validator-funded infrastructure flow (validators → nodes) — solid ember hairlines -->
@@ -850,7 +850,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
             </div>
             <div class="border-l-2 border-ember pl-4">
               <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ember mb-2">Adamant</span>
-              <p class="text-[13.5px] leading-[1.6] text-ink">A standardised query protocol opens a permissionless market for service nodes that serve light clients. Validators may, at their discretion, fund infrastructure from commission revenue to compete for delegators on service quality. The protocol enables the market; the ecosystem develops it.</p>
+              <p class="text-[13.5px] leading-[1.6] text-ink">A standardised query protocol opens a permissionless market for service nodes that serve Node Watchers. Node Runners may, at their discretion, fund infrastructure from commission revenue to compete for delegators on service quality. The protocol enables the market; the ecosystem develops it.</p>
             </div>
           </div>
 

@@ -21,7 +21,7 @@ import Starfield from '@/components/Starfield.astro';
             <span class="block font-bold text-ember">No private allocation.</span>
           </h1>
           <p class="mt-7 max-w-[44ch] text-[16.5px] leading-[1.7] text-ink-2">
-            100M ADM. Burn-to-mint and validator rewards. Five-year launch phase.
+            100M ADM. Burn-to-mint and Node Runner rewards. Five-year launch phase.
           </p>
         </div>
         <div class="glass rounded-sm flex flex-col gap-4 p-6 md:p-8" data-reveal style="transition-delay:120ms">
@@ -34,7 +34,7 @@ import Starfield from '@/components/Starfield.astro';
             <span class="font-display text-[26px] font-medium leading-none tracking-[-0.03em]">70M<small class="ml-1.5 font-mono text-[10px] font-normal tracking-[0.16em] text-ink-3">70%</small></span>
           </div>
           <div class="flex items-baseline justify-between border-b border-rule pb-3.5">
-            <span class="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-3">Path B · validators</span>
+            <span class="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-3">Path B · Node Runners</span>
             <span class="font-display text-[26px] font-medium leading-none tracking-[-0.03em]">30M<small class="ml-1.5 font-mono text-[10px] font-normal tracking-[0.16em] text-ink-3">30%</small></span>
           </div>
           <div class="flex items-baseline justify-between border-b border-rule pb-3.5">
@@ -86,10 +86,10 @@ import Starfield from '@/components/Starfield.astro';
           <div class="flex gap-5 border-l-2 border-cold pl-6" data-reveal>
             <div class="flex-1">
               <div class="mb-2 flex justify-between font-mono text-[11px] uppercase tracking-[0.2em]">
-                <span class="text-cold">PATH B · VALIDATOR REWARDS</span>
+                <span class="text-cold">PATH B · NODE RUNNER REWARDS</span>
                 <span class="text-ink-2">30,000,000 ADM</span>
               </div>
-              <p class="text-[14.5px] leading-[1.7] text-ink-2">Earned block-by-block by the validators actually running the chain. The only way to acquire stake from work, not capital. Calibrated to drain over the launch phase — a target of two to three years at single-digit ADM per block.</p>
+              <p class="text-[14.5px] leading-[1.7] text-ink-2">Earned block-by-block by the <strong class="font-semibold text-ink">Node Runners</strong> (validators in the spec) actually running the chain. The only way to acquire stake from work, not capital. Calibrated to drain over the launch phase — a target of two to three years at single-digit ADM per block.</p>
             </div>
           </div>
 
@@ -149,16 +149,16 @@ import Starfield from '@/components/Starfield.astro';
       <div class="section-head">
         <div>
           <span class="num">§03 / POST-LAUNCH ISSUANCE</span>
-          <h2><span class="light">After the launch phase,</span>new ADM is issued only to validators.</h2>
+          <h2><span class="light">After the launch phase,</span>new ADM is issued only to Node Runners.</h2>
         </div>
-        <p class="desc">Once the genesis pool exhausts (or the five-year cap is reached), the protocol transitions to a perpetual issuance schedule. The rate is fixed at genesis and cannot be modified without a hard fork. Issuance flows entirely to validators and their delegators — never to a foundation, never to a treasury, never to the implementers.</p>
+        <p class="desc">Once the genesis pool exhausts (or the five-year cap is reached), the protocol transitions to a perpetual issuance schedule. The rate is fixed at genesis and cannot be modified without a hard fork. Issuance flows entirely to Node Runners and their delegators — never to a foundation, never to a treasury, never to the implementers.</p>
       </div>
 
       <!-- Issuance schedule grid -->
       <div class="border border-rule-2 bg-bg-2/60 backdrop-blur-sm overflow-hidden">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-rule-2">
           {[
-            { phase: 'Years 1–5', rate: '4%', desc: 'Substantial early rewards to bootstrap a robust validator set.' },
+            { phase: 'Years 1–5', rate: '4%', desc: 'Substantial early rewards to bootstrap a robust Node Runner set.' },
             { phase: 'Years 6–10', rate: '3%', desc: 'Inflation tapers as the chain matures and fee revenue grows.' },
             { phase: 'Years 11–20', rate: '2%', desc: 'Continued tapering toward long-run equilibrium.' },
             { phase: 'Year 21+', rate: '1%', desc: 'Asymptotic floor in perpetuity. Balances against fee burn.', em: true },
@@ -184,8 +184,8 @@ import Starfield from '@/components/Starfield.astro';
             <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-ember">WHERE ISSUANCE GOES</span>
             <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §10.3.2</span>
           </div>
-          <h3 class="font-display text-[22px] md:text-[26px] font-semibold leading-[1.15] tracking-[-0.025em]">Validators and their delegators. Nothing else.</h3>
-          <p class="text-[14px] leading-[1.65] text-ink-2">Each epoch, issuance is distributed across the active set in proportion to bonded stake, including delegations. Each validator's share is then split between the validator and their delegators per the validator's commission rate (typically 5–15%). No portion is reserved for a foundation, a development fund, or any other recipient.</p>
+          <h3 class="font-display text-[22px] md:text-[26px] font-semibold leading-[1.15] tracking-[-0.025em]">Node Runners and their delegators. Nothing else.</h3>
+          <p class="text-[14px] leading-[1.65] text-ink-2">Each epoch, issuance is distributed across the active set in proportion to bonded stake, including delegations. Each Node Runner's share is then split between the Node Runner and their delegators per the Node Runner's commission rate (typically 5–15%). No portion is reserved for a foundation, a development fund, or any other recipient.</p>
         </article>
         <article class="bg-bg-2/70 backdrop-blur-sm p-7 md:p-9 flex flex-col gap-3.5" data-reveal>
           <div class="flex items-baseline justify-between">
@@ -193,7 +193,7 @@ import Starfield from '@/components/Starfield.astro';
             <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §10.4.4</span>
           </div>
           <h3 class="font-display text-[22px] md:text-[26px] font-semibold leading-[1.15] tracking-[-0.025em]">Issuance balanced against fee burn.</h3>
-          <p class="text-[14px] leading-[1.65] text-ink-2">Base fees on every transaction are destroyed via an EIP-1559-style mechanism; tips go to validators. Under typical usage, fee burn approximately equals issuance, producing roughly stable supply. Heavy usage produces net deflation; light usage produces modest inflation.</p>
+          <p class="text-[14px] leading-[1.65] text-ink-2">Base fees on every transaction are destroyed via an EIP-1559-style mechanism; tips go to Node Runners. Under typical usage, fee burn approximately equals issuance, producing roughly stable supply. Heavy usage produces net deflation; light usage produces modest inflation.</p>
         </article>
       </div>
     </div>

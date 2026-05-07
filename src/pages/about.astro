@@ -55,7 +55,7 @@ import Starfield from '@/components/Starfield.astro';
             n: '01',
             wp: 'WP §1.1.7 · §11',
             title: 'No party can alter the protocol.',
-            body: 'Most chains are governed by a foundation, multisig, or token-holder vote — entities with the technical capability to alter consensus rules, gas costs, or issuance schedules. Adamant adopts the Bitcoin posture: no on-chain governance, no admin key, no upgrade authority. Change requires a published spec, a public reference implementation, and a 2/3+1-by-stake supermajority of validators each independently choosing to run new software.',
+            body: 'Most chains are governed by a foundation, multisig, or token-holder vote — entities with the technical capability to alter consensus rules, gas costs, or issuance schedules. Adamant adopts the Bitcoin posture: no on-chain governance, no admin key, no upgrade authority. Change requires a published spec, a public reference implementation, and a 2/3+1-by-stake supermajority of Node Runners (validators in the spec) each independently choosing to run new software.',
           },
           {
             n: '02',
@@ -72,8 +72,8 @@ import Starfield from '@/components/Starfield.astro';
           {
             n: '04',
             wp: 'WP §2.3 · §8.5',
-            title: 'Verifiable on consumer hardware.',
-            body: 'A Halo 2 recursive proof at every epoch boundary attests to the validity of all transactions and state transitions from genesis to the present. The proof is a constant-size artifact (≈5–10 KB) verifiable in 50–200 ms on a smartphone. Verification is cryptographic, not statistical — no light-client trust assumption.',
+            title: 'Verifiable by anyone with a phone.',
+            body: 'A Halo 2 recursive proof at every epoch boundary attests to the validity of all transactions and state transitions from genesis to the present. The proof is a constant-size artifact (≈5–10 KB) verifiable in 50–200 ms on a smartphone — anyone running the verifier becomes a Node Watcher (a light verifier in the spec). Verification is cryptographic, not statistical; no node, no RPC, no trust.',
           },
         ].map((p) => (
           <article class="bg-bg-2/70 backdrop-blur-sm p-7 md:p-9 flex flex-col gap-3.5 min-h-[320px] card-hover" data-reveal>
@@ -112,7 +112,7 @@ import Starfield from '@/components/Starfield.astro';
             tag: 'VALIDATOR-FUNDED',
             wp: 'WP §10.5.5',
             title: 'Validators compete on service quality',
-            body: 'Validators may, at their discretion, fund infrastructure providers from their commission revenue. The protocol does not allocate. It does not pick winners. Issuance still goes only to validators. But validators competing for delegators may choose to share revenue with the infrastructure that makes their delegators\' wallets fast.',
+            body: 'Node Runners may, at their discretion, fund infrastructure providers from their commission revenue. The protocol does not allocate. It does not pick winners. Issuance still goes only to Node Runners. But Node Runners competing for delegators may choose to share revenue with the infrastructure that makes their delegators\' wallets fast.',
           },
         ].map((p) => (
           <article class="bg-bg-2/70 backdrop-blur-sm p-7 md:p-9 flex flex-col gap-3.5 min-h-[280px] card-hover" data-reveal>
