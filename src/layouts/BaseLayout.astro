@@ -19,6 +19,32 @@ const {
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
+
+const orgJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Adamant Protocol',
+  alternateName: 'Adamant',
+  url: 'https://adamantprotocol.com',
+  logo: 'https://adamantprotocol.com/adm-logo-square.png',
+  description:
+    'A Layer 1 blockchain protocol with no foundation, no admin keys, and no upgrade authority. Privacy by default, sub-second finality, phone-verifiable correctness, post-quantum cryptography, and credibly neutral governance enforced at genesis.',
+  sameAs: [
+    'https://github.com/adamant-protocol',
+    'https://x.com/AdamantProtocol',
+  ],
+};
+
+const siteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Adamant',
+  url: 'https://adamantprotocol.com',
+  description:
+    'A Layer 1 protocol designed for users who require privacy, performance, and credibly neutral governance — with no foundation, no premine, no admin keys.',
+  inLanguage: 'en-US',
+  publisher: { '@type': 'Organization', name: 'Adamant Protocol' },
+};
 ---
 
 <!doctype html>
@@ -32,12 +58,18 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
     <meta name="theme-color" content="#000000" />
     <meta name="generator" content={Astro.generator} />
 
+    <!-- Font preconnect (cuts LCP for the Google Fonts CSS request) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Adamant" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -45,11 +77,16 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@AdamantProtocol" />
+    <meta name="twitter:creator" content="@AdamantProtocol" />
     <meta name="twitter:url" content={canonicalURL} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(ogImage, Astro.site).toString()} />
 
+    <!-- Structured data: Organization + WebSite -->
+    <script type="application/ld+json" set:html={JSON.stringify(orgJsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(siteJsonLd)} />
   </head>
   <body>
     <Header active={active} />

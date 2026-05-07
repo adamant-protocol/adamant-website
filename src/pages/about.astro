@@ -222,6 +222,82 @@ import Starfield from '@/components/Starfield.astro';
     </div>
   </section>
 
+  <!-- ───────── §06 / GLOSSARY ───────── -->
+  <section class="border-t border-rule">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="num">§06 / GLOSSARY</span>
+          <h2><span class="light">The protocol's</span>vocabulary, defined.</h2>
+        </div>
+        <p class="desc">Concise definitions of the terms used across this site, the whitepaper, and the reference implementation. The marketing site uses friendly aliases (Node Runners, Node Watchers); the whitepaper uses the formal terms (validators, light verifiers).</p>
+      </div>
+
+      <dl class="grid grid-cols-1 md:grid-cols-2 gap-px bg-rule-2 border border-rule-2">
+        {[
+          {
+            term: 'Node Runner',
+            spec: 'validator',
+            def: 'A participant in the active set running consensus. 200 of them at any time, each publishing one vertex per 250 ms round in the DAG, each referencing 2/3+1 of the prior round. Earns block rewards from the genesis pool, then post-launch issuance. Anyone can become one by acquiring stake.',
+          },
+          {
+            term: 'Node Watcher',
+            spec: 'light verifier',
+            def: 'Anyone with a smartphone or consumer device. Downloads a 5–10 KB recursive zero-knowledge proof and verifies the entire chain history in 50–200 ms — no full node, no RPC trust, no light-client trust assumption. Verification is cryptographic, not statistical.',
+          },
+          {
+            term: 'Service Node',
+            spec: 'WP §9.10',
+            def: 'Permissionless light-client infrastructure provider. Wallets and applications query service nodes for state via a standardised query format. No registry; anyone can run one. Optionally funded by Node Runners from commission revenue (WP §10.5.5).',
+          },
+          {
+            term: 'ADM',
+            spec: 'native token',
+            def: 'The protocol\'s native token. Native to the protocol layer (not contract-defined). 100M genesis pool drained over a five-year launch phase via burn-to-mint and Node Runner block rewards. Post-launch issuance: 4% → 1% per year, in perpetuity, paid only to Node Runners and their delegators. Base fees burned via EIP-1559-style mechanism.',
+          },
+          {
+            term: 'Genesis pool',
+            spec: 'WP §10.2',
+            def: 'A fixed 100,000,000 ADM that exists at the protocol layer, partitioned 70/30 between burn-to-mint claims and Node Runner block rewards. The pool is not held by any party; it is a counter that decrements only through public acquisition paths. Unclaimed tokens at year five are destroyed.',
+          },
+          {
+            term: 'Burn-to-mint',
+            spec: 'WP §10.2.3',
+            def: 'A genesis acquisition path. Anyone burns BTC or ETH at a verifiably unspendable address on the source chain; the protocol observes the burn via light-client verification of source-chain headers and mints the corresponding ADM at the protocol-defined rate. Per-address claim caps prevent early concentration.',
+          },
+          {
+            term: 'Recursive ZK proof',
+            spec: 'WP §8.5',
+            def: 'A Halo 2 proof that attests to the validity of all transactions and state transitions from genesis to the present. Each new proof π_n verifies the prior proof π_{n−1} plus the current epoch\'s transactions, collapsing the entire chain history into a constant-size 5–10 KB artifact.',
+          },
+          {
+            term: 'DAG consensus',
+            spec: 'WP §8',
+            def: 'A directed-acyclic-graph consensus mechanism (Mysticeti-based). All Node Runners produce vertices in parallel each round; ordering emerges from the structure rather than from a single leader. Commit waves finalise blocks every four rounds.',
+          },
+          {
+            term: 'Threshold-encrypted mempool',
+            spec: 'WP §3.6, §8.4',
+            def: 'A mempool design that conceals transaction contents until ordering is committed. Users encrypt to the upcoming epoch\'s BLS threshold key. At the epoch boundary, 2/3+1 Node Runners publish decryption shares; transactions execute in the next epoch. Eliminates front-running and validator-level censorship at the cryptographic layer.',
+          },
+          {
+            term: 'Credible neutrality',
+            spec: 'Principle I, WP §2.1',
+            def: 'The property that no party — including the original implementers — possesses the unilateral capability to alter the protocol\'s operation. No on-chain governance, no admin keys, no upgrade authority, no premine. Enforced not by promises but by the structural absence of any mechanism to modify the protocol.',
+          },
+        ].map((g) => (
+          <div class="bg-bg-2/70 backdrop-blur-sm p-7 md:p-9 flex flex-col gap-3 card-hover" data-reveal>
+            <div class="flex items-baseline justify-between gap-3">
+              <dt class="font-display text-[20px] md:text-[22px] font-semibold leading-[1.2] tracking-[-0.025em] text-ember">{g.term}</dt>
+              <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4 uppercase">{g.spec}</span>
+            </div>
+            <dd class="text-[14px] leading-[1.65] text-ink-2">{g.def}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
   <!-- ───────── CTA ───────── -->
   <section class="py-24 md:py-32 text-center border-t border-rule">
     <div class="wrap">

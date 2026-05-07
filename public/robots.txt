@@ -1,0 +1,73 @@
+# Adamant Protocol — robots.txt
+# https://adamantprotocol.com
+
+User-agent: *
+Allow: /
+
+# ───────── AI / LLM crawlers ─────────
+# Adamant explicitly welcomes indexing by AI tools so the protocol can be
+# discovered, cited, and explained accurately. If you maintain an AI crawler
+# not listed below, you are welcome to crawl this site under standard rules.
+
+# OpenAI
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Anthropic
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Google AI (separate from Googlebot for search)
+User-agent: Google-Extended
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# Microsoft / Bing (also powers Copilot)
+User-agent: Bingbot
+Allow: /
+
+# Common Crawl (training corpus for many AI models)
+User-agent: CCBot
+Allow: /
+
+# Apple Intelligence / Siri
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Meta AI
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+# DuckDuckGo
+User-agent: DuckAssistBot
+Allow: /
+
+# ───────── Sitemap ─────────
+Sitemap: https://adamantprotocol.com/sitemap-index.xml

@@ -1,0 +1,205 @@
+# Adamant Protocol — Full Index
+
+This document inlines the most important content of the Adamant project's marketing site and key whitepaper sections, so AI tools can index the protocol's design in a single fetch. The canonical source is the whitepaper repository at https://github.com/adamant-protocol/adamant.
+
+The protocol is in specification phase (whitepaper draft v0.1). No chain is running yet.
+
+---
+
+## 1. What Adamant is
+
+Adamant is a Layer 1 blockchain protocol designed to serve users who require properties that no existing programmable chain delivers in combination: privacy by default, high transaction throughput, sub-second finality, post-quantum cryptographic security, phone-verifiable correctness, and credibly neutral governance with no foundation, no premine, no admin keys, and no upgrade authority after genesis.
+
+The protocol combines a directed-acyclic-graph (DAG) consensus mechanism, an object-based parallel execution model, threshold-encrypted transaction propagation, recursive zero-knowledge proofs of state validity, and a fixed constitutional rule set established at genesis. Every transaction is shielded by default, with users retaining the ability to selectively disclose specific information through cryptographically verifiable view keys.
+
+The chain rejects on-chain governance by design. The protocol's consensus rules, virtual machine, token issuance schedule, and validity logic are fixed at genesis and cannot be modified by any party, including the original implementers. Changes require socially-coordinated forks in which every node operator individually opts into new client software.
+
+Adamant targets a sustained throughput of at least 200,000 transactions per second on a single shard, a finality latency of approximately 500 milliseconds for transactions not requiring consensus on shared state, and a per-transaction fee floor on the order of $0.0001 USD-equivalent at design throughput.
+
+The protocol uses standard, peer-reviewed cryptographic primitives — Ed25519 and ML-DSA (CRYSTALS-Dilithium, FIPS 204) for signatures, BLS12-381 for signature aggregation, SHA-3 for hashing, and the Halo 2 proving system for zero-knowledge proofs. No novel cryptography is introduced. The contribution is the systems-level synthesis of these primitives into a coherent architecture.
+
+---
+
+## 2. Terminology
+
+The protocol uses two terms on the marketing site that map to the whitepaper's technical vocabulary:
+
+- **Node Runners** = validators (whitepaper). Operators of the active set, 200 at a time, running consensus.
+- **Node Watchers** = light verifiers (whitepaper). Anyone with a phone running the recursive ZK proof verifier.
+- **Service Nodes** = light-client infrastructure providers (whitepaper §9.10). Permissionless, standardised.
+- **ADM** = the native token. Native to the protocol layer (not contract-defined), divisible to nine decimal places, used for fees and staking.
+
+---
+
+## 3. The seven properties Adamant combines
+
+Each property below has been demonstrated in production by some chain. No single chain currently combines more than three.
+
+| Property | Best demonstrated by | Year |
+|---|---|---|
+| 200k+ TPS, sub-second finality | Mysticeti / Sui | 2024 |
+| Programmable privacy | Aztec | 2025 |
+| Encrypted mempool (in production) | Shutter / Gnosis | 2024 |
+| Phone-verifiable chain | Mina | 2021 |
+| Native account abstraction | zkSync Era, StarkNet, Aptos | 2022–24 |
+| Post-quantum signatures | NIST standardisation | 2024 |
+| Credible neutrality | Bitcoin, Monero | 2009, 2014 |
+
+Adamant is designed to combine all seven, with credible neutrality enforced at genesis.
+
+---
+
+## 4. The seven design principles (whitepaper §2)
+
+The principles are listed in priority order. Where two conflict, the higher-numbered yields to the lower.
+
+**Principle I — Credible neutrality.** The protocol MUST NOT admit any party with the unilateral capability to alter its operation. No on-chain governance. No foundation, treasury, or admin keys. No premine or founder allocation. Forks require individual opt-in. No protected contracts or precompiles favouring the implementers.
+
+**Principle II — Privacy by default.** Transactions on the protocol MUST be private by default. Users MUST retain the ability to selectively disclose specific information to specific parties through cryptographically verifiable means. No backdoor decryption.
+
+**Principle III — Verifiability without trust.** Any participant MUST be able to verify the correctness of the protocol's operation using only consumer-grade hardware, without trusting any third party. Phone-verifiable verification via recursive zero-knowledge proofs. No light-client trust assumptions.
+
+**Principle IV — Performance sufficient for use.** The protocol MUST provide throughput, latency, and cost properties consistent with practical use as a payment network and smart-contract platform. 200,000 TPS on a single shard. ~500ms finality. $0.0001 USD-equivalent fee floor.
+
+**Principle V — Mutability is a property of objects, not the chain.** The chain's consensus rules MUST be immutable. Objects MAY declare their own mutability rules at creation, and those declarations MUST themselves be immutable.
+
+**Principle VI — Standard primitives, novel synthesis.** The protocol MUST use standard, peer-reviewed cryptographic primitives. The protocol MUST NOT introduce novel cryptographic constructions. Innovation is at the systems layer, not the primitive layer.
+
+**Principle VII — Permissionless participation.** Participation MUST NOT require permission from any party.
+
+---
+
+## 5. The five mechanisms (whitepaper §3, §8, §9, §11)
+
+### Mechanism 01: DAG consensus (§8.3)
+
+Mysticeti-based DAG. All 200 active Node Runners (validators) publish a vertex every 250 ms, each referencing 2N/3+1 of the prior round. Order emerges deterministically from the structure itself; commit waves finalise blocks every 4 rounds. Throughput target ≥200,000 TPS, finality ~500 ms.
+
+Notation: V_i^{r+1} → references ⌈2N/3⌉ + 1 vertices in round r.
+
+### Mechanism 02: Threshold-encrypted mempool (§3.6, §8.4)
+
+Users encrypt transactions to the upcoming epoch's BLS threshold key. Node Runners include and order encrypted blobs during epoch E. At the E→E+1 boundary, 2N/3+1 publish decryption shares as a side-effect of vertex production. Decrypted transactions execute in epoch E+1. Eliminates front-running and validator-level censorship at the cryptographic layer.
+
+Notation: c_i = Enc(pk_E, tx_i); collect ⌈2N/3⌉+1 shares ⇒ tx_i.
+
+### Mechanism 03: Recursive zero-knowledge proofs (§8.5)
+
+A Halo 2 recursive proof at every epoch boundary attests to the validity of all transactions and state transitions from genesis to the present. Each new proof π_n verifies the prior proof π_{n−1} plus the current epoch's transactions. The total proof is one constant-size artifact (≈5–10 KB) verifiable in 50–200 ms on a smartphone — by anyone, with no light-client trust assumption.
+
+Notation: π_n = Prove(C_chain ; π_{n−1}, txs_E); Verify(π_n) → {0, 1}.
+
+### Mechanism 04: Constitutional immutability (§11.1)
+
+No on-chain governance. No admin keys. No upgrade authority. The fixing of the protocol is enforced not by a foundation, not by a multisig, not by an on-chain governance mechanism, but by the structural absence of any mechanism to modify the protocol. Change requires a published spec revision, a public reference implementation, and 2/3+1-by-stake of Node Runners each independently choosing to run new software. Validators that don't upgrade simply stay on the existing chain.
+
+### Mechanism 05: Service-node infrastructure market (§9.10, §10.5.5)
+
+A standardised query protocol opens a permissionless market for service nodes that serve Node Watchers (light verifiers). No registry, no allocation; anyone can run one. Node Runners may, at their discretion, fund infrastructure providers from their commission revenue to compete for delegators on service quality. Issuance still flows only to Node Runners; the protocol enables the market without funding it.
+
+Notation: q ∈ {get_state, get_proof, submit_tx}; receipt = σ_sn(q, response).
+
+---
+
+## 6. Genesis and economics (whitepaper §10, §11)
+
+### The genesis pool
+
+A fixed 100,000,000 ADM exists at genesis as a protocol-level construct. It is not held by any party — no foundation, no multisig, no privileged address. The pool is a counter that decrements only through public acquisition paths:
+
+- **Path A — Burn-to-mint (70M ADM):** Anyone burns BTC or ETH at a verifiable null address on the source chain. The protocol observes the confirmed burn and mints the corresponding ADM at the protocol-defined rate.
+- **Path B — Node Runner block rewards (30M ADM):** Earned block-by-block by Node Runners running the chain.
+
+A per-address claim cap on Path A (1% → 8% over months 0–12, then uncapped) prevents early concentration. The launch phase ends when the pool exhausts or at five years, whichever comes first. Unclaimed tokens at the time cap are destroyed.
+
+### Post-launch issuance (§10.3)
+
+After the launch phase terminates, the protocol issues new ADM continuously to Node Runners as block rewards. The schedule is fixed at genesis:
+
+- Years 1–5: 4% of total supply per year
+- Years 6–10: 3%
+- Years 11–20: 2%
+- Year 21+: 1%, in perpetuity
+
+Issuance is distributed proportional to bonded stake (including delegations), then split between Node Runner and delegators per the validator's commission rate (typically 5–15%). No portion goes to a foundation, treasury, or development fund.
+
+### Fee mechanism (§10.4)
+
+Multi-dimensional fees: computation, state storage, state rent, bandwidth, proof verification, and optional proof generation are priced independently. Each dimension uses EIP-1559-style price discovery with per-epoch adjustment. Base fees are burned; tips go to Node Runners.
+
+Under typical usage, fee burn approximately equals issuance — supply is roughly stable. Heavy usage produces net deflation. Light usage produces modest inflation.
+
+### What does not happen at genesis (§10.2.1)
+
+No founder allocation, no foundation treasury, no pre-mine for development funding, no early-investor allocation, no validator set "starter pack," no ecosystem fund, no marketing fund, no custodian holding the genesis pool, no multisig or governance mechanism controlling the pool's release.
+
+---
+
+## 7. Constitutional commitments fixed at genesis (whitepaper §11)
+
+At genesis, the protocol's specification — every section of the whitepaper, the parameters within it, and the reference implementation — is fixed. There is no party with the authority to:
+
+- Add a new validity rule
+- Change a gas cost
+- Modify the issuance schedule
+- Add a new system contract
+- Freeze any account or transaction
+- Censor any participant
+- Pause the chain
+- Issue an emergency fix
+- Coordinate an automatic upgrade
+- Change consensus parameters
+
+Each of these operations is technically possible — anyone can write a modified Rust implementation that does any of them. What is impossible is for any party to make such modifications take effect on the running network without the explicit cooperation of the Node Runners running the existing implementation.
+
+The protocol additionally enables, but does not fund or specify in detail, a permissionless service-node infrastructure market and a validator-funded infrastructure mechanism. The protocol-level commitments fixed at genesis include the standardised query format, the registration mechanism, and the principle that issuance flows only to Node Runners. The downstream market is not constitutionally fixed and may evolve organically.
+
+---
+
+## 8. Common questions
+
+**Q: What is Adamant?**
+A: A Layer 1 blockchain protocol designed for privacy by default, sub-second finality, phone-verifiable correctness, and credibly neutral governance — with no foundation, no admin keys, no upgrade authority, and no premine.
+
+**Q: Is there a token I can buy?**
+A: No. The protocol is in specification phase. No chain is running. No token has been issued. There has been no token sale. There never will be a private allocation, ICO, or VC round.
+
+**Q: When does Adamant launch?**
+A: There is no launch date. The whitepaper is draft v0.1, public for review. The reference implementation has not yet begun. A realistic timeline for one or two engineers is 24–36 months; for a small team, 18–24 months. The protocol's value is in being right at genesis, not in being early.
+
+**Q: Who runs Adamant?**
+A: No company, no foundation, no team. The protocol cannot pivot, run out of funding, or be acquired because no entity owns it. The original implementers will receive zero ADM at genesis. Distribution begins only through the public acquisition paths (burn-to-mint and Node Runner block rewards).
+
+**Q: How does it differ from Ethereum?**
+A: Privacy by default rather than transparent by default. DAG consensus rather than single-leader. Recursive ZK verification on a phone rather than full nodes or hosted RPC. No foundation rather than the Ethereum Foundation. No on-chain governance rather than EIP coordination.
+
+**Q: How does it differ from Sui?**
+A: Adamant is Mysticeti-based but adds a threshold-encrypted mempool, recursive proofs for phone-verifiability, post-quantum signatures from genesis, and — most importantly — credibly neutral governance. Sui is foundation-controlled; Adamant has no foundation.
+
+**Q: How does it differ from Aztec?**
+A: Aztec is an Ethereum L2 with programmable privacy. Adamant is a sovereign L1 with the same privacy primitive plus high throughput, phone-verifiable correctness, and credible neutrality. Aztec inherits Ethereum's settlement guarantees and rollup framework constraints; Adamant is independently sovereign.
+
+**Q: How does it differ from Bitcoin?**
+A: Bitcoin's design philosophy — credibly neutral, capture-resistant, settlement-grade — extended with programmable smart contracts, default privacy, and sub-second finality. The 2026 reading of the original thesis.
+
+**Q: Is the code open source?**
+A: Yes. Apache 2.0. The repository is at https://github.com/adamant-protocol/adamant. The implementation is forthcoming; the whitepaper is the canonical source for now.
+
+**Q: Can users running smartphones really verify the chain?**
+A: Yes. A Halo 2 recursive zero-knowledge proof at every epoch boundary compresses chain history into a constant-size artifact (~5–10 KB) verifiable in 50–200 ms on a consumer phone. The verification is cryptographic, not statistical — no light-client trust assumption is required.
+
+**Q: What stops a foundation from forming after genesis?**
+A: Nothing stops people from forming a foundation. What's prevented is the foundation having any technical capability to alter the protocol. No admin keys exist. No on-chain governance exists. No upgrade authority exists. The protocol's specification is what runs; any change requires socially-coordinated forks where each Node Runner individually opts in.
+
+**Q: Who is this for?**
+A: Users whose threat model includes their own bank, their own protocol foundation, or their own jurisdiction — and applications whose correctness must outlive the institutions that hosted them at deployment. If existing chains adequately serve a user's needs, Adamant is not for them.
+
+---
+
+## 9. Resources
+
+- Website: https://adamantprotocol.com
+- Repository (protocol): https://github.com/adamant-protocol/adamant
+- Repository (website): https://github.com/adamant-protocol/adamant-website
+- Whitepaper: https://github.com/adamant-protocol/adamant/tree/main/whitepaper
+- License: Apache 2.0
