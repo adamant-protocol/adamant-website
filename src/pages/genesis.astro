@@ -1,50 +1,50 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import Mark from '@/components/Mark.astro';
 import Starfield from '@/components/Starfield.astro';
 ---
 
 <BaseLayout
   active="genesis"
   title="Adamant — Genesis"
-  description="How Adamant launches: a fixed 100M ADM genesis pool, partitioned 70/30, two acquisition paths, no premine, no foundation allocation."
+  description="How Adamant launches: a fixed 100M ADM genesis pool, partitioned 70/30, two ways in, no premine, no foundation allocation."
 >
   <!-- Hero -->
-  <section class="relative overflow-hidden pt-[80px] md:pt-[120px] pb-16 md:pb-20">
+  <section class="relative overflow-hidden pt-10 md:pt-16 pb-12 md:pb-16">
     <Starfield />
+    <div class="pointer-events-none absolute inset-0 z-[1] glow-pulse" style="background:radial-gradient(ellipse 60% 50% at 75% 40%, rgba(255,125,77,0.08), transparent 65%)"></div>
     <div class="wrap relative z-[3]">
-      <div class="grid items-end gap-24 lg:grid-cols-[1.4fr_1fr]">
-        <div>
+      <div class="grid items-center gap-10 md:gap-14 lg:grid-cols-[1.4fr_1fr]">
+        <div data-reveal>
           <span class="eyebrow"><span class="dot"></span>Genesis · launch mechanism</span>
-          <h1 class="mt-9 max-w-[14ch] font-display font-medium leading-none tracking-[-0.035em]" style="font-size:clamp(40px,5.5vw,84px)">
-            <span class="block font-light text-ink-2">A fixed pool.</span>
-            <span class="block font-semibold">Two paths in.</span>
-            <span class="block font-bold text-ember">No master switch.</span>
+          <h1 class="mt-6 max-w-[14ch] font-display font-medium leading-[0.98] tracking-[-0.035em]" style="font-size:clamp(40px,5.6vw,84px)">
+            <span class="block font-light text-ink-2">A fixed genesis pool.</span>
+            <span class="block font-semibold">Two acquisition paths.</span>
+            <span class="block font-bold text-ember">No private allocation.</span>
           </h1>
-          <p class="mt-9 max-w-[46ch] text-[16.5px] leading-[1.7] text-ink-2">
-            Adamant launches with a fixed pool of 100,000,000 ADM. Seventy million is allocated to people who burn Bitcoin or Ether to mint it. Thirty million is earned by the validators who run the network. Whatever isn't claimed within five years is destroyed. There is no founder allocation. There is no foundation reserve.
+          <p class="mt-7 max-w-[44ch] text-[16.5px] leading-[1.7] text-ink-2">
+            One hundred million ADM, distributed via burn-to-mint and validator rewards over a launch phase capped at five years.
           </p>
         </div>
-        <div class="flex flex-col gap-5 pb-2">
-          <div class="flex items-baseline justify-between border-b border-rule pb-4">
+        <div class="glass rounded-sm flex flex-col gap-4 p-6 md:p-8" data-reveal style="transition-delay:120ms">
+          <div class="flex items-baseline justify-between border-b border-rule pb-3.5">
             <span class="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-3">Pool size</span>
-            <span class="font-display text-[26px] font-medium leading-none tracking-[-0.025em]">100M<small class="ml-1.5 font-mono text-[10px] font-normal tracking-[0.16em] text-ink-3">ADM</small></span>
+            <span class="font-display text-[26px] font-medium leading-none tracking-[-0.03em]">100M<small class="ml-1.5 font-mono text-[10px] font-normal tracking-[0.16em] text-ink-3">ADM</small></span>
           </div>
-          <div class="flex items-baseline justify-between border-b border-rule pb-4">
+          <div class="flex items-baseline justify-between border-b border-rule pb-3.5">
             <span class="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-3">Path A · burn</span>
-            <span class="font-display text-[26px] font-medium leading-none tracking-[-0.025em]">70M<small class="ml-1.5 font-mono text-[10px] font-normal tracking-[0.16em] text-ink-3">70%</small></span>
+            <span class="font-display text-[26px] font-medium leading-none tracking-[-0.03em]">70M<small class="ml-1.5 font-mono text-[10px] font-normal tracking-[0.16em] text-ink-3">70%</small></span>
           </div>
-          <div class="flex items-baseline justify-between border-b border-rule pb-4">
+          <div class="flex items-baseline justify-between border-b border-rule pb-3.5">
             <span class="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-3">Path B · validators</span>
-            <span class="font-display text-[26px] font-medium leading-none tracking-[-0.025em]">30M<small class="ml-1.5 font-mono text-[10px] font-normal tracking-[0.16em] text-ink-3">30%</small></span>
+            <span class="font-display text-[26px] font-medium leading-none tracking-[-0.03em]">30M<small class="ml-1.5 font-mono text-[10px] font-normal tracking-[0.16em] text-ink-3">30%</small></span>
           </div>
-          <div class="flex items-baseline justify-between border-b border-rule pb-4">
+          <div class="flex items-baseline justify-between border-b border-rule pb-3.5">
             <span class="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-3">Time cap</span>
-            <span class="font-display text-[26px] font-medium leading-none tracking-[-0.025em]">5<small class="ml-1.5 font-mono text-[10px] font-normal tracking-[0.16em] text-ink-3">YEARS</small></span>
+            <span class="font-display text-[26px] font-medium leading-none tracking-[-0.03em]">5<small class="ml-1.5 font-mono text-[10px] font-normal tracking-[0.16em] text-ink-3">YEARS</small></span>
           </div>
-          <div class="flex items-baseline justify-between border-b border-rule pb-4">
+          <div class="flex items-baseline justify-between">
             <span class="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-3">Founder allocation</span>
-            <span class="font-display text-[26px] font-medium leading-none tracking-[-0.025em] text-ember">0<small class="ml-1.5 font-mono text-[10px] font-normal tracking-[0.16em] text-ink-3">ZERO</small></span>
+            <span class="font-display text-[26px] font-medium leading-none tracking-[-0.03em] text-ember">0<small class="ml-1.5 font-mono text-[10px] font-normal tracking-[0.16em] text-ink-3">ZERO</small></span>
           </div>
         </div>
       </div>
@@ -59,19 +59,15 @@ import Starfield from '@/components/Starfield.astro';
           <span class="num">§01 / THE POOL</span>
           <h2><span class="light">One hundred million,</span>partitioned at genesis.</h2>
         </div>
-        <p class="desc">The full supply of ADM is set at genesis and minted as it's claimed. There is no token that exists before it is earned through one of the two paths.</p>
+        <p class="desc">The full supply of ADM is set at genesis and minted only as it's claimed. There is no token that exists before someone earns it through one of the two paths.</p>
       </div>
 
       <div class="grid items-center gap-12 lg:grid-cols-[1fr_1.2fr]">
         <div class="flex justify-center">
-          <svg viewBox="0 0 400 400" class="max-w-[420px] w-full">
-            <!-- Outer ring background -->
+          <svg viewBox="0 0 400 400" class="max-w-[440px] w-full">
             <circle cx="200" cy="200" r="160" fill="none" stroke="rgba(236,232,223,0.06)" stroke-width="48" />
-            <!-- Path A · 70% (ember) -->
             <circle cx="200" cy="200" r="160" fill="none" stroke="#ff7d4d" stroke-width="48" stroke-dasharray="703.7 1005.3" stroke-dashoffset="0" transform="rotate(-90 200 200)" />
-            <!-- Path B · 30% (cold blue) -->
             <circle cx="200" cy="200" r="160" fill="none" stroke="#7da6ff" stroke-width="48" stroke-dasharray="301.6 1005.3" stroke-dashoffset="-703.7" transform="rotate(-90 200 200)" />
-            <!-- Center labels -->
             <text x="200" y="190" text-anchor="middle" font-family="Unbounded" font-weight="500" font-size="42" fill="#ece8df" letter-spacing="-1.5">100M</text>
             <text x="200" y="220" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#5a5d6b" letter-spacing="3">ADM · FIXED</text>
           </svg>
@@ -84,7 +80,7 @@ import Starfield from '@/components/Starfield.astro';
                 <span class="text-ember">PATH A · BURN-TO-MINT</span>
                 <span class="text-ink-2">70,000,000 ADM</span>
               </div>
-              <p class="text-[14.5px] leading-[1.65] text-ink-2">Anyone who burns BTC or ETH to a verifiable null address can claim ADM at the protocol-defined rate. Mathematics; no permission needed. Per-address claim caps prevent early concentration.</p>
+              <p class="text-[14.5px] leading-[1.7] text-ink-2">Anyone who burns BTC or ETH to a verifiable null address can claim ADM at the protocol-defined rate. Mathematics; no permission needed. Per-address claim caps prevent early concentration.</p>
             </div>
           </div>
 
@@ -94,7 +90,7 @@ import Starfield from '@/components/Starfield.astro';
                 <span class="text-cold">PATH B · VALIDATOR REWARDS</span>
                 <span class="text-ink-2">30,000,000 ADM</span>
               </div>
-              <p class="text-[14.5px] leading-[1.65] text-ink-2">Earned block-by-block by the validators who actually run the chain. The only way to acquire stake from work, not capital. Calibrated to drain over the launch phase — a target of two to three years at single-digit ADM per block.</p>
+              <p class="text-[14.5px] leading-[1.7] text-ink-2">Earned block-by-block by the validators actually running the chain. The only way to acquire stake from work, not capital. Calibrated to drain over the launch phase — a target of two to three years at single-digit ADM per block.</p>
             </div>
           </div>
 
@@ -104,7 +100,7 @@ import Starfield from '@/components/Starfield.astro';
                 <span class="text-ink-3">UNCLAIMED · BURNED</span>
                 <span class="text-ink-3">DESTROYED AT 5Y</span>
               </div>
-              <p class="text-[14.5px] leading-[1.65] text-ink-2">If the pool is not exhausted within five years of genesis, the remainder is provably destroyed. The protocol does not retain it. The founders do not retain it. It simply ceases to exist.</p>
+              <p class="text-[14.5px] leading-[1.7] text-ink-2">If the pool isn't exhausted within five years of genesis, the remainder is provably destroyed. The protocol does not retain it. The founders do not retain it. It simply ceases to exist.</p>
             </div>
           </div>
         </div>
@@ -123,7 +119,7 @@ import Starfield from '@/components/Starfield.astro';
         <p class="desc">Per-address claim caps prevent the first hour from being dominated by a few large actors. The cap rises through five phases until it lifts entirely at month twelve.</p>
       </div>
 
-      <div class="border border-rule-2 bg-bg-2 overflow-hidden">
+      <div class="border border-rule-2 bg-bg-2/60 backdrop-blur-sm overflow-hidden">
         <div class="grid grid-cols-2 md:grid-cols-5 gap-px bg-rule-2">
           {[
             { phase: 'Months 0–1', cap: '1%', desc: 'Tightest cap. The first month is for spreading distribution wide.' },
@@ -132,15 +128,15 @@ import Starfield from '@/components/Starfield.astro';
             { phase: 'Months 6–12', cap: '8%', desc: 'Late launch. Caps still meaningful but minimal.' },
             { phase: 'Month 12+', cap: 'Uncapped', desc: 'Caps lift. Anyone can claim any amount.', em: true },
           ].map((p) => (
-            <div class:list={['bg-bg-2 p-6 lg:p-7 flex flex-col gap-4 min-h-[200px] min-w-0 overflow-hidden', p.em && 'bg-bg-3']}>
+            <div class:list={['bg-bg-2/70 backdrop-blur-sm p-6 lg:p-7 flex flex-col gap-4 min-h-[200px] min-w-0 overflow-hidden', p.em && 'bg-bg-3/80']}>
               <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-3">{p.phase}</span>
               <span
                 class:list={[
-                  'font-display font-medium leading-none tracking-[-0.03em] truncate',
+                  'font-display font-medium leading-none tracking-[-0.035em] truncate',
                   p.em ? 'text-ember text-[clamp(28px,3.2vw,38px)]' : 'text-ink text-[clamp(34px,3.6vw,44px)]',
                 ]}
               >{p.cap}</span>
-              <p class="text-[12.5px] leading-[1.55] text-ink-2 mt-auto">{p.desc}</p>
+              <p class="text-[12.5px] leading-[1.6] text-ink-2 mt-auto">{p.desc}</p>
             </div>
           ))}
         </div>
@@ -156,7 +152,7 @@ import Starfield from '@/components/Starfield.astro';
           <span class="num">§03 / WHAT IS NOT HAPPENING</span>
           <h2><span class="light">Notable absences,</span>by design.</h2>
         </div>
-        <p class="desc">Most chain launches involve at least some of these. Adamant deliberately involves none of them. The negative space is the point.</p>
+        <p class="desc">Most chain launches involve at least some of these. Adamant deliberately involves none. The negative space is the point.</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-rule-2 border border-rule-2">
@@ -170,11 +166,11 @@ import Starfield from '@/components/Starfield.astro';
           ['No bridge subsidy', 'No marketing fund. No incentive program. No liquidity mining.'],
           ['No retroactive airdrop', 'No reward for past activity on other chains.'],
         ].map(([t, p]) => (
-          <div class="bg-bg-2 px-7 md:px-9 py-7 md:py-8 flex items-start gap-5 card-hover" data-reveal>
+          <div class="bg-bg-2/70 backdrop-blur-sm px-7 md:px-9 py-7 md:py-8 flex items-start gap-5 card-hover" data-reveal>
             <span class="font-mono text-[14px] text-ember leading-none mt-1">×</span>
             <div>
-              <h4 class="font-display text-[18px] font-semibold tracking-[-0.015em] mb-1.5">{t}</h4>
-              <p class="text-[13.5px] leading-[1.55] text-ink-2">{p}</p>
+              <h4 class="font-display text-[18px] font-semibold tracking-[-0.018em] mb-1.5">{t}</h4>
+              <p class="text-[13.5px] leading-[1.6] text-ink-2">{p}</p>
             </div>
           </div>
         ))}
@@ -183,12 +179,12 @@ import Starfield from '@/components/Starfield.astro';
   </section>
 
   <!-- CTA -->
-  <section class="py-40 text-center">
+  <section class="py-24 md:py-32 text-center border-t border-rule">
     <div class="wrap">
-      <h2 class="mx-auto mb-10 max-w-[26ch] font-display font-medium leading-[1.05] tracking-[-0.03em]" style="font-size:clamp(32px,4.5vw,60px)">
+      <h2 class="mx-auto mb-8 max-w-[26ch] font-display font-medium leading-[1.05] tracking-[-0.035em]" style="font-size:clamp(28px,3.6vw,52px)">
         <span class="block font-light text-ink-2">The full mechanism is in</span>specification §10–11.
       </h2>
-      <div class="flex flex-wrap justify-center gap-4">
+      <div class="flex flex-wrap justify-center gap-3">
         <a href="/spec" class="btn-link solid">Read the spec <span class="arrow"></span></a>
         <a href="/about" class="btn-link">Plain-English version <span class="arrow"></span></a>
       </div>

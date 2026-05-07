@@ -80,6 +80,8 @@ Each property described above is, in isolation, well understood and demonstrated
 | Post-quantum signatures | NIST standardisation | 2024 |
 | Credible neutrality | Bitcoin, Monero | 2009, 2014 |
 
+The protocol's integrated design also enables a permissionless service-node infrastructure market (subsection 9.10) and a validator-funded infrastructure mechanism (subsection 10.5.5). These are not constitutional core properties — the chain functions correctly without them — but they are downstream consequences of the architecture: a chain that is permissionless at the participation layer, with standardised lightweight verification, naturally supports a market for the infrastructure that serves its lightweight clients. Whether this market develops at scale is determined by ecosystem dynamics rather than protocol mechanism, but the standardisation that makes it possible is part of the protocol's design.
+
 No single chain in the present landscape combines more than three of these properties. The chains that combine *credible neutrality* with anything else (Bitcoin, Monero) lack programmability and high throughput. The chains that combine *programmable privacy* with anything else (Aztec, Aleo) lack the throughput tier and the credibly neutral governance. The high-throughput chains (Sui, Solana, Aptos, Monad) have neither default privacy nor credibly neutral governance.
 
 This is the gap Adamant is designed to fill. The protocol's contribution is not the invention of new cryptographic primitives — those are taken from peer-reviewed literature unchanged — but the systems-level synthesis of these properties into a single coherent architecture, with credible neutrality enforced at genesis and the technical architecture chosen to be compatible with that neutrality.
@@ -1609,7 +1611,9 @@ The dialect choice is genesis-fixed. Migrating to a different Move dialect post-
 
 A program that uses none of Adamant's extensions, carries the required metadata, and respects Adamant's tighter verifier rules is bytecode-identical to its Sui-Move equivalent.
 
-**Implementation note.** This subsection treats Sui-Move's `move-binary-format` and `move-bytecode-verifier` crates as the authoritative reference for the inherited substrate. A conforming Adamant implementation may vendor those crates; the protocol's behaviour on the inherited subset is defined by Sui's reference implementation as of the binary-format version specified in section 6.2.1.2.
+**Implementation note.** This subsection treats Sui-Move's `move-binary-format` and `move-bytecode-verifier` crates as a test-time cross-validation reference for the inherited substrate's semantics. A conforming Adamant implementation may vendor those crates and exercise them at test time to confirm that Adamant's own deserializer and verifier reach the same accept/reject decision as Sui's on pure-Sui modules. The protocol's behaviour on the inherited subset is defined by sections 6.2.1.1 through 6.2.1.8 of this specification; Sui's reference implementation is consulted at test time to confirm semantic parity, not as the binding source of truth. The vendored crates do not appear in the production binary's dependency graph — section 6.2.1.8 specifies the Adamant-native deserializer and verifier that own the deploy-time pipeline and runtime, with the vendored Sui crates serving as test-only cross-validation reference.
+
+The strict-superset property is at the *language* level: every valid Sui-Move module that respects Adamant's tightened verifier rules is a valid Adamant Move module, and an Adamant module that uses no extensions is bytecode-identical to its Sui-Move equivalent. The vendored Sui crates, by contrast, recognise only the Sui-base subset — Sui's `move-binary-format` deserializer rejects any opcode byte outside Sui's instruction set with `UNKNOWN_OPCODE`, and Sui's `move-bytecode-verifier` operates on Sui's `Bytecode` enum which has no representation for Adamant extensions. The Adamant-native deserializer and verifier specified in section 6.2.1.8 handle the full Adamant superset directly; cross-validation against the vendored Sui crates on pure-Sui modules confirms semantic parity for the inherited subset.
 
 #### 6.2.1.2 Module file format
 
@@ -1619,9 +1623,9 @@ The module structure consists of a four-byte magic number `0xA1, 0x1C, 0xEB, 0x0
 
 The structure inside each entry follows Sui-Move's binary format exactly. Genesis modules use the Sui-Move binary format version current at the time of Adamant genesis; future format revisions are hard forks.
 
-**What's stored per function.** Each `FunctionDefinition` carries: a reference to the function's signature in the module's signature pool, the function's bytecode body as a list of instructions (the `Bytecode` enum specified in section 6.2.1.4), local-variable type information, an acquires-list for global resources (always empty in Adamant, since global storage is excluded per section 6.2.1.6), visibility (`public`, `private`, or `friend`), and an Adamant-specific privacy annotation byte (per section 6.2.1.3).
+**What's stored per function.** Each `FunctionDefinition` carries: a reference to the function's signature in the module's signature pool, the function's bytecode body as a list of instructions (the `Bytecode` enum specified in section 6.2.1.4), local-variable type information, an acquires-list for global resources (always empty in Adamant, since global storage is excluded per section 6.2.1.6), and visibility (`public`, `private`, or `friend`). Adamant-specific privacy annotations are not stored in `FunctionDefinition` itself — they live in a module-level metadata entry (per section 6.2.1.3) so that `FunctionDefinition` remains byte-identical to Sui-Move's layout. The validator (section 6.2.1.6) consults the metadata entry to resolve privacy annotations during verification.
 
-**Encoding boundary.** The CompiledModule bytes themselves are opaque to BCS — they are stored inside the `contents` field of a Module object, and the `contents` field's BCS encoding is a length-prefixed byte vector per section 5.1.5. The bytecode's internal structure is not BCS; it is Sui-Move's binary format. This is consistent with the encoding/construction split established in section 6.0.7: the protocol's BCS-canonical envelope carries the module bytes, and the bytes' internal interpretation is the bytecode format's concern.
+**Encoding boundary.** The CompiledModule bytes themselves are opaque to BCS — they are stored inside the `contents` field of a Module object, and the `contents` field's BCS encoding is a length-prefixed byte vector per section 5.1.5. The bytecode's internal structure is not BCS; it is Sui-Move's binary format extended with Adamant's instruction-set additions per section 6.2.1.4. This is consistent with the encoding/construction split established in section 6.0.7: the protocol's BCS-canonical envelope carries the module bytes, and the bytes' internal interpretation is the bytecode format's concern. Parsing those bytes into an in-memory module representation is specified in section 6.2.1.8.
 
 #### 6.2.1.3 Annotations at bytecode level
 
@@ -1660,14 +1664,14 @@ The AVM's instruction set is **Sui-Move's bytecode instruction set** (the `Bytec
 
 **Adamant-specific extensions.** Adamant adds the following instructions in a reserved opcode range above Sui-Move's last opcode, allowing future Sui-Move additions without collision:
 
-- `InvokeShielded(FunctionHandleIndex)` — invoke a `#[shielded]` function. The runtime asserts the caller's privacy context is shielded; if not, the transaction aborts. Stack effect matches `Call`.
-- `InvokeTransparent(FunctionHandleIndex)` — invoke a `#[transparent]` function. The runtime asserts the caller's privacy context is transparent; if not, aborts. Stack effect matches `Call`.
-- `GenerateProof(CircuitId)` — emit a Halo 2 proof witness for the current shielded execution context. Operand is an index into the module's circuit-reference pool. Pops circuit inputs from the stack; pushes a `Witness` value (per section 6.0.7).
-- `VerifyProof(CircuitId)` — verify a Halo 2 proof. Pops `Witness` and public inputs from the stack; pushes a `bool`.
+- `InvokeShielded(FunctionHandleIndex)` — invoke a `#[shielded]` function. The runtime asserts the caller's privacy context is shielded; if not, the transaction aborts. Stack effect matches `Call`: the operand stack pops one value per function parameter (in declaration order, top-of-stack last) and pushes one value per return value. When the target function's signature contains reference parameters or returns, the borrow-graph effect is identical to Sui-Move's `Call` for the same signature shape — the verifier (section 6.2.1.6) and AVM runtime treat reference inputs and outputs of `InvokeShielded` exactly as they would for an inherited `Call`.
+- `InvokeTransparent(FunctionHandleIndex)` — invoke a `#[transparent]` function. The runtime asserts the caller's privacy context is transparent; if not, aborts. Stack effect and reference-safety semantics match `InvokeShielded` (and `Call`) above; the only difference is the runtime privacy-mode assertion.
+- `GenerateProof(CircuitId)` — emit a Halo 2 proof witness for the current shielded execution context. Operand is an index into the module's circuit-reference pool. Pops the circuit's input arity (one stack value per declared circuit input, in declaration order) from the stack; pushes a single `Witness` value (per section 6.0.7). The circuit's input arity and per-input types are determined by the circuit signature resolved through the operand's `CircuitId`; the resolution and the input-type list are specified by section 7. At the bytecode layer, the stack effect is parametric in the circuit's signature, similar to how `Call`'s stack effect is parametric in its `FunctionHandle`'s signature.
+- `VerifyProof(CircuitId)` — verify a Halo 2 proof. Pops a `Witness` value followed by the circuit's public-input arity (one stack value per declared public input, in declaration order, top-of-stack last); pushes a `bool`. As with `GenerateProof`, the public-input arity and types are determined by the circuit signature resolved through the operand's `CircuitId` per section 7.
 - `ReleaseSubViewKey` — produce a sub-view-key per section 4.4 and section 7. Pops the parent view key; pushes the derived sub-key.
 - `KzgCommit` — produce a KZG commitment over a vector of field elements per section 3.7.2. Pops the vector; pushes a 48-byte commitment.
 - `KzgVerify` — verify a KZG opening proof. Pops the commitment, the opening, and the claimed value; pushes a `bool`.
-- `RecursiveVerify` — verify a recursive Halo 2 proof per section 8's recursive verification. Pops the proof and the public inputs; pushes a `bool`.
+- `RecursiveVerify` — verify a recursive Halo 2 proof per section 8's recursive verification. Pops the proof value followed by the recursive circuit's public-input arity (one stack value per declared public input, in declaration order, top-of-stack last); pushes a `bool`. The recursive circuit's public-input arity is determined by the circuit signature specified in section 8.5; the stack effect is parametric in that signature in the same shape as `VerifyProof`.
 - `Sha3_256` — SHA3-256 hash of a byte vector (per section 3.3.1). Pops a `vector<u8>`; pushes `[u8; 32]`.
 - `Blake3` — BLAKE3 hash of a byte vector (per section 3.3.2). Pops a `vector<u8>`; pushes `[u8; 32]`.
 - `Ed25519Verify` — verify an Ed25519 signature (per section 3.4.1). Pops public key, message, signature; pushes `bool`.
@@ -1763,6 +1767,59 @@ The complete cost table is large (≥ 200 instructions × 6 dimensions, mostly z
 The reference values above are illustrative; the genesis-fixed table in the appendix supplies the exact values. Implementations must match those values exactly. Deviation produces consensus disagreement: validators on different cost tables would diverge on which transactions exhaust their budgets.
 
 The total instruction set is finite and frozen at genesis. New instructions cannot be added without a hard fork (section 11).
+
+#### 6.2.1.8 Module deserializer and verifier architecture
+
+Sections 6.2.1.1 through 6.2.1.7 describe the bytecode language. This subsection describes how a conforming Adamant implementation parses bytecode bytes into an in-memory module representation and runs verification over that representation. The architecture is **fully Adamant-native at deploy-time and runtime**: a conforming Adamant implementation runs entirely independently of Sui-Move's codebase in production builds, with the vendored Sui-Move crates serving as test-only cross-validation reference. A conforming implementation provides its own deserializer, serializer, type definitions, constants, helper utilities, and verifier passes covering both the inherited Sui-Move subset and the Adamant extensions; the vendored Sui-Move crates do not appear in the production binary's dependency graph. This posture makes Adamant **resistant-proof** against upstream Sui changes, shutdowns, vulnerabilities, or governance shifts: once a vendored snapshot is exercised at test time, no future Sui-Move change can affect Adamant's deploy-time accept/reject decisions or runtime behaviour. Two implementations that disagree on whether a given module-bytes input is valid for deployment are not both conforming, regardless of whether either consults Sui-Move. No implementation that depends on Sui-Move's logic at deploy-time or runtime is conforming; test-only, build-tooling-only, and CI-only dependencies on vendored Sui-Move are explicitly permitted, but Sui-Move logic must not execute during deploy-time module verification or runtime VM execution.
+
+(Pre-revision drafts of this subsection described a "Sui-projection" mechanism that fed Adamant modules through Sui-Move's vendored verifier with extension instructions substituted by Sui's `Nop` instruction. Empirical investigation surfaced that 3 of Sui-Move's 4 per-instruction verifier passes — `StackUsageVerifier`, `type_safety`, and `reference_safety` — reject the `Nop` projection for any Adamant extension with nonzero stack, type, or reference effect, which is 16 of 17 extensions. The projection mechanism is therefore not viable: Sui's passes would reject perfectly valid Adamant modules at deployment. The Adamant-native verifier architecture below replaces it. The drafting error is acknowledged here rather than silently revised, in keeping with the audit-trail-honesty pattern established at section 6.2.1.4.)
+
+**The Adamant-native deserializer.** A conforming Adamant implementation provides a deserializer that parses module bytes into an Adamant module representation containing the full Adamant instruction set. The representation extends Sui-Move's `CompiledModule` shape — same module-level pools, same handle tables, same per-function metadata — with one structural change: function bodies are sequences over the Adamant instruction set (Sui-base instructions plus Adamant extensions per section 6.2.1.4) rather than over Sui-Move's `Bytecode` enum alone. The wire encoding for function bodies is specified in section 6.2.1.5; the deserializer parses module-level structure (handle tables, signature pool, identifiers, addresses, constants, metadata, struct definitions, function definition headers) using the binary format defined in section 6.2.1.2, and parses function bodies via the wire-encoding layer.
+
+The deserializer enforces canonical encoding: the deserialized module representation must re-serialize byte-identically to the input. Non-canonical inputs (trailing junk bytes, redundant encodings, or any divergence between input and re-serialization) are rejected. This recovers the canonical-encoding posture that section 6.0.6 establishes for transactions and applies it to module bytecode at the deployment boundary.
+
+**The Adamant-native verifier.** A conforming implementation provides a verifier that operates directly on the Adamant module representation, with full coverage of both the Sui-base subset and the Adamant extensions. The verifier comprises module-level passes (validating structure that does not iterate function bodies) and per-function passes (validating function bodies one at a time):
+
+*Module-level passes.* Bounds checking, structural-limits checking, handle-and-identifier duplication checking, signature well-formedness, instruction-consistency checking (generic versus non-generic variant agreement), constant-pool validation, friend-declaration validation, ability-field-requirements checking on struct fields, recursive-data-definition cycle detection, and instantiation-loop detection. These passes mirror Sui-Move's module-level checks for the inherited subset and are extended where necessary to cover the Adamant-specific module-level metadata (the `b"adamant.mutability"` and `b"adamant.privacy"` entries per section 6.2.1.3, and the `b"adamant.allows_dynamic"` entry per section 6.2.1.6).
+
+*Per-function passes.* Control-flow validation (CFG construction, branch-target validity, fall-through requirement on the last instruction, reducibility), operand-stack discipline (per-block stack-balance with full per-extension stack-effect knowledge from section 6.2.1.4), type safety (abstract interpretation of typed operand stack and locals across the CFG, with type-effect rules for each Adamant extension per section 6.2.1.4), locals safety (control-flow-sensitive availability tracking for local variables), reference safety (abstract borrow-graph tracking with reference-effect rules for `InvokeShielded` and `InvokeTransparent` per section 6.2.1.4 and for any extension whose signature includes references), and acquires-list checking (always trivial in Adamant since global storage is excluded per section 6.2.1.6 rule 5).
+
+The verifier then runs the Adamant-specific rules per section 6.2.1.6.
+
+**What the verifier proves.** A module that is accepted by the Adamant-native verifier satisfies, over the entire module body (Sui-base subset and Adamant extensions alike):
+
+- *Type safety:* every operand on the stack at the consumption point of any instruction has the type that instruction expects.
+- *Reference safety:* borrowed references do not outlive the values they reference; mutable references are not aliased; the borrow graph is consistent across the CFG.
+- *Linearity:* values without the `copy` ability are not duplicated; values without the `drop` ability are not implicitly discarded.
+- *Stack discipline:* the operand stack depth at every basic-block boundary is statically bounded; no instruction underflows the stack or causes runaway growth.
+- *Control-flow integrity:* every branch target is a valid instruction within the function; the CFG is reducible.
+- *Generic instantiation:* type arguments to generic instructions satisfy the abilities required by the generic parameters.
+- *Friend visibility:* friend calls only reach declared friends.
+- *Adamant-specific rules per section 6.2.1.6:* mutability metadata required, privacy annotation required on public functions, privacy consistency, no native functions, no global storage instructions, no dynamic dispatch (except with opt-in), privacy-circuit instructions in shielded context only, and bounded loops (per the §6.2.1.6 amendment, this is a runtime gas-budget property rather than a static check).
+
+These guarantees apply uniformly to functions whether or not they contain Adamant extensions. There is no per-function dispatch to different verifier subsets; every function is checked by the full verifier in a single pass.
+
+**Cross-validation against vendored Sui-Move.** The vendored Sui-Move `move-binary-format` and `move-bytecode-verifier` crates serve as a test-only cross-validation reference for the inherited Sui-base subset's semantics. A conforming Adamant implementation exercises Sui's verifier against pure-Sui modules (Adamant modules containing no extension instructions) at test time and confirms that Adamant's verifier reaches the same accept/reject decision — for any such module, the two implementations agree. This cross-validation is strictly a test-time property: it is not run at deployment, and the vendored crates do not appear in the production binary's dependency graph. The cross-validation is exercised by the implementation's test suite to confirm semantic parity with Sui for the inherited subset, surfacing any divergence at development time as a bug in either implementation.
+
+The vendored Sui crates are pinned to the binary-format version specified in section 6.2.1.2 and may be refreshed independently of the Adamant verifier (subject to genesis-fixed binary-format compatibility). If a future Sui upstream change diverges from Adamant's behaviour for the inherited subset, the divergence is contained: Adamant's verifier is the binding implementation, and the vendored crates serve as a reference whose agreement is verified at test time. A vendor refresh that surfaces divergence is a development-time signal — it is not a consensus event, since the production-build pipeline never loads the vendored crates.
+
+**Why fully Adamant-native rather than projection-based.** The architectural decision to verify the full Adamant superset directly, rather than projecting Adamant modules into a Sui-only form for Sui's verifier to check, follows from three considerations:
+
+- *Empirical infeasibility of projection.* As noted in the parenthetical above, the `Nop` projection mechanism originally drafted does not work; 3 of Sui's 4 per-instruction passes reject the projection for non-trivial extension usage. Alternative projections (instruction stripping, per-extension multi-instruction substitution) reintroduce consensus-critical risk surfaces (offset rewriting on branch targets) that were ruled out in earlier investigation. There is no projection mechanism that simultaneously preserves Sui's per-instruction guarantees and avoids breaking branch targets.
+- *Genesis-fixed posture.* Adamant's bytecode language and verifier rules are genesis-fixed (sections 6.2.1.4 and 6.2.1.6); once mainnet launches, the verifier's accept/reject decisions are part of consensus and cannot drift. A verifier that depends on Sui's vendored implementation in the deploy-time hot path inherits Sui's evolution as a potential consensus-drift surface — bumping the Sui vendor tag could in principle change which modules are accepted. An Adamant-native verifier removes this surface: Adamant's verifier is the binding implementation, and the vendored Sui crates serve as a reference for development and cross-validation only.
+- *Audit surface.* Adamant's verifier is fully under Adamant's audit and maintenance, with consistent treatment of inherited-subset semantics and extension semantics. The "what does Sui's verifier do here" question never arises in the hot path; the verifier is one codebase under one set of eyes.
+
+**Pipeline ordering.** A conforming Adamant deployment validator processes module bytes in the following order:
+
+1. *Deserialize.* Parse the bytes into the Adamant module representation. Reject malformed bytes, unknown opcodes (including bytes outside both the Sui-base and Adamant-extension opcode ranges), or any structural violation of the binary format.
+2. *Canonical-encoding round-trip.* Re-serialize the deserialized module and byte-compare against the input. Reject on any divergence.
+3. *Module-level passes.* Run the Adamant-native module-level passes (bounds checking, signature well-formedness, etc.) on the deserialized module. Reject on any failure.
+4. *Per-function passes.* For each function definition, run the Adamant-native per-function passes (control-flow, stack-usage, type-safety, locals-safety, reference-safety, acquires-list checking). Reject on any failure.
+5. *Adamant-specific rules per section 6.2.1.6.* Run the eight rules enumerated in section 6.2.1.6 against the unmodified Adamant module representation. Reject on any failure.
+
+A module is valid for deployment if and only if all five steps succeed. The order is fixed: each step's preconditions are established by the prior step's success, and the canonical-encoding check (step 2) precedes any verification work to ensure that the bytes the verifier examines are the canonical bytes the deployer submitted.
+
+**Implementation note.** The Adamant-native deserializer, serializer, type definitions, helpers, and verifier passes are protocol-level concerns: a conforming implementation must reach the same accept/reject decision on every module-bytes input as the spec's pipeline, and the production-build dependency posture is fixed (no vendored Sui-Move crates in the production dependency graph; test-only, build-tooling-only, and CI-only dependencies are explicitly permitted). Internal representations, data-structure choices, and pass-orchestration details are implementation-discretionary, but both the externally observable accept/reject behaviour and the production-dependency posture are fixed. Two implementations that disagree on whether a given module-bytes input is valid for deployment are not both conforming, regardless of internal choices. The vendored Sui-Move crates are a cross-validation reference for the inherited subset and are exercised at test time; they are not part of the protocol-level specification and cannot appear in conforming production builds.
 
 ### 6.2.2 Execution model
 
@@ -2949,6 +3006,129 @@ What is not observable (without breaking transport encryption):
 
 This observability supports the operation of a healthy decentralised network: anyone can monitor the network's health, identify misbehaving nodes, and contribute to community-level abuse mitigation. The same observability is bounded by the encryption protections that prevent it from becoming a surveillance vector.
 
+## 9.10 Service-node infrastructure market
+
+The protocol's networking design enables a permissionless market for light-client infrastructure: nodes that serve recursive proofs, Merkle paths, and state queries to wallets that prefer not to maintain full state themselves. This subsection specifies the protocol-level standardisation that makes the market liquid; the economics of the market are between participants, not protocol-funded.
+
+### 9.10.1 Motivation
+
+Per subsection 9.1, light clients maintain only the recursive proof and Merkle paths to specific state of interest. This is the cryptographically lightest mode of participation in the chain — verification time is approximately 50-200 milliseconds on a modern smartphone (subsection 8.5.4), and storage requirements are minimal.
+
+A light client must, however, obtain its data from somewhere. Two paths exist:
+
+1. The wallet operates as a full node itself, maintaining the data it queries. This works but requires significant storage and bandwidth for what is otherwise a lightweight client.
+2. The wallet queries another node that maintains the data and serves it on request. This is the common pattern; it is how Ethereum wallets typically interact with Infura, Alchemy, or QuickNode.
+
+The second path's risk is centralisation: if all wallets query the same handful of providers, those providers become a privileged infrastructure layer that can observe user activity, censor specific queries, or fail in ways that affect the entire ecosystem.
+
+The protocol's response is to standardise the query format and registration mechanism such that *any* node can serve light-client queries, allowing many small operators (including phone-based operators) to participate alongside any large infrastructure providers that emerge. The market itself is permissionless and competitive.
+
+### 9.10.2 Service node role
+
+A **service node** is a node that:
+
+- Maintains the chain state required to answer light-client queries (recursive proofs, Merkle paths, transaction inclusion proofs)
+- Exposes a standardised query/response interface over libp2p
+- Optionally registers its availability and pricing in a discovery topic
+- Earns fees from the parties that pay for its services (specified in subsection 9.10.5)
+
+Service nodes are not validators. They do not participate in consensus, do not generate proofs, do not have stake at risk, and do not earn from issuance. Their role is purely informational: serving public, cryptographically-verifiable data to clients that prefer not to maintain the data themselves.
+
+A node may simultaneously be a validator and a service node; the roles are independent and operate on independent infrastructure. A node may also be a service node only, with no validator responsibilities. Phone-based service nodes are the design's primary intended audience, though the role is open to any hardware capable of maintaining the required state.
+
+### 9.10.3 Standardised query format
+
+Service-node queries use a libp2p protocol identifier `/adamant/service-query/v1` with a defined message schema. The schema covers:
+
+- **State queries.** Given an account address or object ID, return the current value plus a Merkle path to the state commitment.
+- **Inclusion queries.** Given a transaction identifier, return the transaction plus a Merkle path to its containing epoch's transaction commitment.
+- **Recursive proof queries.** Return the recursive proof for a specified epoch.
+- **Range queries.** Given a stealth-address scan range and time window, return all matching note commitments (subject to per-node policy on data volume).
+- **Subscription queries.** Establish a streaming subscription for events matching a specified filter, paid per-event.
+
+Each query type has a defined request schema, response schema, and error format. The full schema is specified in the reference implementation; this subsection documents the categories rather than the specific bytes.
+
+### 9.10.4 Service-node registration
+
+A service node may register its availability via a libp2p gossipsub topic `/adamant/service-nodes/v1`. The registration message contains:
+
+- The node's libp2p endpoint
+- Its supported query types
+- Its fee schedule per query type
+- Optional metadata (geographic region for latency-sensitive selection, supported query subset, archive node status)
+- A cryptographic signature binding the registration to the node's identity
+
+Registration is permissionless. Any node may register. Wallets crawl the topic to build their service-node list and select providers based on advertised criteria (latency, fee, supported queries, geographic preference).
+
+The protocol does not maintain a central registry, does not vet service nodes, and does not provide a "trusted" service-node list. The market is open and competitive.
+
+### 9.10.5 Payment
+
+Service-node payments occur through one of three patterns. The protocol enables all three; nodes and clients select the pattern that suits their relationship.
+
+#### Pattern A: Direct wallet-to-node payment
+
+A wallet pays a service node directly via the protocol's payment-channel infrastructure. The wallet opens a channel with a small ADM deposit, queries are paid as off-chain channel updates, and the channel settles on-chain when closed. This pattern is appropriate when wallets have ADM available and want direct relationships with service nodes.
+
+#### Pattern B: Validator-funded service
+
+A validator funds service-node operation as part of providing infrastructure to their delegator base. The validator pays service nodes (per query, per period, or per uptime, by mutual agreement) from their own commission revenue; delegators of that validator receive service-node access bundled with their delegation, paying nothing additional. This pattern is appropriate for validators competing for delegators on the basis of delegator experience quality (subsection 10.5.5).
+
+#### Pattern C: Application-paid service
+
+An application or wallet developer pays service nodes on behalf of their users — analogous to the sponsored-fee pattern in subsection 10.4.5. This pattern is appropriate for consumer applications that want to abstract infrastructure costs away from end users.
+
+The protocol provides standard smart-contract patterns implementing each payment mode in the standard library (subsection 6.5). Service nodes and clients choose patterns by mutual agreement; the protocol does not privilege one over another.
+
+### 9.10.6 Reputation and verification
+
+Service nodes serve cryptographically-verifiable data. A service node cannot lie about chain state without producing a Merkle path or recursive proof that fails verification — the client detects invalid responses immediately and refuses payment.
+
+The protocol provides a **delivery receipt** primitive: a signed acknowledgement from the client to the service node confirming that a query was served correctly. Service nodes accumulate delivery receipts as evidence of reliable operation. Third parties may build reputation systems on top of these receipts; the protocol does not specify or operate a reputation system itself.
+
+A service node may operate in two modes, advertised in their registration:
+
+- **Verifying mode:** The service node verifies recursive proofs and Merkle paths before serving them. This adds a small marginal cost per query but provides an additional check against malformed data propagating through the network.
+- **Relay mode:** The service node forwards data without independent verification. This is cheaper to operate but offers no observability beyond the wallet's own verification.
+
+Wallets select between modes based on their trust posture; verifying nodes typically charge slightly higher fees.
+
+### 9.10.7 Relationship to onion-routing relays
+
+Subsection 9.4.2 specifies that onion-routing relays support transaction privacy but are not protocol-rewarded. The same service-market mechanism extends naturally to relays: a wallet (or a relay-using application) may pay relays via the same payment patterns described above. The protocol's standardisation extends to relay registration and payment formats; the economics are between participants.
+
+### 9.10.8 What this market does and does not provide
+
+**It does provide:**
+
+- A pathway for phone-based operators to contribute to the network's infrastructure and earn fees from real demand
+- Standardisation that makes the market liquid (any wallet can query any service node; any validator can fund any service node)
+- An alternative to centralised RPC providers without compromising the lightweight-client model
+- Natural amplification of the slashing-evidence-submission mechanism (subsection 8.1.5): service nodes operating in verifying mode are positioned to detect protocol violations as a side effect of their service work
+
+**It does not provide:**
+
+- A guarantee that service nodes will earn meaningfully — that depends on demand materialising
+- A new economic recipient at the protocol layer — service nodes are paid by other participants, not by the protocol
+- Consensus participation — service nodes do not vote, propose, or sign consensus messages
+- Privileged access to private data — service nodes see only the public, cryptographically-verifiable data the chain commits to
+- Censorship resistance for queries — a wallet whose chosen service node refuses to serve them must select another service node; multiple competing nodes are the protection
+
+The market is an enhancement, not a constitutional core property. The chain functions correctly whether or not the service-node market materialises. If no service nodes exist, wallets fall back to running their own full nodes or using whatever centralised RPC providers exist; the protocol works either way. The market's value is in providing an alternative pathway for participation and a check on centralisation pressure.
+
+### 9.10.9 Scope and operational dependencies
+
+The reference implementation includes service-node software as a deployment target distinct from validator software. The service-node software is intentionally lightweight, with hardware requirements compatible with consumer-grade phones and laptops. Specific hardware and storage requirements are documented in the reference implementation's operational guidance, not in this specification.
+
+Service-node operation is voluntary and unincentivised at the protocol layer. Whether a healthy service-node ecosystem develops depends on:
+
+- Wallets choosing to use service nodes rather than running full nodes or using centralised RPC providers
+- Validators choosing to fund service nodes as part of competing for delegators
+- Operators finding the work economically worthwhile at prevailing fee levels
+- Service-node software being usable enough that operators can run it without specialised expertise
+
+The protocol provides the substrate; the ecosystem develops the infrastructure on top.
+
 # 10. Economics & Incentives
 
 This section specifies the protocol's economic model: the native token, the genesis pool and launch mechanics, the post-launch issuance schedule, the fee mechanism, and the staking and reward economy. These specifications are part of the consensus rules; they cannot be modified by any on-chain mechanism (Principle I).
@@ -3348,6 +3528,26 @@ The protocol does not provide liquid staking at the protocol layer. Liquid staki
 
 Validator rewards accrue automatically. Delegators may compound (restake their rewards) by submitting a restake transaction; rewards do not auto-compound by default. This is a deliberate choice: auto-compounding requires defining a compounding interval that may not match every delegator's preferred cadence; manual restaking puts the choice in delegators' hands.
 
+### 10.5.5 Validator-funded infrastructure
+
+Validators may, at their discretion, allocate a portion of their commission revenue to fund infrastructure providers — including but not limited to service nodes (subsection 9.10), onion-routing relays (subsection 9.4.2), and other ecosystem participants whose work supports the validator's delegator base. This is a market mechanism enabled by the protocol but not specified by it.
+
+The economic logic is that validators compete for delegations. Beyond commission rates, validators may compete on the quality of services available to their delegators. A validator who funds well-distributed service-node infrastructure can offer their delegators better wallet experiences (faster queries, lower-latency state lookups) than a validator who relies on centralised RPC providers or who provides no infrastructure at all. This competition is healthy: it creates an economic flow from validator rewards to infrastructure providers, broadening the population of participants who earn from the network's operation.
+
+The protocol does not:
+
+- Require validators to fund infrastructure
+- Specify what infrastructure validators must fund
+- Set rates or terms for validator-to-infrastructure-provider payments
+- Maintain a registry of validators that fund infrastructure
+- Privilege validators that fund infrastructure over those that do not
+
+Validators that fund infrastructure do so out of their own commission revenue (already received per subsection 10.3.2), via voluntary on-chain or off-chain payment. The protocol provides standard smart-contract patterns supporting these payments (subsection 9.10.5), but the existence of such patterns does not constitute a protocol-level allocation: every ADM paid to an infrastructure provider was first earned by a validator, and the validator chose to spend it on infrastructure rather than retain it as commission profit or distribute it to delegators.
+
+This mechanism preserves the constitutional property that issuance goes entirely to validators (subsection 10.3.2) while enabling a downstream market in which validators voluntarily share their earnings with parties whose work supports the validator's competitive position. It also preserves credible neutrality (Principle I): the protocol does not pick infrastructure winners or operate any allocation mechanism beyond enabling the market to function.
+
+The honest expectation: this market may or may not materialise at scale. Its success depends on validators finding it worthwhile to compete on infrastructure quality, on infrastructure providers finding the work economically viable, and on delegators valuing the resulting service quality enough to influence their delegation choices. The protocol enables; the ecosystem develops.
+
 ## 10.6 Genesis economic parameters
 
 The following parameters are set at genesis and cannot be modified:
@@ -3507,6 +3707,8 @@ The economic model specified in section 10:
 
 The launch phase is a one-time event ending in pool exhaustion or the 5-year time cap; the post-launch operational regime governs the chain in perpetuity thereafter.
 
+The protocol additionally enables, but does not fund or specify in detail, a permissionless service-node infrastructure market (subsection 9.10) and a validator-funded infrastructure mechanism (subsection 10.5.5). The protocol-level commitments fixed at genesis include the standardised query format, the registration mechanism, the smart-contract patterns supporting payment, and the principle that issuance flows only to validators (subsection 10.3.2). The downstream market — its participants, fee schedules, reputation systems, and operational shape — is not constitutionally fixed and may evolve organically without requiring hard-fork coordination. Validators choosing to fund infrastructure do so from their own commission revenue, not from any protocol allocation; the protocol's role is enablement, not allocation.
+
 ### 11.2.8 Genesis state
 
 The specific state at the moment of genesis, including:
@@ -3657,6 +3859,8 @@ This whitepaper specifies, in detail sufficient to implement, a Layer 1 blockcha
 
 - **Native account abstraction.** Every account is a smart account from genesis. No retrofit, no special cases.
 
+- **Service-node infrastructure market.** Permissionless, standardised market for light-client infrastructure (subsection 9.10), with validator-funded service mechanisms (subsection 10.5.5). The protocol enables the market without funding it from issuance.
+
 - **Adamant Move smart contracts.** Linear-typed, resource-safe, formally verifiable smart-contract language.
 
 - **Multi-dimensional gas.** Six independent fee dimensions, EIP-1559-style price discovery, fee burn.
@@ -3710,6 +3914,12 @@ Several problems are acknowledged as open and will be addressed during implement
 
 **Operational tooling.** Wallets, indexers, block explorers, RPC providers, monitoring tooling — these are not part of the protocol but are essential for users. The protocol's launch must be accompanied by reasonable tooling, and the early ecosystem requires bootstrapping.
 
+**Service-node market materialisation.** Subsection 9.10 specifies the standardised infrastructure for a service-node market. Whether such a market develops at meaningful scale depends on multiple factors that are open at the time of this draft: whether wallets prefer service nodes over centralised RPC providers, whether validators choose to fund infrastructure as part of competing for delegators (subsection 10.5.5), whether payment-channel UX is good enough for routine wallet usage, and whether the population of operators is large enough to resist centralisation pressure. The protocol provides the substrate; the ecosystem must develop the market. The chain's correct operation does not depend on the market materialising.
+
+**Service-node payment channel UX.** Subsection 9.10.5 specifies three payment patterns for service-node fees. Pattern A (direct wallet-to-node payment via channels) inherits the well-documented UX challenges of payment-channel networks — channel management, liquidity considerations, force-close handling. The reference implementation aims to make these flows automatic and invisible to users, but achieving that level of polish is non-trivial. Pattern B (validator-funded) and Pattern C (application-paid) avoid these UX issues for end users by absorbing them into validator or application infrastructure.
+
+**Reputation system development.** Subsection 9.10.6 specifies a delivery-receipt primitive but does not specify a reputation system. Practical service-node reputation requires third-party tooling: aggregators of delivery receipts, signed performance attestations, perhaps decentralised reputation networks. The protocol provides the cryptographic primitives; the reputation systems are ecosystem work.
+
 ### 12.2.3 Limitations acknowledged
 
 Some limitations are not "open problems" but acknowledged constraints:
@@ -3753,4 +3963,3 @@ This whitepaper specifies how to build that chain. The next document — and the
 *This whitepaper is a draft. It is subject to revision based on public review and implementation experience. The v1.0 release will be tagged in the repository when the specification is considered complete and frozen for the genesis implementation.*
 
 *The reference implementation is being developed at [github.com/adamant-protocol/adamant](https://github.com/adamant-protocol/adamant) under the Apache 2.0 license. Issues, pull requests, and substantive review are welcome.*
-

@@ -6,182 +6,231 @@ import Starfield from '@/components/Starfield.astro';
 <BaseLayout
   active="about"
   title="Adamant — an introduction"
-  description="An introduction to the Adamant protocol: its design constraints, its properties, and the problems it is designed to solve."
+  description="An introduction to the Adamant protocol: its design constraints, its properties, and the people it is built for."
 >
-  <!-- Hero -->
-  <section class="relative overflow-hidden pt-[80px] md:pt-[140px] pb-20 md:pb-32">
+  <!-- ───────── HERO ───────── -->
+  <section class="relative overflow-hidden pt-10 md:pt-16 pb-12 md:pb-16">
     <Starfield />
+    <div class="pointer-events-none absolute inset-0 z-[1] glow-pulse" style="background:radial-gradient(ellipse 60% 50% at 30% 50%, rgba(255,125,77,0.08), transparent 65%)"></div>
     <div class="wrap relative z-[3]">
-      <span class="eyebrow"><span class="dot"></span>An introduction</span>
-      <div class="mt-8 grid items-end gap-24 lg:grid-cols-2">
-        <h1 class="mt-9 max-w-[14ch] font-display font-medium leading-none tracking-[-0.035em]" style="font-size:clamp(40px,5.5vw,84px)">
-          <span class="block font-light text-ink-2">A protocol with</span>
-          <span class="font-semibold text-ember">no master.</span>
+      <div data-reveal class="max-w-[1000px]">
+        <span class="eyebrow"><span class="dot"></span>Introduction</span>
+        <h1 class="mt-6 max-w-[14ch] font-display font-medium leading-[0.98] tracking-[-0.035em]" style="font-size:clamp(40px,5.6vw,84px)">
+          <span class="block font-light text-ink-2">An introduction</span>
+          <span class="font-bold text-ember">to the protocol.</span>
         </h1>
-        <p class="max-w-[36ch] pb-2 font-display text-[22px] leading-[1.45] tracking-[-0.015em] text-ink">
-          <span class="font-light text-ink-2">A Layer 1 blockchain protocol with no foundation, no admin keys, and no upgrade authority after genesis.</span> This page outlines what the protocol is, what design constraints produced it, and the problems it is designed to solve.
+        <p class="mt-7 max-w-[46ch] text-[16.5px] leading-[1.7] text-ink-2">
+          A Layer 1 with no foundation, no admin keys, and no upgrade authority after genesis.
         </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="/spec" class="btn-link solid">Read the specification <span class="arrow"></span></a>
+          <a href="/genesis" class="btn-link">Genesis <span class="arrow"></span></a>
+        </div>
+      </div>
+
+      <div class="mt-12 md:mt-16 pt-6 flex items-center justify-between border-t border-rule">
+        <span class="font-mono text-[10.5px] tracking-[0.2em] text-ink-3">PRE-LAUNCH · SPECIFICATION · NO TOKEN</span>
+        <span class="font-mono text-[10.5px] uppercase tracking-[0.2em] text-ink-2 hidden md:flex items-center gap-3">
+          Continue
+          <span class="inline-block h-px w-5 relative bg-ink-2 after:absolute after:right-0 after:-top-[3px] after:size-[6px] after:border-r after:border-b after:border-ink-2 after:rotate-[-45deg]"></span>
+        </span>
       </div>
     </div>
   </section>
 
-  <!-- The headline definition -->
-  <section class="relative border-y border-rule bg-bg-2 py-32">
-    <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse at center, rgba(255,125,77,0.04), transparent 70%)"></div>
-    <div class="wrap relative z-[2]">
-      <div class="mb-8 text-center font-mono text-[11px] uppercase tracking-[0.24em] text-ink-3">In one sentence</div>
-      <h2 class="mx-auto max-w-[36ch] text-center font-display font-medium leading-[1.25] tracking-[-0.02em]" style="font-size:clamp(26px,3.4vw,48px)">
-        A Layer 1 protocol designed to combine three properties no existing programmable chain delivers together: <span class="text-ember">privacy by default</span>, <span class="text-ember">sub-second finality</span>, and <span class="text-ember">credibly neutral governance</span> enforced at genesis.
-      </h2>
-    </div>
-  </section>
-
-  <!-- Four ideas -->
-  <section>
+  <!-- ───────── §01 / FOUR PROPERTIES ───────── -->
+  <section class="border-t border-rule">
     <div class="wrap">
       <div class="section-head">
         <div>
-          <span class="num">§01 / FOUR PROPERTIES</span>
-          <h2><span class="light">If only four things</span>are remembered.</h2>
+          <span class="num">§01 / CORE PROPERTIES</span>
+          <h2><span class="light">Four properties</span>that constitute the protocol.</h2>
         </div>
-        <p class="desc">Existing chains trade off privacy, throughput, and governance neutrality against one another. Adamant is constructed on the premise that the trade-off is not fundamental — that careful integration of standard cryptographic primitives can deliver all three. The four properties below are the protocol's core commitments.</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2">
-        <article class="border-b border-rule py-12 md:py-16 md:border-r md:pr-14 card-hover" data-reveal>
-          <div class="mb-6 flex justify-between"><span class="font-mono text-[11px] tracking-[0.22em] text-ember">PROPERTY 01</span><span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §1.1.7 · §11</span></div>
-          <h3 class="mb-5 max-w-[22ch] font-display text-[26px] md:text-[32px] font-semibold leading-[1.1] tracking-[-0.025em]"><span class="block font-light text-ink-2">No party</span>can alter the protocol.</h3>
-          <p class="mb-4 max-w-[52ch] text-[15.5px] leading-[1.75] text-ink-2">Most cryptocurrency protocols are governed by a foundation, multisig, or token-holder vote — entities with the technical capability to alter consensus rules, gas costs, or issuance schedules. Bitcoin is the historical exception: its consensus rules have remained substantively unchanged for over fifteen years, sustained not by a foundation but by the structural absence of any mechanism to change them.</p>
-          <p class="max-w-[52ch] text-[15.5px] leading-[1.75] text-ink-2"><strong class="font-medium text-ink">Adamant adopts the same posture.</strong> The specification is fixed at genesis. There is no on-chain governance, no admin key, no upgrade authority. Change requires a published specification revision, a public reference implementation, and a 2/3+1-by-stake supermajority of validators each independently choosing to run new software.</p>
-        </article>
-
-        <article class="border-b border-rule py-12 md:py-16 md:pl-14 card-hover" data-reveal>
-          <div class="mb-6 flex justify-between"><span class="font-mono text-[11px] tracking-[0.22em] text-ember">PROPERTY 02</span><span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §2.2 · §7</span></div>
-          <h3 class="mb-5 max-w-[22ch] font-display text-[26px] md:text-[32px] font-semibold leading-[1.1] tracking-[-0.025em]"><span class="block font-light text-ink-2">Privacy is</span>the default.</h3>
-          <p class="mb-4 max-w-[52ch] text-[15.5px] leading-[1.75] text-ink-2">On transparent chains, every transaction is publicly observable in perpetuity. Any party — exchange, employer, government, adversary — can reconstruct an account's complete financial history from the chain alone. When privacy is opt-in, using it becomes a signal, and the anonymity set collapses to the privacy-conscious subset.</p>
-          <p class="max-w-[52ch] text-[15.5px] leading-[1.75] text-ink-2"><strong class="font-medium text-ink">Adamant inverts this.</strong> Sender, recipient, amount, and contract execution are encrypted by default; the chain commits to validity without revealing contents. Selective disclosure is supported through view keys: a user grants a specified party visibility into specified transactions — a counterparty, a tax authority, an auditor — without exposing unrelated activity, and without granting transaction-authorisation power.</p>
-        </article>
-
-        <article class="border-b border-rule py-12 md:py-16 md:border-r md:pr-14 card-hover" data-reveal>
-          <div class="mb-6 flex justify-between"><span class="font-mono text-[11px] tracking-[0.22em] text-ember">PROPERTY 03</span><span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §2.4 · §8 · §10.4</span></div>
-          <h3 class="mb-5 max-w-[22ch] font-display text-[26px] md:text-[32px] font-semibold leading-[1.1] tracking-[-0.025em]"><span class="block font-light text-ink-2">Sub-second finality.</span>Sub-cent fees.</h3>
-          <p class="mb-4 max-w-[52ch] text-[15.5px] leading-[1.75] text-ink-2">The protocol targets approximately <strong class="font-medium text-ink">500 ms finality</strong> for transactions on owned objects, and a per-transaction fee floor on the order of <strong class="font-medium text-ink">$0.0001</strong> USD-equivalent for transparent transfers at design throughput. Shielded transfers, which carry a Halo 2 zero-knowledge proof, cost approximately one to two orders of magnitude more — still within consumer payment-network territory and far below the typical Ethereum fee range.</p>
-          <p class="max-w-[52ch] text-[15.5px] leading-[1.75] text-ink-2">These targets derive from the demonstrated throughput of the Mysticeti consensus protocol (peer-reviewed at NDSS 2025) and from the cost profile of recursive zero-knowledge verification on commodity hardware.</p>
-        </article>
-
-        <article class="border-b border-rule py-12 md:py-16 md:pl-14 card-hover" data-reveal>
-          <div class="mb-6 flex justify-between"><span class="font-mono text-[11px] tracking-[0.22em] text-ember">PROPERTY 04</span><span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §2.3 · §8.5</span></div>
-          <h3 class="mb-5 max-w-[22ch] font-display text-[26px] md:text-[32px] font-semibold leading-[1.1] tracking-[-0.025em]"><span class="block font-light text-ink-2">Verifiable</span>on consumer hardware.</h3>
-          <p class="mb-4 max-w-[52ch] text-[15.5px] leading-[1.75] text-ink-2">Conventional verification of a blockchain requires either operating a full node — gigabytes of state, hours of synchronisation — or trusting a hosted RPC. In both cases, individual users are practically gated from independent verification, undermining the very property credible neutrality is meant to provide.</p>
-          <p class="max-w-[52ch] text-[15.5px] leading-[1.75] text-ink-2"><strong class="font-medium text-ink">Adamant produces a recursive zero-knowledge proof at every epoch boundary</strong> attesting to the validity of all transactions and state transitions from genesis to the present. The proof is a constant-size artifact (≈5–10 KB) verifiable in 50–200 ms on a consumer smartphone, regardless of the chain's age. Verification is cryptographic, not statistical — no light-client trust assumption is required.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- Different framings -->
-  <section>
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <span class="num">§02 / FRAMINGS</span>
-          <h2><span class="light">Read the protocol</span>against what you already know.</h2>
-        </div>
-        <p class="desc">The protocol's relevance differs depending on the system it's being compared to. The framings below describe what Adamant is in terms of infrastructure already familiar to particular audiences.</p>
+        <p class="desc">Existing chains trade privacy, throughput, and governance neutrality against one another. The protocol is constructed on the premise that the trade-off is not fundamental — that integration of standard, peer-reviewed primitives delivers all three.</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-rule-2 border border-rule-2">
-        <div class="bg-bg-2 p-8 md:p-10 flex flex-col gap-4 min-h-[240px] justify-between card-hover" data-reveal>
-          <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-ember">Compared to retail banking</span>
-          <p class="font-display text-[20px] leading-[1.4] tracking-[-0.015em] text-ink">A settlement layer with sub-second confirmation, sub-cent fees, default confidentiality, and no institution with the capacity to freeze accounts or alter the rules.</p>
-        </div>
-        <div class="bg-bg-2 p-8 md:p-10 flex flex-col gap-4 min-h-[240px] justify-between card-hover" data-reveal>
-          <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-ember">Compared to international remittance</span>
-          <p class="font-display text-[20px] leading-[1.4] tracking-[-0.015em] text-ink">Half-second cross-border settlement at fraction-of-a-cent fees, twenty-four hours a day, with no correspondent-bank intermediation and no holding period.</p>
-        </div>
-        <div class="bg-bg-2 p-8 md:p-10 flex flex-col gap-4 min-h-[240px] justify-between card-hover" data-reveal>
-          <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-ember">Compared to Bitcoin</span>
-          <p class="font-display text-[20px] leading-[1.4] tracking-[-0.015em] text-ink">Bitcoin's design philosophy — credibly neutral, capture-resistant, settlement-grade — extended with programmable smart contracts, default privacy, and sub-second finality. The 2026 reading of the original thesis.</p>
-        </div>
-        <div class="bg-bg-2 p-8 md:p-10 flex flex-col gap-4 min-h-[240px] justify-between card-hover" data-reveal>
-          <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-ember">Compared to typical cryptocurrency projects</span>
-          <p class="font-display text-[20px] leading-[1.4] tracking-[-0.015em] text-ink">Most cryptocurrency projects are venture-backed startups with a token component. Adamant is the inverse. No company, no investors, no token allocation, no marketing fund. The protocol cannot pivot, run out of funding, or be acquired.</p>
-        </div>
-        <div class="bg-bg-2 p-8 md:p-10 flex flex-col gap-4 min-h-[240px] justify-between card-hover" data-reveal>
-          <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-ember">Compared to transparent blockchains</span>
-          <p class="font-display text-[20px] leading-[1.4] tracking-[-0.015em] text-ink">On transparent chains, the entire history of every transaction one has ever made is publicly observable forever. Adamant treats this as a structural defect, not a feature: shielded by default, with selective disclosure available where required.</p>
-        </div>
-        <div class="bg-bg-2 p-8 md:p-10 flex flex-col gap-4 min-h-[240px] justify-between card-hover" data-reveal>
-          <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-ember">From a settlement-systems perspective</span>
-          <p class="font-display text-[20px] leading-[1.4] tracking-[-0.015em] text-ink">A settlement layer with cryptographic finality, sub-second confirmation, default confidentiality, and no counterparty risk on the issuer side. The issuer is mathematics.</p>
-        </div>
+        {[
+          {
+            n: '01',
+            wp: 'WP §1.1.7 · §11',
+            title: 'No party can alter the protocol.',
+            body: 'Most chains are governed by a foundation, multisig, or token-holder vote — entities with the technical capability to alter consensus rules, gas costs, or issuance schedules. Adamant adopts the Bitcoin posture: no on-chain governance, no admin key, no upgrade authority. Change requires a published spec, a public reference implementation, and a 2/3+1-by-stake supermajority of validators each independently choosing to run new software.',
+          },
+          {
+            n: '02',
+            wp: 'WP §2.2 · §7',
+            title: 'Privacy is the default.',
+            body: 'On transparent chains, every transaction is publicly observable forever. When privacy is opt-in, using it becomes a signal. Adamant inverts this: sender, recipient, amount, and contract execution are encrypted by default, with selective disclosure available through view keys — a counterparty, a tax authority, an auditor — without exposing unrelated activity.',
+          },
+          {
+            n: '03',
+            wp: 'WP §2.4 · §8 · §10.4',
+            title: 'Sub-second finality. Sub-cent fees.',
+            body: 'Approximately 500 ms finality for owned-object transactions and a per-transaction fee floor on the order of $0.0001 USD-equivalent at design throughput. Shielded transfers cost roughly one to two orders of magnitude more — still well inside consumer payment-network territory.',
+          },
+          {
+            n: '04',
+            wp: 'WP §2.3 · §8.5',
+            title: 'Verifiable on consumer hardware.',
+            body: 'A Halo 2 recursive proof at every epoch boundary attests to the validity of all transactions and state transitions from genesis to the present. The proof is a constant-size artifact (≈5–10 KB) verifiable in 50–200 ms on a smartphone. Verification is cryptographic, not statistical — no light-client trust assumption.',
+          },
+        ].map((p) => (
+          <article class="bg-bg-2/70 backdrop-blur-sm p-7 md:p-9 flex flex-col gap-3.5 min-h-[320px] card-hover" data-reveal>
+            <div class="flex items-baseline justify-between">
+              <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-ember">PROPERTY {p.n}</span>
+              <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">{p.wp}</span>
+            </div>
+            <h3 class="font-display text-[22px] md:text-[26px] font-semibold leading-[1.15] tracking-[-0.025em]">{p.title}</h3>
+            <p class="text-[14px] leading-[1.65] text-ink-2">{p.body}</p>
+          </article>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- Use cases -->
-  <section>
+  <!-- ───────── §02 / DOWNSTREAM ───────── -->
+  <section class="border-t border-rule">
     <div class="wrap">
       <div class="section-head">
         <div>
-          <span class="num">§03 / INTENDED AUDIENCES</span>
+          <span class="num">§02 / DOWNSTREAM</span>
+          <h2><span class="light">A permissionless market for</span>light-client infrastructure.</h2>
+        </div>
+        <p class="desc">Not a constitutional core property; a downstream consequence of the architecture. A chain that is permissionless at the participation layer, with standardised lightweight verification, naturally supports a market for the infrastructure that serves its lightweight clients.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-rule-2 border border-rule-2">
+        {[
+          {
+            tag: 'SERVICE NODES',
+            wp: 'WP §9.10',
+            title: 'Permissionless light-client infrastructure',
+            body: 'A standardised query protocol opens a market for service nodes that wallets and applications query for state. No registry. No allocation. Anyone can run one. Wallets choose; payment channels settle. The chain remains correct without it — but its day-to-day usability stops depending on a few centralised RPC providers.',
+          },
+          {
+            tag: 'VALIDATOR-FUNDED',
+            wp: 'WP §10.5.5',
+            title: 'Validators compete on service quality',
+            body: 'Validators may, at their discretion, fund infrastructure providers from their commission revenue. The protocol does not allocate. It does not pick winners. Issuance still goes only to validators. But validators competing for delegators may choose to share revenue with the infrastructure that makes their delegators\' wallets fast.',
+          },
+        ].map((p) => (
+          <article class="bg-bg-2/70 backdrop-blur-sm p-7 md:p-9 flex flex-col gap-3.5 min-h-[280px] card-hover" data-reveal>
+            <div class="flex items-baseline justify-between">
+              <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-ember">{p.tag}</span>
+              <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">{p.wp}</span>
+            </div>
+            <h3 class="font-display text-[22px] md:text-[26px] font-semibold leading-[1.15] tracking-[-0.025em]">{p.title}</h3>
+            <p class="text-[14px] leading-[1.65] text-ink-2">{p.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── §03 / FRAMINGS ───────── -->
+  <section class="border-t border-rule">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="num">§03 / FRAMINGS</span>
+          <h2><span class="light">The protocol</span>in familiar terms.</h2>
+        </div>
+        <p class="desc">The protocol's relevance differs depending on the system it is compared to. The framings below describe what Adamant is in terms of infrastructure already familiar to particular audiences.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-rule-2 border border-rule-2">
+        {[
+          ['Compared to retail banking', 'A settlement layer with sub-second confirmation, sub-cent fees, default confidentiality, and no institution that can freeze accounts or alter the rules.'],
+          ['Compared to international remittance', 'Half-second cross-border settlement at fraction-of-a-cent fees, twenty-four hours a day. No correspondent-bank intermediation. No holding period.'],
+          ['Compared to Bitcoin', 'Bitcoin\'s design philosophy — credibly neutral, capture-resistant, settlement-grade — extended with programmable smart contracts, default privacy, and sub-second finality.'],
+          ['Compared to typical crypto', 'No company. No investors. No allocation. No marketing fund. The protocol cannot pivot, run out of funding, or be acquired.'],
+          ['Compared to transparent chains', 'On transparent chains, every transaction you have ever made is publicly observable forever. Adamant treats this as a structural defect, not a feature.'],
+          ['From a settlement perspective', 'A settlement layer with cryptographic finality, sub-second confirmation, default confidentiality, and no counterparty risk on the issuer side. The issuer is mathematics.'],
+        ].map(([t, p]) => (
+          <article class="bg-bg-2/70 backdrop-blur-sm p-7 md:p-8 flex flex-col gap-3 min-h-[220px] card-hover" data-reveal>
+            <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-ember">{t}</span>
+            <p class="font-display text-[17px] leading-[1.4] tracking-[-0.022em] font-medium text-ink mt-auto">{p}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── §04 / DESIGNED FOR ───────── -->
+  <section class="border-t border-rule">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="num">§04 / INTENDED USERS</span>
           <h2><span class="light">The users for whom</span>existing chains are insufficient.</h2>
         </div>
         <p class="desc">If none of the following describes a meaningful concern, existing chains are likely adequate. Adamant is designed for users whose threat model includes their own bank, their own protocol foundation, or their own jurisdiction — and for applications whose correctness must outlive the institutions that hosted them at deployment.</p>
       </div>
 
-      <div class="border-t border-rule">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-rule-2 border border-rule-2">
         {[
           { n: '01', tag: 'Privacy', t: 'Operating under restrictive financial controls', p: 'Privacy by default with selective disclosure permits compliance with legitimate legal obligations without surrendering one\'s complete financial history to all observers in perpetuity.' },
           { n: '02', tag: 'Settlement', t: 'Cross-border value transfer at consumer scale', p: 'Half-second settlement, fraction-of-a-cent fees, continuous availability, no correspondent-bank intermediation, no holiday or weekend gaps.' },
-          { n: '03', tag: 'Permanence', t: 'Long-lived contractual arrangements', p: 'Wills, trusts, escrows, and inheritance instruments designed to outlive their creators by decades cannot rely on a foundation existing in 2070. Adamant has no foundation that could disappear, be captured, or be coerced.' },
+          { n: '03', tag: 'Permanence', t: 'Long-lived contractual arrangements', p: 'Wills, trusts, escrows, and inheritance instruments designed to outlive their creators by decades cannot rely on a foundation existing in 2070.' },
           { n: '04', tag: 'Custody', t: 'Self-custody outside the banking system', p: 'Banks fail; bank deposits depend on a government\'s solvency; bank accounts may be frozen. Self-custody on a chain that cannot be captured is a structurally distinct security model.' },
-          { n: '05', tag: 'Application layer', t: 'Building applications that hold value', p: 'Applications deployed on Adamant inherit its properties: default privacy, sub-cent fees, no platform owner with the capacity to ban a contract. The protocol is infrastructure, not a marketplace.' },
-          { n: '06', tag: 'Sovereign-grade', t: 'Public-record systems where the rules must hold', p: 'Voting registries, identity systems, public archives, and other applications for which "the rules cannot change without all participants agreeing" is the central security property, not a nice-to-have.' },
+          { n: '05', tag: 'Apps', t: 'Building applications that hold value', p: 'Applications deployed on Adamant inherit its properties: default privacy, sub-cent fees, no platform owner with the capacity to ban a contract.' },
+          { n: '06', tag: 'Sovereign', t: 'Public-record systems where the rules must hold', p: 'Voting registries, identity systems, public archives — applications for which "the rules cannot change without all participants agreeing" is the central security property.' },
         ].map((u) => (
-          <div class="grid items-center gap-12 border-b border-rule py-9 md:grid-cols-[auto_1fr_auto]">
-            <span class="font-mono text-[11px] tracking-[0.22em] text-ink-3 md:w-8">{u.n}</span>
-            <div>
-              <h4 class="mb-2 font-display text-[22px] font-medium leading-[1.2] tracking-[-0.02em]">{u.t}</h4>
-              <p class="max-w-[60ch] text-[14.5px] leading-[1.6] text-ink-2">{u.p}</p>
+          <article class="bg-bg-2/70 backdrop-blur-sm p-7 md:p-8 flex flex-col gap-3 min-h-[260px] card-hover" data-reveal>
+            <div class="flex items-baseline justify-between">
+              <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-ember">{u.n} · {u.tag}</span>
             </div>
-            <span class="font-mono text-[10px] uppercase tracking-[0.18em] text-ember md:text-right">{u.tag}</span>
-          </div>
+            <h3 class="font-display text-[18px] md:text-[20px] font-semibold leading-[1.2] tracking-[-0.02em]">{u.t}</h3>
+            <p class="text-[13.5px] leading-[1.65] text-ink-2 mt-auto">{u.p}</p>
+          </article>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- What it is NOT -->
-  <section class="relative border-y border-rule bg-bg-2 py-32">
-    <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse at center, rgba(255,125,77,0.03), transparent 70%)"></div>
-    <div class="wrap relative z-[2]">
-      <div class="mx-auto mb-16 max-w-[34ch] text-center">
-        <span class="block mb-6 font-mono text-[11px] uppercase tracking-[0.24em] text-ink-3">§04 / WHAT IT IS NOT</span>
-        <h2 class="font-display font-medium leading-[1.1] tracking-[-0.025em]" style="font-size:clamp(32px,4vw,56px)">
-          <span class="block font-light text-ink-2">Negative space,</span>by design.
-        </h2>
-      </div>
-
-      <div class="mx-auto max-w-[920px] grid grid-cols-1 md:grid-cols-2 gap-px bg-rule-2 border border-rule-2">
-        {['A speculative investment vehicle','An ICO, airdrop, or token sale','Operated by a company or foundation','Funded by venture capital','A general-purpose-chain replacement','Marketed as a path to financial returns','Subject to deposit insurance','A finished implementation'].map(t => (
-          <div class="bg-bg-2 px-7 py-6 flex items-center gap-5 font-display text-[17px] tracking-[-0.015em]">
-            <span class="text-[13px] font-mono text-ember w-5 leading-none">×</span>
-            <span class="text-ink-2">{t}</span>
-          </div>
-        ))}
-      </div>
-      <p class="mt-10 text-center font-mono text-[11px] uppercase tracking-[0.18em] text-ink-3">A piece of public infrastructure. Treated as one.</p>
-    </div>
-  </section>
-
-  <!-- Closing CTA -->
-  <section class="py-40 text-center">
+  <!-- ───────── §05 / WHAT IT IS NOT ───────── -->
+  <section class="border-t border-rule">
     <div class="wrap">
-      <h2 class="mx-auto mb-10 max-w-[28ch] font-display font-medium leading-[1.05] tracking-[-0.03em]" style="font-size:clamp(32px,4.5vw,60px)">
+      <div class="section-head">
+        <div>
+          <span class="num">§05 / WHAT IT IS NOT</span>
+          <h2><span class="light">Notable absences,</span>by design.</h2>
+        </div>
+        <p class="desc">Most chain launches involve at least some of these. Adamant deliberately involves none. The absence is constitutive, not incidental.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-rule-2 border border-rule-2">
+        {[
+          ['A speculative investment vehicle', 'The protocol is not marketed as a path to financial returns.'],
+          ['An ICO, airdrop, or token sale', 'No private round. No discount tier. No retroactive airdrop.'],
+          ['Operated by a company or foundation', 'No legal entity owns or directs the protocol’s development.'],
+          ['Funded by venture capital', 'No investors hold ADM. No allocation has ever been issued.'],
+          ['A general-purpose-chain replacement', 'For users existing chains do not adequately serve.'],
+          ['Subject to deposit insurance', 'Self-custody on a chain that cannot be captured.'],
+          ['A finished implementation', 'A draft specification. Substantial work remains.'],
+          ['A marketing programme', 'Public infrastructure. Treated as one.'],
+        ].map(([t, p]) => (
+          <article class="bg-bg-2/70 backdrop-blur-sm p-6 md:p-7 flex flex-col gap-2.5 min-h-[180px] card-hover" data-reveal>
+            <span class="font-mono text-[14px] text-ember leading-none">×</span>
+            <h4 class="font-display text-[16px] md:text-[17px] font-semibold leading-[1.25] tracking-[-0.02em]">{t}</h4>
+            <p class="text-[12.5px] leading-[1.6] text-ink-3 mt-auto">{p}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── CTA ───────── -->
+  <section class="py-24 md:py-32 text-center border-t border-rule">
+    <div class="wrap">
+      <h2 class="mx-auto mb-8 max-w-[28ch] font-display font-medium leading-[1.05] tracking-[-0.035em]" style="font-size:clamp(28px,3.6vw,52px)">
         <span class="block font-light text-ink-2">For the full</span>protocol specification.
       </h2>
-      <div class="flex flex-wrap justify-center gap-4">
+      <p class="mx-auto mb-10 max-w-[44ch] text-[15.5px] leading-[1.7] text-ink-2">
+        Thirteen sections. Draft v0.1. Public for review.
+      </p>
+      <div class="flex flex-wrap justify-center gap-3">
         <a href="/spec" class="btn-link solid">Read the whitepaper <span class="arrow"></span></a>
         <a href="/genesis" class="btn-link">Genesis mechanism <span class="arrow"></span></a>
         <a href="/" class="btn-link">Home <span class="arrow"></span></a>

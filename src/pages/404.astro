@@ -8,20 +8,20 @@ import Starfield from '@/components/Starfield.astro';
   title="404 — Not found"
   description="The page you tried to reach does not exist."
 >
-  <section class="relative min-h-[80vh] overflow-hidden flex items-center pt-[80px] md:pt-[120px] pb-32">
+  <section class="relative min-h-[60vh] overflow-hidden flex items-center pt-10 md:pt-16 pb-20 md:pb-28">
     <Starfield />
-    <div class="pointer-events-none absolute inset-0 z-[1]" style="background:radial-gradient(ellipse 70% 50% at 50% 45%, rgba(255,125,77,0.05), transparent 70%)"></div>
+    <div class="pointer-events-none absolute inset-0 z-[1] glow-pulse" style="background:radial-gradient(ellipse 70% 50% at 50% 45%, rgba(255,125,77,0.06), transparent 70%)"></div>
 
     <div class="wrap relative z-[3] w-full">
-      <div class="grid items-end gap-16 lg:gap-24 lg:grid-cols-[1.4fr_1fr]">
+      <div class="grid items-center gap-10 md:gap-14 lg:grid-cols-[1.4fr_1fr]">
         <div data-reveal>
           <span class="eyebrow"><span class="dot"></span>HTTP 404 · resource not found</span>
-          <h1 class="mt-9 max-w-[14ch] font-display font-medium leading-none tracking-[-0.035em]" style="font-size:clamp(56px,8vw,128px)">
-            <span class="block font-light text-ink-2">Not</span>
-            <span class="font-bold text-ember">here.</span>
+          <h1 class="mt-6 max-w-[14ch] font-display font-medium leading-[0.98] tracking-[-0.035em]" style="font-size:clamp(56px,8vw,128px)">
+            <span class="block font-light text-ink-2">Page</span>
+            <span class="font-bold text-ember">not found.</span>
           </h1>
-          <p class="mt-9 max-w-[48ch] text-[16.5px] leading-[1.7] text-ink-2">
-            The page you tried doesn't exist. <span class="text-ink">Many things do not exist by design here</span> — no foundation, no admin keys, no premine, no upgrade authority. This particular absence is unintentional rather than principled, but the result is the same.
+          <p class="mt-7 max-w-[44ch] text-[17px] leading-[1.7] text-ink-2">
+            The requested resource does not exist on this site.
           </p>
           <div class="mt-11 flex flex-wrap gap-4">
             <a href="/" class="btn-link solid">Home <span class="arrow"></span></a>
@@ -31,20 +31,20 @@ import Starfield from '@/components/Starfield.astro';
           </div>
         </div>
 
-        <div class="flex flex-col gap-5 pb-2" data-reveal style="transition-delay:120ms">
-          <div class="flex items-baseline justify-between border-b border-rule pb-4">
+        <div class="glass rounded-sm flex flex-col gap-4 p-6 md:p-8" data-reveal style="transition-delay:120ms">
+          <div class="flex items-baseline justify-between border-b border-rule pb-3.5">
             <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-3">Status</span>
             <span class="font-mono text-[13px] text-ember tracking-[0.05em]">404</span>
           </div>
-          <div class="flex items-baseline justify-between border-b border-rule pb-4">
+          <div class="flex items-baseline justify-between border-b border-rule pb-3.5">
             <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-3">Resource</span>
             <span class="font-mono text-[13px] text-ink tracking-[0.05em]">Not found</span>
           </div>
-          <div class="flex items-baseline justify-between border-b border-rule pb-4">
+          <div class="flex items-baseline justify-between border-b border-rule pb-3.5">
             <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-3">By design</span>
             <span class="font-mono text-[13px] text-ink-2 tracking-[0.05em]">No</span>
           </div>
-          <div class="flex items-baseline justify-between border-b border-rule pb-4">
+          <div class="flex items-baseline justify-between">
             <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-3">Recoverable</span>
             <span class="font-mono text-[13px] text-ink tracking-[0.05em]">Yes</span>
           </div>

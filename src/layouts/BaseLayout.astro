@@ -12,9 +12,9 @@ interface Props {
 
 const {
   title = 'Adamant — Privacy by default. Verifiable by anyone. Governed by no one.',
-  description = 'Adamant is a Layer 1 protocol for users who require privacy, performance, and credibly neutral governance — with no foundation, no premine, no admin keys.',
+  description = 'A Layer 1 protocol for users who require privacy, performance, and credibly neutral governance — with no foundation, no premine, no admin keys.',
   active = null,
-  ogImage = '/og-image.png',
+  ogImage = '/hero-2.jpg',
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
@@ -25,8 +25,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="mask-icon" href="/favicon.svg" color="#ff7d4d" />
+    <link rel="icon" type="image/svg+xml" href="/adm-logo-square.svg" />
+    <link rel="alternate icon" type="image/png" href="/adm-logo-square.png" />
+    <link rel="apple-touch-icon" href="/adm-logo-square.png" />
     <meta name="theme-color" content="#000000" />
     <meta name="generator" content={Astro.generator} />
 

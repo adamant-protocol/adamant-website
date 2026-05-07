@@ -13,6 +13,7 @@ html, body {
   font-family: 'Geist', system-ui, sans-serif;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
 body {
@@ -24,6 +25,9 @@ body {
 ::selection { background: #ff7d4d; color: #000000; }
 a { color: inherit; text-decoration: none; }
 button { background: none; border: none; color: inherit; font: inherit; cursor: pointer; }
+strong, b { font-weight: 600; color: #ece8df; }
+em, i { font-style: italic; color: #c9c5b9; }
+code, kbd, samp { font-family: 'JetBrains Mono', ui-monospace, monospace; }
 
 /* ───────── Atmospheric grid + noise ───────── */
 body::before {
@@ -33,12 +37,12 @@ body::before {
   pointer-events: none;
   z-index: 1;
   background-image:
-    linear-gradient(rgba(236,232,223,0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(236,232,223,0.06) 1px, transparent 1px);
-  background-size: 112px 112px;
+    linear-gradient(rgba(236,232,223,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(236,232,223,0.05) 1px, transparent 1px);
+  background-size: 128px 128px;
   background-position: -1px -1px;
-  -webkit-mask-image: radial-gradient(ellipse at 50% 35%, black 25%, transparent 80%);
-  mask-image: radial-gradient(ellipse at 50% 35%, black 25%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 35%, black 18%, transparent 78%);
+  mask-image: radial-gradient(ellipse at 50% 35%, black 18%, transparent 78%);
 }
 body::after {
   content: '';
@@ -46,9 +50,9 @@ body::after {
   inset: 0;
   pointer-events: none;
   z-index: 2;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0.92  0 0 0 0 0.91  0 0 0 0 0.87  0 0 0 0.04 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0.92  0 0 0 0 0.91  0 0 0 0 0.87  0 0 0 0.035 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
   mix-blend-mode: overlay;
-  opacity: 0.45;
+  opacity: 0.4;
 }
 
 /* ───────── Layout helpers ───────── */
@@ -76,7 +80,8 @@ body::after {
 }
 .eyebrow {
   font-family: 'JetBrains Mono', ui-monospace, monospace;
-  font-size: 11px;
+  font-size: 10.5px;
+  font-weight: 500;
   letter-spacing: 0.24em;
   text-transform: uppercase;
   color: #a8aab5;
@@ -89,6 +94,7 @@ body::after {
   height: 6px;
   border-radius: 50%;
   background: #ff7d4d;
+  box-shadow: 0 0 0 4px rgba(255,125,77,0.10);
   animation: pulse 2.4s ease-in-out infinite;
 }
 @keyframes pulse {
@@ -107,17 +113,23 @@ body::after {
   text-transform: uppercase;
   color: #ece8df;
   padding: 14px 22px;
-  border: 1px solid rgba(236,232,223,0.12);
-  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  border: 1px solid rgba(236,232,223,0.14);
+  background: rgba(236,232,223,0.015);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: border-color 0.25s, color 0.25s, background 0.25s, transform 0.25s;
 }
 .btn-link:hover {
   border-color: #ff7d4d;
   color: #ff7d4d;
+  background: rgba(255,125,77,0.04);
+  transform: translateY(-1px);
 }
 .btn-link.solid {
   background: #ff7d4d;
   color: #000000;
   border-color: #ff7d4d;
+  backdrop-filter: none;
 }
 .btn-link.solid:hover {
   background: transparent;
@@ -129,7 +141,9 @@ body::after {
   height: 1px;
   background: currentColor;
   position: relative;
+  transition: transform 0.25s;
 }
+.btn-link:hover .arrow { transform: translateX(3px); }
 .btn-link .arrow::after {
   content: '';
   position: absolute;
@@ -147,8 +161,8 @@ body::after {
   display: grid;
   grid-template-columns: 1.4fr 1fr;
   align-items: end;
-  padding: 200px 0 80px;
-  gap: 96px;
+  padding: 112px 0 56px;
+  gap: 72px;
 }
 .section-head .num {
   font-family: 'JetBrains Mono', ui-monospace, monospace;
@@ -156,12 +170,12 @@ body::after {
   color: #5a5d6b;
   letter-spacing: 0.24em;
   display: block;
-  margin-bottom: 24px;
+  margin-bottom: 18px;
 }
 .section-head h2 {
   font-family: 'Unbounded', system-ui, sans-serif;
   font-weight: 500;
-  font-size: clamp(36px, 4.5vw, 68px);
+  font-size: clamp(32px, 3.8vw, 56px);
   line-height: 1.05;
   letter-spacing: -0.03em;
   max-width: 18ch;
@@ -174,16 +188,16 @@ body::after {
 .section-head .desc {
   color: #a8aab5;
   font-size: 15px;
-  line-height: 1.7;
-  max-width: 40ch;
-  padding-bottom: 8px;
+  line-height: 1.65;
+  max-width: 42ch;
+  padding-bottom: 6px;
 }
 @media (max-width: 880px) {
-  .section-head { grid-template-columns: 1fr; gap: 32px; padding: 120px 0 48px; }
-  .section-head h2 { font-size: clamp(28px, 8vw, 48px); }
+  .section-head { grid-template-columns: 1fr; gap: 24px; padding: 80px 0 36px; }
+  .section-head h2 { font-size: clamp(26px, 7vw, 42px); }
 }
 @media (max-width: 540px) {
-  .section-head { padding: 80px 0 36px; }
+  .section-head { padding: 56px 0 28px; }
 }
 
 /* Mobile padding adjustments */
@@ -192,11 +206,38 @@ body::after {
   .btn-link { padding: 12px 18px; font-size: 10.5px; }
 }
 
+/* ───────── Glass surfaces (modern card treatment) ───────── */
+.glass {
+  background: linear-gradient(135deg, rgba(236,232,223,0.025) 0%, rgba(236,232,223,0.008) 100%);
+  border: 1px solid rgba(236,232,223,0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.glass-strong {
+  background: linear-gradient(135deg, rgba(236,232,223,0.04) 0%, rgba(236,232,223,0.012) 100%);
+  border: 1px solid rgba(236,232,223,0.10);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.glass-ember {
+  background: linear-gradient(135deg, rgba(255,125,77,0.06) 0%, rgba(255,125,77,0.015) 100%);
+  border: 1px solid rgba(255,125,77,0.18);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* Soft hairline divider — used as a less aggressive border */
+.divider-soft {
+  background: linear-gradient(90deg, transparent 0%, rgba(236,232,223,0.12) 50%, transparent 100%);
+  height: 1px;
+  width: 100%;
+}
+
 /* ───────── Scroll reveal ───────── */
 [data-reveal] {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(28px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
 }
 [data-reveal].is-revealed {
@@ -213,24 +254,32 @@ body::after {
 
 /* ───────── Subtle hover lift on cards ───────── */
 .card-hover {
-  transition: border-color 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: border-color 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
 }
 .card-hover:hover {
-  transform: translateY(-2px);
-  border-color: rgba(255, 125, 77, 0.3);
-}
-
-/* ───────── Marquee for status indicator ───────── */
-@keyframes drift {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(8px); }
+  transform: translateY(-3px);
+  border-color: rgba(255, 125, 77, 0.32);
 }
 
 /* ───────── Hero gradient glow ───────── */
 @keyframes glow-shift {
-  0%, 100% { opacity: 0.6; transform: translate(0, 0) scale(1); }
-  50% { opacity: 1; transform: translate(20px, -10px) scale(1.05); }
+  0%, 100% { opacity: 0.55; transform: translate(0, 0) scale(1); }
+  50% { opacity: 0.95; transform: translate(24px, -12px) scale(1.06); }
 }
 .glow-pulse {
-  animation: glow-shift 8s ease-in-out infinite;
+  animation: glow-shift 9s ease-in-out infinite;
+}
+
+/* ───────── Slow drift for decorative imagery ───────── */
+@keyframes slow-drift {
+  0%, 100% { transform: scale(1.04) translate(0, 0); }
+  50% { transform: scale(1.08) translate(-1.5%, -0.6%); }
+}
+.slow-drift {
+  animation: slow-drift 24s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow-pulse, .slow-drift { animation: none; }
 }
