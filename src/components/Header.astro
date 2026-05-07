@@ -2,7 +2,7 @@
 import Mark from './Mark.astro';
 
 interface Props {
-  active?: 'home' | 'about' | 'genesis' | 'spec' | 'updates' | null;
+  active?: 'home' | 'about' | 'genesis' | 'spec' | 'wallet' | 'updates' | null;
 }
 
 const { active = null } = Astro.props;
@@ -11,42 +11,42 @@ const navItems = [
   { id: 'about', label: 'About', href: '/about' },
   { id: 'genesis', label: 'Genesis', href: '/genesis' },
   { id: 'spec', label: 'Spec', href: '/spec' },
+  { id: 'wallet', label: 'Wallet', href: '/wallet' },
   { id: 'updates', label: 'Updates', href: '/updates' },
 ] as const;
+
+const X = 'https://x.com/AdamantProtocol';
+const GH = 'https://github.com/adamant-protocol';
 ---
 
-<header class="relative z-50 pt-6 md:pt-8">
+<header class="relative z-50 pt-5 md:pt-7">
   <div class="wrap">
-    <div class="flex items-center justify-between gap-4 border-b border-rule pb-5 md:pb-6">
-      <a href="/" class="inline-flex items-center" aria-label="Adamant — home">
-        <Mark size={52} class="md:!w-[64px] md:!h-[64px]" />
+    <div class="flex items-center justify-between gap-6 border-b border-rule pb-4 md:pb-5">
+      <a href="/" class="inline-flex items-center shrink-0" aria-label="Adamant — home">
+        <Mark size={48} class="md:!w-[58px] md:!h-[58px]" />
       </a>
 
-      <!-- Desktop nav -->
-      <nav class="hidden md:block">
-        <ul class="flex gap-6 lg:gap-8 font-mono text-[11px] uppercase tracking-[0.18em]">
+      <!-- Desktop nav (right-aligned) -->
+      <nav class="hidden md:block ml-auto">
+        <ul class="flex gap-7 lg:gap-9 font-mono text-[11px] uppercase tracking-[0.2em]">
           {navItems.map((item) => (
             <li>
               <a
                 href={item.href}
                 class:list={[
-                  'transition-colors duration-200',
-                  active === item.id ? 'text-ink' : 'text-ink-2 hover:text-ink',
+                  'relative py-1.5 transition-colors duration-200',
+                  active === item.id ? 'text-ember' : 'text-ink-2 hover:text-ink',
                 ]}
               >
                 {item.label}
+                {active === item.id && (
+                  <span class="absolute left-0 right-0 -bottom-[17px] md:-bottom-[21px] h-px bg-ember"></span>
+                )}
               </a>
             </li>
           ))}
         </ul>
       </nav>
-
-      <div class="hidden lg:flex items-center gap-6">
-        <span class="inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.12em] text-ink-2">
-          <span class="size-[7px] rounded-full bg-ember shadow-[0_0_0_4px_rgba(255,125,77,0.12)]"></span>
-          Pre-launch · Specification
-        </span>
-      </div>
 
       <!-- Mobile menu toggle -->
       <button
@@ -103,9 +103,13 @@ const navItems = [
           ))}
         </ol>
 
-        <div class="mt-12 flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.18em] text-ink-2">
-          <span class="size-[7px] rounded-full bg-ember"></span>
-          Pre-launch · Specification
+        <div class="mt-10 flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.18em] text-ink-3">
+          <a href={X} aria-label="Adamant on X" class="inline-flex items-center justify-center w-9 h-9 rounded-sm border border-rule-2 transition-colors hover:text-ember hover:border-ember" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href={GH} aria-label="Adamant on GitHub" class="inline-flex items-center justify-center w-9 h-9 rounded-sm border border-rule-2 transition-colors hover:text-ember hover:border-ember" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.34.95.1-.74.4-1.25.73-1.54-2.55-.29-5.23-1.27-5.23-5.66 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.17a10.94 10.94 0 0 1 5.74 0c2.19-1.48 3.15-1.17 3.15-1.17.62 1.58.23 2.75.11 3.04.74.8 1.18 1.82 1.18 3.07 0 4.4-2.68 5.36-5.24 5.65.41.36.78 1.06.78 2.13 0 1.54-.01 2.78-.01 3.16 0 .31.21.67.8.55C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
+          </a>
         </div>
       </nav>
     </div>

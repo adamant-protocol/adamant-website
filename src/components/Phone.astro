@@ -1,0 +1,99 @@
+---
+/**
+ * Phone — iPhone-style device frame for displaying wallet screenshots.
+ *
+ * Inner viewport is 393×852 (matches the wallet prototype's DeviceFrame).
+ * Provide a screenshot via the `src` prop, sized to the same aspect (or the
+ * image will be cover-cropped). Falls back to a labelled placeholder when src
+ * is omitted.
+ *
+ * Props:
+ *   src        — image path (e.g. "/wallet/home.png"); if omitted, renders placeholder
+ *   alt        — accessibility label
+ *   label      — small mono caption beneath the phone (e.g. "Wallet · home")
+ *   size       — width in px (default 280); height auto-scales to maintain aspect
+ *   class      — extra wrapper classes
+ */
+interface Props {
+  src?: string;
+  alt?: string;
+  label?: string;
+  size?: number;
+  class?: string;
+}
+
+const { src, alt = '', label, size = 280, class: classProp = '' } = Astro.props;
+
+// Aspect ratio matches the prototype (393×852 ≈ 0.461)
+const ratio = 393 / 852;
+const w = size;
+const h = Math.round(size / ratio);
+const radius = Math.round(size * 0.137);   // ~54px when size=393
+const islandW = Math.round(size * 0.315);  // ~124px
+const islandH = Math.round(size * 0.092);  // ~36px
+const islandTop = Math.round(size * 0.028); // ~11px
+---
+
+<figure class:list={['phone-fig inline-flex flex-col items-center', classProp]}>
+  <div
+    class="phone-frame relative"
+    style={`width:${w}px;height:${h}px;border-radius:${radius}px`}
+  >
+    <!-- Outer bezel (handled by box-shadow in CSS) -->
+    <div class="phone-screen absolute inset-0 overflow-hidden" style={`border-radius:${radius}px`}>
+      {src ? (
+        <img
+          src={src}
+          alt={alt}
+          loading="lazy"
+          decoding="async"
+          class="block w-full h-full object-cover object-top"
+        />
+      ) : (
+        <div class="w-full h-full flex items-center justify-center bg-bg-3 text-ink-3 font-mono text-[10px] uppercase tracking-[0.22em] text-center px-4">
+          {alt || 'screenshot'}<br/>placeholder
+        </div>
+      )}
+    </div>
+
+    <!-- Dynamic island -->
+    <div
+      class="absolute z-[2] bg-black"
+      style={`top:${islandTop}px;left:50%;transform:translateX(-50%);width:${islandW}px;height:${islandH}px;border-radius:${islandH}px`}
+      aria-hidden="true"
+    ></div>
+  </div>
+
+  {label && (
+    <figcaption class="mt-5 font-mono text-[10px] uppercase tracking-[0.22em] text-ink-3">
+      {label}
+    </figcaption>
+  )}
+</figure>
+
+<style>
+  .phone-frame {
+    background: #000;
+    box-shadow:
+      0 30px 60px rgba(0, 0, 0, 0.55),
+      0 0 0 1px rgba(255, 255, 255, 0.06),
+      0 0 0 8px #1a1a1a,
+      0 0 0 9px #2a2a2a,
+      0 0 0 10px rgba(255, 255, 255, 0.04);
+  }
+  .phone-screen {
+    background: #07080e;
+  }
+  /* Subtle floating animation — slow, professional */
+  @media (prefers-reduced-motion: no-preference) {
+    .phone-fig {
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .phone-fig:hover .phone-frame {
+      transform: translateY(-4px);
+    }
+    .phone-frame {
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+  }
+</style>

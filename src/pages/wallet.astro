@@ -1,0 +1,340 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Starfield from '@/components/Starfield.astro';
+---
+
+<BaseLayout
+  active="wallet"
+  title="Adamant — Wallet"
+  description="The reference wallet. The first and only application the Adamant team will ship. Open source. Demonstrates every property the protocol delivers."
+  ogImage="/home-og.png"
+>
+  <!-- ───────── HERO ───────── -->
+  <section class="relative overflow-hidden pt-10 md:pt-16 pb-12 md:pb-16">
+    <Starfield />
+    <div class="pointer-events-none absolute inset-0 z-[1] glow-pulse" style="background:radial-gradient(ellipse 60% 50% at 30% 50%, rgba(255,125,77,0.10), transparent 65%)"></div>
+    <div class="wrap relative z-[3]">
+      <div data-reveal class="max-w-[1000px]">
+        <span class="eyebrow"><span class="dot"></span>The reference wallet</span>
+        <h1 class="mt-6 max-w-[14ch] font-display font-medium leading-[0.98] tracking-[-0.035em]" style="font-size:clamp(40px,5.6vw,80px)">
+          <span class="block font-light text-ink-2">The first</span>
+          <span class="font-bold text-ember">application we ship.</span>
+        </h1>
+        <p class="mt-7 max-w-[52ch] text-[16px] leading-[1.7] text-ink-2">
+          The reference wallet for Adamant — built by the same engineers who wrote the protocol specification. Open source. Self-custodial. The only application the team will ever ship.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="#try" class="btn-link solid">Try the prototype <span class="arrow"></span></a>
+          <a href="https://github.com/adamant-protocol" class="btn-link" rel="noopener">Watch the repo <span class="arrow"></span></a>
+        </div>
+      </div>
+
+      <div class="mt-12 md:mt-16 pt-6 flex items-center justify-between border-t border-rule">
+        <span class="font-mono text-[10.5px] tracking-[0.2em] text-ink-3">REFERENCE IMPLEMENTATION · OPEN SOURCE · CLICKABLE PROTOTYPE</span>
+        <span class="font-mono text-[10.5px] uppercase tracking-[0.2em] text-ink-2 hidden md:flex items-center gap-3">
+          Continue
+          <span class="inline-block h-px w-5 relative bg-ink-2 after:absolute after:right-0 after:-top-[3px] after:size-[6px] after:border-r after:border-b after:border-ink-2 after:rotate-[-45deg]"></span>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── §01 / WHAT IT IS ───────── -->
+  <section class="border-t border-rule">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="num">§01 / WHAT IT IS</span>
+          <h2><span class="light">A reference application,</span>not a product strategy.</h2>
+        </div>
+        <p class="desc">The team that specifies Adamant ships exactly one application: this wallet. It exists to prove the protocol's properties translate into a usable product, and to give the early ecosystem a known-good starting point. Other developers are expected to build their own wallets. This one will not be the canonical interface forever.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-rule-2 border border-rule-2">
+        <article class="bg-bg-2/70 backdrop-blur-sm p-7 md:p-8 flex flex-col gap-3 min-h-[230px] card-hover" data-reveal>
+          <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-ember">REFERENCE</span>
+          <h3 class="font-display text-[19px] md:text-[20px] font-semibold leading-[1.2] tracking-[-0.02em]">The team ships one app.</h3>
+          <p class="text-[13.5px] leading-[1.65] text-ink-2 mt-auto">No product roadmap, no pivots, no second app. The wallet exists so that on day one of mainnet a working interface exercises every protocol feature.</p>
+        </article>
+        <article class="bg-bg-2/70 backdrop-blur-sm p-7 md:p-8 flex flex-col gap-3 min-h-[230px] card-hover" data-reveal>
+          <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-ember">OPEN SOURCE</span>
+          <h3 class="font-display text-[19px] md:text-[20px] font-semibold leading-[1.2] tracking-[-0.02em]">Forkable from the first commit.</h3>
+          <p class="text-[13.5px] leading-[1.65] text-ink-2 mt-auto">Apache 2.0 — same licence as the protocol. Anyone can fork, ship a competing wallet, or extract components. The team holds no proprietary advantage.</p>
+        </article>
+        <article class="bg-bg-2/70 backdrop-blur-sm p-7 md:p-8 flex flex-col gap-3 min-h-[230px] card-hover" data-reveal>
+          <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-ember">SELF-CUSTODIAL</span>
+          <h3 class="font-display text-[19px] md:text-[20px] font-semibold leading-[1.2] tracking-[-0.02em]">Keys never leave the device.</h3>
+          <p class="text-[13.5px] leading-[1.65] text-ink-2 mt-auto">No hosted wallet, no server-side state, no recovery service. The team operates no infrastructure for this wallet beyond publishing the source.</p>
+        </article>
+        <article class="bg-bg-2/70 backdrop-blur-sm p-7 md:p-8 flex flex-col gap-3 min-h-[230px] card-hover" data-reveal>
+          <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-ember">DEMONSTRATES</span>
+          <h3 class="font-display text-[19px] md:text-[20px] font-semibold leading-[1.2] tracking-[-0.02em]">A built proof of the spec.</h3>
+          <p class="text-[13.5px] leading-[1.65] text-ink-2 mt-auto">Every property the whitepaper specifies is exercised here: shielded transactions, view-key disclosure, on-device proof verification, threshold-encrypted submission, native account abstraction.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── §02 / TRY IT ───────── -->
+  <section id="try" class="border-t border-rule">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="num">§02 / TRY IT</span>
+          <h2><span class="light">Three tabs.</span>Click through any one.</h2>
+        </div>
+        <p class="desc">Every screen of the reference wallet, navigable. Three live phones below, each landing on a different tab — Wallet, Verify, Node. Tap into any of them and use the bottom tab bar to move between any sub-screen the production app will surface.</p>
+      </div>
+
+      <div class="wallet-demo-row pb-12 md:pb-16" data-reveal>
+        <figure class="wallet-demo-fig">
+          <div class="wallet-demo-stage">
+            <iframe
+              src="/wallet-demo/index.html?tab=wallet"
+              class="wallet-demo-iframe"
+              title="Adamant Wallet — wallet tab"
+              loading="lazy"
+              allow="clipboard-write"
+            ></iframe>
+          </div>
+          <figcaption class="wallet-demo-caption">
+            <span class="text-ember">Wallet</span> · home, send, receive
+          </figcaption>
+        </figure>
+
+        <figure class="wallet-demo-fig">
+          <div class="wallet-demo-stage">
+            <iframe
+              src="/wallet-demo/index.html?tab=verify"
+              class="wallet-demo-iframe"
+              title="Adamant Wallet — verify tab"
+              loading="lazy"
+              allow="clipboard-write"
+            ></iframe>
+          </div>
+          <figcaption class="wallet-demo-caption">
+            <span class="text-ember">Verify</span> · recursive proof, on-device
+          </figcaption>
+        </figure>
+
+        <figure class="wallet-demo-fig">
+          <div class="wallet-demo-stage">
+            <iframe
+              src="/wallet-demo/index.html?tab=node"
+              class="wallet-demo-iframe"
+              title="Adamant Wallet — node tab"
+              loading="lazy"
+              allow="clipboard-write"
+            ></iframe>
+          </div>
+          <figcaption class="wallet-demo-caption">
+            <span class="text-ember">Node</span> · Node Watcher participation
+          </figcaption>
+        </figure>
+      </div>
+
+      <p class="mx-auto max-w-[68ch] text-center font-mono text-[10px] tracking-[0.18em] uppercase text-ink-4 leading-[1.7] mb-12">
+        Prototype only. Not a wallet. Holds no real assets. Reflects intended UX of the production application.
+      </p>
+    </div>
+  </section>
+
+  <!-- ───────── §03 / WHAT IT EXERCISES ───────── -->
+  <section class="border-t border-rule">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="num">§03 / WHAT IT EXERCISES</span>
+          <h2><span class="light">Five protocol properties,</span>five working surfaces.</h2>
+        </div>
+        <p class="desc">Each tab in the prototype demonstrates a property the whitepaper specifies. The wallet is not the only way to use these features — it is the team's working proof that each one translates into a usable interface.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-rule-2 border border-rule-2">
+        {[
+          {
+            tag: 'WALLET TAB',
+            wp: 'WP §2.3 · §8.5',
+            title: 'Chain-verified, on every load.',
+            body: 'The home screen carries a footer showing the recursive proof verified locally on the device, in milliseconds, with no node, no RPC, no trust assumption. The user sees the chain\'s last verification and can re-verify with a tap. No other wallet on any other chain can show this.',
+            prop: 'Phone-verifiable',
+          },
+          {
+            tag: 'SEND',
+            wp: 'WP §2.2 · §3.6 · §8.4',
+            title: 'Shielded is the default.',
+            body: 'Sender, recipient, amount, and contract execution are encrypted to the upcoming epoch\'s threshold key before the transaction leaves the device. There is no toggle to "go private." Privacy is the path of least resistance; transparency is the per-transaction opt-out.',
+            prop: 'Privacy by default · Encrypted mempool',
+          },
+          {
+            tag: 'VERIFY TAB',
+            wp: 'WP §2.3 · §8.5',
+            title: 'A first-class Node Watcher screen.',
+            body: 'A dedicated tab where the wallet downloads the latest 5–10 KB recursive proof and verifies the entire chain history locally in 50–200 ms. Result is a 0 or a 1 — not a probability. Tap once; trust nothing.',
+            prop: 'No light-client trust',
+          },
+          {
+            tag: 'NODE TAB',
+            wp: 'WP §9.10',
+            title: 'Run a service node from the same app.',
+            body: 'Toggle a flag and the wallet\'s host device begins serving light-client queries to other wallets — earning ADM directly via payment channels or validator-funded infrastructure budgets. AC-only, Wi-Fi-only, background-only by default.',
+            prop: 'Permissionless infrastructure',
+          },
+          {
+            tag: 'SETTINGS · VIEW KEYS',
+            wp: 'WP §2.2 · §7',
+            title: 'Selective disclosure, per scope.',
+            body: 'Generate a view key that lets a counterparty, a tax authority, or an auditor see exactly the transactions you choose — within a date range, an amount range, or a label scope — without granting any spending authority. Revocable. Auditable. The compliance posture transparent chains cannot offer.',
+            prop: 'View-key disclosure',
+          },
+          {
+            tag: 'EVERY ACCOUNT',
+            wp: 'WP §4',
+            title: 'Native account abstraction, always.',
+            body: 'Every account in the wallet is a smart account from the first deposit. Programmable validation logic, per-account spend limits, multi-sig and threshold accounts at the protocol layer — no "upgrade your account" flow because there is nothing to upgrade.',
+            prop: 'Account abstraction',
+          },
+        ].map((s) => (
+          <article class="bg-bg-2/70 backdrop-blur-sm p-7 md:p-9 flex flex-col gap-3.5 min-h-[280px] card-hover" data-reveal>
+            <div class="flex items-baseline justify-between">
+              <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-ember">{s.tag}</span>
+              <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">{s.wp}</span>
+            </div>
+            <h3 class="font-display text-[20px] md:text-[22px] font-semibold leading-[1.2] tracking-[-0.025em]">{s.title}</h3>
+            <p class="text-[13.5px] leading-[1.65] text-ink-2">{s.body}</p>
+            <div class="mt-auto pt-4 border-t border-rule font-mono text-[10px] uppercase tracking-[0.18em]">
+              <span class="text-ink-3">→ Property: </span><span class="text-ember">{s.prop}</span>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── §04 / STATUS ───────── -->
+  <section class="border-t border-rule">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="num">§04 / STATUS</span>
+          <h2><span class="light">A working prototype.</span>Implementation pending.</h2>
+        </div>
+        <p class="desc">The wallet exists today as a clickable React prototype defining every screen of the reference implementation. The production build is part of the same engineering effort that produces the protocol's reference client and ships when the chain is ready.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-px bg-rule-2 border border-rule-2">
+        <div class="bg-bg-2/70 backdrop-blur-sm p-8 md:p-12 flex flex-col gap-4 min-h-[240px] card-hover" data-reveal>
+          <span class="font-mono text-[10px] tracking-[0.22em] uppercase text-ember">PHASE 01 · CURRENT</span>
+          <h3 class="font-display text-[22px] md:text-[24px] font-semibold leading-[1.15] tracking-[-0.02em]">UX prototype</h3>
+          <p class="text-[14px] leading-[1.65] text-ink-2">Clickable React prototype defining every screen in the reference wallet. Iterates alongside the protocol specification.</p>
+        </div>
+        <div class="bg-bg-2/70 backdrop-blur-sm p-8 md:p-12 flex flex-col gap-4 min-h-[240px] card-hover" data-reveal style="transition-delay:80ms">
+          <span class="font-mono text-[10px] tracking-[0.22em] uppercase text-ink-3">PHASE 02 · NEXT</span>
+          <h3 class="font-display text-[22px] md:text-[24px] font-semibold leading-[1.15] tracking-[-0.02em] text-ink-2">Production implementation</h3>
+          <p class="text-[14px] leading-[1.65] text-ink-3">Native iOS, native Android, and a desktop reference build. Open source from the first commit. Same Apache 2.0 license as the protocol.</p>
+        </div>
+        <div class="bg-bg-2/70 backdrop-blur-sm p-8 md:p-12 flex flex-col gap-4 min-h-[240px] card-hover" data-reveal style="transition-delay:160ms">
+          <span class="font-mono text-[10px] tracking-[0.22em] uppercase text-ink-3">PHASE 03 · LAUNCH</span>
+          <h3 class="font-display text-[22px] md:text-[24px] font-semibold leading-[1.15] tracking-[-0.02em] text-ink-2">Available at genesis</h3>
+          <p class="text-[14px] leading-[1.65] text-ink-3">App stores, F-Droid, direct download. Available the day the chain is. After that, the team's role is maintenance; the ecosystem ships its own wallets.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── CTA ───────── -->
+  <section class="py-24 md:py-32 text-center border-t border-rule">
+    <div class="wrap">
+      <h2 class="mx-auto mb-8 max-w-[28ch] font-display font-medium leading-[1.05] tracking-[-0.035em]" style="font-size:clamp(28px,3.6vw,52px)">
+        <span class="block font-light text-ink-2">A wallet built</span>to the same standard as the protocol.
+      </h2>
+      <div class="flex flex-wrap justify-center gap-3">
+        <a href="/spec" class="btn-link solid">Read the specification <span class="arrow"></span></a>
+        <a href="/genesis" class="btn-link">Genesis mechanism <span class="arrow"></span></a>
+        <a href="https://github.com/adamant-protocol" class="btn-link" rel="noopener">GitHub <span class="arrow"></span></a>
+      </div>
+    </div>
+  </section>
+
+  <style is:global>
+    /* ───────── Wallet prototype — three phones ─────────
+     * Each <figure> stages one iframe pointing at a different tab.
+     * The prototype renders its OWN device frame inside, so we strip the
+     * iframe of border / shadow / radius and let that frame be the phone.
+     */
+    .wallet-demo-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      align-items: start;
+      justify-items: center;
+    }
+    .wallet-demo-fig {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+    .wallet-demo-stage {
+      width: 411px;
+      height: 870px;
+      max-width: 100%;
+      position: relative;
+    }
+    .wallet-demo-iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: transparent;
+      color-scheme: dark; /* hint to browsers, prevents some white flashes */
+    }
+    .wallet-demo-caption {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 10.5px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #a8aab5;
+    }
+
+    /* Tablet — 3 phones don't fit; horizontal scroll with snap */
+    @media (max-width: 1240px) {
+      .wallet-demo-row {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 24px;
+        padding: 0 16px 16px;
+        margin: 0 -16px;
+        -webkit-overflow-scrolling: touch;
+      }
+      .wallet-demo-fig {
+        flex: 0 0 auto;
+        scroll-snap-align: center;
+      }
+    }
+
+    /* Mobile — single column, scaled */
+    @media (max-width: 540px) {
+      .wallet-demo-row {
+        flex-direction: column;
+        overflow-x: visible;
+        align-items: center;
+        gap: 32px;
+        padding: 0;
+        margin: 0;
+      }
+      .wallet-demo-stage {
+        width: 308px;
+        height: 652px;
+        overflow: hidden;
+      }
+      .wallet-demo-iframe {
+        width: 411px;
+        height: 870px;
+        transform: scale(0.749);
+        transform-origin: top left;
+      }
+    }
+  </style>
+</BaseLayout>
