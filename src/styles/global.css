@@ -270,7 +270,7 @@ body.drawer-open .scroll-progress { display: none; }
   will-change: width;
 }
 
-.nav-drawer nav {
+.nav-drawer > nav {
   display: flex;
   flex-direction: column;
   border-top: 1px solid var(--ink);
@@ -278,7 +278,9 @@ body.drawer-open .scroll-progress { display: none; }
   margin: 0;
   counter-reset: navnum;
 }
-.nav-drawer a {
+/* Scope link styling to direct children of <nav> only — keeps the drawer-head
+ * brand link and the .nav-drawer-socials anchors from inheriting list styles. */
+.nav-drawer > nav > a {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -292,12 +294,12 @@ body.drawer-open .scroll-progress { display: none; }
   line-height: 1.1;
   transition: background 140ms;
 }
-.nav-drawer a:last-child { border-bottom: 0; }
-.nav-drawer a:hover { background: var(--paper-2); }
-.nav-drawer a:active { background: var(--paper-3); }
-.nav-drawer a.is-current { background: var(--ink); color: var(--paper); }
-.nav-drawer a.is-current .nav-drawer-arrow,
-.nav-drawer a.is-current .nav-drawer-label::before { color: var(--paper); }
+.nav-drawer > nav > a:last-child { border-bottom: 0; }
+.nav-drawer > nav > a:hover { background: var(--paper-2); }
+.nav-drawer > nav > a:active { background: var(--paper-3); }
+.nav-drawer > nav > a.is-current { background: var(--ink); color: var(--paper); }
+.nav-drawer > nav > a.is-current .nav-drawer-arrow,
+.nav-drawer > nav > a.is-current .nav-drawer-label::before { color: var(--paper); }
 
 .nav-drawer-label { display: inline-flex; align-items: baseline; gap: 14px; }
 .nav-drawer-label::before {
@@ -335,20 +337,29 @@ body.drawer-open .scroll-progress { display: none; }
   opacity: 0.35;
 }
 .nav-drawer-rail .label { font-size: 11px; letter-spacing: 0.14em; }
-.nav-drawer-socials { display: flex; align-items: center; gap: 6px; }
+.nav-drawer-socials { display: flex; align-items: center; gap: 8px; }
 .nav-drawer-socials a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px; height: 40px;
-  color: var(--ink);
+  width: 40px;
+  height: 40px;
+  padding: 0;                  /* explicit — keeps the SVG centered if list styles ever leak */
   border: 1px solid var(--rule-2);
   background: var(--paper);
-  transition: background 140ms, border-color 140ms;
+  color: var(--ink);
+  font-size: 0;                /* prevents accidental space from inline whitespace */
+  text-decoration: none;
+  transition: background 140ms, border-color 140ms, color 140ms;
 }
 .nav-drawer-socials a:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 .nav-drawer-socials a:active { background: var(--ink-2); }
-.nav-drawer-socials svg { display: block; }
+.nav-drawer-socials svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
 
 /* Colophon at the very bottom of the drawer */
 .nav-drawer-foot {
@@ -647,7 +658,9 @@ footer.foot .foot-socials {
   margin-top: 18px;
 }
 footer.foot .foot-socials a {
-  display: inline-flex; align-items: center; gap: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   padding: 8px 12px;
   border: 1px solid var(--rule-2);
   background: var(--paper);
@@ -656,12 +669,17 @@ footer.foot .foot-socials a {
   letter-spacing: 0.10em;
   text-transform: uppercase;
   color: var(--ink-2);
+  text-decoration: none;
   transition: background 140ms, border-color 140ms, color 140ms;
 }
-footer.foot .foot-socials a:hover {
-  background: var(--ink); color: var(--paper); border-color: var(--ink);
+footer.foot .foot-socials a:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+footer.foot .foot-socials svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  flex-shrink: 0;
 }
-footer.foot .foot-socials svg { display: block; }
 
 .tag {
   display: inline-block;
@@ -676,7 +694,13 @@ footer.foot .foot-socials svg { display: block; }
 .tag.solid { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 .tag.ok { color: var(--ok); border-color: var(--ok); }
 
-/* "See also" — cross-page references for items not in the main nav */
+/* "See also" — cross-page references for items not in the main nav.
+ * The wrapping section gives the rail breathing room above and below so it
+ * sits centered in the bottom of the page rather than crammed against
+ * whatever section came before. */
+.see-also-section {
+  padding: 96px 0 96px;
+}
 .see-also {
   display: flex;
   flex-wrap: wrap;
@@ -701,14 +725,23 @@ footer.foot .foot-socials svg { display: block; }
   font-size: 18px;
   color: var(--ink);
   letter-spacing: -0.01em;
+  text-decoration: none;
   transition: background 140ms;
 }
 .see-also a:last-child { border-right: 0; }
 .see-also a:hover { background: var(--paper-2); }
 @media (max-width: 760px) {
+  .see-also-section { padding: 28px 0 32px; }
   .see-also { flex-direction: column; }
-  .see-also .label, .see-also a { border-right: 0; border-bottom: 1px solid var(--rule); }
+  .see-also .label,
+  .see-also a {
+    border-right: 0;
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 16px;
+  }
+  .see-also .label { font-size: 10px; padding-top: 12px; padding-bottom: 8px; background: var(--paper); }
   .see-also a:last-child { border-bottom: 0; }
+  .see-also a { font-size: 16px; }
 }
 
 /* page intro (about, genesis, etc.) */
