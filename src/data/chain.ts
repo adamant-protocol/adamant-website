@@ -102,15 +102,22 @@ export const PHASE_OPTIONS = [
 export const PHASE: PhaseState = PHASES.prelaunch;
 
 export const PAGES = [
-  { k: 'home',     href: '/',         label: 'Home' },
-  { k: 'about',    href: '/about',    label: 'About' },
-  { k: 'genesis',  href: '/genesis',  label: 'Genesis' },
-  { k: 'network',  href: '/network',  label: 'Network' },
-  { k: 'wallet',   href: '/wallet',   label: 'Wallet' },
-  { k: 'operator', href: '/operator', label: 'Operator' },
-  { k: 'spec',     href: '/spec',     label: 'Spec' },
-  { k: 'updates',  href: '/updates',  label: 'Updates' },
+  { k: 'home',     href: '/',         label: 'Home',     header: true  },
+  { k: 'about',    href: '/about',    label: 'About',    header: true  },
+  { k: 'genesis',  href: '/genesis',  label: 'Genesis',  header: true  },
+  { k: 'spec',     href: '/spec',     label: 'Spec',     header: true  },
+  { k: 'updates',  href: '/updates',  label: 'Updates',  header: true  },
+  { k: 'network',  href: '/network',  label: 'Network',  header: false },
+  { k: 'wallet',   href: '/wallet',   label: 'Wallet',   header: false },
+  { k: 'operator', href: '/operator', label: 'Operator', header: false },
 ] as const;
+
+export const HEADER_PAGES = PAGES.filter((p) => p.header);
+
+export const SOCIAL_LINKS = {
+  github: 'https://github.com/adamant-protocol',
+  x: 'https://x.com/adamantprotocol',
+};
 
 export const SEVEN_PROPERTIES = [
   { k: 'Privacy', note: 'Privacy by default', detail: 'Halo 2 zero-knowledge proofs. Selective disclosure via view keys.',
