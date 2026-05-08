@@ -1,7 +1,7 @@
 ---
 import HubLayout from '@/layouts/HubLayout.astro';
 import SeeAlso from '@/components/SeeAlso.astro';
-import { SEVEN_PROPERTIES, FIVE_MECHANISMS, PHASE, fmtAdm } from '@/data/chain';
+import { SEVEN_PROPERTIES, CAPABILITIES, FIVE_MECHANISMS, PHASE, fmtAdm } from '@/data/chain';
 
 const p = PHASE;
 const burnRem = fmtAdm(p.genesisPool.burnRemaining);
@@ -103,11 +103,34 @@ const valRem = fmtAdm(p.genesisPool.validatorRemaining);
     </div>
   </section>
 
+  <!-- WHAT YOU CAN BUILD -->
+  <section class="section" data-screen-label="What you can build">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 02</div>
+        <div>
+          <h2 class="title">What you can build.</h2>
+          <p class="subtitle">A base layer is only useful if it makes things possible. These are the capabilities Adamant's property combination opens.</p>
+        </div>
+      </div>
+      <div class="caps-grid">
+        {CAPABILITIES.map((c, i) => (
+          <article class="cap">
+            <span class="num">{`C.${String(i + 1).padStart(2, '0')}`}</span>
+            <h3 class="cap-title">{c.title}</h3>
+            <p class="cap-desc">{c.desc}</p>
+            <p class="cap-eg"><span class="label">Examples</span>{c.eg}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <!-- FIVE MECHANISMS -->
   <section class="section" data-screen-label="Five mechanisms">
     <div class="container">
       <div class="section-head">
-        <div class="num-mark">§ 02</div>
+        <div class="num-mark">§ 03</div>
         <div>
           <h2 class="title">Five mechanisms.</h2>
           <p class="subtitle">The protocol is the composition of five mechanisms. Each is described in full in the whitepaper; summarised here.</p>
@@ -130,7 +153,7 @@ const valRem = fmtAdm(p.genesisPool.validatorRemaining);
   <section class="section" data-screen-label="Genesis cohort progress">
     <div class="container">
       <div class="section-head">
-        <div class="num-mark">§ 03</div>
+        <div class="num-mark">§ 04</div>
         <div>
           <h2 class="title">Genesis cohort.</h2>
           <p class="subtitle">The first 75 validators form the genesis cohort. They are recognised by a permanent on-chain marker and a freely tradeable Genesis NFT. Slots are first-come, first-served. This grid fills in real time once the chain is live.</p>

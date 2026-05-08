@@ -136,6 +136,39 @@ export const SEVEN_PROPERTIES = [
     gap: { btc: false, eth: false, monero: false, zec: false, mina: false, adm: true } },
 ];
 
+export const CAPABILITIES = [
+  {
+    title: 'Private payments at consumer scale',
+    desc: 'Send and receive value without exposing your transaction history to every observer in perpetuity. Sub-second confirmation, sub-cent fees, selective disclosure when you need it.',
+    eg: 'Payments, payroll, remittance, donations, allowances.',
+  },
+  {
+    title: 'Applications that hold money',
+    desc: 'Smart contracts that inherit the chain’s properties. Default-private state. Sub-cent execution. No platform owner with the power to ban your contract or freeze your users.',
+    eg: 'DEXes, lending markets, derivatives, escrow, payment channels, on-chain games with private state.',
+  },
+  {
+    title: 'Long-lived contractual arrangements',
+    desc: 'Wills, trusts, escrows, and inheritance instruments designed to outlive their creators by decades. The chain commits structurally that the rules cannot change without all participants agreeing.',
+    eg: 'Digital inheritance, multi-decade trusts, dead-man’s-switch contracts, intergenerational financial planning.',
+  },
+  {
+    title: 'Self-custody outside the banking system',
+    desc: 'Hold value on a chain that cannot be captured. No bank that can fail. No deposit insurance contingent on a government’s solvency. No account that can be frozen at someone else’s discretion.',
+    eg: 'Personal sovereignty over capital, jurisdictional independence, intergenerational wealth preservation.',
+  },
+  {
+    title: 'Validators and witnesses run by individuals',
+    desc: 'A residential-fibre operator with a desktop and a 1 Gbps home connection can be a validator. A phone can be a witness. Hardware floors that don’t drift toward datacentres over time.',
+    eg: 'Real participation in chain security by individuals — not just infrastructure operators.',
+  },
+  {
+    title: 'Privacy that doesn’t leak',
+    desc: 'Default-shielded means your use of the chain doesn’t itself become a signal. Selective disclosure means you remain compliant where you must be, without exposing everything else.',
+    eg: 'Compliance without surveillance. Audit trails on demand without permanent broadcast.',
+  },
+];
+
 export const FIVE_MECHANISMS = [
   { num: '01', name: 'Consensus', d: 'DAG-BFT, Mysticeti-shaped. Active set floor 7, ceiling 75.', meta: 'Throughput ≥ 50 000 TPS · sub-second finality' },
   { num: '02', name: 'Mempool', d: 'Threshold encryption + time-lock VDF. Two-regime fallback.', meta: 'Encrypted by default · MEV-resistant' },
