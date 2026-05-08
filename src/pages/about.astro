@@ -67,8 +67,8 @@ import Starfield from '@/components/Starfield.astro';
           {
             n: '03',
             wp: 'WP §2.4 · §8 · §10.4',
-            title: 'Sub-second finality at design-N. Sub-cent fees.',
-            body: 'Approximately 500 ms finality for owned-object transactions at the design-target validator count, with a per-transaction fee floor on the order of $0.0001 USD-equivalent. Throughput is a *floor*, not a cap: 50,000+ TPS on residential-fibre commodity hardware at the active-set ceiling of 75, with actual throughput routinely exceeding the floor when validators run better-than-baseline hardware. The floor is calibrated for broad participation rather than maximum headline figures, subject to empirical validation before genesis. Shielded transfers cost roughly one to two orders of magnitude more — still well inside consumer payment-network territory.',
+            title: 'Sub-second finality. Sub-cent fees.',
+            body: 'Approximately 500 ms finality for owned-object transactions, with a per-transaction fee floor on the order of $0.0001 USD-equivalent. Throughput is a *floor*, not a cap: 50,000+ TPS at the launch active-set ceiling of 75 on residential-fibre commodity hardware, with actual throughput routinely exceeding the floor when validators run better-than-baseline hardware. The floor is calibrated to bootstrap on residential fibre rather than chase maximum headline figures, subject to empirical validation before genesis; both the ceiling and the throughput floor may be revised upward via hard fork as the chain\'s hardware composition evolves. Shielded transfers cost roughly one to two orders of magnitude more — still well inside consumer payment-network territory.',
           },
           {
             n: '04',
@@ -238,12 +238,22 @@ import Starfield from '@/components/Starfield.astro';
           {
             term: 'Node Runner',
             spec: 'validator',
-            def: 'A participant in the active set running DAG consensus and mempool decryption on residential-fibre commodity-desktop hardware. The active set is dynamic — a constitutional floor of 7 (the smallest size at which Byzantine fault tolerance retains margin against correlated failures) and a soft ceiling of 75 (calibrated to the throughput floor on residential fibre). Selection is first-come-first-served with persistent membership: validators are admitted in registration order and retain their slot continuously until they fail liveness duties or voluntarily unbond. Each publishes one vertex per 250 ms round, each referencing 2/3+1 of the prior round. Minimum stake 1,000 ADM (28-day unbonding; subject to scheduled re-evaluation at five-year intervals per WP §11.5.4). Earns block rewards from the genesis pool, then post-launch issuance.',
+            def: 'A participant in the active set running DAG consensus and mempool decryption on residential-fibre commodity-desktop hardware at launch. The active set is dynamic — a constitutional floor of 7 (the smallest size at which Byzantine fault tolerance retains margin against correlated failures) and a soft ceiling of 75 at launch (calibrated to the residential-fibre profile of the launch period; subject to revision via hard fork per WP §8.1.10 as the chain\'s hardware composition evolves). Selection is first-come-first-served with transferable membership: validators are admitted in registration order, retain their slot through participation, and may transfer it to another address by mutual consent. Each publishes one vertex per 250 ms round, each referencing 2/3+1 of the prior round. Minimum stake 1,000 ADM at launch (28-day unbonding; subject to scheduled re-evaluation at five-year intervals per WP §11.5.4). Earns block rewards from the genesis pool, then post-launch issuance.',
           },
           {
-            term: 'FCFS persistent membership',
-            spec: 'WP §8.1.3',
-            def: 'How Node Runners enter and leave the active set. When the count of registered, stake-eligible, online validators is at or below the ceiling (75), every such validator is in the active set; when it exceeds the ceiling, validators are admitted in *registration order* and the rest enter a standby queue. Slots are held continuously until liveness failure or voluntary unbonding; no forced rotation; no stake-weighted lottery. A small home-fibre validator who registered early and stays online cannot be displaced by a wealthier latecomer or a faster competitor. Delegation affects validator economics, not selection.',
+            term: 'FCFS transferable membership',
+            spec: 'WP §8.1.3 · §8.1.8',
+            def: 'How Node Runners enter, hold, and leave the active set. When the count of registered, stake-eligible, online validators is at or below the ceiling (75 at launch), every such validator is in the active set; when it exceeds the ceiling, validators are admitted in *registration order* and the rest enter a standby queue. Slots are held continuously through participation; no forced rotation; no stake-weighted lottery. A slot is released only when the validator is removed for liveness failure, voluntarily unbonds, or transfers the slot to another address by mutual consent (subsection 8.1.8). The mechanism prevents *involuntary* displacement — early home-fibre validators cannot be pushed out by wealthier latecomers or faster competitors — but voluntary slot transfers provide an exit pathway and over time the active-set composition reflects the choices of slot holders. The protocol is neutral on the economic terms of any transfer.',
+          },
+          {
+            term: 'Genesis cohort',
+            spec: 'WP §8.1.9',
+            def: 'The first 75 validator addresses to take active-set slots during the launch period. Each receives two on-chain artefacts: a permanent, non-transferable marker recording cohort position (1–75), activation epoch, and a chain-state commitment, and a freely tradeable Genesis NFT minted as a cultural artefact (no protocol-level function, no rights, no privileges). The marker is bound to the original address for the lifetime of the chain — it survives slot transfer, exit, and slashing, because it records who was there at the moment of activation, not what they did afterwards. The NFT is separable: a genesis validator may sell, hold, or pass it on. Slot 76 onward is an ordinary slot with no marker and no NFT; the cohort closes once 75 distinct addresses have been seated.',
+          },
+          {
+            term: 'Slot transfer',
+            spec: 'WP §8.1.8',
+            def: 'A protocol-level mechanism by which a Node Runner may transfer their active-set slot to another address by mutual consent. The seller signs a transfer transaction; the buyer co-signs to demonstrate consent and capability. At the next epoch boundary, the seller\'s stake is released (subject to the 28-day unbonding period), the buyer posts the current minimum stake, the slot is reassigned with no change in seniority, and active delegations migrate (with a 7-day window for delegators to re-delegate if they object to the new operator). The protocol does not set a price, does not collect a fee, does not constrain who the buyer may be, and does not perform identity checks. The genesis cohort marker does *not* transfer with the slot — it remains attached to the original address.',
           },
           {
             term: 'Witness (Node Watcher)',
@@ -293,7 +303,7 @@ import Starfield from '@/components/Starfield.astro';
           {
             term: 'Security tier',
             spec: 'WP §8.1.7',
-            def: 'An on-chain signal indicating the chain\'s current scale, queryable as constant-time chain-state. Tier I (N=7–14): operational, time-lock encryption regime, suitable for ordinary transfers. Tier II (N=15–29): threshold-encryption regime active, suitable for moderate-value contracts. Tier III (N=30+): full design-target security. Wallets and applications adapt confirmation requirements accordingly.',
+            def: 'An on-chain signal indicating the chain\'s current scale, queryable as constant-time chain-state. Tier I (N=7–14): operational, time-lock encryption regime, suitable for ordinary transfers. Tier II (N=15–29): threshold-encryption regime active, suitable for moderate-value contracts. Tier III (N=30+): scale at which all consensus parameters are fully operational. Wallets and applications adapt confirmation requirements accordingly.',
           },
           {
             term: 'Hybrid PQ posture',

@@ -487,7 +487,7 @@ The following parameters are set at genesis and cannot be modified:
 - Minimum per-witness (Node Watcher) Sybil-resistance stake: 100 ADM (subject to scheduled re-evaluation per subsection 11.5)
 - Genesis activation gate: 7 simultaneously-online stake-eligible validators (constitutional floor; subsection 8.1.6)
 - Active set: dynamic with constitutional floor of 7 validators and soft ceiling of 75 validators (subsection 8.1.3); ceiling subject to empirical validation prior to mainnet
-- Active set selection: first-come-first-served with persistent membership — validators admitted in registration order; slots held continuously until liveness failure or voluntary unbonding; no forced rotation; standby queue admits new validators when slots open
+- Active set selection: first-come-first-served with transferable membership — validators admitted in registration order; slots held continuously through participation; slots may be transferred to other addresses by mutual consent (subsection 8.1.8); no forced rotation; standby queue admits new validators when slots open
 - Security tier boundaries: Tier I at N=7–14, Tier II at N=15–29, Tier III at N=30+ (subsection 8.1.7)
 - Encryption regime transition thresholds: switch to threshold encryption at N≥15, switch back to time-lock encryption at N<10 (hysteresis preventing flapping; subsection 8.4.2)
 - Time-lock parameter T for VDF: calibrated to 10–15 seconds of decryption delay on consensus-grade hardware; specific value set prior to mainnet

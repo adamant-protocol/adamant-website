@@ -104,8 +104,10 @@ The consensus mechanism specified in section 8:
 
 - DAG structure with 250ms target round duration
 - 36-second epochs (144 rounds per epoch)
-- Dynamic active set: constitutional floor of 7 validators, soft ceiling of 75 validators (calibrated to the throughput floor on residential-fibre hardware)
-- First-come-first-served selection with persistent membership: validators admitted in registration order, slots held continuously until liveness failure or voluntary unbonding; no forced rotation; no stake-weighted lottery; commitment and continuity rewarded over hardware budget or stake size
+- Dynamic active set: constitutional floor of 7 validators, soft ceiling of 75 validators at launch (calibrated to the residential-fibre hardware profile of the launch period; subject to revision via hard fork as the chain's hardware composition evolves, subsection 8.1.10)
+- First-come-first-served selection with transferable membership: validators admitted in registration order, slots held continuously through participation, slots transferable to other addresses by mutual consent (subsection 8.1.8); no forced rotation; no stake-weighted lottery
+- Slot transfer: validators may transfer their active-set slot to another address by mutual consent at any time; the protocol is neutral on the economic terms of the transfer; the chain accepts that slot transferability produces hardware-tier evolution over time as a deliberate design choice
+- Genesis cohort: the first 75 validator addresses to take active-set slots receive a permanent, non-transferable on-chain marker recording their position, activation epoch, and chain-state commitment; in addition, a tradeable Genesis NFT is minted to each genesis cohort address as a cultural artefact with no protocol-level function (subsection 8.1.9)
 - 2/3+1 quorum threshold within the active set
 - Genesis activation gate: chain self-activates when 7 validators are simultaneously registered, stake-eligible, and online; no coordination event, no recruited cohort, no human-in-the-loop activation
 - Halt-on-disagreement: at the floor, the chain pauses rather than forks if quorum cannot be reached; safety is preserved at the cost of liveness during severe-unavailability periods

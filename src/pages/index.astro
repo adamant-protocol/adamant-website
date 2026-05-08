@@ -48,7 +48,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
             <span class="font-display text-[22px] md:text-[24px] font-medium leading-none tracking-[-0.03em]">50,000<small class="ml-1.5 font-mono text-[9.5px] font-normal tracking-[0.18em] text-ink-3">+ TPS</small></span>
           </div>
           <div class="flex items-baseline justify-between border-b border-rule pb-3">
-            <span class="font-mono text-[10.5px] uppercase tracking-[0.2em] text-ink-3">Finality at design-N</span>
+            <span class="font-mono text-[10.5px] uppercase tracking-[0.2em] text-ink-3">Finality target</span>
             <span class="font-display text-[22px] md:text-[24px] font-medium leading-none tracking-[-0.03em]">≈500<small class="ml-1.5 font-mono text-[9.5px] font-normal tracking-[0.18em] text-ink-3">MS</small></span>
           </div>
           <div class="flex items-baseline justify-between border-b border-rule pb-3">
@@ -366,7 +366,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
             </div>
             <div class="border-l-2 border-ember pl-4">
               <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ember mb-2">Adamant</span>
-              <p class="text-[13.5px] leading-[1.6] text-ink">Mysticeti-based DAG. The active set is dynamic — a constitutional floor of 7 <strong class="font-semibold text-ember">Node Runners</strong> (validators in the spec), a soft ceiling of 75 calibrated to residential-fibre hardware. Selection is <strong class="font-semibold text-ember">first-come-first-served with persistent membership</strong>: slots held continuously until liveness failure or voluntary unbonding — early home-fibre operators cannot be displaced by wealthier latecomers. Each publishes a vertex every 250&nbsp;ms, referencing 2/3+1 of the prior round; every 4 rounds, a commit wave finalises blocks. The chain self-activates the moment 7 are simultaneously online.</p>
+              <p class="text-[13.5px] leading-[1.6] text-ink">Mysticeti-based DAG. The active set is dynamic — a constitutional floor of 7 <strong class="font-semibold text-ember">Node Runners</strong> (validators in the spec) and a soft ceiling of 75 at launch, calibrated to residential-fibre hardware (subject to revision via hard fork as the chain's hardware composition evolves). Selection is <strong class="font-semibold text-ember">first-come-first-served with transferable membership</strong>: slots are admitted in registration order, held through participation, and may be transferred to another address by mutual consent — never displaced involuntarily. The first 75 to take slots form the <strong class="font-semibold text-ember">genesis cohort</strong>, recognised by a permanent on-chain marker and a tradeable Genesis NFT. Each publishes a vertex every 250&nbsp;ms, referencing 2/3+1 of the prior round; every 4 rounds, a commit wave finalises blocks. The chain self-activates the moment 7 are simultaneously online.</p>
             </div>
           </div>
 
@@ -374,7 +374,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
             <span class="text-ink-2">→ Property delivered:</span>
             <span class="text-ember">50,000+ TPS floor</span>
             <span class="text-ink-4">·</span>
-            <span class="text-ember">~500ms finality at design-N</span>
+            <span class="text-ember">~500ms finality</span>
           </div>
         </div>
       </div>
@@ -497,7 +497,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
           <div class="flex flex-wrap gap-2 mt-3 pt-5 border-t border-rule font-mono text-[10.5px] uppercase tracking-[0.18em] text-ink-3">
             <span class="text-ink-2">→ Property delivered:</span>
-            <span class="text-ember">No front-running at design-N</span>
+            <span class="text-ember">No front-running (N ≥ 15)</span>
             <span class="text-ink-4">·</span>
             <span class="text-ember">Censorship resistance</span>
           </div>

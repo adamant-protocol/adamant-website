@@ -200,12 +200,52 @@ import Starfield from '@/components/Starfield.astro';
     </div>
   </section>
 
-  <!-- ───────── §04 / WHAT IS NOT HAPPENING ───────── -->
+  <!-- ───────── §04 / GENESIS COHORT ───────── -->
   <section>
     <div class="wrap">
       <div class="section-head">
         <div>
-          <span class="num">§04 / WHAT IS NOT HAPPENING</span>
+          <span class="num">§04 / GENESIS COHORT</span>
+          <h2><span class="light">The first 75 to take a slot,</span>recognised on-chain.</h2>
+        </div>
+        <p class="desc">The chain self-activates the moment 7 Node Runners are simultaneously registered, stake-eligible, and online — no coordination event, no curated recruitment. The first 75 validator addresses to take an active-set slot during the launch period form the <strong class="font-semibold text-ink">genesis cohort</strong> and receive two on-chain artefacts recognising their role in bootstrapping the network. Whitepaper §8.1.9.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-rule-2 border border-rule-2">
+        <article class="bg-bg-2/70 backdrop-blur-sm p-7 md:p-9 flex flex-col gap-3.5" data-reveal>
+          <div class="flex items-baseline justify-between">
+            <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-ember">ARTEFACT 01 · MARKER</span>
+            <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">Permanent · non-transferable</span>
+          </div>
+          <h3 class="font-display text-[22px] md:text-[26px] font-semibold leading-[1.15] tracking-[-0.025em]">A permanent on-chain marker, bound to the original address.</h3>
+          <p class="text-[14px] leading-[1.65] text-ink-2">Each of the first 75 addresses is tagged with its cohort position (1–75), the epoch at which the slot was activated, and a cryptographic commitment to chain state at that moment. The marker is non-transferable for the lifetime of the chain. It does not move with slot transfers, cannot be revoked, and survives exit or slashing — it records who was there at activation, not what they did afterwards.</p>
+        </article>
+        <article class="bg-bg-2/70 backdrop-blur-sm p-7 md:p-9 flex flex-col gap-3.5" data-reveal>
+          <div class="flex items-baseline justify-between">
+            <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-ember">ARTEFACT 02 · GENESIS NFT</span>
+            <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">Tradeable · cultural</span>
+          </div>
+          <h3 class="font-display text-[22px] md:text-[26px] font-semibold leading-[1.15] tracking-[-0.025em]">A freely tradeable Genesis NFT, minted at activation.</h3>
+          <p class="text-[14px] leading-[1.65] text-ink-2">A non-fungible token minted to each genesis cohort address at the moment the slot is taken. The NFT has no protocol-level function — no rights, no privileges, no consensus role; holding it does not make anyone a validator. It exists as a cultural artefact, freely tradeable, that the original cohort can sell, hold, or pass on independent of any decision they later make about the slot itself.</p>
+        </article>
+      </div>
+
+      <div class="mt-px border border-rule-2 border-t-0 bg-bg-2/40 backdrop-blur-sm p-7 md:p-9" data-reveal>
+        <div class="flex items-baseline justify-between mb-3">
+          <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-ember">WHY BOTH</span>
+          <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §8.1.8 · §8.1.9</span>
+        </div>
+        <p class="text-[14.5px] leading-[1.7] text-ink-2">Active-set slots themselves are <strong class="font-medium text-ink">transferable by mutual consent</strong>: a Node Runner may transfer their slot to another address at any time, the protocol is neutral on the economic terms, and there is no counterparty restriction. The launch period rewards registration order and continuity; the long-term composition of the active set reflects the choices of slot holders. The two artefacts split the recognition cleanly. The marker is non-transferable because it records a historical fact about an address — the chain's record of who was there, which is not something anyone can sell. The NFT is transferable because it is a cultural artefact, and cultural artefacts are properly tradeable. Genesis validators who later transfer their slot retain the marker (the chain remembers them) and may keep, sell, or pass on the NFT (the cultural value of having been there). The cohort closes once 75 distinct addresses have been seated; slot 76 onward is an ordinary slot with no marker and no NFT.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── §05 / WHAT IS NOT HAPPENING ───────── -->
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="num">§05 / WHAT IS NOT HAPPENING</span>
           <h2><span class="light">Notable absences,</span>by design.</h2>
         </div>
         <p class="desc">Most chain launches involve at least some of these. Adamant deliberately involves none. The negative space is the point.</p>
