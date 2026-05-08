@@ -189,13 +189,17 @@ footer.foot .brand .mark { width: 32px; height: 32px; }
 .nav-toggle-label { line-height: 1; }
 .topbar.is-open .nav-toggle-label::after { content: ""; }
 
-/* Full-overlay drawer with its own head row. Covers the topbar so there's
- * no visible gap between the chrome and the menu list. */
+/* Drawer is a top-anchored panel with its own head row. Slides down from
+ * above and auto-heights to its content; everything below is covered by the
+ * backdrop scrim, which closes the drawer on tap. */
 .nav-drawer {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   background: var(--paper);
-  z-index: 60;                     /* above topbar (50) and phase switcher (80 hidden when open) */
+  z-index: 60;                     /* above topbar (50) + backdrop (59) */
+  max-height: 100vh;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   padding: 0;
@@ -203,11 +207,27 @@ footer.foot .brand .mark { width: 32px; height: 32px; }
   transition: transform 360ms cubic-bezier(0.16, 1, 0.3, 1);
   background-image: radial-gradient(oklch(0% 0 0 / 0.018) 1px, transparent 1px);
   background-size: 3px 3px;
-  display: flex;
-  flex-direction: column;
+  border-bottom: 1px solid var(--ink);
 }
 .topbar.is-open .nav-drawer { transform: translateY(0); }
 .nav-drawer[hidden] { display: none; }
+
+/* Tap-to-close scrim that covers everything below the drawer */
+.nav-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: oklch(20% 0.012 250 / 0.42);
+  z-index: 59;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 280ms ease, visibility 0s linear 280ms;
+  cursor: pointer;
+}
+.topbar.is-open .nav-drawer-backdrop {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 280ms ease, visibility 0s linear 0s;
+}
 
 /* Drawer's own header row — mirrors topbar dimensions so it reads as a takeover */
 .nav-drawer-head {
@@ -361,19 +381,6 @@ body.drawer-open .scroll-progress { display: none; }
   fill: currentColor;
 }
 
-/* Colophon at the very bottom of the drawer */
-.nav-drawer-foot {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 20px 0;
-  margin-top: auto;
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-}
 
 .phase-pill {
   font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase;

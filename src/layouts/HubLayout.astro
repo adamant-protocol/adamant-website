@@ -196,11 +196,12 @@ const PHASE_DATA = JSON.stringify(PHASES);
         btn.addEventListener('click', function () { setPhase(btn.getAttribute('data-phase')); });
       });
 
-      // Wire mobile nav drawer (full-overlay; toggles [inert] for a11y)
+      // Wire mobile nav drawer (top-anchored panel + backdrop scrim)
       var topbar = document.getElementById('topbar');
       var navToggle = document.getElementById('nav-toggle');
       var navDrawer = document.getElementById('nav-drawer');
       var navDrawerClose = document.getElementById('nav-drawer-close');
+      var navDrawerBackdrop = document.getElementById('nav-drawer-backdrop');
       if (topbar && navToggle && navDrawer) {
         var setOpen = function (open) {
           topbar.classList.toggle('is-open', open);
@@ -213,6 +214,7 @@ const PHASE_DATA = JSON.stringify(PHASES);
         };
         navToggle.addEventListener('click', function () { setOpen(!topbar.classList.contains('is-open')); });
         if (navDrawerClose) navDrawerClose.addEventListener('click', function () { setOpen(false); });
+        if (navDrawerBackdrop) navDrawerBackdrop.addEventListener('click', function () { setOpen(false); });
         document.addEventListener('keydown', function (e) {
           if (e.key === 'Escape' && topbar.classList.contains('is-open')) setOpen(false);
         });
