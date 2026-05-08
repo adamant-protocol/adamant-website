@@ -590,13 +590,21 @@ section.section {
 .props-head .col-adm { background: var(--ink); color: var(--paper); }
 .props-row + .props-row { border-bottom: 1px solid var(--rule); }
 .props-row .pcell { padding: 14px 12px; }
-.props-row .pcell.center { text-align: center; }
+.props-row .pcell.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1;
+}
 .props-row .pcell.shade { background: var(--paper-2); }
-.props-row .pcell.k { display: flex; flex-direction: column; gap: 4px; }
-.props-row .pcell.k .name { font-family: var(--serif); font-size: 17px; }
-.props-row .pcell.k .note { font-family: var(--mono); font-size: 12.5px; color: var(--ink-3); }
-.gap-yes { color: var(--ok); font-family: var(--mono); font-size: 14px; }
-.gap-no { color: var(--mute); font-family: var(--mono); font-size: 14px; }
+.props-row .pcell.k { display: flex; flex-direction: column; justify-content: center; gap: 4px; }
+.props-row .pcell.k .name { font-family: var(--serif); font-size: 17px; line-height: 1.2; }
+.props-row .pcell.k .note { font-family: var(--mono); font-size: 12.5px; color: var(--ink-3); line-height: 1.3; }
+.gap-yes,
+.gap-no { font-family: var(--mono); font-size: 14px; line-height: 1; display: inline-block; }
+.gap-yes { color: var(--ok); }
+.gap-no { color: var(--mute); }
 
 /* mechanism cards */
 .mech-grid {
