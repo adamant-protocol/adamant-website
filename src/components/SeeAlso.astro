@@ -1,0 +1,25 @@
+---
+import { PAGES } from '@/data/chain';
+
+interface Props {
+  current?: string;
+}
+const { current = 'home' } = Astro.props;
+
+// Show pages that aren't in the desktop header — these need extra signposting
+// from inside the page body since they no longer appear in the main nav.
+const items = PAGES.filter((p) => !p.header && p.k !== current);
+---
+
+{items.length > 0 && (
+  <section style="padding: 0 0 56px;" data-reveal>
+    <div class="container">
+      <div class="see-also">
+        <span class="label">See also</span>
+        {items.map((p) => (
+          <a href={p.href}>{p.label} &rarr;</a>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

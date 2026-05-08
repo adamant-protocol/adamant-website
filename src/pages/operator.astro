@@ -1,5 +1,6 @@
 ---
 import HubLayout from '@/layouts/HubLayout.astro';
+import SeeAlso from '@/components/SeeAlso.astro';
 
 const ROLES = [
   { k: 'runner',  h: 'Node Runner',  s: 'Validator slot · stake 1 000 ADM' },
@@ -138,6 +139,8 @@ const ROLES = [
       </div>
     </div>
   </section>
+
+  <SeeAlso current="operator" />
 
 </HubLayout>
 

@@ -1,5 +1,6 @@
 ---
 import HubLayout from '@/layouts/HubLayout.astro';
+import SeeAlso from '@/components/SeeAlso.astro';
 
 const REPO = 'https://github.com/adamant-protocol/adamant-website';
 const OWNER = 'adamant-protocol';
@@ -132,6 +133,8 @@ const fallbackEntries = [
       )}
     </div>
   </section>
+
+  <SeeAlso current="updates" />
 
 </HubLayout>
 

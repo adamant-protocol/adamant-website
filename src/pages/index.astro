@@ -1,5 +1,6 @@
 ---
 import HubLayout from '@/layouts/HubLayout.astro';
+import SeeAlso from '@/components/SeeAlso.astro';
 import { SEVEN_PROPERTIES, FIVE_MECHANISMS, PHASE, fmtAdm } from '@/data/chain';
 
 const p = PHASE;
@@ -160,5 +161,7 @@ const valRem = fmtAdm(p.genesisPool.validatorRemaining);
       </div>
     </div>
   </section>
+
+  <SeeAlso current="home" />
 
 </HubLayout>

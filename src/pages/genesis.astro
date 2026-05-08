@@ -1,5 +1,6 @@
 ---
 import HubLayout from '@/layouts/HubLayout.astro';
+import SeeAlso from '@/components/SeeAlso.astro';
 import { PHASE, fmtAdm } from '@/data/chain';
 
 const p = PHASE;
@@ -226,5 +227,7 @@ const FLOW = [
       </div>
     </div>
   </section>
+
+  <SeeAlso current="genesis" />
 
 </HubLayout>

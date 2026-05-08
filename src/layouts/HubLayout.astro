@@ -65,6 +65,7 @@ const PHASE_DATA = JSON.stringify(PHASES);
   </main>
   <HubFooter />
   <PhaseSwitcher />
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
 
   <script is:inline define:vars={{ PHASE_DATA }}>
     (function () {
@@ -195,31 +196,70 @@ const PHASE_DATA = JSON.stringify(PHASES);
         btn.addEventListener('click', function () { setPhase(btn.getAttribute('data-phase')); });
       });
 
-      // Wire mobile nav drawer (fixed overlay; toggles `inert` for a11y)
+      // Wire mobile nav drawer (full-overlay; toggles [inert] for a11y)
       var topbar = document.getElementById('topbar');
       var navToggle = document.getElementById('nav-toggle');
       var navDrawer = document.getElementById('nav-drawer');
+      var navDrawerClose = document.getElementById('nav-drawer-close');
       if (topbar && navToggle && navDrawer) {
         var setOpen = function (open) {
           topbar.classList.toggle('is-open', open);
+          document.body.classList.toggle('drawer-open', open);
           navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
           navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
           if (open) navDrawer.removeAttribute('inert');
           else navDrawer.setAttribute('inert', '');
           document.body.style.overflow = open ? 'hidden' : '';
         };
-        navToggle.addEventListener('click', function () {
-          setOpen(!topbar.classList.contains('is-open'));
+        navToggle.addEventListener('click', function () { setOpen(!topbar.classList.contains('is-open')); });
+        if (navDrawerClose) navDrawerClose.addEventListener('click', function () { setOpen(false); });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && topbar.classList.contains('is-open')) setOpen(false);
         });
-        // Close drawer on escape and on link tap
-        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && topbar.classList.contains('is-open')) setOpen(false); });
         navDrawer.querySelectorAll('a').forEach(function (a) {
           a.addEventListener('click', function () { setOpen(false); });
         });
-        // Close drawer if window resizes back up to desktop
         window.addEventListener('resize', function () {
           if (window.innerWidth > 760 && topbar.classList.contains('is-open')) setOpen(false);
         });
+      }
+
+      // Scroll progress hairline — paints across the topbar's bottom edge
+      var bar = document.getElementById('scroll-progress');
+      if (bar) {
+        var raf = 0;
+        var paint = function () {
+          var doc = document.documentElement;
+          var max = doc.scrollHeight - doc.clientHeight;
+          var pct = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+          bar.style.width = (pct * 100) + '%';
+          raf = 0;
+        };
+        var onScroll = function () { if (!raf) raf = requestAnimationFrame(paint); };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll, { passive: true });
+        paint();
+      }
+
+      // Auto-reveal section heads + key blocks on scroll (additive — manual [data-reveal] still works)
+      document.querySelectorAll('section.section .section-head, .props-full-row, .mech, .gn-assets > div, .principles-row, .framings-row, .negation-row, .spec-row, .cohort, .pool, .actions').forEach(function (el) {
+        if (!el.hasAttribute('data-reveal')) el.setAttribute('data-reveal', '');
+      });
+
+      // Animate hero figure counter on home (only when showing the genesis pool)
+      var heroFig = document.getElementById('home-hero-figure');
+      if (heroFig && /100,000,000/.test(heroFig.textContent || '')) {
+        var target = 100000000;
+        var duration = 1400;
+        var startT = performance.now();
+        var tick = function (now) {
+          var p = Math.min(1, (now - startT) / duration);
+          var eased = 1 - Math.pow(1 - p, 3);
+          var v = Math.floor(target * eased);
+          heroFig.innerHTML = v.toLocaleString('en-US') + '<span class="unit">ADM</span>';
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
       }
 
       // Apply on load

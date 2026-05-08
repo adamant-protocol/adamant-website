@@ -1,5 +1,6 @@
 ---
 import HubLayout from '@/layouts/HubLayout.astro';
+import SeeAlso from '@/components/SeeAlso.astro';
 ---
 
 <HubLayout active="network" title="Adamant — Network" description="Operational view of the live chain. Validator set, recent blocks, mempool, throughput.">
@@ -127,6 +128,8 @@ import HubLayout from '@/layouts/HubLayout.astro';
       </div>
     </div>
   </section>
+
+  <SeeAlso current="network" />
 
 </HubLayout>
 

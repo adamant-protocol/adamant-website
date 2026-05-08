@@ -1,5 +1,6 @@
 ---
 import HubLayout from '@/layouts/HubLayout.astro';
+import SeeAlso from '@/components/SeeAlso.astro';
 
 const REPO = 'https://github.com/adamant-protocol/adamant-website';
 const WP_BASE = `${REPO}/tree/main/whitepaper`;
@@ -119,5 +120,7 @@ const lastUpdate = '2026-05-01';
       </div>
     </div>
   </section>
+
+  <SeeAlso current="spec" />
 
 </HubLayout>

@@ -1,5 +1,6 @@
 ---
 import HubLayout from '@/layouts/HubLayout.astro';
+import SeeAlso from '@/components/SeeAlso.astro';
 import { SEVEN_PROPERTIES, FOUR_TIERS, SEVEN_PRINCIPLES, PLAIN_FRAMINGS, NOT_THIS_LIST } from '@/data/chain';
 ---
 
@@ -179,16 +180,6 @@ import { SEVEN_PROPERTIES, FOUR_TIERS, SEVEN_PRINCIPLES, PLAIN_FRAMINGS, NOT_THI
     </div>
   </section>
 
-  <!-- SEE ALSO — pages moved out of the main nav -->
-  <section style="padding: 0 0 56px;">
-    <div class="container">
-      <div class="see-also">
-        <span class="label">See also</span>
-        <a href="/network">Network status &rarr;</a>
-        <a href="/wallet">Reference wallet &rarr;</a>
-        <a href="/operator">Operator dashboard &rarr;</a>
-      </div>
-    </div>
-  </section>
+  <SeeAlso current="about" />
 
 </HubLayout>
