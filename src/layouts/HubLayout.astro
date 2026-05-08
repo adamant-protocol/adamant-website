@@ -3,7 +3,8 @@ import '@/styles/global.css';
 import Topbar from '@/components/Topbar.astro';
 import StatusStrip from '@/components/StatusStrip.astro';
 import HubFooter from '@/components/HubFooter.astro';
-import { PHASE } from '@/data/chain';
+import PhaseSwitcher from '@/components/PhaseSwitcher.astro';
+import { PHASE, PHASES } from '@/data/chain';
 
 interface Props {
   active?: string;
@@ -14,12 +15,16 @@ interface Props {
 
 const {
   active = 'home',
-  title = 'Adamant — Protocol v0.1',
+  title = 'Adamant — Protocol',
   description = 'A Layer 1 blockchain protocol. Privacy by default, post-quantum, no foundation, no premine, no admin keys.',
-  ogImage = '/home-og.png',
+  ogImage,
 } = Astro.props;
 
+const ogPath = ogImage ?? `/og/${active}.png`;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString();
+
+// Inline the phase data for the client-side switcher
+const PHASE_DATA = JSON.stringify(PHASES);
 ---
 <!doctype html>
 <html lang="en">
@@ -28,14 +33,29 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).to
   <title>{title}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content={description} />
+  <meta name="robots" content="index,follow" />
   <link rel="canonical" href={canonical} />
-  <link rel="icon" type="image/svg+xml" href="/adm-logo-square.svg" />
+  <link rel="icon" type="image/svg+xml" href="/adm-mark.svg" />
+  <link rel="alternate" type="application/rss+xml" title="Adamant — commits" href="https://github.com/adamant-protocol/adamant-website/commits/main.atom" />
+
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
-  <meta property="og:image" content={ogImage} />
+  <meta property="og:image" content={new URL(ogPath, Astro.site ?? Astro.url.origin).toString()} />
   <meta property="og:type" content="website" />
   <meta property="og:url" content={canonical} />
+  <meta property="og:site_name" content="Adamant Protocol" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={new URL(ogPath, Astro.site ?? Astro.url.origin).toString()} />
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Adamant Protocol',
+    url: 'https://adamantprotocol.com',
+    description,
+  })} />
 </head>
 <body data-page={active} data-phase={PHASE.key}>
   <Topbar active={active} />
@@ -44,5 +64,135 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).to
     <slot />
   </main>
   <HubFooter />
+  <PhaseSwitcher />
+
+  <script is:inline define:vars={{ PHASE_DATA }}>
+    (function () {
+      var PHASES = JSON.parse(PHASE_DATA);
+      var KEY = 'adamant.phase';
+
+      function fmtAdm(n) { if (n == null) return '—'; return Number(n).toLocaleString('en-US'); }
+      function fmtBlock(n) { if (n == null) return '—'; return Number(n).toLocaleString('en-US').replace(/,/g, '<span class="sep">,</span>'); }
+
+      function getPhase() {
+        try {
+          var k = localStorage.getItem(KEY);
+          if (k && PHASES[k]) return PHASES[k];
+        } catch (e) {}
+        return PHASES.prelaunch;
+      }
+
+      function applyPhase(p) {
+        document.body.setAttribute('data-phase', p.key);
+
+        // Phase pills
+        document.querySelectorAll('.phase-pill').forEach(function (el) {
+          el.setAttribute('data-phase', p.key);
+          var s = el.querySelector('span');
+          if (s) s.textContent = p.shortLabel;
+        });
+
+        // Status strip cells
+        var height = document.getElementById('ss-height');
+        var heightSub = document.getElementById('ss-height-sub');
+        if (height) {
+          if (p.blockHeight == null) height.innerHTML = '<span data-spec="true">specification</span>';
+          else height.innerHTML = fmtBlock(p.blockHeight);
+        }
+        if (heightSub) heightSub.textContent = p.halted ? 'frozen at halt' : (p.live ? 'live, updating' : 'no chain yet');
+
+        var validators = document.getElementById('ss-validators');
+        var validatorsSub = document.getElementById('ss-validators-sub');
+        if (validators) validators.innerHTML = p.activeValidators + ' <span class="sub">/ ' + p.activeMax + '</span>';
+        if (validatorsSub) validatorsSub.textContent = 'floor ' + p.activeFloor + ' · standby ' + p.standbyQueue;
+
+        var tier = document.getElementById('ss-tier');
+        var tierSub = document.getElementById('ss-tier-sub');
+        if (tier) tier.textContent = p.securityTier;
+        if (tierSub) tierSub.textContent = p.securityTier === '—' ? 'not yet established' : (p.securityTier === 'III' ? 'full guarantees' : 'partial guarantees');
+
+        var tps = document.getElementById('ss-tps');
+        var tpsSub = document.getElementById('ss-tps-sub');
+        if (tps) {
+          if (p.tps == null) tps.innerHTML = '<span data-spec="true">specification</span>';
+          else tps.innerHTML = Number(p.tps).toLocaleString('en-US');
+        }
+        if (tpsSub) tpsSub.textContent = p.live ? 'rolling 60-second average' : '—';
+
+        var circ = document.getElementById('ss-circ');
+        var circSub = document.getElementById('ss-circ-sub');
+        if (circ) {
+          if (p.circulation == null || p.spec) circ.innerHTML = '<span data-spec="true">0</span>';
+          else circ.innerHTML = fmtAdm(p.circulation);
+        }
+        if (circSub) circSub.textContent = p.live ? ('of ' + fmtAdm(p.genesisPool.total) + ' pool') : 'specification only';
+
+        // Spec band
+        var band = document.getElementById('ss-band');
+        if (band) {
+          if (p.spec) {
+            band.style.display = '';
+            band.innerHTML = '<span><b>Specification phase.</b> Values shown are placeholders for layout. No live chain.</span>';
+          } else if (p.halted) {
+            band.style.display = '';
+            band.style.color = 'var(--warn)';
+            band.style.borderColor = 'var(--warn)';
+            band.innerHTML = '<span><b>Halted.</b> Active set ' + p.activeValidators + ' below floor of ' + p.activeFloor + '. Normal operation suspended.</span>';
+          } else {
+            band.style.display = 'none';
+          }
+        }
+
+        // Phase switch buttons
+        document.querySelectorAll('#phase-switch button[data-phase]').forEach(function (btn) {
+          var on = btn.getAttribute('data-phase') === p.key;
+          btn.classList.toggle('is-active', on);
+          btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+
+        // Notify pages so they can update phase-aware bits
+        window.dispatchEvent(new CustomEvent('adamant-phase', { detail: p }));
+      }
+
+      function setPhase(k) {
+        if (!PHASES[k]) return;
+        try { localStorage.setItem(KEY, k); } catch (e) {}
+        applyPhase(PHASES[k]);
+      }
+
+      window.AdamantPhase = { get: getPhase, set: setPhase, all: PHASES };
+
+      // Wire phase switcher
+      var sw = document.getElementById('phase-switch');
+      var toggle = document.getElementById('phase-switch-toggle');
+      if (toggle && sw) {
+        toggle.addEventListener('click', function () {
+          var collapsed = sw.classList.toggle('is-collapsed');
+          toggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+        });
+      }
+      document.querySelectorAll('#phase-switch button[data-phase]').forEach(function (btn) {
+        btn.addEventListener('click', function () { setPhase(btn.getAttribute('data-phase')); });
+      });
+
+      // Apply on load
+      applyPhase(getPhase());
+
+      // Reveal-on-scroll for [data-reveal]
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) {
+              e.target.classList.add('is-revealed');
+              io.unobserve(e.target);
+            }
+          });
+        }, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
+        document.querySelectorAll('[data-reveal]').forEach(function (el) { io.observe(el); });
+      } else {
+        document.querySelectorAll('[data-reveal]').forEach(function (el) { el.classList.add('is-revealed'); });
+      }
+    })();
+  </script>
 </body>
 </html>

@@ -1,0 +1,182 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import { SEVEN_PROPERTIES, FOUR_TIERS, SEVEN_PRINCIPLES, PLAIN_FRAMINGS, NOT_THIS_LIST } from '@/data/chain';
+---
+
+<HubLayout active="about" title="Adamant — About" description="A Layer 1 settlement chain. Privacy by default, post-quantum, no foundation, no premine, no governance.">
+
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ About · what Adamant is &amp; why</div>
+        <h1 class="title">A Layer 1 protocol,<br/><em style="font-style:italic; color:var(--ink-2);">built to outlive the people who built it.</em></h1>
+      </div>
+      <div>
+        <p class="lede">
+          Adamant is a base-layer settlement chain. Privacy by default, post-quantum cryptography, sub-second finality. No foundation, no premine, no admin keys, no on-chain governance.
+        </p>
+        <div style="display:flex; gap:8px; margin-top:18px; flex-wrap: wrap;">
+          <a href="#properties" class="tag">Seven properties</a>
+          <a href="#tiers" class="tag">Four participation tiers</a>
+          <a href="#principles" class="tag">Seven design principles</a>
+          <a href="#framings" class="tag">Plain-English framings</a>
+          <a href="#not-this" class="tag">What Adamant is not</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEVEN PROPERTIES -->
+  <section class="section" id="properties">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 01 / Seven properties</div>
+        <div>
+          <h2 class="title">The seven properties.</h2>
+          <p class="subtitle">Adamant is the conjunction of seven properties. Most chains satisfy two or three. The argument for Adamant is the gap.</p>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 80px 1fr repeat(5, 56px) 1fr 80px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--rule); align-items:center;" class="props-full-head">
+        <div class="label" style="padding:10px 12px;">Item</div>
+        <div class="label" style="padding:10px 12px;">Property</div>
+        <div class="label" style="padding:10px 6px; text-align:center;">BTC</div>
+        <div class="label" style="padding:10px 6px; text-align:center;">ETH</div>
+        <div class="label" style="padding:10px 6px; text-align:center;">XMR</div>
+        <div class="label" style="padding:10px 6px; text-align:center;">ZEC</div>
+        <div class="label" style="padding:10px 6px; text-align:center;">MINA</div>
+        <div class="label" style="padding:10px 12px;">As Adamant defines it</div>
+        <div class="label" style="padding:10px 12px; background: var(--ink); color: var(--paper); text-align:center;">ADM</div>
+      </div>
+
+      {SEVEN_PROPERTIES.map((p, i) => (
+        <div style="display:grid; grid-template-columns: 80px 1fr repeat(5, 56px) 1fr 80px; border-bottom: 1px solid var(--rule); align-items:center;" class="props-full-row">
+          <div style="padding:18px 12px; font-family: var(--mono); font-size: 11px; color: var(--ink-3); letter-spacing: 0.10em;">P.{String(i+1).padStart(2,"0")}</div>
+          <div style="padding:18px 12px; display:flex; flex-direction:column; gap:4px;">
+            <span class="serif" style="font-size: 22px; line-height: 1.1; letter-spacing: -0.01em;">{p.k}</span>
+            <span class="mono small" style="color: var(--ink-3);">{p.note}</span>
+          </div>
+          <div style="padding:18px 6px; text-align:center;">{p.gap.btc ? <span class="gap-yes">●</span> : <span class="gap-no">○</span>}</div>
+          <div style="padding:18px 6px; text-align:center;">{p.gap.eth ? <span class="gap-yes">●</span> : <span class="gap-no">○</span>}</div>
+          <div style="padding:18px 6px; text-align:center;">{p.gap.monero ? <span class="gap-yes">●</span> : <span class="gap-no">○</span>}</div>
+          <div style="padding:18px 6px; text-align:center;">{p.gap.zec ? <span class="gap-yes">●</span> : <span class="gap-no">○</span>}</div>
+          <div style="padding:18px 6px; text-align:center;">{p.gap.mina ? <span class="gap-yes">●</span> : <span class="gap-no">○</span>}</div>
+          <div style="padding:18px 12px; font-family: var(--serif); font-size: 14.5px; line-height: 1.4; color: var(--ink-2);">{p.detail}</div>
+          <div style="padding:18px 12px; text-align:center; background: var(--paper-2);">{p.gap.adm ? <span class="gap-yes">●</span> : <span class="gap-no">○</span>}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- FOUR PARTICIPATION TIERS -->
+  <section class="section" id="tiers">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 02 / Participation</div>
+        <div>
+          <h2 class="title">Four ways to participate.</h2>
+          <p class="subtitle">Two staked roles secure the chain. Two permissionless markets serve it. Anyone can join either market without permission and without stake; anyone can take a staked role by meeting the floor.</p>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink);" class="tiers-grid">
+        {FOUR_TIERS.map((t, i) => (
+          <div style={`padding: 22px 18px; border-left: 1px solid var(--rule); display: flex; flex-direction: column; gap: 14px; min-height: 360px; ${i===0 ? 'border-left:0;' : ''}`}>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span class="mono" style="font-size: 11px; letter-spacing: 0.10em; color: var(--ink-3);">T.{String(i+1).padStart(2,"0")}</span>
+              {t.permissionless ? <span class="tag">Permissionless</span> : <span class="tag solid">Staked</span>}
+            </div>
+            <h3 class="serif" style="font-size: 28px; line-height: 1.05; letter-spacing: -0.015em;">{t.k}</h3>
+            <p class="serif" style="font-size: 15px; line-height: 1.45; color: var(--ink-2); margin:0;">{t.role}</p>
+            <dl style="margin-top: auto; display:grid; grid-template-columns: 1fr; row-gap: 8px;">
+              <div style="display:flex; justify-content:space-between; gap:8px;"><dt class="label">Stake floor</dt><dd class="mono" style="margin:0; font-size:12px;">{t.stake}</dd></div>
+              <div style="display:flex; justify-content:space-between; gap:8px;"><dt class="label">Hardware</dt><dd class="mono" style="margin:0; font-size:11px; line-height:1.4; text-align:right;">{t.hw}</dd></div>
+              <div style="display:flex; justify-content:space-between; gap:8px;"><dt class="label">Compensation</dt><dd class="mono" style="margin:0; font-size:11px; line-height:1.4; text-align:right;">{t.comp}</dd></div>
+              <div style="display:flex; justify-content:space-between; gap:8px;"><dt class="label">Set size</dt><dd class="mono" style="margin:0; font-size:12px;">{t.count}</dd></div>
+            </dl>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- SEVEN DESIGN PRINCIPLES -->
+  <section class="section" id="principles">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 03 / Principles</div>
+        <div>
+          <h2 class="title">Seven design principles.</h2>
+          <p class="subtitle">These principles preceded the protocol. Every design decision in the whitepaper is referenced back to one of them. If a feature does not serve a principle, it is not in the protocol.</p>
+        </div>
+      </div>
+
+      <div style="border-top: 1px solid var(--ink);">
+        {SEVEN_PRINCIPLES.map((p) => (
+          <div style="display:grid; grid-template-columns: 80px 1fr 1.2fr; gap: 32px; padding: 26px 0; border-bottom: 1px solid var(--rule);">
+            <div class="mono" style="font-size: 11px; letter-spacing: 0.14em; color: var(--ink-3); padding-top: 8px;">{p.n}</div>
+            <h3 class="serif" style="font-size: 28px; line-height: 1.05; letter-spacing: -0.015em; max-width: 16ch;">{p.k}</h3>
+            <p class="serif" style="font-size: 17px; line-height: 1.5; color: var(--ink-2); margin:0; max-width: 56ch;">{p.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FRAMINGS -->
+  <section class="section" id="framings">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 04 / Framings</div>
+        <div>
+          <h2 class="title">In plain English.</h2>
+          <p class="subtitle">Adamant compared to systems you may already know.</p>
+        </div>
+      </div>
+      <div style="border-top: 1px solid var(--ink);">
+        {PLAIN_FRAMINGS.map((f) => (
+          <div style="display:grid; grid-template-columns: 200px 1fr 1fr; gap: 32px; padding: 28px 0; border-bottom: 1px solid var(--rule); align-items: start;">
+            <div class="serif" style="font-size: 22px; line-height: 1.1; letter-spacing: -0.01em;">{f.vs}</div>
+            <p class="serif" style="font-size: 16px; line-height: 1.5; color: var(--ink); margin: 0;"><span class="label" style="display:block; margin-bottom:6px;">Same as</span>{f.ada}</p>
+            <p class="serif" style="font-size: 16px; line-height: 1.5; color: var(--ink); margin: 0;"><span class="label" style="display:block; margin-bottom:6px;">Different in</span>{f.adb}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- NOT THIS -->
+  <section class="section" id="not-this">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 05 / Negation</div>
+        <div>
+          <h2 class="title">What Adamant is not.</h2>
+          <p class="subtitle">Negation is part of the specification. Misreadings here cost time.</p>
+        </div>
+      </div>
+      <ol style="list-style:none; padding:0; margin:0; border-top: 1px solid var(--ink);">
+        {NOT_THIS_LIST.map((s, i) => (
+          <li style="display:grid; grid-template-columns: 80px 1fr; gap: 32px; padding: 22px 0; border-bottom: 1px solid var(--rule);">
+            <span class="mono" style="font-size: 11px; letter-spacing: 0.14em; color: var(--ink-3);">N.{String(i+1).padStart(2,"0")}</span>
+            <span class="serif" style="font-size: 20px; line-height: 1.35; letter-spacing: -0.005em;">{s}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- CALLOUT -->
+  <section class="section">
+    <div class="container">
+      <div class="callout">
+        <div class="mark-c">§</div>
+        <div>
+          <p>Adamant is infrastructure, not a product. There is no team to follow, no roadmap to stake belief in, no foundation that can change its mind. The protocol exists only on its terms — the same ones described above.</p>
+          <small>— Whitepaper v0.1, §00 · Posture</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</HubLayout>

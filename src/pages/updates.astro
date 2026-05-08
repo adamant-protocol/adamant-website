@@ -1,0 +1,142 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+
+const REPO = 'https://github.com/adamant-protocol/adamant-website';
+const OWNER = 'adamant-protocol';
+const NAME = 'adamant-website';
+
+type Commit = {
+  sha: string;
+  html_url: string;
+  commit: {
+    message: string;
+    author: { name: string; email: string; date: string };
+  };
+  author?: { login: string; html_url: string; avatar_url: string } | null;
+};
+
+let commits: Commit[] = [];
+let fetchError: string | null = null;
+try {
+  const headers: Record<string, string> = {
+    Accept: 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28',
+    'User-Agent': 'adamant-website-build',
+  };
+  if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+  const res = await fetch(`https://api.github.com/repos/${OWNER}/${NAME}/commits?per_page=20`, { headers });
+  if (res.ok) {
+    commits = (await res.json()) as Commit[];
+  } else {
+    fetchError = `GitHub API ${res.status}`;
+  }
+} catch (e) {
+  fetchError = (e as Error).message;
+}
+
+function tagFor(message: string): string {
+  const first = message.split('\n')[0].toLowerCase();
+  if (/whitepaper|spec|specification|protocol/.test(first)) return 'Spec';
+  if (/security|csp|header|audit/.test(first)) return 'Security';
+  if (/site|design|page|hub|layout|css|component|nav/.test(first)) return 'Site';
+  if (/wallet|prototype|demo/.test(first)) return 'Wallet';
+  if (/fix|bug|revert/.test(first)) return 'Fix';
+  return 'Repo';
+}
+
+function summariseMessage(message: string): { title: string; body: string } {
+  const lines = message.split(/\r?\n/);
+  const title = lines[0].trim();
+  const body = lines.slice(1).join('\n').trim();
+  return { title, body };
+}
+
+const fmtDate = (iso: string) => {
+  const d = new Date(iso);
+  return d.toISOString().slice(0, 10);
+};
+
+const fallbackEntries = [
+  { date: '2026-05-01', tag: 'Spec', title: 'Whitepaper v0.1 published',
+    d: 'Full specification, including the two-regime mempool design and the genesis cohort mechanics, is now public on GitHub.' },
+  { date: '2026-04-18', tag: 'Site', title: 'Reference implementation in progress',
+    d: 'Rust reference implementation is public. Networking and consensus modules stubbed; cryptography in progress.' },
+];
+---
+
+<HubLayout active="updates" title="Adamant — Updates" description="Project journal. Material design and operational changes, pulled live from the commit log.">
+
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Updates · /updates · live</div>
+        <h1 class="title">Project journal.<br/><em style="font-style:italic; color:var(--ink-2);">Live from the commit log.</em></h1>
+      </div>
+      <div>
+        <p class="lede">
+          What happened, what was decided, what is next. Pulled directly from the repository's commit log at every site build — no editorial layer between the work and the journal.
+        </p>
+        <div style="display:flex; gap: 12px; margin-top: 16px; flex-wrap: wrap;">
+          <a class="link mono small" href={`${REPO}/commits/main`} rel="noopener" target="_blank" style="border:1px solid var(--ink); padding:8px 14px; letter-spacing:0.10em; text-transform:uppercase;">Commit log ↗</a>
+          <a class="link mono small" href={`${REPO}/commits/main.atom`} rel="noopener" target="_blank" style="border:1px solid var(--rule-2); padding:8px 14px; letter-spacing:0.10em; text-transform:uppercase;">RSS · atom</a>
+          <a class="link mono small" href={`${REPO}/issues`} rel="noopener" target="_blank" style="border:1px solid var(--rule-2); padding:8px 14px; letter-spacing:0.10em; text-transform:uppercase;">Discussion ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 16px 0 96px;">
+    <div class="container">
+      {commits.length > 0 ? (
+        <div style="padding: 14px 0 0;">
+          {commits.map((c, i) => {
+            const { title, body } = summariseMessage(c.commit.message);
+            const tag = tagFor(c.commit.message);
+            const date = fmtDate(c.commit.author.date);
+            return (
+              <article data-reveal style={`display: grid; grid-template-columns: 200px 1fr; gap: 64px; padding: 48px 0; border-top: ${i===0 ? '1px solid var(--ink)' : '1px solid var(--rule)'};`} class="update-entry">
+                <div>
+                  <span class="serif" style="display:block; font-style: italic; font-size: 28px; color: var(--ink); margin-bottom: 6px; letter-spacing: -0.01em;">{date}</span>
+                  <div style="display:flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px;"><span class="tag">{tag}</span></div>
+                  <a class="mono small" href={c.html_url} rel="noopener" target="_blank" style="color: var(--ink-3); font-size: 11px; letter-spacing: 0.04em;">{c.sha.slice(0, 7)} ↗</a>
+                </div>
+                <div>
+                  <a href={c.html_url} rel="noopener" target="_blank" style="color: var(--ink);">
+                    <h2 class="serif" style="font-size: 26px; font-weight: 400; letter-spacing: -0.012em; line-height: 1.2; margin: 0 0 14px;">{title}</h2>
+                  </a>
+                  {body ? (
+                    <p class="serif" style="font-size: 16px; line-height: 1.55; color: var(--ink-2); max-width: 64ch; margin: 0; white-space: pre-line;">{body}</p>
+                  ) : null}
+                  <p class="mono small" style="margin-top: 12px; color: var(--ink-3);">— {c.commit.author.name}</p>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      ) : (
+        <div style="padding: 14px 0 0;">
+          <p class="mono small" style="color: var(--warn); margin-bottom: 24px;">{fetchError ? `Live commit log unavailable (${fetchError}). Showing a static fallback.` : 'No commits returned.'}</p>
+          {fallbackEntries.map((u, i) => (
+            <article data-reveal style={`display: grid; grid-template-columns: 200px 1fr; gap: 64px; padding: 48px 0; border-top: ${i===0 ? '1px solid var(--ink)' : '1px solid var(--rule)'};`} class="update-entry">
+              <div>
+                <span class="serif" style="display:block; font-style: italic; font-size: 28px; color: var(--ink); margin-bottom: 6px; letter-spacing: -0.01em;">{u.date}</span>
+                <span class="tag">{u.tag}</span>
+              </div>
+              <div>
+                <h2 class="serif" style="font-size: 26px; font-weight: 400; letter-spacing: -0.012em; line-height: 1.2; margin: 0 0 14px;">{u.title}</h2>
+                <p class="serif" style="font-size: 16px; line-height: 1.55; color: var(--ink-2); max-width: 64ch; margin: 0;">{u.d}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+</HubLayout>
+
+<style>
+@media (max-width: 980px) {
+  .update-entry { grid-template-columns: 1fr !important; gap: 12px !important; }
+}
+</style>

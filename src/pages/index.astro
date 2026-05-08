@@ -1,17 +1,10 @@
 ---
 import HubLayout from '@/layouts/HubLayout.astro';
-import { SEVEN_PROPERTIES, FIVE_MECHANISMS, UPDATES, PHASE, fmtAdm } from '@/data/chain';
+import { SEVEN_PROPERTIES, FIVE_MECHANISMS, PHASE, fmtAdm } from '@/data/chain';
 
 const p = PHASE;
 const burnRem = fmtAdm(p.genesisPool.burnRemaining);
 const valRem = fmtAdm(p.genesisPool.validatorRemaining);
-
-const COLS = ['BTC', 'ETH', 'XMR', 'ZEC', 'MINA', 'ADM'] as const;
-const KEYS: Record<typeof COLS[number], keyof typeof SEVEN_PROPERTIES[0]['gap']> = {
-  BTC: 'btc', ETH: 'eth', XMR: 'monero', ZEC: 'zec', MINA: 'mina', ADM: 'adm',
-};
-
-const latestUpdate = UPDATES[0];
 ---
 
 <HubLayout active="home" title="Adamant — Home" description="A Layer 1 blockchain protocol. Privacy by default, post-quantum, no foundation, no premine, no admin keys.">
@@ -164,30 +157,6 @@ const latestUpdate = UPDATES[0];
         <span><span style="display:inline-block; width:6px; height:6px; background: var(--ok); margin-right: 6px;"></span>active &amp; producing</span>
         <span><span style="display:inline-block; width:6px; height:6px; border:1px solid var(--rule-2); margin-right: 6px;"></span>open</span>
       </div>
-    </div>
-  </section>
-
-  <!-- LATEST UPDATE -->
-  <section class="section" data-screen-label="Latest update">
-    <div class="container">
-      <div class="section-head">
-        <div class="num-mark">§ 04</div>
-        <div>
-          <h2 class="title">Latest from the journal.</h2>
-          <p class="subtitle">Every design decision is logged. <a class="link" href="https://github.com/adamant-protocol/adamant-website/commits/main" rel="noopener" target="_blank">Open the full commit log →</a></p>
-        </div>
-      </div>
-
-      <article style="display:grid; grid-template-columns: 220px 1fr; gap: 32px; padding-top: 8px; border-top: 1px solid var(--ink);">
-        <div style="display:flex; flex-direction:column; gap:6px;">
-          <span class="label">{latestUpdate.date}</span>
-          <span class="tag">{latestUpdate.tag}</span>
-        </div>
-        <div>
-          <h3 class="serif" style="font-size: 28px; line-height: 1.1; letter-spacing: -0.015em;">{latestUpdate.title}</h3>
-          <p class="serif" style="font-size: 17px; line-height: 1.5; color: var(--ink-2); max-width: 64ch; margin-top: 12px;">{latestUpdate.d}</p>
-        </div>
-      </article>
     </div>
   </section>
 

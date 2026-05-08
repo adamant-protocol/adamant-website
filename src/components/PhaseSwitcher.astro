@@ -1,0 +1,18 @@
+---
+import { PHASE_OPTIONS } from '@/data/chain';
+---
+
+<aside class="phase-switch is-collapsed" id="phase-switch" aria-label="Preview chain phase">
+  <button class="phase-switch-head" id="phase-switch-toggle" type="button" aria-expanded="false">
+    <span class="label">Preview phase</span>
+    <span class="chev" aria-hidden="true">▾</span>
+  </button>
+  <div class="phase-switch-body">
+    {PHASE_OPTIONS.map((p) => (
+      <button type="button" data-phase={p.key} aria-pressed={p.key === 'prelaunch' ? 'true' : 'false'}>
+        <span>{p.label}</span>
+      </button>
+    ))}
+  </div>
+  <div class="phase-switch-foot">Visual preview only — chain is pre-launch.</div>
+</aside>

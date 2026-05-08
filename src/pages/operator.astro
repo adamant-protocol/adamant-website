@@ -1,0 +1,149 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+
+const ROLES = [
+  { k: 'runner',  h: 'Node Runner',  s: 'Validator slot · stake 1 000 ADM' },
+  { k: 'watcher', h: 'Node Watcher', s: 'Witness · stake 100 ADM' },
+  { k: 'prover',  h: 'Prover',       s: 'Permissionless · GPU recommended' },
+  { k: 'service', h: 'Service Node', s: 'Permissionless · light-client RPC' },
+];
+---
+
+<HubLayout active="operator" title="Adamant — Operator" description="Operator dashboard for the four participation tiers. Pre-launch: registration opens at testnet activation.">
+
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Operator · participation dashboard</div>
+        <h1 class="title">Operator dashboard,<br/><em style="font-style:italic; color:var(--ink-2);">one shape, four roles.</em></h1>
+      </div>
+      <div>
+        <p class="lede">
+          One pane for everyone running the chain. Switch between the four participation tiers; each shares the same shape — performance, rewards, claim — with role-specific instrumentation. During the specification phase, registration is closed and dashboards are empty by definition.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 0;">
+    <div class="container" style="padding-top: 16px;">
+      <div style="display: flex; gap: 0; border-bottom: 1px solid var(--ink); flex-wrap: wrap;">
+        {ROLES.map((r, i) => (
+          <div style={`padding: 14px 24px; border-right: 1px solid var(--rule); display: flex; flex-direction: column; gap: 4px; min-width: 200px; ${i===0 ? 'background: var(--ink); color: var(--paper);' : ''}`}>
+            <span class="mono" style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;">{r.h}</span>
+            <span class="serif" style={`font-style: italic; font-size: 12.5px; ${i===0 ? 'color: oklch(78% 0.005 80);' : 'color: var(--ink-3);'}`}>{r.s}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- STAT STRIP -->
+  <section class="section" style="padding-top: 28px;">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink);" class="op-stats">
+        {[
+          { l: 'Slot status', sub: 'pre-launch · unallocated' },
+          { l: 'Bonded ADM', sub: 'self + delegations' },
+          { l: 'Active delegators', sub: 'count · current epoch' },
+          { l: 'Uptime · 30d', sub: 'rolling' },
+          { l: 'Rewards · last epoch', sub: 'ADM' },
+        ].map((s, i) => (
+          <div style={`padding: 18px 16px; ${i>0 ? 'border-left: 1px solid var(--rule);' : ''}`}>
+            <span class="label">{s.l}</span>
+            <span class="v" data-spec="true" style="display:block; font-family: var(--mono); font-size: 26px; line-height: 1; margin-top: 6px; font-variant-numeric: tabular-nums; color: var(--ink-2);">specification</span>
+            <span class="mono" style="font-size: 10.5px; color: var(--ink-3); margin-top: 6px; display:block;">{s.sub}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- BODY GRID -->
+  <section style="padding: 0 0 32px;">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px;" class="op-grid">
+
+        <!-- LEFT: performance + delegators -->
+        <div style="display:flex; flex-direction:column; gap: 24px;">
+          <div style="border: 1px solid var(--rule); background: var(--paper);">
+            <div style="display:flex; justify-content:space-between; padding: 12px 16px; border-bottom: 1px solid var(--rule);">
+              <span class="label">Performance · last 7 days</span>
+              <span class="mono small" style="color: var(--ink-3);">target lines in cinnabar</span>
+            </div>
+            <div style="padding: 32px 16px; color: var(--ink-3); font-family: var(--serif); font-style: italic;">No performance data yet — chain is in specification phase.</div>
+          </div>
+
+          <div style="border: 1px solid var(--rule); background: var(--paper);">
+            <div style="display:flex; justify-content:space-between; padding: 12px 16px; border-bottom: 1px solid var(--rule);">
+              <span class="label">Delegators</span>
+              <span class="mono small" style="color: var(--ink-3);">latest 8 by stake</span>
+            </div>
+            <div style="padding: 32px 16px; color: var(--ink-3); font-family: var(--serif); font-style: italic;">No delegators — slot not yet active.</div>
+          </div>
+        </div>
+
+        <!-- RIGHT: rewards + register + slot transfer -->
+        <div style="display:flex; flex-direction:column; gap: 24px;">
+          <div style="display:grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--ink);">
+            <div style="padding: 22px 24px;">
+              <span class="label">Pending rewards</span>
+              <div class="mono" style="font-size: 36px; line-height: 1; font-variant-numeric: tabular-nums; margin-top: 8px; color: var(--ink-2);" data-spec="true">specification</div>
+              <div class="mono small" style="margin-top: 8px; color: var(--ink-3);">claimable at next epoch</div>
+            </div>
+            <div style="padding: 22px 24px; border-left: 1px solid var(--ink);">
+              <span class="label">Lifetime claimed</span>
+              <div class="mono" style="font-size: 36px; line-height: 1; font-variant-numeric: tabular-nums; margin-top: 8px; color: var(--ink-2);" data-spec="true">specification</div>
+              <div class="mono small" style="margin-top: 8px; color: var(--ink-3);">since registration</div>
+            </div>
+          </div>
+
+          <div style="border: 1px solid var(--rule); background: var(--paper);">
+            <div style="display:flex; justify-content:space-between; padding: 12px 16px; border-bottom: 1px solid var(--rule);">
+              <span class="label">Register · pre-launch</span>
+              <span class="mono small" style="color: var(--ink-3);">registration opens at testnet activation</span>
+            </div>
+            <div style="padding: 22px; background: var(--spec-bg); border-bottom: 1px solid var(--rule);">
+              <p class="serif" style="font-size: 16px; line-height: 1.5; color: var(--ink-2); margin: 0; max-width: 56ch;">
+                The chain self-activates when 7 Node Runners are simultaneously registered, stake-eligible, and online. Registration opens with the public testnet; mainnet follows when audits and the security tier signal align.
+              </p>
+            </div>
+            <div class="scroll-x">
+              <table class="ledger">
+                <thead>
+                  <tr><th>Step</th><th>Requirement</th><th>State</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>01</td><td>Acquire ADM via burn-to-mint</td><td><span class="tag">pending</span></td></tr>
+                  <tr><td>02</td><td>Bond stake floor (1 000 ADM Node Runner / 100 ADM Node Watcher)</td><td><span class="tag">pending</span></td></tr>
+                  <tr><td>03</td><td>Sign registration; self-activate</td><td><span class="tag">pending</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div style="border: 1px solid var(--rule); background: var(--paper);">
+            <div style="display:flex; justify-content:space-between; padding: 12px 16px; border-bottom: 1px solid var(--rule);">
+              <span class="label">Slot transfer · WP §8.1.8</span>
+              <span class="mono small" style="color: var(--ink-3);">mutual-consent transfer</span>
+            </div>
+            <div style="padding: 18px;">
+              <p class="serif" style="font-size: 14.5px; line-height: 1.5; color: var(--ink-2); margin: 0; max-width: 56ch;">
+                Active-set slots are transferable by mutual consent — seller signs, buyer co-signs, slot reassigns at the next epoch boundary with no change in seniority. The genesis cohort marker does not transfer with the slot; it remains attached to the original address for the lifetime of the chain.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</HubLayout>
+
+<style>
+@media (max-width: 980px) {
+  .op-grid { grid-template-columns: 1fr !important; }
+  .op-stats { grid-template-columns: repeat(2, 1fr) !important; }
+}
+</style>

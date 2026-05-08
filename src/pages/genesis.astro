@@ -1,0 +1,230 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import { PHASE, fmtAdm } from '@/data/chain';
+
+const p = PHASE;
+const burnRem = p.genesisPool.burnRemaining;
+const valRem = p.genesisPool.validatorRemaining;
+const burnUsed = 70_000_000 - burnRem;
+const valUsed = 30_000_000 - valRem;
+
+const FLOW = [
+  { k: '01', h: 'Select source asset',  d: 'BTC, ETH, USDT or USDC. Each has its own provable burn primitive.' },
+  { k: '02', h: 'Connect source wallet', d: 'Or paste a burn-tx signature you have already broadcast.' },
+  { k: '03', h: 'Specify amount',        d: 'USD-equivalent at the moment of burn. ADM mint reads from the same on-chain oracle.' },
+  { k: '04', h: 'Sign burn',             d: 'Source-chain transaction. Address publicly verifiable; pre-image is OP_RETURN-style data.' },
+  { k: '05', h: 'Watch source confirm',  d: 'BTC: 6 confirmations. ETH: 32 epochs. USDT/USDC: 64 confirmations.' },
+  { k: '06', h: 'Watch ADM mint',        d: 'Adamant validator set verifies the burn proof and mints ADM to your destination address.' },
+  { k: '07', h: 'Confirmation',          d: 'ADM appears in your wallet, shielded by default. The burn is logged in the public mint ledger.' },
+];
+---
+
+<HubLayout active="genesis" title="Adamant — Genesis" description="100M ADM genesis pool, partitioned 70/30 between burn-to-mint and validator block rewards. No premine, no foundation allocation.">
+
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Genesis · how the chain bootstraps</div>
+        <h1 class="title">100 000 000 ADM,<br/><em style="font-style:italic; color:var(--ink-2);">drained by burn and by block.</em></h1>
+      </div>
+      <div>
+        <p class="lede">
+          Adamant has no premine, no foundation, no investor round. The genesis pool of 100 million ADM is partitioned 70 / 30 between burn-to-mint and validator block rewards. There is no other way for ADM to exist.
+        </p>
+        <div style="display:flex; gap:8px; margin-top:18px; flex-wrap: wrap;">
+          <a href="#pool" class="tag">Pool drain</a>
+          <a href="#burn-to-mint" class="tag">Burn-to-mint</a>
+          <a href="#cohort" class="tag">Cohort register</a>
+          <a href="#stake" class="tag">Stake floors</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POOL DRAIN -->
+  <section class="section" id="pool">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 01 / Pool</div>
+        <div>
+          <h2 class="title">Genesis pool · live drain.</h2>
+          <p class="subtitle">100M ADM total, split 70 / 30 between burn-allocated and validator-allocated. The two segments drain at different rates. When both reach zero, the chain enters its post-genesis issuance regime.</p>
+        </div>
+      </div>
+
+      <div class="pool">
+        <div class="pool-head">
+          <div class="pool-cell">
+            <span class="label">Burn-allocated · remaining</span>
+            <span class="v">{fmtAdm(burnRem)} <span class="of">/ 70 000 000 ADM</span></span>
+            <div class="mono small" style="margin-top:6px; color: var(--ink-3);">Rate: 20 ADM minted per USD-equivalent burned</div>
+          </div>
+          <div class="pool-cell">
+            <span class="label">Validator-allocated · remaining</span>
+            <span class="v">{fmtAdm(valRem)} <span class="of">/ 30 000 000 ADM</span></span>
+            <div class="mono small" style="margin-top:6px; color: var(--ink-3);">Rate: emitted per epoch to active validators</div>
+          </div>
+        </div>
+        <div class="pool-bar">
+          <div class="seg burn"><div class="fill" style={`width:${((burnUsed/70_000_000)*100).toFixed(1)}%`}></div><div class="tick">burn · 70%</div></div>
+          <div class="seg val"><div class="fill" style={`width:${((valUsed/30_000_000)*100).toFixed(1)}%`}></div><div class="tick">validator · 30%</div></div>
+        </div>
+        <div class="pool-foot">
+          <span>Total drained: {fmtAdm(burnUsed + valUsed)} ADM</span>
+          <span>Time elapsed since genesis: —</span>
+          <span>5-year cap on launch phase</span>
+        </div>
+      </div>
+
+      <p class="small" style="margin-top:16px; max-width: 64ch;">
+        The bar reads left-to-right as drain progress. The burn segment depletes only when ADM is minted from a verified burn; the validator segment depletes per epoch as block rewards are paid. Counters update at the new-epoch boundary. Pre-launch values are placeholders.
+      </p>
+    </div>
+  </section>
+
+  <!-- BURN-TO-MINT -->
+  <section class="section" id="burn-to-mint">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 02 / Acquisition</div>
+        <div>
+          <h2 class="title">Burn-to-mint.</h2>
+          <p class="subtitle">The only way to acquire newly-minted ADM during the launch phase. Provably burn BTC, ETH, USDT or USDC; receive ADM at the fixed rate. During pre-launch the calculator below is informational only.</p>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--rule);">
+        {[
+          { n: '01', name: 'Bitcoin', sub: 'BTC · provable burn address' },
+          { n: '02', name: 'Ethereum', sub: 'ETH · burn precompile' },
+          { n: '03', name: 'USDT', sub: 'on Ethereum mainnet' },
+          { n: '04', name: 'USDC', sub: 'on Ethereum mainnet' },
+        ].map((a, i) => (
+          <div style={`padding: 18px 16px; border-left: 1px solid var(--rule); ${i===0?'border-left:0;':''}`}>
+            <span class="label">Accept · {a.n}</span>
+            <div class="serif" style="font-size: 22px; margin-top: 4px;">{a.name}</div>
+            <div class="mono small" style="color: var(--ink-3);">{a.sub}</div>
+            <div class="mono" style="font-size: 20px; margin-top: 14px;">20 <span style="color:var(--mute);">ADM / USD-eq</span></div>
+          </div>
+        ))}
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap: 32px; margin-top: 32px;">
+        <div>
+          <span class="label">Calculator · informational</span>
+          <div style="border: 1px solid var(--ink); margin-top: 8px;">
+            <div style="display:flex; border-bottom: 1px solid var(--rule);">
+              <div style="padding: 14px 18px; border-right: 1px solid var(--rule); width: 130px;"><span class="label">Source asset</span></div>
+              <div style="display:flex; flex:1;">
+                {['BTC','ETH','USDT','USDC'].map((a, i) => (
+                  <div style={`flex:1; padding: 14px 18px; border-right: 1px solid var(--rule); background: ${i===0?'var(--ink)':'transparent'}; color: ${i===0?'var(--paper)':'var(--ink)'}; font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; text-align:center;`}>{a}</div>
+                ))}
+              </div>
+            </div>
+            <div style="display:flex; border-bottom: 1px solid var(--rule); align-items:stretch;">
+              <div style="padding: 14px 18px; border-right: 1px solid var(--rule); width: 130px;"><span class="label">Amount to burn</span></div>
+              <div style="display:flex; flex:1; align-items:center; padding: 14px 18px;">
+                <span class="mono" style="flex:1; font-size: 28px; color: var(--ink); font-variant-numeric: tabular-nums;">2,500</span>
+                <span class="mono" style="color: var(--ink-3); font-size: 13px; letter-spacing: 0.10em; text-transform: uppercase;">USD</span>
+              </div>
+            </div>
+            <div style="display:flex; background: var(--paper-2);">
+              <div style="padding: 14px 18px; border-right: 1px solid var(--rule); width: 130px;"><span class="label">You will mint</span></div>
+              <div style="display:flex; flex:1; align-items:center; padding: 14px 18px;">
+                <span class="mono" style="font-size: 32px; color: var(--ink); font-variant-numeric: tabular-nums;">50,000</span>
+                <span class="mono" style="margin-left: 10px; color: var(--ink-3);">ADM</span>
+              </div>
+            </div>
+          </div>
+          <p class="small" style="margin-top: 12px;">
+            Rate is fixed at 20 ADM per USD-equivalent for the duration of the launch phase. USD-equivalence for BTC and ETH is read from the on-chain price oracle at the moment of burn.
+          </p>
+        </div>
+
+        <div>
+          <span class="label">The flow</span>
+          <ol style="list-style:none; padding: 0; margin: 8px 0 0; border-top: 1px solid var(--ink);">
+            {FLOW.map((f) => (
+              <li style="display:grid; grid-template-columns: 40px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--rule);">
+                <span class="mono" style="color: var(--ink-3); font-size: 11px; letter-spacing: 0.10em; padding-top: 2px;">{f.k}</span>
+                <div>
+                  <div class="serif" style="font-size: 17px; line-height: 1.2;">{f.h}</div>
+                  <div class="serif small" style="color: var(--ink-2); margin-top: 2px;">{f.d}</div>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COHORT REGISTER -->
+  <section class="section" id="cohort">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 03 / Cohort</div>
+        <div>
+          <h2 class="title">The genesis cohort register.</h2>
+          <p class="subtitle">All 75 slots, in registration order. Each filled slot shows the validator address, activation epoch, and Genesis NFT identifier. The cohort marker is permanent — bound to the original address for the lifetime of the chain even if the slot is later transferred.</p>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); margin-bottom: 24px;">
+        <div style="padding: 14px 18px;"><span class="label">Filled</span><div class="mono" style="font-size: 28px; margin-top: 4px;">0 / 75</div></div>
+        <div style="padding: 14px 18px; border-left: 1px solid var(--rule);"><span class="label">Open</span><div class="mono" style="font-size: 28px; margin-top: 4px;">75</div></div>
+        <div style="padding: 14px 18px; border-left: 1px solid var(--rule);"><span class="label">Most recent</span><div class="mono" style="font-size: 16px; margin-top: 8px;">—</div></div>
+        <div style="padding: 14px 18px; border-left: 1px solid var(--rule);"><span class="label">Marker scheme</span><div class="mono" style="font-size: 13px; margin-top: 8px; color: var(--ink-2); line-height:1.4;">Permanent on-chain marker · tradeable Genesis NFT</div></div>
+      </div>
+
+      <div class="cohort">
+        {Array.from({ length: 75 }, (_, i) => i + 1).map((i) => (
+          <div class="slot is-empty" title={`Cohort #${i}`}>
+            <span class="n">#{String(i).padStart(2, '0')}</span>
+          </div>
+        ))}
+      </div>
+
+      <div style="margin-top: 32px;">
+        <div class="divider-mark">Recent registrations · ledger</div>
+        <div class="scroll-x" style="margin-top: 14px;">
+          <table class="ledger">
+            <thead>
+              <tr><th>#</th><th>Address</th><th>Registered</th><th>Activation epoch</th><th>Genesis NFT</th><th class="r">Bonded ADM</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="7" style="color: var(--ink-3); padding: 24px 12px;">No registrations yet — cohort opens at testnet activation.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STAKE FLOORS -->
+  <section class="section" id="stake">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 04 / Stake</div>
+        <div>
+          <h2 class="title">Stake floors.</h2>
+          <p class="subtitle">The minimum bond to take a staked role. Floors apply at genesis and are subject to scheduled re-evaluation at five-year intervals (WP §11.5.4) to prevent token-appreciation-driven exclusion.</p>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink);">
+        <div style="padding: 32px 24px; border-right: 1px solid var(--rule);">
+          <span class="label">Node Runner</span>
+          <div class="mono" style="font-size: 56px; margin-top: 8px; line-height: 1; font-variant-numeric: tabular-nums;">1 000 <span style="color:var(--mute); font-size: 28px;">ADM</span></div>
+          <p class="serif" style="font-size: 16px; line-height: 1.45; color: var(--ink-2); max-width: 56ch; margin-top: 16px;">Validators stake at least 1 000 ADM to take a slot. Self-bond and delegations both count. Slashing applies to both. 28-day unbonding.</p>
+        </div>
+        <div style="padding: 32px 24px;">
+          <span class="label">Node Watcher</span>
+          <div class="mono" style="font-size: 56px; margin-top: 8px; line-height: 1; font-variant-numeric: tabular-nums;">100 <span style="color:var(--mute); font-size: 28px;">ADM</span></div>
+          <p class="serif" style="font-size: 16px; line-height: 1.45; color: var(--ink-2); max-width: 56ch; margin-top: 16px;">Witnesses stake at least 100 ADM to publish attestations. Set is uncapped; competition for fees regulates participation. 7-day unbonding; slashable for false attestations.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</HubLayout>

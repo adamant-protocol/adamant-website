@@ -7,31 +7,31 @@ const p = PHASE;
   <div class="row">
     <div class="status-cell is-hero">
       <span class="label">Block height</span>
-      <span class="v"><span data-spec="true">specification</span></span>
-      <span class="sub">no chain yet</span>
+      <span class="v" id="ss-height"><span data-spec="true">specification</span></span>
+      <span class="sub" id="ss-height-sub">no chain yet</span>
     </div>
     <div class="status-cell">
       <span class="label">Active validators</span>
-      <span class="v">{p.activeValidators} <span class="sub">/ {p.activeMax}</span></span>
-      <span class="sub">floor {p.activeFloor} · standby {p.standbyQueue}</span>
+      <span class="v" id="ss-validators">{p.activeValidators} <span class="sub">/ {p.activeMax}</span></span>
+      <span class="sub" id="ss-validators-sub">floor {p.activeFloor} · standby {p.standbyQueue}</span>
     </div>
     <div class="status-cell">
       <span class="label">Security tier</span>
-      <span class="v">{p.securityTier}</span>
-      <span class="sub">not yet established</span>
+      <span class="v" id="ss-tier">{p.securityTier}</span>
+      <span class="sub" id="ss-tier-sub">not yet established</span>
     </div>
     <div class="status-cell">
       <span class="label">TPS · current</span>
-      <span class="v"><span data-spec="true">specification</span></span>
-      <span class="sub">—</span>
+      <span class="v" id="ss-tps"><span data-spec="true">specification</span></span>
+      <span class="sub" id="ss-tps-sub">—</span>
     </div>
     <div class="status-cell">
       <span class="label">ADM in circulation</span>
-      <span class="v"><span data-spec="true">0</span></span>
-      <span class="sub">specification only</span>
+      <span class="v" id="ss-circ"><span data-spec="true">0</span></span>
+      <span class="sub" id="ss-circ-sub">specification only</span>
     </div>
   </div>
-  <div class="spec-band">
+  <div class="spec-band" id="ss-band">
     <span><b>Specification phase.</b> Values shown are placeholders for layout. No live chain.</span>
   </div>
 </div>

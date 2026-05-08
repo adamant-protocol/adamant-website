@@ -1,0 +1,123 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+
+const REPO = 'https://github.com/adamant-protocol/adamant-website';
+const WP_BASE = `${REPO}/tree/main/whitepaper`;
+
+// Read every whitepaper section at build time.
+// `import.meta.glob` resolves at build, so this is fully static.
+const files = import.meta.glob<string>('../../whitepaper/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
+
+type Sec = { n: string; file: string; title: string; abstract: string; words: number };
+
+const sections: Sec[] = Object.entries(files)
+  .filter(([p]) => !/complete\.md$/.test(p))
+  .map(([p, raw]) => {
+    const file = p.split('/').pop()!;
+    const m = file.match(/^(\d+)/);
+    const n = m ? m[1] : '';
+
+    const lines = raw.split(/\r?\n/);
+    const titleLine = lines.find((l) => l.startsWith('# ')) ?? `# Section ${n}`;
+    // strip "# 0. " or "# 0 · " prefix
+    const title = titleLine.replace(/^#\s*\d+[\.\s·]+\s*/, '').replace(/^#\s*/, '').trim();
+
+    // First non-empty paragraph after the title
+    const afterTitle = raw.split(/\n#\s/)[0].split(/\r?\n/);
+    let para = '';
+    let inTitle = true;
+    for (const ln of afterTitle) {
+      if (inTitle && ln.startsWith('# ')) { inTitle = false; continue; }
+      if (inTitle) continue;
+      if (!ln.trim()) { if (para) break; else continue; }
+      para += (para ? ' ' : '') + ln.trim();
+    }
+    if (!para) {
+      // fallback: take first paragraph after any heading
+      const blocks = raw.split(/\n\s*\n/).map((b) => b.trim()).filter(Boolean);
+      para = blocks.find((b) => !b.startsWith('#')) ?? '';
+    }
+    // truncate to ~360 chars on word boundary, strip inline markdown punctuation
+    const stripped = para.replace(/`/g, '').replace(/\[(.*?)\]\(.*?\)/g, '$1');
+    const trim = stripped.length > 360 ? stripped.slice(0, 360).replace(/\s+\S*$/, '') + '…' : stripped;
+
+    const words = raw.split(/\s+/).filter(Boolean).length;
+    return { n, file, title, abstract: trim, words };
+  })
+  .sort((a, b) => a.n.localeCompare(b.n));
+
+const totalWords = sections.reduce((s, x) => s + x.words, 0);
+const lastUpdate = '2026-05-01';
+---
+
+<HubLayout active="spec" title="Adamant — Specification" description="The Adamant whitepaper. Draft v0.1. The canonical reference for the protocol's behaviour. Thirteen sections, parsed inline.">
+
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Specification · /spec</div>
+        <h1 class="title">Whitepaper<br/><em style="font-style:italic; color:var(--ink-2);">v0.1 — public draft.</em></h1>
+      </div>
+      <div>
+        <p class="lede">
+          The whitepaper is the canonical reference for the protocol's behaviour. The text below is parsed live from the markdown source in the repository — what you read here is what is committed.
+        </p>
+        <div style="display:flex; gap: 12px; margin-top: 16px; flex-wrap: wrap;">
+          <a class="link mono small" href={WP_BASE} rel="noopener" target="_blank" style="border:1px solid var(--ink); padding:8px 14px; letter-spacing:0.10em; text-transform:uppercase;">Markdown source ↗</a>
+          <a class="link mono small" href={`${REPO}/blob/main/whitepaper/adamant-whitepaper-complete.md`} rel="noopener" target="_blank" style="border:1px solid var(--rule-2); padding:8px 14px; letter-spacing:0.10em; text-transform:uppercase;">Single-file view ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 16px 0 32px;">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink);" class="meta-strip">
+        <div style="padding: 18px 16px;"><span class="label">Version</span><span class="mono" style="font-size: 16px; margin-top: 6px; display: block;">v0.1 · draft</span></div>
+        <div style="padding: 18px 16px; border-left: 1px solid var(--rule);"><span class="label">Sections</span><span class="mono" style="font-size: 16px; margin-top: 6px; display: block;">{sections.length}</span></div>
+        <div style="padding: 18px 16px; border-left: 1px solid var(--rule);"><span class="label">Word count</span><span class="mono" style="font-size: 16px; margin-top: 6px; display: block;">{totalWords.toLocaleString('en-US')}</span></div>
+        <div style="padding: 18px 16px; border-left: 1px solid var(--rule);"><span class="label">Last revised</span><span class="mono" style="font-size: 16px; margin-top: 6px; display: block;">{lastUpdate}</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="sections">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <div class="num-mark">§ 01 / Sections</div>
+        <div>
+          <h2 class="title">Thirteen sections, in order.</h2>
+          <p class="subtitle">Each section's opening paragraph is rendered inline below. Click through to read the canonical full markdown on GitHub.</p>
+        </div>
+      </div>
+
+      <ol style="list-style:none; padding:0; margin:0; border-top: 1px solid var(--ink);">
+        {sections.map((s) => (
+          <li data-reveal style="display:grid; grid-template-columns: 80px 1fr 110px; gap: 32px; padding: 28px 0; border-bottom: 1px solid var(--rule); align-items: start;">
+            <span class="mono" style="font-size: 11px; letter-spacing: 0.14em; color: var(--ink-3); padding-top: 8px;">§ {s.n.padStart(2, '0')}</span>
+            <div>
+              <a href={`${REPO}/blob/main/whitepaper/${s.file}`} rel="noopener" target="_blank" style="color: var(--ink);">
+                <h3 class="serif" style="font-size: 26px; line-height: 1.1; letter-spacing: -0.012em; margin: 0 0 12px;">{s.title}</h3>
+              </a>
+              <p class="serif" style="font-size: 16px; line-height: 1.55; color: var(--ink-2); max-width: 70ch; margin: 0;">{s.abstract}</p>
+            </div>
+            <a class="mono small" href={`${REPO}/blob/main/whitepaper/${s.file}`} rel="noopener" target="_blank" style="text-align: right; color: var(--ink-3); letter-spacing: 0.06em; padding-top: 8px;">Read full ↗</a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="callout" data-reveal>
+        <div class="mark-c">§</div>
+        <div>
+          <p>The whitepaper is the source of truth. If a property of Adamant is described differently elsewhere — on this site, in a chat, in a thread — the whitepaper wins.</p>
+          <small>— Editorial policy</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</HubLayout>

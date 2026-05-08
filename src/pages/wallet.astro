@@ -1,0 +1,126 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+---
+
+<HubLayout active="wallet" title="Adamant — Wallet" description="Reference wallet for the Adamant protocol. Privacy by default; selective disclosure deliberate.">
+
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Wallet · reference interface</div>
+        <h1 class="title">Shielded by default,<br/><em style="font-style:italic; color:var(--ink-2);">disclosed by intent.</em></h1>
+      </div>
+      <div>
+        <p class="lede">
+          The reference wallet for Adamant — built by the same engineers who wrote the protocol specification. Apache 2.0, self-custodial, view-key disclosure. Every screen below reflects the intended UX of the production application.
+        </p>
+        <p class="mono small" style="color: var(--ink-3); margin-top: 14px;">prototype only · holds no real assets · pre-launch</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pre-launch overlay + balance preview -->
+  <section style="padding: 32px 0;">
+    <div class="container">
+      <div style="display:grid; grid-template-columns: 360px 1fr; gap: 32px;" class="w-grid">
+
+        <!-- Side: balances -->
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+          <div style="border: 1px solid var(--ink); padding: 24px; background: var(--paper);">
+            <div style="display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-2);">
+              <span style="color: var(--ink); font-size: 14px;">◉</span> Shielded balance
+            </div>
+            <div style="font-family: var(--serif); font-size: 56px; line-height: 1; letter-spacing: -0.02em; color: var(--ink); font-style: italic; margin-top: 16px;" data-spec="true">specification</div>
+            <p class="mono small" style="color: var(--ink-3); margin-top: 14px;">view key required for disclosure</p>
+          </div>
+          <div style="border: 1px solid var(--rule-2); padding: 24px; background: var(--paper-2);">
+            <div style="display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-2);">
+              <span style="color: var(--ink-3); font-size: 14px;">○</span> Transparent balance
+            </div>
+            <div style="font-family: var(--serif); font-size: 56px; line-height: 1; letter-spacing: -0.02em; color: var(--ink); font-style: italic; margin-top: 16px;" data-spec="true">specification</div>
+            <p class="mono small" style="color: var(--ink-3); margin-top: 14px;">visible on the public ledger</p>
+          </div>
+          <div style="border: 1px dashed var(--rule-2); padding: 14px 16px; background: var(--paper-2);">
+            <p class="serif" style="font-size: 14px; line-height: 1.5; color: var(--ink-2); margin: 0;">Privacy is the default. Sender, recipient, amount, and contract calls are encrypted before the transaction leaves the device. Selective disclosure is opt-in per scope, never automatic.</p>
+          </div>
+        </div>
+
+        <!-- Main: send + tx history (placeholder) -->
+        <div style="display:flex; flex-direction: column; gap: 24px;">
+          <div style="border: 1px solid var(--ink);">
+            <div style="display:flex; justify-content:space-between; padding: 14px 18px; border-bottom: 1px solid var(--rule);">
+              <span class="label">Send</span>
+              <div style="display:inline-flex; border: 1px solid var(--rule-2);">
+                <span style="padding: 6px 12px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.10em; text-transform: uppercase; background: var(--ink); color: var(--paper);">Shielded</span>
+                <span style="padding: 6px 12px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-2); border-left: 1px solid var(--rule);">Transparent</span>
+              </div>
+            </div>
+            <div style="display:grid; grid-template-columns: 160px 1fr; border-bottom: 1px solid var(--rule);">
+              <div style="padding: 14px 18px; border-right: 1px solid var(--rule);"><span class="label">Recipient</span></div>
+              <div style="padding: 14px 18px; font-family: var(--mono); font-size: 13px; color: var(--ink-3);">adm1…  (paste a stealth address)</div>
+            </div>
+            <div style="display:grid; grid-template-columns: 160px 1fr; border-bottom: 1px solid var(--rule);">
+              <div style="padding: 14px 18px; border-right: 1px solid var(--rule);"><span class="label">Amount</span></div>
+              <div style="padding: 14px 18px; font-family: var(--mono); font-size: 16px; color: var(--ink-3);">— ADM</div>
+            </div>
+            <div style="display:grid; grid-template-columns: 160px 1fr; background: var(--paper-2);">
+              <div style="padding: 14px 18px; border-right: 1px solid var(--rule);"><span class="label">Encryption</span></div>
+              <div style="padding: 14px 18px; font-family: var(--mono); font-size: 13px;">Threshold (N≥15) · time-lock VDF (N&lt;15)</div>
+            </div>
+          </div>
+
+          <div style="border: 1px solid var(--rule); background: var(--paper);">
+            <div style="display:flex; justify-content:space-between; padding: 12px 16px; border-bottom: 1px solid var(--rule);">
+              <span class="label">Recent activity</span>
+              <span class="mono small" style="color: var(--ink-3);">none · pre-launch</span>
+            </div>
+            <div style="padding: 32px 16px; color: var(--ink-3); font-family: var(--serif); font-style: italic;">No transactions yet — wallet does not connect to a live network.</div>
+          </div>
+
+          <div style="border: 1px solid var(--spec); padding: 22px; background: var(--spec-bg); display: grid; grid-template-columns: 1fr; gap: 12px;">
+            <span class="label" style="color: var(--spec);">Specification phase · informational</span>
+            <p class="serif" style="font-size: 16px; line-height: 1.5; color: var(--ink); margin: 0; max-width: 64ch;">
+              The reference wallet ships open-source from the first commit, the same day the chain is live. Native iOS, native Android, and a desktop reference build. After mainnet, the team's role is maintenance; the ecosystem ships its own wallets.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- View-key disclosure section -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 01 / Disclosure</div>
+        <div>
+          <h2 class="title">View keys, not court orders.</h2>
+          <p class="subtitle">Selective disclosure under the user's control. Generate a key that lets a counterparty, tax authority, or auditor see exactly the transactions you choose — within a date range, an amount range, or a label scope — without granting any spending authority. Revocable. Auditable.</p>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink);" class="vk-grid">
+        {[
+          { n: '01', h: 'Scope', d: 'Date range, amount range, contract scope, or counterparty filter. The view key only reveals what its scope permits.' },
+          { n: '02', h: 'Authority', d: 'View only — no spending. Cannot move funds, cannot sign on the user\'s behalf, cannot derive the spending key.' },
+          { n: '03', h: 'Revocable', d: 'Each view key has an expiry and may be revoked at any time. Revocation is a single on-chain transaction.' },
+        ].map((c, i) => (
+          <div style={`padding: 22px 18px; ${i>0 ? 'border-left: 1px solid var(--rule);' : ''}`}>
+            <span class="mono" style="font-size: 11px; letter-spacing: 0.10em; color: var(--ink-3);">VK.{c.n}</span>
+            <h3 class="serif" style="font-size: 22px; line-height: 1.1; margin-top: 6px;">{c.h}</h3>
+            <p class="serif" style="font-size: 14px; line-height: 1.5; color: var(--ink-2); margin-top: 10px;">{c.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+</HubLayout>
+
+<style>
+@media (max-width: 980px) {
+  .w-grid { grid-template-columns: 1fr !important; }
+  .vk-grid { grid-template-columns: 1fr !important; }
+}
+</style>
