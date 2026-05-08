@@ -20,7 +20,9 @@ const {
   ogImage,
 } = Astro.props;
 
-const ogPath = ogImage ?? `/og/${active}.png`;
+// Until `npm run gen-og` is run to capture per-page hero screenshots into
+// /public/og/{slug}.png, every page falls back to the universal OG card.
+const ogPath = ogImage ?? '/home-og.png';
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString();
 
 // Inline the phase data for the client-side switcher
