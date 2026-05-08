@@ -433,7 +433,7 @@ The protocol specifies a third participation tier alongside validators and prove
 
 **Hardware target.** Witnesses run on modern smartphones (Role B at low duty cycle; Roles A and C tractable), basic laptops (full role suite tractable), or residential desktops (over-provisioned). Witnesses do not require GPU acceleration, datacenter-class network, or high availability.
 
-**Registration.** Witnesses register an on-chain identity (public key) and a small Sybil-resistance stake (suggested 100 ADM; specific amount TBD by economic specification). The stake is forfeit only on slashable offences (false attestations corroborated by other witnesses); routine non-participation simply forgoes compensation. Witness registration is permissionless; no application, approval, or capability gate.
+**Registration.** Witnesses (Node Watchers) register an on-chain identity (public key) and post a Sybil-resistance stake of 100 ADM. The stake is forfeit only on slashable offences (false attestations corroborated by other witnesses); routine non-participation simply forgoes compensation. Witness registration is permissionless; no application, approval, or capability gate. The stake amount is subject to scheduled re-evaluation per subsection 11.5.4.
 
 **Compensation.** Witnesses receive compensation per role (Role A and Role C scale with proof/attestation volume; Role B is rate-paid; Role D bonuses are conditional on corroborated flags). Specific calibration is in section 10. Compensation is sufficient to incentivise participation but small enough to not displace validator economics; per-witness compensation decreases as witness population grows, distributing fixed reward pool across more participants.
 

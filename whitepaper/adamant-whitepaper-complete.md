@@ -10,7 +10,9 @@ Adamant targets a sustained throughput of at least 50,000 transactions per secon
 
 The active validator set is dynamic, with a constitutional floor of 7 validators (the minimum size at which Byzantine fault tolerance retains non-zero margin against correlated failures) and a soft ceiling of 75 validators (the upper bound at which DAG-BFT communication cost remains tractable on residential-fibre hardware at the throughput floor). Selection follows a first-come-first-served-with-persistent-membership rule: validators are admitted to the active set in registration order, and once admitted retain their slot continuously until they fail liveness duties or voluntarily unbond. This rewards commitment and continuity rather than hardware budget or stake size — early committed validators cannot be displaced by wealthier latecomers or by faster competitors. The chain self-activates the moment 7 validators are simultaneously registered, stake-eligible, and online; there is no coordination event, no recruited genesis cohort, no foundation. Below the floor, the chain halts rather than forks, preserving safety at the cost of liveness during periods of severe validator unavailability. The chain commits an on-chain security-tier signal (Tier I at 7–14 validators, Tier II at 15–29, Tier III at 30+) so that wallets and applications can adapt to the chain's current security posture rather than assume the design-target posture from launch onward.
 
-Participation is structured across four tiers with bounded power. Validators do consensus and mempool decryption. Provers do steady-state recursive-proof generation in a permissionless market, paid per-proof from transaction fees; validators do proof generation as a fallback at degraded cadence to preserve phone-verifiability regardless of prover-market health. Witnesses perform attestation, data availability sampling, recursive proof verification, and fraud detection on phone-class hardware. Service nodes provide light-client infrastructure. The role split keeps validator hardware on residential-fiber commodity desktops by moving GPU-class proof generation off-tier; phone-class participation is meaningful via witnesses; no single tier alone controls the chain.
+Participation is structured across four tiers with bounded power. **Validators (Node Runners)** do consensus and mempool decryption; minimum stake 1,000 ADM. **Witnesses (Node Watchers)** perform attestation, data availability sampling, recursive proof verification, and fraud detection on phone-class hardware; minimum stake 100 ADM. **Provers** do steady-state recursive-proof generation in a permissionless market, paid per-proof from transaction fees; validators do proof generation as a fallback at degraded cadence to preserve phone-verifiability regardless of prover-market health. **Service nodes** provide light-client infrastructure. The role split keeps validator hardware on residential-fibre commodity desktops by moving GPU-class proof generation off-tier; phone-class participation is meaningful via witnesses; no single tier alone controls the chain. Stake parameters are subject to scheduled re-evaluation at five-year intervals post-genesis (subsection 11.5.4) to prevent token-appreciation-driven exclusion.
+
+The genesis economy distributes a fixed pool of 100,000,000 ADM via two paths: a burn-to-mint path (70% of pool) by which participants permanently destroy external value (BTC, ETH, USDT, USDC) at a fixed rate of 20 ADM per USD-equivalent in exchange for newly-minted ADM, and a validator-block-reward path (30% of pool) by which validators earn ADM for producing blocks during the launch phase. There is no premine, no founder allocation, no investor allocation, and no foundation treasury. The first ADM in circulation is acquired by burners; those burners then register as validators and bootstrap the chain. The launch phase ends when the pool is fully claimed or, at latest, five years from genesis, after which post-launch issuance per a fixed schedule takes effect.
 
 The protocol uses standard, peer-reviewed cryptographic primitives — Ed25519 and ML-DSA (CRYSTALS-Dilithium, FIPS 204) for signatures in a hybrid configuration (Ed25519 for ordinary transactions and validator messages; ML-DSA for identity-binding operations and high-value opt-in), ML-KEM-768 (FIPS 203) for post-quantum key agreement underlying stealth addresses and encrypted memos, BLS12-381 for signature aggregation, SHA-3 for hashing, the Halo 2 proving system for zero-knowledge proofs, and a Wesolowski Verifiable Delay Function over class groups for time-lock encryption during the low-N period. No novel cryptography is introduced. The protocol's contribution is the systems-level synthesis of these primitives into a coherent architecture meeting the property set described above.
 
@@ -3030,7 +3032,7 @@ The protocol specifies a third participation tier alongside validators and prove
 
 **Hardware target.** Witnesses run on modern smartphones (Role B at low duty cycle; Roles A and C tractable), basic laptops (full role suite tractable), or residential desktops (over-provisioned). Witnesses do not require GPU acceleration, datacenter-class network, or high availability.
 
-**Registration.** Witnesses register an on-chain identity (public key) and a small Sybil-resistance stake (suggested 100 ADM; specific amount TBD by economic specification). The stake is forfeit only on slashable offences (false attestations corroborated by other witnesses); routine non-participation simply forgoes compensation. Witness registration is permissionless; no application, approval, or capability gate.
+**Registration.** Witnesses (Node Watchers) register an on-chain identity (public key) and post a Sybil-resistance stake of 100 ADM. The stake is forfeit only on slashable offences (false attestations corroborated by other witnesses); routine non-participation simply forgoes compensation. Witness registration is permissionless; no application, approval, or capability gate. The stake amount is subject to scheduled re-evaluation per subsection 11.5.4.
 
 **Compensation.** Witnesses receive compensation per role (Role A and Role C scale with proof/attestation volume; Role B is rate-paid; Role D bonuses are conditional on corroborated flags). Specific calibration is in section 10. Compensation is sufficient to incentivise participation but small enough to not displace validator economics; per-witness compensation decreases as witness population grows, distributing fixed reward pool across more participants.
 
@@ -3520,18 +3522,23 @@ A participant burns external crypto at a verifiably unspendable address on the s
 
 The burned external crypto is permanently destroyed. No party — including the protocol — receives, custodies, or holds any claim on the burned assets.
 
-Supported source chains at launch:
+Supported source assets at launch:
 
 - Bitcoin (BTC), via burn to a verifiably unspendable address derived from a known public construction
 - Ethereum (ETH), via burn to the Ethereum null address or a verifiably unspendable contract
-- Additional source chains may be supported per the protocol's specification at launch
+- USD-denominated stablecoins (USDT, USDC), via burn to a verifiably unspendable address on the issuing chain
+- Additional source assets may be supported per the protocol's specification at launch
 
-The conversion rate is constant throughout the launch phase. Reference rates (subject to calibration prior to mainnet):
+**Stablecoin acknowledgment.** The protocol accepts USDT and USDC as burnable source assets at genesis to broaden the participation surface and provide price-stable acquisition. This is an honest concession to accessibility: stablecoin issuers (Tether, Circle) are centralised entities, and burning USDT/USDC creates an indirect dependency on those issuers' continued solvency and good behaviour during the burn window. The protocol does not custody, hold, or rely on these assets after the burn — the participant burns them to a verifiably unspendable address; the chain mints ADM in proof; the relationship ends there. Subsequent issuer behaviour does not affect Adamant's state. The dependency is bounded to the moment of burn.
 
-- 1 BTC burned → X ADM (X to be calibrated)
-- 1 ETH burned → Y ADM (Y to be calibrated)
+The conversion rate is constant throughout the launch phase. Rates:
 
-Conversion rates across source chains are defined in USD-equivalent terms at protocol design time, not at burn time. This avoids gaming based on currency-fluctuation arbitrage during the launch window.
+- 1 USDT burned → 20 ADM
+- 1 USDC burned → 20 ADM
+- 1 BTC burned → ADM at the equivalent rate calibrated to BTC's USD-equivalent at protocol design time
+- 1 ETH burned → ADM at the equivalent rate calibrated to ETH's USD-equivalent at protocol design time
+
+Conversion rates across non-stablecoin source assets are defined in USD-equivalent terms at protocol design time, not at burn time. This avoids gaming based on currency-fluctuation arbitrage during the launch window. At the launch-phase rate of 20 ADM per USD-equivalent, fully draining the 70,000,000 ADM burn-allocated sub-counter requires approximately 3,500,000 USD-equivalent in burns.
 
 **Per-address claim cap.** A single claim address cannot accumulate more than a defined fraction of the burn-allocated sub-counter via path A. The cap grows over time:
 
@@ -3899,10 +3906,10 @@ The following parameters are set at genesis and cannot be modified:
 - Pool partition: 70% burn-allocated / 30% validator-allocated (subject to calibration)
 - Per-address claim cap schedule: 1% / 2% / 4% / 8% / unlimited at months 0–1 / 1–3 / 3–6 / 6–12 / 12+ (subject to calibration)
 - Time cap: 5 years from genesis (subject to calibration)
-- Conversion rates per source chain: defined in USD-equivalent at protocol design time, subject to calibration
+- Conversion rates per source asset: 20 ADM per 1 USD-equivalent at protocol design time; stablecoin rates fixed at 1 USDT = 20 ADM and 1 USDC = 20 ADM
 - Validator block reward during launch phase: calibrated to drain the validator-allocated sub-counter over the target launch duration
-- Minimum per-validator stake: TBD (suggested order of magnitude: 1,000 ADM; specific value calibrated prior to mainnet to balance entry accessibility against trivial-stake spam)
-- Witness Sybil-resistance stake: TBD (suggested order of magnitude: 100 ADM; calibrated prior to mainnet)
+- Minimum per-validator (Node Runner) stake: 1,000 ADM (subject to scheduled re-evaluation per subsection 11.5)
+- Minimum per-witness (Node Watcher) Sybil-resistance stake: 100 ADM (subject to scheduled re-evaluation per subsection 11.5)
 - Genesis activation gate: 7 simultaneously-online stake-eligible validators (constitutional floor; subsection 8.1.6)
 - Active set: dynamic with constitutional floor of 7 validators and soft ceiling of 75 validators (subsection 8.1.3); ceiling subject to empirical validation prior to mainnet
 - Active set selection: first-come-first-served with persistent membership — validators admitted in registration order; slots held continuously until liveness failure or voluntary unbonding; no forced rotation; standby queue admits new validators when slots open
@@ -4172,11 +4179,19 @@ The protocol's single-shard throughput floor (50,000 TPS) may eventually be insu
 
 New zero-knowledge proving systems, new signature schemes, and new threshold encryption schemes are likely to mature during the chain's lifetime. Migration to these — when they are clearly superior, peer-reviewed, and production-tested — will be proposed via the same hard-fork mechanism.
 
-### 11.5.4 Bug fixes
+### 11.5.4 Stake-parameter re-evaluation
+
+The protocol specifies absolute ADM amounts for participation thresholds: 1,000 ADM minimum for Node Runners (validators) and 100 ADM minimum for Node Watchers (witnesses). These values are calibrated for the expected token-value range during the chain's first five years. They are denominated in ADM rather than in any external unit (USD-equivalent, fractional supply, fee-equivalent, or oracle-priced) because every external denomination introduces a centralisation vector incompatible with Principle I.
+
+To prevent these thresholds from becoming exclusionary if ADM appreciates substantially over time, the protocol commits to **scheduled re-evaluation of stake parameters at five-year intervals post-genesis**. At each five-year checkpoint, the network may draft a hard fork proposing recalibrated stake floors based on the chain's then-current market conditions and participation patterns. The mechanism is the same as for any other parameter change: social coordination, no governance entity, no automatic adjustment.
+
+This is not a binding commitment to *change* the parameters at each checkpoint — only to *consider* whether they should change. If the absolute amounts remain accessible (because ADM has not appreciated dramatically), no fork is needed. If they have become exclusionary, the network coordinates a fork. The five-year cadence is structural rather than reactive: by committing in advance to revisit the parameters periodically, the chain avoids the ossification dynamic that produced Bitcoin's block-size conflict.
+
+### 11.5.5 Bug fixes
 
 Despite extensive review and testing, some bugs in the reference implementation may be discovered post-launch. Bug fixes that do not change protocol semantics (e.g. fixing a memory leak in the validator) can be deployed by validators choosing to run patched software without coordinating with anyone. Bug fixes that *do* change protocol semantics (e.g. fixing an underflow in fee calculation) require the same hard-fork mechanism as any other change.
 
-### 11.5.5 What is not anticipated
+### 11.5.6 What is not anticipated
 
 The protocol does not anticipate:
 

@@ -230,7 +230,7 @@ import Starfield from '@/components/Starfield.astro';
           <span class="num">§06 / GLOSSARY</span>
           <h2><span class="light">The protocol's</span>vocabulary, defined.</h2>
         </div>
-        <p class="desc">Concise definitions of the terms used across this site, the whitepaper, and the reference implementation. The marketing site uses "Node Runners" as a friendly alias for validators; spec terminology (Witnesses, Provers, Service Nodes) is used directly for the other tiers.</p>
+        <p class="desc">Concise definitions of the terms used across this site, the whitepaper, and the reference implementation. The whitepaper adopts "Node Runners" as the friendly alias for validators and "Node Watchers" as the friendly alias for witnesses; spec terminology (Provers, Service Nodes) is used directly for the other two tiers.</p>
       </div>
 
       <dl class="grid grid-cols-1 md:grid-cols-2 gap-px bg-rule-2 border border-rule-2">
@@ -238,7 +238,7 @@ import Starfield from '@/components/Starfield.astro';
           {
             term: 'Node Runner',
             spec: 'validator',
-            def: 'A participant in the active set running DAG consensus and mempool decryption on residential-fibre commodity-desktop hardware. The active set is dynamic — a constitutional floor of 7 (the smallest size at which Byzantine fault tolerance retains margin against correlated failures) and a soft ceiling of 75 (calibrated to the throughput floor on residential fibre). Selection is first-come-first-served with persistent membership: validators are admitted in registration order and retain their slot continuously until they fail liveness duties or voluntarily unbond. Each publishes one vertex per 250 ms round, each referencing 2/3+1 of the prior round. Earns block rewards from the genesis pool, then post-launch issuance.',
+            def: 'A participant in the active set running DAG consensus and mempool decryption on residential-fibre commodity-desktop hardware. The active set is dynamic — a constitutional floor of 7 (the smallest size at which Byzantine fault tolerance retains margin against correlated failures) and a soft ceiling of 75 (calibrated to the throughput floor on residential fibre). Selection is first-come-first-served with persistent membership: validators are admitted in registration order and retain their slot continuously until they fail liveness duties or voluntarily unbond. Each publishes one vertex per 250 ms round, each referencing 2/3+1 of the prior round. Minimum stake 1,000 ADM (28-day unbonding; subject to scheduled re-evaluation at five-year intervals per WP §11.5.4). Earns block rewards from the genesis pool, then post-launch issuance.',
           },
           {
             term: 'FCFS persistent membership',
@@ -246,9 +246,9 @@ import Starfield from '@/components/Starfield.astro';
             def: 'How Node Runners enter and leave the active set. When the count of registered, stake-eligible, online validators is at or below the ceiling (75), every such validator is in the active set; when it exceeds the ceiling, validators are admitted in *registration order* and the rest enter a standby queue. Slots are held continuously until liveness failure or voluntary unbonding; no forced rotation; no stake-weighted lottery. A small home-fibre validator who registered early and stays online cannot be displaced by a wealthier latecomer or a faster competitor. Delegation affects validator economics, not selection.',
           },
           {
-            term: 'Witness',
+            term: 'Witness (Node Watcher)',
             spec: 'WP §8.7.2',
-            def: 'A phone-class participant in the four-tier model. Performs four roles: cryptographic attestation, data-availability sampling, recursive-proof verification, and fraud / reordering detection. Permissionless registration with a small Sybil-resistance stake (~100 ADM, 7-day unbonding); slashable for false attestations corroborated by other witnesses. Compensated from a slice of verification fees plus a small slice of issuance.',
+            def: 'A phone-class participant in the four-tier model. Performs four roles: cryptographic attestation, data-availability sampling, recursive-proof verification, and fraud / reordering detection. Permissionless registration with a 100 ADM Sybil-resistance stake (7-day unbonding); slashable for false attestations corroborated by other witnesses. Compensated from a slice of verification fees plus a small slice of issuance. Stake amount subject to scheduled re-evaluation at five-year intervals (WP §11.5.4).',
           },
           {
             term: 'Prover',
@@ -273,7 +273,7 @@ import Starfield from '@/components/Starfield.astro';
           {
             term: 'Burn-to-mint',
             spec: 'WP §10.2.3',
-            def: 'A genesis acquisition path. Anyone burns BTC or ETH at a verifiably unspendable address on the source chain; the protocol observes the burn via light-client verification of source-chain headers and mints the corresponding ADM at the protocol-defined rate. Per-address claim caps prevent early concentration.',
+            def: 'A genesis acquisition path. Anyone burns BTC, ETH, USDT, or USDC at a verifiably unspendable address on the source chain; the protocol observes the burn via light-client verification of source-chain headers and mints the corresponding ADM at a fixed rate of 20 ADM per USD-equivalent (1 USDT = 1 USDC = 20 ADM; BTC/ETH at USD-equivalent calibrated at protocol design time). Per-address claim caps prevent early concentration. Fully draining the 70,000,000 ADM burn-allocated sub-counter requires ~$3.5M USD-equivalent in burns.',
           },
           {
             term: 'Recursive ZK proof',

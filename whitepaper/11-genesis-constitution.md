@@ -236,11 +236,19 @@ The protocol's single-shard throughput floor (50,000 TPS) may eventually be insu
 
 New zero-knowledge proving systems, new signature schemes, and new threshold encryption schemes are likely to mature during the chain's lifetime. Migration to these — when they are clearly superior, peer-reviewed, and production-tested — will be proposed via the same hard-fork mechanism.
 
-### 11.5.4 Bug fixes
+### 11.5.4 Stake-parameter re-evaluation
+
+The protocol specifies absolute ADM amounts for participation thresholds: 1,000 ADM minimum for Node Runners (validators) and 100 ADM minimum for Node Watchers (witnesses). These values are calibrated for the expected token-value range during the chain's first five years. They are denominated in ADM rather than in any external unit (USD-equivalent, fractional supply, fee-equivalent, or oracle-priced) because every external denomination introduces a centralisation vector incompatible with Principle I.
+
+To prevent these thresholds from becoming exclusionary if ADM appreciates substantially over time, the protocol commits to **scheduled re-evaluation of stake parameters at five-year intervals post-genesis**. At each five-year checkpoint, the network may draft a hard fork proposing recalibrated stake floors based on the chain's then-current market conditions and participation patterns. The mechanism is the same as for any other parameter change: social coordination, no governance entity, no automatic adjustment.
+
+This is not a binding commitment to *change* the parameters at each checkpoint — only to *consider* whether they should change. If the absolute amounts remain accessible (because ADM has not appreciated dramatically), no fork is needed. If they have become exclusionary, the network coordinates a fork. The five-year cadence is structural rather than reactive: by committing in advance to revisit the parameters periodically, the chain avoids the ossification dynamic that produced Bitcoin's block-size conflict.
+
+### 11.5.5 Bug fixes
 
 Despite extensive review and testing, some bugs in the reference implementation may be discovered post-launch. Bug fixes that do not change protocol semantics (e.g. fixing a memory leak in the validator) can be deployed by validators choosing to run patched software without coordinating with anyone. Bug fixes that *do* change protocol semantics (e.g. fixing an underflow in fee calculation) require the same hard-fork mechanism as any other change.
 
-### 11.5.5 What is not anticipated
+### 11.5.6 What is not anticipated
 
 The protocol does not anticipate:
 
