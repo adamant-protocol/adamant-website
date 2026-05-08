@@ -248,25 +248,28 @@ body[data-phase="prelaunch"] .v[data-spec="true"] {
   padding: 48px 0 36px;
 }
 .hero-state .container { display: grid; grid-template-columns: 1fr; gap: 28px; }
+
+/* Hero figure: doubles as block-height when live, genesis pool pre-launch. */
+.hero-figure,
 .block-height {
   font-family: var(--mono);
   font-variant-numeric: tabular-nums;
-  font-size: clamp(72px, 13vw, 184px);
-  line-height: 0.88;
+  font-size: clamp(64px, 11vw, 156px);
+  line-height: 0.92;
   letter-spacing: -0.04em;
   color: var(--ink);
   font-weight: 500;
 }
+.hero-figure .sep,
 .block-height .sep { color: var(--mute); }
-body[data-phase="prelaunch"] .block-height { color: var(--ink-3); font-style: italic; font-family: var(--serif); }
-body[data-phase="prelaunch"] .block-height::before {
-  content: "◌ ";
-  color: var(--spec);
-  font-size: 0.4em;
-  vertical-align: 0.6em;
-  letter-spacing: 0;
-  font-style: normal;
+.hero-figure .unit {
   font-family: var(--mono);
+  font-size: 0.34em;
+  font-weight: 500;
+  color: var(--mute);
+  letter-spacing: 0.04em;
+  margin-left: 0.18em;
+  vertical-align: 0.4em;
 }
 
 .hero-meta {

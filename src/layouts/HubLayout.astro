@@ -150,6 +150,26 @@ const PHASE_DATA = JSON.stringify(PHASES);
           btn.setAttribute('aria-pressed', on ? 'true' : 'false');
         });
 
+        // Home hero figure: genesis pool pre-launch, block height once live
+        var heroFig = document.getElementById('home-hero-figure');
+        var heroLabel = document.getElementById('home-hero-label');
+        var heroTag = document.getElementById('home-hero-tag');
+        if (heroFig) {
+          if (p.live && p.blockHeight != null) {
+            heroFig.innerHTML = fmtBlock(p.blockHeight);
+          } else if (p.halted && p.blockHeight != null) {
+            heroFig.innerHTML = fmtBlock(p.blockHeight);
+          } else {
+            heroFig.innerHTML = '100,000,000<span class="unit">ADM</span>';
+          }
+        }
+        if (heroLabel) {
+          if (p.live) heroLabel.textContent = 'Block height   ·   ' + p.label;
+          else if (p.halted) heroLabel.textContent = 'Frozen at halt   ·   ' + p.label;
+          else heroLabel.textContent = 'Genesis pool   ·   ' + p.label;
+        }
+        if (heroTag) heroTag.textContent = p.tagline;
+
         // Notify pages so they can update phase-aware bits
         window.dispatchEvent(new CustomEvent('adamant-phase', { detail: p }));
       }

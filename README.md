@@ -2,7 +2,7 @@
 
 The website for the Adamant protocol — [adamantprotocol.com](https://adamantprotocol.com).
 
-Built with [Astro](https://astro.build) + [Tailwind CSS](https://tailwindcss.com) + MDX. Deployed to Vercel. Apache 2.0.
+Static [Astro](https://astro.build) site, pure CSS, no client-side framework. Deployed to Vercel. Apache 2.0.
 
 ---
 
@@ -13,7 +13,7 @@ npm install
 npm run dev
 ```
 
-The site will be at `http://localhost:4321`. Edits hot-reload.
+Then open `http://localhost:4321`. Edits hot-reload.
 
 To preview a production build locally:
 
@@ -27,100 +27,76 @@ npm run preview
 ## Project structure
 
 ```
-src/
-├── components/        Astro components (Mark, Header, Footer, Starfield)
-├── content/
-│   ├── config.ts      Content collection schema
-│   └── updates/       Blog posts as .md or .mdx files
-├── layouts/
-│   └── BaseLayout.astro
-├── pages/
-│   ├── index.astro    Home
-│   ├── about.astro    Plain-English explainer
-│   ├── genesis.astro  Genesis mechanism
-│   ├── spec.astro     Whitepaper
-│   ├── rss.xml.js     RSS feed endpoint
-│   └── updates/
-│       ├── index.astro       List of posts
-│       └── [...slug].astro   Individual post
-└── styles/
-    └── global.css     Design system + atmospheric background
 public/
-├── adamant-mark.svg   Full logo
-├── favicon.svg        Tab icon
-└── og-image.png       Social preview card (1200×630)
+├── adm-mark.svg          The Adamant mark — transparent-bg black A
+├── home-og.png           Fallback OG image
+├── llms.txt              AI / LLM crawler-friendly summary
+├── og/{slug}.png         Per-page OG images (overwritten by `npm run gen-og`)
+└── robots.txt            Search + AI crawler allowlist
+
+scripts/
+└── gen-og.mjs            Playwright OG screenshot generator (opt-in)
+
+src/
+├── components/
+│   ├── HubFooter.astro   Footer with brand block + 4-column nav
+│   ├── PhaseSwitcher.astro  Floating "Preview phase" panel
+│   ├── StatusStrip.astro Six-cell chain status header
+│   └── Topbar.astro      Logo + 8-page nav + phase pill
+├── data/
+│   └── chain.ts          Phase definitions, properties, mechanisms, tiers
+├── layouts/
+│   └── HubLayout.astro   Page shell + inline phase + reveal scripts
+├── pages/
+│   ├── index.astro       Home (hero, properties, mechanisms, cohort grid)
+│   ├── about.astro       Properties, tiers, principles, framings, negation
+│   ├── genesis.astro     Pool drain, burn-to-mint, cohort register, stake floors
+│   ├── network.astro     Operational view (validator set, mempool, throughput)
+│   ├── operator.astro    Operator dashboard, four roles
+│   ├── spec.astro        Whitepaper sections parsed inline at build time
+│   ├── updates.astro     Project journal, live from GitHub commits
+│   └── wallet.astro      Reference wallet preview
+└── styles/
+    └── global.css        "Public Record" — pure CSS, no Tailwind
+
+whitepaper/                Canonical protocol specification (markdown)
 ```
 
 ---
 
-## Writing an update post
+## Commands
 
-1. Create a new file in `src/content/updates/` named like `2026-05-12-something.md`.
-2. Add frontmatter:
-   ```md
-   ---
-   title: "Your post title"
-   date: 2026-05-12
-   description: "One-sentence summary that shows on the list page and in RSS."
-   draft: false   # set true to hide
-   ---
-
-   Your content here. Markdown or MDX.
-   ```
-3. Commit and push. Vercel rebuilds and deploys automatically.
-
-That's it. No CMS. The list page auto-updates. The RSS feed auto-updates. Drafts are hidden until `draft: false` (or omitted).
+| Command            | What it does                                              |
+| ------------------ | --------------------------------------------------------- |
+| `npm run dev`      | Astro dev server with HMR at `http://localhost:4321`      |
+| `npm run build`    | Static build → `dist/`                                     |
+| `npm run preview`  | Serve the production build locally                        |
+| `npm run gen-og`   | Boot preview, screenshot each page hero, write `/og/*.png`. Requires `npm install` then `npx playwright install chromium`. |
 
 ---
 
-## Design system
+## Editing content
 
-Tokens are in `tailwind.config.mjs`. Use them via Tailwind classes (`text-ember`, `bg-bg-2`, `border-rule`, etc.) or via the CSS custom utilities in `src/styles/global.css` (`.disp`, `.mono`, `.label`, `.eyebrow`, `.btn-link`, `.section-head`).
+**Whitepaper.** All thirteen sections live in `/whitepaper/*.md`. The `/spec` page parses these at build time — edit a markdown file, rebuild, and the spec index updates automatically.
 
-| Token        | Value          | Use                              |
-|--------------|----------------|----------------------------------|
-| `bg`         | `#000000`      | Page background                  |
-| `bg-2`       | `#07080e`      | Cards, sections                  |
-| `bg-3`       | `#0c0e16`      | Highlighted cards                |
-| `ink`        | `#ece8df`      | Main text                        |
-| `ink-2`      | `#a8aab5`      | Secondary text                   |
-| `ink-3`      | `#5a5d6b`      | Tertiary text, labels            |
-| `ink-4`      | `#2e3140`      | Borders, dividers                |
-| `ember`      | `#ff7d4d`      | Primary accent                   |
-| `cold`       | `#7da6ff`      | Secondary accent                 |
-| `rule`       | `rgba(236,232,223,0.06)` | Subtle borders         |
-| `rule-2`     | `rgba(236,232,223,0.12)` | Standard borders       |
+**Updates / journal.** No CMS. The `/updates` page fetches the last 20 commits from this repository's `main` branch at build time and renders them as journal entries. Write a useful commit message; it shows up.
 
-Fonts are loaded from Google Fonts: **Unbounded** (display), **Geist** (sans), **JetBrains Mono** (mono).
+**Site copy.** Each page is a single `.astro` file. Page-specific data (seven properties, four tiers, etc.) lives in `src/data/chain.ts`.
 
 ---
 
-## Deployment (Vercel)
+## Phase preview
 
-1. Push this repo to GitHub.
-2. Connect the repo at [vercel.com/new](https://vercel.com/new).
-3. Vercel auto-detects Astro. No config needed.
-4. Set the custom domain `adamantprotocol.com` under Project Settings → Domains.
-5. Update DNS at your registrar:
-   - `A` record `@` → `76.76.21.21`
-   - `CNAME` `www` → `cname.vercel-dns.com`
-
-That's the whole deployment.
+The chain is pre-launch. The floating bottom-right "Preview phase" panel lets reviewers visualise how the hub looks at each operational state — testnet (early/mature), mainnet, halted. Selection persists in `localStorage`. It is purely visual: no real chain is running.
 
 ---
 
-## Editing the site
+## Deployment
 
-- **Header / Footer** — `src/components/Header.astro`, `src/components/Footer.astro`
-- **Logo** — `src/components/Mark.astro` (used everywhere). The standalone files in `public/` are for browser tab + social cards.
-- **Pages** — files in `src/pages/`
-- **Global styles + atmospheric background** — `src/styles/global.css`
+Vercel — `astro build` produces a static `dist/` directory. Security headers (HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy) live in `vercel.json`. CSP is intentionally omitted; an earlier attempt broke an embedded prototype.
 
 ---
 
-## Principles
+## License
 
-- No CMS. Content is in the repo. Posts are commits.
-- No tracking. No analytics. No third-party scripts beyond Google Fonts.
-- No team page. By design.
-- Everything Apache 2.0.
+Apache 2.0. The whitepaper, the website source, and the eventual reference implementation are all released under the same licence.

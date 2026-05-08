@@ -9,23 +9,24 @@ const valRem = fmtAdm(p.genesisPool.validatorRemaining);
 
 <HubLayout active="home" title="Adamant — Home" description="A Layer 1 blockchain protocol. Privacy by default, post-quantum, no foundation, no premine, no admin keys.">
 
-  <!-- HERO: chain status is the hero -->
-  <section class="hero-state" data-screen-label="Hero · block height">
+  <!-- HERO: chain status is the hero. Pre-launch shows the genesis pool;
+       once the chain is live the phase switcher swaps it for block height. -->
+  <section class="hero-state">
     <div class="container">
       <div class="eyebrow"><span class="num">§ 00</span> &nbsp; A Layer 1 blockchain protocol &nbsp; · &nbsp; Privacy by default &nbsp; · &nbsp; Post-quantum &nbsp; · &nbsp; No foundation, no premine</div>
-      <div class="block-height">specification</div>
+      <div class="hero-figure" id="home-hero-figure">100,000,000<span class="unit">ADM</span></div>
       <div class="hero-meta">
         <div class="left">
-          <span class="label">Block height &nbsp; · &nbsp; {p.label}</span>
-          <span class="serif" style="font-size: 22px; line-height: 1.4; color: var(--ink-2); max-width: 56ch;">
+          <span class="label" id="home-hero-label">Genesis pool &nbsp; · &nbsp; {p.label}</span>
+          <span class="serif" id="home-hero-tag" style="font-size: 22px; line-height: 1.4; color: var(--ink-2); max-width: 56ch;">
             {p.tagline}
           </span>
         </div>
         <div class="right">
           <span class="label">Identifier</span>
           <span class="mono" style="font-size:13px;color:var(--ink-2);">adamant/mainnet · chain-id 0x4d41 &nbsp; · &nbsp; spec v0.1</span>
-          <span class="label" style="margin-top:8px;">Genesis pool</span>
-          <span class="mono" style="font-size:18px;color:var(--ink);">
+          <span class="label" style="margin-top:8px;">Partition</span>
+          <span class="mono" id="home-hero-partition" style="font-size:18px;color:var(--ink);">
             {burnRem} <span style="color:var(--mute);">burn</span> · {valRem} <span style="color:var(--mute);">validator</span>
           </span>
         </div>
