@@ -1,32 +1,38 @@
 # Adamant Protocol
 
-> Adamant is a Layer 1 blockchain protocol designed to combine privacy by default, sub-second finality, post-quantum cryptographic security, phone-verifiable correctness, and credibly neutral governance — with no foundation, no premine, no admin keys, and no upgrade authority after genesis. The protocol uses standard, peer-reviewed cryptographic primitives integrated into a single coherent architecture, with credible neutrality enforced at genesis.
+> Adamant is a Layer 1 blockchain protocol designed to combine privacy by default, sub-second finality at design-target validator count, hybrid post-quantum cryptography, phone-verifiable correctness, and credibly neutral governance — with no foundation, no premine, no admin keys, and no upgrade authority after genesis. The protocol uses standard, peer-reviewed cryptographic primitives integrated into a single coherent architecture, with credible neutrality enforced at genesis and the technical architecture chosen to be compatible with that neutrality.
 
-Adamant is currently in specification phase. The whitepaper draft is v0.1, published for public review. No chain is running yet.
+Adamant is currently in specification phase. The whitepaper draft is published for public review. No chain is running yet.
 
 ## Key concepts and terminology
 
-- **Node Runners** (validators in the whitepaper): operators of the active set, 200 at a time. They run Mysticeti-based DAG consensus, publishing one vertex per 250ms round, each referencing 2N/3+1 of the prior round. Order emerges from the structure; commit waves finalise blocks every 4 rounds. Anyone with stake can become a Node Runner without permission.
-- **Node Watchers** (light verifiers in the whitepaper): anyone with a smartphone or consumer device. They download a 5–10 KB recursive zero-knowledge proof and verify the entire chain history in 50–200 ms — no full node, no RPC trust, no light-client trust assumption. Verification is cryptographic, not statistical.
-- **Service Nodes** (whitepaper §9.10): permissionless, standardised infrastructure providers. Wallets and applications query them for state via a standard query format. Anyone can run one.
-- **ADM**: native token. 100,000,000 ADM genesis pool drained over a five-year launch phase via two acquisition paths. Post-launch issuance is 4% → 3% → 2% → 1% per year, in perpetuity, paid only to Node Runners and their delegators. Base fees burned via EIP-1559-style mechanism.
+The protocol's participation model is four-tiered with bounded power across all tiers:
+
+- **Node Runners** (validators in the whitepaper): operators of the active set running Mysticeti-based DAG consensus and mempool decryption on residential-fibre commodity-desktop hardware. The active set is dynamic — a constitutional floor of 7 validators (the smallest size at which Byzantine fault tolerance retains margin against correlated failures) and a soft ceiling of 75 (calibrated to the throughput floor on residential fibre). Selection is first-come-first-served with persistent membership: validators are admitted in registration order and retain their slot continuously until they fail liveness duties or voluntarily unbond — early committed home-fibre operators cannot be displaced by wealthier latecomers. Each publishes one vertex per 250 ms round, each referencing 2N/3+1 of the prior round. The chain self-activates the moment 7 are simultaneously online; no recruited cohort, no human-in-the-loop activation. At the floor, the chain halts on disagreement rather than forks — safety preserved at the cost of liveness during severe-unavailability periods.
+- **Provers** (whitepaper §8.5.3): GPU-class operators producing recursive Halo 2 proofs in a permissionless market. No stake, no application, no approval — provers race to submit valid proofs and win the per-proof bounty (the proof-generation fee dimension). Validators fall back to producing proofs at degraded cadence if the prover market is insufficient; phone-verifiability never depends on the market materialising.
+- **Witnesses** (whitepaper §8.7.2): phone-class participants performing four roles — cryptographic attestation, data-availability sampling, recursive-proof verification, and fraud / reordering detection. Permissionless registration with a small Sybil-resistance stake (~100 ADM, 7-day unbonding); slashable for false attestations corroborated by other witnesses. Compensated from a slice of verification fees plus a small slice of issuance.
+- **Service Nodes** (whitepaper §9.10): permissionless light-client infrastructure providers. Wallets and applications query them for state via a standard query format. Anyone can run one. Optionally funded by Node Runners from commission revenue (§10.5.5). Fee/ecosystem-funded; receives no issuance.
+- **ADM**: the protocol's native token. 100,000,000 ADM genesis pool drained over a five-year launch phase via two acquisition paths. Post-launch issuance is 4% → 3% → 2% → 1% per year, in perpetuity, distributed to Node Runners (majority) and Witnesses (small slice ~5%); provers and service nodes are fee-funded, not issuance-funded. Base fees burned via EIP-1559-style mechanism.
 - **Genesis pool**: a fixed 100M ADM supply distributed via burn-to-mint (70M, anyone burning BTC or ETH at a verifiable null address) and Node Runner block rewards (30M). Unclaimed tokens at year 5 are destroyed.
+- **Two-regime mempool** (whitepaper §3.6, §3.8, §8.4): at N≥15, threshold encryption with DKG (full MEV resistance). At N<15, time-lock encryption via a Wesolowski VDF on class groups; the rotated round anchor decrypts atomically with their vertex (a bounded intra-anchor reordering surface is honestly disclosed). Hysteresis prevents flapping at the boundary.
+- **Security tier** (whitepaper §8.1.7): an on-chain signal indicating the chain's current scale. Tier I (N=7–14, time-lock regime). Tier II (N=15–29, threshold regime). Tier III (N=30+, full design-target). Wallets and applications adapt confirmation requirements accordingly.
+- **Hybrid post-quantum posture** (Principle VIII, whitepaper §2.8): ML-DSA (FIPS 204) for identity-binding operations (validator registration, contract deployment, address derivation, opt-in high-value); ML-KEM-768 (FIPS 203) for stealth-address key agreement and encrypted memos — historical privacy survives the quantum threshold. Ed25519 default for ordinary transactions and validator messages (smaller signatures, residential-fiber bandwidth). Trade-off honestly disclosed: ordinary signatures are quantum-forgeable; identity, structural state, and historical privacy are not.
 - **Credible neutrality** (Principle I, whitepaper §2.1): the protocol admits no party with the unilateral capability to alter its operation. No on-chain governance, no foundation, no admin keys, no upgrade authority, no premine, no founder allocation. Change requires socially-coordinated forks where Node Runners individually opt in to new client software.
 
 ## Design principles
 
-The protocol commits to seven principles in priority order: (1) credible neutrality, (2) privacy by default, (3) verifiability without trust, (4) performance sufficient for use, (5) mutability as a property of objects (not the chain), (6) standard primitives and novel synthesis (no new cryptography), (7) permissionless participation.
+The protocol commits to eight principles in priority order: (1) credible neutrality, (2) privacy by default, (3) verifiability without trust, (4) performance sufficient for use, (5) mutability as a property of objects (not the chain), (6) standard primitives and novel synthesis (no new cryptography), (7) permissionless participation, (8) post-quantum security at identity and privacy layers.
 
 ## The seven properties
 
-The protocol's contribution is the systems-level synthesis of seven properties no other chain combines: 200,000+ TPS with sub-second finality (Mysticeti, 2024), programmable privacy (Aztec, 2025), encrypted mempool in production (Shutter, 2024), phone-verifiable correctness (Mina, 2021), native account abstraction (zkSync/StarkNet/Aptos, 2022–24), post-quantum signatures (NIST FIPS 204, 2024), and credibly neutral governance (Bitcoin/Monero, 2009/2014). No single chain in the present landscape combines more than three.
+The protocol's contribution is the systems-level synthesis of seven properties no other chain combines: a 50,000+ TPS floor (not a cap — actual throughput routinely exceeds the floor on better-than-baseline hardware) with sub-second finality at design-target validator count on residential-fibre hardware, programmable privacy (Aztec, 2025), encrypted mempool in production (Shutter, 2024), phone-verifiable correctness (Mina, 2021), native account abstraction (zkSync/StarkNet/Aptos, 2022–24), hybrid post-quantum signatures (NIST FIPS 204/203, 2024), and credibly neutral governance (Bitcoin/Monero, 2009/2014). No single chain in the present landscape combines more than three.
 
 ## Pages
 
 - [Home](https://adamantprotocol.com/): Overview of the protocol, the seven properties no chain combines, and the five mechanisms Adamant uses to deliver them.
-- [Introduction](https://adamantprotocol.com/about): Plain-English introduction. Four core properties, framings against familiar systems, intended users, what the protocol is not.
+- [Introduction](https://adamantprotocol.com/about): Plain-English introduction. Four core properties, four-tier participation model, framings against familiar systems, intended users, what the protocol is not, glossary.
 - [Genesis](https://adamantprotocol.com/genesis): Launch mechanism, the fixed 100M ADM genesis pool, two acquisition paths, post-launch issuance schedule, what is not happening at launch.
-- [Specification](https://adamantprotocol.com/spec): Whitepaper draft v0.1 in summary form. Reading-friendly index of the 13 sections, with deep links to the canonical source.
+- [Specification](https://adamantprotocol.com/spec): Whitepaper draft in summary form. Reading-friendly index with deep links to the canonical source.
 
 ## Whitepaper (canonical source)
 
@@ -34,15 +40,15 @@ The reference whitepaper lives in the protocol repository:
 
 - [Abstract](https://github.com/adamant-protocol/adamant/blob/main/whitepaper/00-abstract.md): One-page summary of the protocol.
 - [Introduction & Motivation](https://github.com/adamant-protocol/adamant/blob/main/whitepaper/01-introduction.md): The state of the art in 2026, the gap that remains, and Adamant's thesis.
-- [Design Principles](https://github.com/adamant-protocol/adamant/blob/main/whitepaper/02-design-principles.md): The seven principles in priority order.
-- [Cryptographic Foundation](https://github.com/adamant-protocol/adamant/blob/main/whitepaper/03-cryptographic-foundation.md): Ed25519, ML-DSA, BLS12-381, SHA-3, Halo 2, threshold encryption.
+- [Design Principles](https://github.com/adamant-protocol/adamant/blob/main/whitepaper/02-design-principles.md): The eight principles in priority order.
+- [Cryptographic Foundation](https://github.com/adamant-protocol/adamant/blob/main/whitepaper/03-cryptographic-foundation.md): Ed25519, ML-DSA, ML-KEM-768, BLS12-381, SHA-3, Halo 2, threshold encryption, Wesolowski VDF.
 - [Identity & Accounts](https://github.com/adamant-protocol/adamant/blob/main/whitepaper/04-identity-accounts.md): Native account abstraction, view keys, selective disclosure.
 - [Object Model & State](https://github.com/adamant-protocol/adamant/blob/main/whitepaper/05-object-model-state.md): Object-based state, mutability variants, ownership modes.
 - [Execution & VM](https://github.com/adamant-protocol/adamant/blob/main/whitepaper/06-execution-vm.md): Adamant Move language, multi-dimensional gas, mutability annotations.
-- [Privacy Layer](https://github.com/adamant-protocol/adamant/blob/main/whitepaper/07-privacy-layer.md): Halo 2 circuits, shielded transactions, view keys.
-- [Consensus](https://github.com/adamant-protocol/adamant/blob/main/whitepaper/08-consensus.md): Mysticeti-based DAG, threshold-encrypted mempool, recursive proofs.
+- [Privacy Layer](https://github.com/adamant-protocol/adamant/blob/main/whitepaper/07-privacy-layer.md): Halo 2 circuits, shielded transactions, view keys, ML-KEM-based stealth addresses.
+- [Consensus](https://github.com/adamant-protocol/adamant/blob/main/whitepaper/08-consensus.md): Mysticeti-based DAG, dynamic active set with floor and ceiling, two-regime mempool, recursive proofs with prover market and validator fallback, witness tier, security tier disclosure.
 - [Networking & Mempool](https://github.com/adamant-protocol/adamant/blob/main/whitepaper/09-networking-mempool.md): libp2p networking, encrypted mempool, service-node infrastructure market.
-- [Economics & Incentives](https://github.com/adamant-protocol/adamant/blob/main/whitepaper/10-economics-incentives.md): Genesis pool, post-launch issuance, fee burn, validator-funded infrastructure.
+- [Economics & Incentives](https://github.com/adamant-protocol/adamant/blob/main/whitepaper/10-economics-incentives.md): Genesis pool, post-launch issuance, fee burn, prover bounty, witness compensation, validator-funded infrastructure.
 - [Genesis & Constitution](https://github.com/adamant-protocol/adamant/blob/main/whitepaper/11-genesis-constitution.md): What is fixed at genesis. The structural absence of any mechanism to modify the protocol.
 - [Conclusion & Open Problems](https://github.com/adamant-protocol/adamant/blob/main/whitepaper/12-conclusion.md): What remains to be done, acknowledged constraints.
 

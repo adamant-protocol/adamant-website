@@ -128,7 +128,7 @@ import Starfield from '@/components/Starfield.astro';
             ></iframe>
           </div>
           <figcaption class="wallet-demo-caption">
-            <span class="text-ember">Node</span> · Node Watcher participation
+            <span class="text-ember">Node</span> · Witness participation
           </figcaption>
         </figure>
       </div>
@@ -169,16 +169,16 @@ import Starfield from '@/components/Starfield.astro';
           {
             tag: 'VERIFY TAB',
             wp: 'WP §2.3 · §8.5',
-            title: 'A first-class Node Watcher screen.',
-            body: 'A dedicated tab where the wallet downloads the latest 5–10 KB recursive proof and verifies the entire chain history locally in 50–200 ms. Result is a 0 or a 1 — not a probability. Tap once; trust nothing.',
+            title: 'A first-class Witness screen.',
+            body: 'A dedicated tab where the wallet downloads the latest 5–10 KB recursive proof and verifies the entire chain history locally in 50–200 ms. Result is a 0 or a 1 — not a probability. The proof is produced by the permissionless prover market at steady state, with Node Runner fallback at degraded cadence so phone-verifiability never depends on the market.',
             prop: 'No light-client trust',
           },
           {
             tag: 'NODE TAB',
-            wp: 'WP §9.10',
-            title: 'Run a service node from the same app.',
-            body: 'Toggle a flag and the wallet\'s host device begins serving light-client queries to other wallets — earning ADM directly via payment channels or validator-funded infrastructure budgets. AC-only, Wi-Fi-only, background-only by default.',
-            prop: 'Permissionless infrastructure',
+            wp: 'WP §8.7.2 · §9.10',
+            title: 'Run as a Witness — or a service node.',
+            body: 'Toggle Witness mode and the wallet\'s host device begins attesting to verified proofs, sampling data availability, and flagging fraud — earning a slice of issuance plus verification fees. Toggle service-node mode and the device additionally serves light-client queries to other wallets via payment channels or validator-funded budgets. AC-only, Wi-Fi-only, background-only by default.',
+            prop: 'Permissionless participation · phone-class',
           },
           {
             tag: 'SETTINGS · VIEW KEYS',

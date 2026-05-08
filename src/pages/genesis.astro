@@ -150,9 +150,9 @@ import Starfield from '@/components/Starfield.astro';
       <div class="section-head">
         <div>
           <span class="num">§03 / POST-LAUNCH ISSUANCE</span>
-          <h2><span class="light">After the launch phase,</span>new ADM is issued only to Node Runners.</h2>
+          <h2><span class="light">After the launch phase,</span>new ADM goes to those running the chain.</h2>
         </div>
-        <p class="desc">Once the genesis pool exhausts (or the five-year cap is reached), the protocol transitions to a perpetual issuance schedule. The rate is fixed at genesis and cannot be modified without a hard fork. Issuance flows entirely to Node Runners and their delegators — never to a foundation, never to a treasury, never to the implementers.</p>
+        <p class="desc">Once the genesis pool exhausts (or the five-year cap is reached), the protocol transitions to a perpetual issuance schedule. The rate is fixed at genesis and cannot be modified without a hard fork. Issuance flows to Node Runners and their delegators (the substantial majority) and to the Witness compensation pool (a small slice, ~5%) — never to a foundation, never to a treasury, never to the implementers. Provers and service nodes are fee-funded; they receive no issuance.</p>
       </div>
 
       <!-- Issuance schedule grid -->
@@ -185,8 +185,8 @@ import Starfield from '@/components/Starfield.astro';
             <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-ember">WHERE ISSUANCE GOES</span>
             <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §10.3.2</span>
           </div>
-          <h3 class="font-display text-[22px] md:text-[26px] font-semibold leading-[1.15] tracking-[-0.025em]">Node Runners and their delegators. Nothing else.</h3>
-          <p class="text-[14px] leading-[1.65] text-ink-2">Each epoch, issuance is distributed across the active set in proportion to bonded stake, including delegations. Each Node Runner's share is then split between the Node Runner and their delegators per the Node Runner's commission rate (typically 5–15%). No portion is reserved for a foundation, a development fund, or any other recipient.</p>
+          <h3 class="font-display text-[22px] md:text-[26px] font-semibold leading-[1.15] tracking-[-0.025em]">Node Runners (majority). Witnesses (~5%). Nothing else.</h3>
+          <p class="text-[14px] leading-[1.65] text-ink-2">Each epoch, the substantial majority of issuance is distributed across the active set in proportion to bonded stake, including delegations; each Node Runner's share is then split between the Node Runner and their delegators per commission rate (typically 5–15%). A small slice flows to the Witness compensation pool, distributed across phone-class participants performing attestation, data-availability sampling, proof verification, and fraud detection. Provers and service nodes earn from transaction fees, not issuance. No portion is reserved for a foundation or development fund.</p>
         </article>
         <article class="bg-bg-2/70 backdrop-blur-sm p-7 md:p-9 flex flex-col gap-3.5" data-reveal>
           <div class="flex items-baseline justify-between">

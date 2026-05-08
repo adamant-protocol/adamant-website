@@ -67,14 +67,14 @@ import Starfield from '@/components/Starfield.astro';
           {
             n: '03',
             wp: 'WP §2.4 · §8 · §10.4',
-            title: 'Sub-second finality. Sub-cent fees.',
-            body: 'Approximately 500 ms finality for owned-object transactions and a per-transaction fee floor on the order of $0.0001 USD-equivalent at design throughput. Shielded transfers cost roughly one to two orders of magnitude more — still well inside consumer payment-network territory.',
+            title: 'Sub-second finality at design-N. Sub-cent fees.',
+            body: 'Approximately 500 ms finality for owned-object transactions at the design-target validator count, with a per-transaction fee floor on the order of $0.0001 USD-equivalent. Throughput is a *floor*, not a cap: 50,000+ TPS on residential-fibre commodity hardware at the active-set ceiling of 75, with actual throughput routinely exceeding the floor when validators run better-than-baseline hardware. The floor is calibrated for broad participation rather than maximum headline figures, subject to empirical validation before genesis. Shielded transfers cost roughly one to two orders of magnitude more — still well inside consumer payment-network territory.',
           },
           {
             n: '04',
             wp: 'WP §2.3 · §8.5',
             title: 'Verifiable by anyone with a phone.',
-            body: 'A Halo 2 recursive proof at every epoch boundary attests to the validity of all transactions and state transitions from genesis to the present. The proof is a constant-size artifact (≈5–10 KB) verifiable in 50–200 ms on a smartphone — anyone running the verifier becomes a Node Watcher (a light verifier in the spec). Verification is cryptographic, not statistical; no node, no RPC, no trust.',
+            body: 'A Halo 2 recursive proof at every epoch boundary attests to the validity of all transactions and state transitions from genesis to the present. The proof is a constant-size artifact (≈5–10 KB) verifiable in 50–200 ms on a smartphone — anyone running the verifier becomes a Witness in the four-tier participation model (validators, provers, witnesses, service nodes). Proofs are produced by a permissionless prover market at steady state, with Node Runners falling back at degraded cadence so phone-verifiability never depends on the market materialising.',
           },
         ].map((p) => (
           <article class="bg-bg-2/70 backdrop-blur-sm p-7 md:p-9 flex flex-col gap-3.5 min-h-[320px] card-hover" data-reveal>
@@ -230,7 +230,7 @@ import Starfield from '@/components/Starfield.astro';
           <span class="num">§06 / GLOSSARY</span>
           <h2><span class="light">The protocol's</span>vocabulary, defined.</h2>
         </div>
-        <p class="desc">Concise definitions of the terms used across this site, the whitepaper, and the reference implementation. The marketing site uses friendly aliases (Node Runners, Node Watchers); the whitepaper uses the formal terms (validators, light verifiers).</p>
+        <p class="desc">Concise definitions of the terms used across this site, the whitepaper, and the reference implementation. The marketing site uses "Node Runners" as a friendly alias for validators; spec terminology (Witnesses, Provers, Service Nodes) is used directly for the other tiers.</p>
       </div>
 
       <dl class="grid grid-cols-1 md:grid-cols-2 gap-px bg-rule-2 border border-rule-2">
@@ -238,27 +238,37 @@ import Starfield from '@/components/Starfield.astro';
           {
             term: 'Node Runner',
             spec: 'validator',
-            def: 'A participant in the active set running consensus. 200 of them at any time, each publishing one vertex per 250 ms round in the DAG, each referencing 2/3+1 of the prior round. Earns block rewards from the genesis pool, then post-launch issuance. Anyone can become one by acquiring stake.',
+            def: 'A participant in the active set running DAG consensus and mempool decryption on residential-fibre commodity-desktop hardware. The active set is dynamic — a constitutional floor of 7 (the smallest size at which Byzantine fault tolerance retains margin against correlated failures) and a soft ceiling of 75 (calibrated to the throughput floor on residential fibre). Selection is first-come-first-served with persistent membership: validators are admitted in registration order and retain their slot continuously until they fail liveness duties or voluntarily unbond. Each publishes one vertex per 250 ms round, each referencing 2/3+1 of the prior round. Earns block rewards from the genesis pool, then post-launch issuance.',
           },
           {
-            term: 'Node Watcher',
-            spec: 'light verifier',
-            def: 'Anyone with a smartphone or consumer device. Downloads a 5–10 KB recursive zero-knowledge proof and verifies the entire chain history in 50–200 ms — no full node, no RPC trust, no light-client trust assumption. Verification is cryptographic, not statistical.',
+            term: 'FCFS persistent membership',
+            spec: 'WP §8.1.3',
+            def: 'How Node Runners enter and leave the active set. When the count of registered, stake-eligible, online validators is at or below the ceiling (75), every such validator is in the active set; when it exceeds the ceiling, validators are admitted in *registration order* and the rest enter a standby queue. Slots are held continuously until liveness failure or voluntary unbonding; no forced rotation; no stake-weighted lottery. A small home-fibre validator who registered early and stays online cannot be displaced by a wealthier latecomer or a faster competitor. Delegation affects validator economics, not selection.',
+          },
+          {
+            term: 'Witness',
+            spec: 'WP §8.7.2',
+            def: 'A phone-class participant in the four-tier model. Performs four roles: cryptographic attestation, data-availability sampling, recursive-proof verification, and fraud / reordering detection. Permissionless registration with a small Sybil-resistance stake (~100 ADM, 7-day unbonding); slashable for false attestations corroborated by other witnesses. Compensated from a slice of verification fees plus a small slice of issuance.',
+          },
+          {
+            term: 'Prover',
+            spec: 'WP §8.5.3',
+            def: 'A GPU-class operator producing recursive Halo 2 proofs in a permissionless market. No stake, no application, no approval — provers race to submit valid proofs and win the per-proof bounty (the proof-generation fee dimension). Validators fall back to producing proofs at degraded cadence if the prover market is insufficient; phone-verifiability never depends on the market materialising.',
           },
           {
             term: 'Service Node',
             spec: 'WP §9.10',
-            def: 'Permissionless light-client infrastructure provider. Wallets and applications query service nodes for state via a standardised query format. No registry; anyone can run one. Optionally funded by Node Runners from commission revenue (WP §10.5.5).',
+            def: 'Permissionless light-client infrastructure provider. Wallets and applications query service nodes for state via a standardised query format. No registry; anyone can run one. Optionally funded by Node Runners from commission revenue (WP §10.5.5). Fee/ecosystem-funded; receives no issuance.',
           },
           {
             term: 'ADM',
             spec: 'native token',
-            def: 'The protocol\'s native token. Native to the protocol layer (not contract-defined). 100M genesis pool drained over a five-year launch phase via burn-to-mint and Node Runner block rewards. Post-launch issuance: 4% → 1% per year, in perpetuity, paid only to Node Runners and their delegators. Base fees burned via EIP-1559-style mechanism.',
+            def: 'The protocol\'s native token. Native to the protocol layer (not contract-defined). 100M genesis pool drained over a five-year launch phase via burn-to-mint and Node Runner block rewards. Post-launch issuance: 4% → 1% per year, in perpetuity, distributed to Node Runners (majority) and Witnesses (small slice); provers and service nodes are fee-funded. Base fees burned via EIP-1559-style mechanism.',
           },
           {
             term: 'Genesis pool',
             spec: 'WP §10.2',
-            def: 'A fixed 100,000,000 ADM that exists at the protocol layer, partitioned 70/30 between burn-to-mint claims and Node Runner block rewards. The pool is not held by any party; it is a counter that decrements only through public acquisition paths. Unclaimed tokens at year five are destroyed.',
+            def: 'A fixed 100,000,000 ADM that exists at the protocol layer, partitioned 70/30 between burn-to-mint claims and Node Runner block rewards. The pool is not held by any party; it is a counter that decrements only through public acquisition paths. Unclaimed tokens at year five are destroyed. The chain self-activates the moment 7 Node Runners are simultaneously registered, stake-eligible, and online — no recruited cohort, no human-in-the-loop activation.',
           },
           {
             term: 'Burn-to-mint',
@@ -268,17 +278,27 @@ import Starfield from '@/components/Starfield.astro';
           {
             term: 'Recursive ZK proof',
             spec: 'WP §8.5',
-            def: 'A Halo 2 proof that attests to the validity of all transactions and state transitions from genesis to the present. Each new proof π_n verifies the prior proof π_{n−1} plus the current epoch\'s transactions, collapsing the entire chain history into a constant-size 5–10 KB artifact.',
+            def: 'A Halo 2 proof that attests to the validity of all transactions and state transitions from genesis to the present. Each new proof π_n verifies the prior proof π_{n−1} plus the current epoch\'s transactions, collapsing the entire chain history into a constant-size 5–10 KB artifact. Produced by the prover market at steady state with validator-fallback at degraded cadence.',
           },
           {
             term: 'DAG consensus',
             spec: 'WP §8',
-            def: 'A directed-acyclic-graph consensus mechanism (Mysticeti-based). All Node Runners produce vertices in parallel each round; ordering emerges from the structure rather than from a single leader. Commit waves finalise blocks every four rounds.',
+            def: 'A directed-acyclic-graph consensus mechanism (Mysticeti-based). Node Runners produce vertices in parallel each round; ordering emerges from the structure rather than from a single leader. Commit waves finalise blocks every four rounds. At the constitutional floor (N=7–14) the chain halts on disagreement rather than forks — safety preserved at the cost of liveness during severe-unavailability periods.',
           },
           {
-            term: 'Threshold-encrypted mempool',
-            spec: 'WP §3.6, §8.4',
-            def: 'A mempool design that conceals transaction contents until ordering is committed. Users encrypt to the upcoming epoch\'s BLS threshold key. At the epoch boundary, 2/3+1 Node Runners publish decryption shares; transactions execute in the next epoch. Eliminates front-running and validator-level censorship at the cryptographic layer.',
+            term: 'Two-regime mempool',
+            spec: 'WP §3.6, §3.8, §8.4',
+            def: 'A mempool design that conceals transaction contents until ordering is committed. At N≥15, users encrypt to the upcoming epoch\'s BLS threshold key; 2/3+1 Node Runners publish decryption shares at the boundary (full MEV resistance). At N<15, users encrypt to a Wesolowski VDF puzzle; the rotated round anchor decrypts atomically with their vertex (bounded intra-anchor reordering surface, honestly disclosed). Hysteresis prevents flapping at the boundary.',
+          },
+          {
+            term: 'Security tier',
+            spec: 'WP §8.1.7',
+            def: 'An on-chain signal indicating the chain\'s current scale, queryable as constant-time chain-state. Tier I (N=7–14): operational, time-lock encryption regime, suitable for ordinary transfers. Tier II (N=15–29): threshold-encryption regime active, suitable for moderate-value contracts. Tier III (N=30+): full design-target security. Wallets and applications adapt confirmation requirements accordingly.',
+          },
+          {
+            term: 'Hybrid PQ posture',
+            spec: 'Principle VIII, WP §2.8',
+            def: 'Post-quantum security at the surfaces that matter most. ML-DSA (FIPS 204) for identity-binding operations: addresses, validator registrations, contract deployments, opt-in high-value transactions. ML-KEM-768 (FIPS 203) for key agreement underlying stealth addresses and encrypted memos — historical privacy survives the quantum threshold. Ed25519 by default for ordinary transactions (smaller signatures, lower bandwidth); the trade-off — that historical ordinary signatures are quantum-forgeable — is honestly disclosed rather than hidden.',
           },
           {
             term: 'Credible neutrality',

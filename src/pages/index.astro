@@ -44,11 +44,11 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
             <span class="text-ember">DRAFT</span>
           </div>
           <div class="flex items-baseline justify-between border-b border-rule pb-3">
-            <span class="font-mono text-[10.5px] uppercase tracking-[0.2em] text-ink-3">Throughput</span>
-            <span class="font-display text-[22px] md:text-[24px] font-medium leading-none tracking-[-0.03em]">200,000<small class="ml-1.5 font-mono text-[9.5px] font-normal tracking-[0.18em] text-ink-3">TPS</small></span>
+            <span class="font-mono text-[10.5px] uppercase tracking-[0.2em] text-ink-3">Throughput floor</span>
+            <span class="font-display text-[22px] md:text-[24px] font-medium leading-none tracking-[-0.03em]">50,000<small class="ml-1.5 font-mono text-[9.5px] font-normal tracking-[0.18em] text-ink-3">+ TPS</small></span>
           </div>
           <div class="flex items-baseline justify-between border-b border-rule pb-3">
-            <span class="font-mono text-[10.5px] uppercase tracking-[0.2em] text-ink-3">Finality</span>
+            <span class="font-mono text-[10.5px] uppercase tracking-[0.2em] text-ink-3">Finality at design-N</span>
             <span class="font-display text-[22px] md:text-[24px] font-medium leading-none tracking-[-0.03em]">≈500<small class="ml-1.5 font-mono text-[9.5px] font-normal tracking-[0.18em] text-ink-3">MS</small></span>
           </div>
           <div class="flex items-baseline justify-between border-b border-rule pb-3">
@@ -178,12 +178,12 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
           <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 font-mono text-[12.5px] tracking-[0.04em]">
             {[
-              '200k+ TPS · sub-second finality',
+              '50k+ TPS floor · sub-second finality',
               'Programmable privacy by default',
-              'Threshold-encrypted mempool',
+              'Encrypted mempool · two-regime',
               'Phone-verifiable chain',
               'Native account abstraction',
-              'Post-quantum signatures',
+              'Hybrid post-quantum signatures',
               'Credibly neutral governance',
             ].map((p) => (
               <li class="flex items-baseline gap-3 text-ink">
@@ -220,7 +220,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
           <!-- Parameter strip -->
           <div class="mb-6 grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3 font-mono text-[10px] tracking-[0.06em]">
-            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">N</span><span class="text-ink"><span class="text-ember">200</span> node runners</span></div>
+            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">N</span><span class="text-ink">floor <span class="text-ember">7</span> · ceiling <span class="text-ember">75</span></span></div>
             <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">Δ round</span><span class="text-ink"><span class="text-ember">250</span> ms</span></div>
             <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">k commit</span><span class="text-ink">every <span class="text-ember">4</span> rounds</span></div>
             <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">finality</span><span class="text-ink">≈ <span class="text-ember">500</span> ms</span></div>
@@ -366,15 +366,15 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
             </div>
             <div class="border-l-2 border-ember pl-4">
               <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ember mb-2">Adamant</span>
-              <p class="text-[13.5px] leading-[1.6] text-ink">Mysticeti-based DAG. All 200 active <strong class="font-semibold text-ember">Node Runners</strong> (validators in the spec) publish a vertex every 250&nbsp;ms, each referencing 2/3+1 of the prior round. Order emerges from the structure itself — every 4 rounds, a commit wave finalises blocks.</p>
+              <p class="text-[13.5px] leading-[1.6] text-ink">Mysticeti-based DAG. The active set is dynamic — a constitutional floor of 7 <strong class="font-semibold text-ember">Node Runners</strong> (validators in the spec), a soft ceiling of 75 calibrated to residential-fibre hardware. Selection is <strong class="font-semibold text-ember">first-come-first-served with persistent membership</strong>: slots held continuously until liveness failure or voluntary unbonding — early home-fibre operators cannot be displaced by wealthier latecomers. Each publishes a vertex every 250&nbsp;ms, referencing 2/3+1 of the prior round; every 4 rounds, a commit wave finalises blocks. The chain self-activates the moment 7 are simultaneously online.</p>
             </div>
           </div>
 
           <div class="flex flex-wrap gap-2 mt-3 pt-5 border-t border-rule font-mono text-[10.5px] uppercase tracking-[0.18em] text-ink-3">
             <span class="text-ink-2">→ Property delivered:</span>
-            <span class="text-ember">200,000+ TPS</span>
+            <span class="text-ember">50,000+ TPS floor</span>
             <span class="text-ink-4">·</span>
-            <span class="text-ember">~500ms finality</span>
+            <span class="text-ember">~500ms finality at design-N</span>
           </div>
         </div>
       </div>
@@ -389,9 +389,9 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
           <!-- Parameter strip -->
           <div class="mb-6 grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3 font-mono text-[10px] tracking-[0.06em]">
-            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">scheme</span><span class="text-ink"><span class="text-ember">BLS</span> threshold</span></div>
+            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">low-N</span><span class="text-ink">VDF · <span class="text-ember">time-lock</span></span></div>
+            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">N≥15</span><span class="text-ink">BLS · <span class="text-ember">threshold</span></span></div>
             <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">threshold</span><span class="text-ink">⌈<span class="text-ember">2N⁄3</span>⌉ + 1</span></div>
-            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">key rotation</span><span class="text-ink">every <span class="text-ember">epoch</span></span></div>
             <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">epoch length</span><span class="text-ink">≈ <span class="text-ember">36</span> s</span></div>
           </div>
 
@@ -491,13 +491,13 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
             </div>
             <div class="border-l-2 border-ember pl-4">
               <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ember mb-2">Adamant</span>
-              <p class="text-[13.5px] leading-[1.6] text-ink">Users encrypt to the upcoming epoch's threshold key. Validators order encrypted blobs during epoch E. At the boundary, 2/3+1 publish decryption shares as a side-effect of vertex production. Decrypted txs execute in epoch E+1.</p>
+              <p class="text-[13.5px] leading-[1.6] text-ink">Two regimes, automatic transition. <strong class="font-semibold text-ember">N≥15</strong>: users encrypt to the upcoming epoch's BLS threshold key; 2/3+1 Node Runners publish decryption shares at the boundary; MEV protection is structural. <strong class="font-semibold text-ember">N&lt;15</strong>: users encrypt to a Wesolowski VDF puzzle; the rotated round anchor decrypts atomically with their vertex; a bounded intra-anchor reordering surface is honestly disclosed.</p>
             </div>
           </div>
 
           <div class="flex flex-wrap gap-2 mt-3 pt-5 border-t border-rule font-mono text-[10.5px] uppercase tracking-[0.18em] text-ink-3">
             <span class="text-ink-2">→ Property delivered:</span>
-            <span class="text-ember">No front-running</span>
+            <span class="text-ember">No front-running at design-N</span>
             <span class="text-ink-4">·</span>
             <span class="text-ember">Censorship resistance</span>
           </div>
@@ -613,7 +613,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
         <div class="p-8 md:p-12 lg:p-16 flex flex-col justify-center gap-6 lg:border-l border-rule-2">
           <h3 class="font-display font-medium leading-[1.05] tracking-[-0.03em]" style="font-size:clamp(28px,2.8vw,42px)">
             <span class="block font-light text-ink-2">Anyone with a phone</span>
-            becomes a Node Watcher.
+            becomes a Witness.
           </h3>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-2">
@@ -623,7 +623,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
             </div>
             <div class="border-l-2 border-ember pl-4">
               <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ember mb-2">Adamant</span>
-              <p class="text-[13.5px] leading-[1.6] text-ink">A Halo 2 recursive proof at every epoch boundary verifies the previous proof plus this epoch's transactions. The proof-of-everything is one ~5–10 KB artifact. <strong class="font-semibold text-ember">Node Watchers</strong> (light verifiers in the spec) verify it in 50–200 ms on a smartphone — no node, no RPC, no trust.</p>
+              <p class="text-[13.5px] leading-[1.6] text-ink">A Halo 2 recursive proof at every epoch boundary verifies the previous proof plus this epoch's transactions — produced by a permissionless <strong class="font-semibold text-ember">prover market</strong> at steady state, with Node Runners fallback at degraded cadence so phone-verifiability never depends on the market. The proof-of-everything is one ~5–10 KB artifact. <strong class="font-semibold text-ember">Witnesses</strong> verify it in 50–200 ms on a smartphone, attest to it, and sample data availability — no node, no RPC, no trust.</p>
             </div>
           </div>
 
@@ -766,7 +766,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
               <!-- Section labels (top) -->
               <g font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="1.2" fill="currentColor" class="text-ink-3">
-                <text x="55" y="48" text-anchor="middle">node watcher</text>
+                <text x="55" y="48" text-anchor="middle">witness</text>
                 <text x="210" y="48" text-anchor="middle">service-node market</text>
                 <text x="365" y="48" text-anchor="middle">node runners</text>
               </g>
@@ -850,7 +850,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
             </div>
             <div class="border-l-2 border-ember pl-4">
               <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ember mb-2">Adamant</span>
-              <p class="text-[13.5px] leading-[1.6] text-ink">A standardised query protocol opens a permissionless market for service nodes that serve Node Watchers. Node Runners may, at their discretion, fund infrastructure from commission revenue to compete for delegators on service quality. The protocol enables the market; the ecosystem develops it.</p>
+              <p class="text-[13.5px] leading-[1.6] text-ink">A standardised query protocol opens a permissionless market for service nodes that serve Witnesses and other lightweight clients. Node Runners may, at their discretion, fund infrastructure from commission revenue to compete for delegators on service quality. The protocol enables the market; the ecosystem develops it.</p>
             </div>
           </div>
 

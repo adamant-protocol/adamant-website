@@ -1,6 +1,7 @@
-// Node tab — phone-based Node Watcher + opt-in participation in the watcher pool
+// Node tab — phone-based Witness + opt-in participation in the watcher pool
 // Honest framing: a phone can't be a full Node Runner. It can be an always-on
-// Node Watcher (light verifier) and contribute signatures when plugged in and on Wi-Fi.
+// Witness (per WP §8.7.2: attestation, DAS, proof verification, fraud detection)
+// and contribute signatures when plugged in and on Wi-Fi.
 
 const NODE_SAMPLE = {
   status: 'active', // offline | standby | active | throttled
@@ -54,7 +55,7 @@ function NodeScreen({ enabled, setEnabled, settings, setSettings, onView }) {
         <div className="adm-card" style={{ padding: 16 }}>
           <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 14, color: 'var(--adm-text-1)' }}>Node Watcher participation</div>
+              <div style={{ fontSize: 14, color: 'var(--adm-text-1)' }}>Witness participation</div>
               <div style={{ fontSize: 12, color: 'var(--adm-text-3)', marginTop: 4, lineHeight: 1.5 }}>
                 Contribute signatures to the consensus DAG. On only when plugged in and on Wi-Fi by default.
               </div>
@@ -130,7 +131,7 @@ function NodeScreen({ enabled, setEnabled, settings, setSettings, onView }) {
 
       {/* Honesty footer */}
       <div style={{ padding: '24px 24px 0', fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--adm-text-3)', letterSpacing: '0.04em', lineHeight: 1.7 }}>
-        Phones cannot be full Node Runners. This device contributes signatures to the Node Watcher pool and verifies new tips locally. Block production runs on dedicated hardware.
+        Phones cannot be full Node Runners. This device contributes signatures to the Witness pool and verifies new tips locally. Block production runs on dedicated hardware.
       </div>
     </div>
   );
@@ -181,9 +182,9 @@ function NodePulse({ status }) {
 
 function NodeStatusBlock({ status, data }) {
   const map = {
-    offline: { eyebrow: 'Offline', dot: 'muted', body: 'Node Watcher participation is off. Local verification still runs whenever you open the app.' },
-    standby: { eyebrow: 'Standby', dot: 'cold', body: 'Waiting for power and Wi-Fi. Will join the Node Watcher pool automatically when conditions are met.' },
-    active: { eyebrow: 'Active · contributing', dot: 'ember', body: `Connected to Node Watcher pool. Signing rounds at ~${data.signaturesPerHour}/hour.` },
+    offline: { eyebrow: 'Offline', dot: 'muted', body: 'Witness participation is off. Local verification still runs whenever you open the app.' },
+    standby: { eyebrow: 'Standby', dot: 'cold', body: 'Waiting for power and Wi-Fi. Will join the Witness pool automatically when conditions are met.' },
+    active: { eyebrow: 'Active · contributing', dot: 'ember', body: `Connected to Witness pool. Signing rounds at ~${data.signaturesPerHour}/hour.` },
     throttled: { eyebrow: 'Throttled', dot: 'muted', body: 'Holding back to respect thermal or CPU limits. Will resume full participation when conditions improve.' },
   };
   const m = map[status];
@@ -266,7 +267,7 @@ function NodeSettingsScreen({ onBack, settings, setSettings }) {
         <div className="row-tap" onClick={() => set('onlyWifi', !settings.onlyWifi)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 0', borderBottom: '1px solid var(--adm-border-1)', cursor: 'pointer' }}>
           <div>
             <div style={{ fontSize: 14, color: 'var(--adm-text-1)' }}>Only on Wi-Fi</div>
-            <div style={{ fontSize: 11, color: 'var(--adm-text-3)', marginTop: 2 }}>Node Watcher traffic is ~2 GB/day average.</div>
+            <div style={{ fontSize: 11, color: 'var(--adm-text-3)', marginTop: 2 }}>Witness traffic is ~2 GB/day average.</div>
           </div>
           <Toggle on={settings.onlyWifi} onChange={(v) => set('onlyWifi', v)} />
         </div>
@@ -327,7 +328,7 @@ function NodeSettingsScreen({ onBack, settings, setSettings }) {
       </div>
 
       <div style={{ marginTop: 24, fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--adm-text-3)', letterSpacing: '0.04em', lineHeight: 1.7 }}>
-        Node Watcher signatures are non-anonymous. Your peer ID is public and is paired with a transparent payout address.
+        Witness signatures are non-anonymous. Your peer ID is public and is paired with a transparent payout address.
       </div>
     </div>
   );
