@@ -43,7 +43,7 @@ const { active = 'home' } = Astro.props;
     </button>
   </div>
 
-  <div class="nav-drawer" id="nav-drawer" hidden>
+  <div class="nav-drawer" id="nav-drawer" inert>
     <nav aria-label="Mobile primary">
       {PAGES.map((p) => (
         <a
@@ -56,5 +56,9 @@ const { active = 'home' } = Astro.props;
         </a>
       ))}
     </nav>
+    <div class="nav-drawer-foot">
+      <span class="phase-pill" data-phase={PHASE.key}><span>{PHASE.shortLabel}</span></span>
+      <span>Protocol &middot; spec v0.1</span>
+    </div>
   </div>
 </header>

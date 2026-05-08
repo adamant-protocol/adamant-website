@@ -189,32 +189,88 @@ footer.foot .brand .mark { width: 32px; height: 32px; }
 .nav-toggle-label { line-height: 1; }
 .topbar.is-open .nav-toggle-label::after { content: ""; }
 
+/* Drawer is a fixed overlay that covers the page below the topbar.
+ * The topbar (z-index 50) stays on top so the close-button (hamburger) is
+ * always visible; the drawer (z-index 45) slides in/out from above. */
 .nav-drawer {
-  display: none;
-  border-top: 1px solid var(--rule);
+  position: fixed;
+  inset: 0;
   background: var(--paper);
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 320ms cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 45;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 64px 0 24px;            /* clear the topbar visually */
+  transform: translateY(-100%);
+  transition: transform 360ms cubic-bezier(0.16, 1, 0.3, 1);
+  /* Same paper texture as the body so it feels continuous, not modal */
+  background-image: radial-gradient(oklch(0% 0 0 / 0.018) 1px, transparent 1px);
+  background-size: 3px 3px;
 }
-.topbar.is-open .nav-drawer { display: block; max-height: 80vh; }
-.nav-drawer nav { display: flex; flex-direction: column; }
+.topbar.is-open .nav-drawer { transform: translateY(0); }
+.nav-drawer[hidden] { display: none; }    /* JS uses [inert] now; this is a fallback */
+
+.nav-drawer nav {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  margin: 8px 0 24px;
+}
 .nav-drawer a {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 16px 20px;
+  align-items: baseline;
+  gap: 16px;
+  padding: 18px 20px;
   border-bottom: 1px solid var(--rule);
-  font-family: var(--mono);
-  font-size: 13px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-family: var(--serif);
+  font-size: 24px;
+  letter-spacing: -0.01em;
   color: var(--ink);
+  line-height: 1.1;
+  transition: background 140ms;
 }
+.nav-drawer a:last-child { border-bottom: 0; }
 .nav-drawer a:hover { background: var(--paper-2); }
-.nav-drawer a.is-current { background: var(--ink); color: var(--paper); }
-.nav-drawer a.is-current .nav-drawer-arrow { color: var(--paper); }
-.nav-drawer-arrow { color: var(--ink-3); font-family: var(--mono); }
+.nav-drawer a:active { background: var(--paper-3); }
+.nav-drawer a.is-current {
+  background: var(--ink);
+  color: var(--paper);
+}
+.nav-drawer a.is-current .nav-drawer-arrow,
+.nav-drawer a.is-current .nav-drawer-num { color: var(--paper); }
+.nav-drawer-label { display: inline-flex; align-items: baseline; gap: 14px; }
+.nav-drawer-label::before {
+  content: counter(navnum, decimal-leading-zero);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.10em;
+  color: var(--ink-3);
+  font-style: normal;
+  font-weight: 500;
+  counter-increment: navnum;
+}
+.nav-drawer nav { counter-reset: navnum; }
+.nav-drawer-arrow {
+  color: var(--ink-3);
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 400;
+}
+
+/* Footer line inside the drawer with phase + meta — reads like a colophon */
+.nav-drawer-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  margin-top: auto;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
 
 .phase-pill {
   font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase;
