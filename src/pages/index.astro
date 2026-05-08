@@ -1,1202 +1,194 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
+import HubLayout from '@/layouts/HubLayout.astro';
+import { SEVEN_PROPERTIES, FIVE_MECHANISMS, UPDATES, PHASE, fmtAdm } from '@/data/chain';
+
+const p = PHASE;
+const burnRem = fmtAdm(p.genesisPool.burnRemaining);
+const valRem = fmtAdm(p.genesisPool.validatorRemaining);
+
+const COLS = ['BTC', 'ETH', 'XMR', 'ZEC', 'MINA', 'ADM'] as const;
+const KEYS: Record<typeof COLS[number], keyof typeof SEVEN_PROPERTIES[0]['gap']> = {
+  BTC: 'btc', ETH: 'eth', XMR: 'monero', ZEC: 'zec', MINA: 'mina', ADM: 'adm',
+};
+
+const latestUpdate = UPDATES[0];
 ---
 
-<BaseLayout active="home" ogImage="/home-og.png">
-  <!-- ───────── HERO ───────── -->
-  <section class="relative overflow-hidden pt-10 md:pt-16 pb-12 md:pb-16">
-    <!-- Full-bleed hero image with the monolith centerpiece visible -->
-    <div class="pointer-events-none absolute inset-0 z-[1]" aria-hidden="true">
-      <img
-        src="/hero-2.jpg"
-        alt=""
-        class="absolute inset-0 h-full w-full object-cover object-center opacity-[0.55] md:opacity-[0.7]"
-      />
-      <div class="absolute inset-0" style="background:linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.35) 35%, rgba(0,0,0,0.55) 70%, #000 100%)"></div>
-      <div class="absolute inset-0" style="background:linear-gradient(90deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.45) 38%, transparent 60%, rgba(0,0,0,0.55) 100%)"></div>
-      <div class="absolute inset-0" style="background:radial-gradient(ellipse 50% 45% at 50% 45%, rgba(255,125,77,0.10), transparent 65%)"></div>
-    </div>
+<HubLayout active="home" title="Adamant — Home" description="A Layer 1 blockchain protocol. Privacy by default, post-quantum, no foundation, no premine, no admin keys.">
 
-    <div class="wrap relative z-[3]">
-      <div class="grid items-center gap-10 md:gap-14 lg:grid-cols-[1.4fr_1fr]">
-        <div data-reveal>
-          <span class="eyebrow">
-            <span class="dot"></span>
-            Layer 1 · Specification draft v0.1
+  <!-- HERO: chain status is the hero -->
+  <section class="hero-state" data-screen-label="Hero · block height">
+    <div class="container">
+      <div class="eyebrow"><span class="num">§ 00</span> &nbsp; A Layer 1 blockchain protocol &nbsp; · &nbsp; Privacy by default &nbsp; · &nbsp; Post-quantum &nbsp; · &nbsp; No foundation, no premine</div>
+      <div class="block-height">specification</div>
+      <div class="hero-meta">
+        <div class="left">
+          <span class="label">Block height &nbsp; · &nbsp; {p.label}</span>
+          <span class="serif" style="font-size: 22px; line-height: 1.4; color: var(--ink-2); max-width: 56ch;">
+            {p.tagline}
           </span>
-          <h1 class="mt-6 max-w-[14ch] font-display font-medium leading-[0.98] tracking-[-0.035em]" style="font-size:clamp(38px,5.4vw,76px)">
-            <span class="block font-light text-ink-2">A Layer 1 with</span>
-            <span class="block font-semibold">no foundation,</span>
-            <span class="block font-bold text-ember">no upgrade authority.</span>
-          </h1>
-          <p class="mt-7 max-w-[44ch] text-[16px] leading-[1.7] text-ink-2">
-            Privacy by default, sub-second finality, and credibly neutral governance enforced at genesis.
-          </p>
-          <div class="mt-8 flex flex-wrap gap-3">
-            <a href="/about" class="btn-link solid">Read the introduction <span class="arrow"></span></a>
-            <a href="/spec" class="btn-link">Read the specification <span class="arrow"></span></a>
-          </div>
         </div>
-
-        <div class="glass rounded-sm p-5 md:p-6 flex flex-col gap-3.5" data-reveal style="transition-delay:140ms">
-          <div class="mb-0.5 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.22em] text-ink-3">
-            <span>Targets · v0.1 spec</span>
-            <span class="text-ember">DRAFT</span>
-          </div>
-          <div class="flex items-baseline justify-between border-b border-rule pb-3">
-            <span class="font-mono text-[10.5px] uppercase tracking-[0.2em] text-ink-3">Throughput floor</span>
-            <span class="font-display text-[22px] md:text-[24px] font-medium leading-none tracking-[-0.03em]">50,000<small class="ml-1.5 font-mono text-[9.5px] font-normal tracking-[0.18em] text-ink-3">+ TPS</small></span>
-          </div>
-          <div class="flex items-baseline justify-between border-b border-rule pb-3">
-            <span class="font-mono text-[10.5px] uppercase tracking-[0.2em] text-ink-3">Finality target</span>
-            <span class="font-display text-[22px] md:text-[24px] font-medium leading-none tracking-[-0.03em]">≈500<small class="ml-1.5 font-mono text-[9.5px] font-normal tracking-[0.18em] text-ink-3">MS</small></span>
-          </div>
-          <div class="flex items-baseline justify-between border-b border-rule pb-3">
-            <span class="font-mono text-[10.5px] uppercase tracking-[0.2em] text-ink-3">Fee · transparent</span>
-            <span class="font-display text-[22px] md:text-[24px] font-medium leading-none tracking-[-0.03em]">$0.0001<small class="ml-1.5 font-mono text-[9.5px] font-normal tracking-[0.18em] text-ink-3">USD</small></span>
-          </div>
-          <div class="flex items-baseline justify-between">
-            <span class="font-mono text-[10.5px] uppercase tracking-[0.2em] text-ink-3">Default state</span>
-            <span class="font-display text-[22px] md:text-[24px] font-medium leading-none tracking-[-0.03em] text-ember">Shielded</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="mt-12 md:mt-16 pt-6 flex items-center justify-between border-t border-rule">
-        <span class="font-mono text-[10.5px] tracking-[0.2em] text-ink-3">PRE-LAUNCH · NO TOKEN SALE · NO PRIVATE ALLOCATIONS</span>
-        <span class="font-mono text-[10.5px] uppercase tracking-[0.2em] text-ink-2 hidden md:flex items-center gap-3">
-          Continue
-          <span class="inline-block h-px w-5 relative bg-ink-2 after:absolute after:right-0 after:-top-[3px] after:size-[6px] after:border-r after:border-b after:border-ink-2 after:rotate-[-45deg]"></span>
-        </span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ───────── §01 / THE GAP ───────── -->
-  <section class="border-t border-rule">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <span class="num">§01 / THE GAP</span>
-          <h2><span class="light">Each property is demonstrated in production.</span>No chain combines more than three.</h2>
-        </div>
-        <p class="desc">
-          Seven properties characterise a usable chain in 2026. Each is, in isolation, well understood and demonstrated in production. <strong class="text-ink">No single chain in the present landscape combines more than three of them.</strong>
-        </p>
-      </div>
-
-      <!-- Seven property cards -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-rule-2 border border-rule-2">
-        {[
-          {
-            n: '01',
-            prop: '200k+ TPS · sub-second finality',
-            chain: 'Sui (Mysticeti)',
-            year: '2024',
-            lacks: 'No default privacy. Foundation-controlled.',
-          },
-          {
-            n: '02',
-            prop: 'Programmable privacy',
-            chain: 'Aztec',
-            year: '2025',
-            lacks: 'L2 only. Multi-second proving. Not a sovereign chain.',
-          },
-          {
-            n: '03',
-            prop: 'Encrypted mempool · in production',
-            chain: 'Shutter / Gnosis',
-            year: '2024',
-            lacks: '~3 minute inclusion latency. No programmable privacy.',
-          },
-          {
-            n: '04',
-            prop: 'Phone-verifiable chain',
-            chain: 'Mina',
-            year: '2021',
-            lacks: 'Low throughput. No default privacy.',
-          },
-          {
-            n: '05',
-            prop: 'Native account abstraction',
-            chain: 'zkSync · StarkNet · Aptos',
-            year: '2022–24',
-            lacks: 'Each on a different chain, with different trade-offs.',
-          },
-          {
-            n: '06',
-            prop: 'Post-quantum signatures',
-            chain: 'NIST standardisation',
-            year: '2024',
-            lacks: 'No major chain has launched with these by default.',
-          },
-        ].map((p) => (
-          <article class="bg-bg-2/70 backdrop-blur-sm p-6 md:p-7 flex flex-col gap-3 min-h-[210px] card-hover" data-reveal>
-            <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-3">PROPERTY {p.n}</span>
-            <h3 class="font-display text-[17px] md:text-[18.5px] font-medium leading-[1.25] tracking-[-0.018em] text-ink">{p.prop}</h3>
-            <div class="mt-1 flex items-baseline gap-2 font-mono text-[11px] tracking-[0.1em]">
-              <span class="text-ember">{p.chain}</span>
-              <span class="text-ink-4">·</span>
-              <span class="text-ink-3">{p.year}</span>
-            </div>
-            <p class="mt-auto pt-3 border-t border-rule text-[12.5px] leading-[1.55] text-ink-3 italic">but lacks: {p.lacks}</p>
-          </article>
-        ))}
-
-        <!-- Property 07: spans full width -->
-        <article class="bg-bg-2/70 backdrop-blur-sm p-6 md:p-9 lg:p-10 flex flex-col md:flex-row md:items-center gap-5 md:gap-12 lg:col-span-3 card-hover relative overflow-hidden" data-reveal>
-          <div class="pointer-events-none absolute inset-0 opacity-30" style="background:linear-gradient(90deg, transparent 0%, rgba(255,125,77,0.05) 100%)"></div>
-          <div class="relative md:flex-1">
-            <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-3">PROPERTY 07 · THE ANCHOR</span>
-            <h3 class="mt-3 font-display text-[20px] md:text-[24px] font-medium leading-[1.25] tracking-[-0.018em] text-ink max-w-[24ch]">Credibly neutral governance</h3>
-          </div>
-          <div class="relative md:flex-shrink-0 flex items-baseline gap-2 font-mono text-[12px] tracking-[0.1em]">
-            <span class="text-ember">Bitcoin</span>
-            <span class="text-ink-4">·</span>
-            <span class="text-ember">Monero</span>
-            <span class="text-ink-4">·</span>
-            <span class="text-ink-3">2009 · 2014</span>
-          </div>
-          <p class="relative md:max-w-[36ch] text-[13px] leading-[1.55] text-ink-3 italic md:border-l border-rule md:pl-8 md:py-2">but lacks: No programmability. No high throughput.</p>
-        </article>
-      </div>
-
-      <!-- Adamant card: full width, all seven -->
-      <div class="mt-px glass-ember p-8 md:p-12 lg:p-14 relative overflow-hidden card-hover" data-reveal>
-        <div class="pointer-events-none absolute inset-0 opacity-60" style="background:radial-gradient(ellipse 80% 80% at 50% 50%, rgba(255,125,77,0.10), transparent 65%)"></div>
-        <div class="relative grid items-start gap-8 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
-          <div>
-            <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-ember">ADAMANT · ALL SEVEN</span>
-            <h3 class="mt-4 font-display font-medium leading-[1.05] tracking-[-0.03em]" style="font-size:clamp(28px,3.4vw,48px)">
-              <span class="block font-light text-ink-2">Seven properties,</span>
-              <span class="font-semibold text-ember">in a single architecture.</span>
-            </h3>
-            <p class="mt-6 max-w-[44ch] text-[15px] leading-[1.7] text-ink-2">
-              The protocol's contribution is not the invention of new cryptographic primitives — those are taken from peer-reviewed literature unchanged — but the systems-level synthesis of these properties into a single coherent architecture, with credible neutrality enforced at genesis.
-            </p>
-          </div>
-
-          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 font-mono text-[12.5px] tracking-[0.04em]">
-            {[
-              '50k+ TPS floor · sub-second finality',
-              'Programmable privacy by default',
-              'Encrypted mempool · two-regime',
-              'Phone-verifiable chain',
-              'Native account abstraction',
-              'Hybrid post-quantum signatures',
-              'Credibly neutral governance',
-            ].map((p) => (
-              <li class="flex items-baseline gap-3 text-ink">
-                <span class="text-ember font-bold">✓</span>
-                <span>{p}</span>
-              </li>
-            ))}
-          </ul>
+        <div class="right">
+          <span class="label">Identifier</span>
+          <span class="mono" style="font-size:13px;color:var(--ink-2);">adamant/mainnet · chain-id 0x4d41 &nbsp; · &nbsp; spec v0.1</span>
+          <span class="label" style="margin-top:8px;">Genesis pool</span>
+          <span class="mono" style="font-size:18px;color:var(--ink);">
+            {burnRem} <span style="color:var(--mute);">burn</span> · {valRem} <span style="color:var(--mute);">validator</span>
+          </span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ───────── §02 / HOW IT WORKS ───────── -->
-  <section class="border-t border-rule">
-    <div class="wrap">
+  <!-- PRIMARY ACTIONS -->
+  <section data-screen-label="Primary actions">
+    <div class="container" style="padding-top:24px; padding-bottom:24px;">
+      <div class="actions">
+        <a class="action is-disabled" href="#" data-action="acquire">
+          <span class="label">Action 01</span>
+          <span class="h">Acquire ADM</span>
+          <span class="d">Burn BTC, ETH, USDT or USDC. 20 ADM minted per USD-equivalent burned.</span>
+          <span class="arrow">Inactive · pre-launch</span>
+        </a>
+        <a class="action is-disabled" href="#" data-action="runner">
+          <span class="label">Action 02</span>
+          <span class="h">Become a Node Runner</span>
+          <span class="d">Take a slot in the validator set. Stake floor 1 000 ADM. Cohort #1–75 are recognised permanently.</span>
+          <span class="arrow">Inactive · pre-launch</span>
+        </a>
+        <a class="action is-disabled" href="#" data-action="watcher">
+          <span class="label">Action 03</span>
+          <span class="h">Become a Node Watcher</span>
+          <span class="d">Attest, sample data availability, surface fraud. Stake floor 100 ADM. Uncapped set.</span>
+          <span class="arrow">Inactive · pre-launch</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEVEN-PROPERTIES GAP ANALYSIS -->
+  <section class="section" data-screen-label="Seven properties · gap analysis">
+    <div class="container">
       <div class="section-head">
+        <div class="num-mark">§ 01</div>
         <div>
-          <span class="num">§02 / MECHANISMS</span>
-          <h2><span class="light">Five mechanisms,</span>each addressing one or more properties.</h2>
-        </div>
-        <p class="desc">
-          Each mechanism resolves one or more of the seven properties no chain has delivered in combination. None is invented here. The protocol's contribution is the synthesis.
-        </p>
-      </div>
-
-      <!-- ────── MECHANISM 01: DAG CONSENSUS ────── -->
-      <div class="mechanism border-y border-rule-2 grid lg:grid-cols-2" data-reveal>
-        <div class="bg-bg-2/60 backdrop-blur-sm p-8 md:p-12 lg:p-16 flex flex-col justify-center min-h-[420px]">
-          <div class="mb-8 flex items-baseline justify-between gap-3">
-            <span class="font-mono text-[11px] uppercase tracking-[0.22em] text-ember">MECHANISM 01 · CONSENSUS</span>
-            <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §8.3</span>
-          </div>
-
-          <!-- Parameter strip -->
-          <div class="mb-6 grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3 font-mono text-[10px] tracking-[0.06em]">
-            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">N</span><span class="text-ink">floor <span class="text-ember">7</span> · ceiling <span class="text-ember">75</span></span></div>
-            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">Δ round</span><span class="text-ink"><span class="text-ember">250</span> ms</span></div>
-            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">k commit</span><span class="text-ink">every <span class="text-ember">4</span> rounds</span></div>
-            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">finality</span><span class="text-ink">≈ <span class="text-ember">500</span> ms</span></div>
-          </div>
-
-          <div class="dag2-viz relative h-[230px]">
-            <svg viewBox="0 0 420 240" class="block w-full h-full" aria-hidden="true">
-              <!-- Top hairline + axis -->
-              <line x1="20" y1="32" x2="400" y2="32" stroke="currentColor" stroke-width="0.4" class="text-rule-2"/>
-              <line x1="20" y1="208" x2="400" y2="208" stroke="currentColor" stroke-width="0.4" class="text-rule-2"/>
-
-              <!-- Reference arcs: r → r+1 (drawn as hairline beziers) -->
-              <g stroke="currentColor" stroke-width="0.5" fill="none" class="text-cold/45" stroke-linecap="round">
-                <!-- R → R+1 -->
-                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,55 C100,55 100,70 130,70"/>
-                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,55 C100,55 100,100 130,100"/>
-                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,85 C100,85 100,70 130,70"/>
-                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,85 C100,85 100,100 130,100"/>
-                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,85 C100,85 100,135 130,135"/>
-                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,115 C100,115 100,70 130,70"/>
-                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,115 C100,115 100,135 130,135"/>
-                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,115 C100,115 100,165 130,165"/>
-                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,150 C100,150 100,100 130,100"/>
-                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,150 C100,150 100,135 130,135"/>
-                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,150 C100,150 100,165 130,165"/>
-                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,180 C100,180 100,135 130,135"/>
-                <path class="dag2-edge" style="animation-delay:0.6s" d="M70,180 C100,180 100,165 130,165"/>
-
-                <!-- R+1 → R+2 -->
-                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,70 C180,70 180,55 210,55"/>
-                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,70 C180,70 180,90 210,90"/>
-                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,100 C180,100 180,55 210,55"/>
-                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,100 C180,100 180,90 210,90"/>
-                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,100 C180,100 180,125 210,125"/>
-                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,135 C180,135 180,90 210,90"/>
-                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,135 C180,135 180,125 210,125"/>
-                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,135 C180,135 180,160 210,160"/>
-                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,165 C180,165 180,125 210,125"/>
-                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,165 C180,165 180,160 210,160"/>
-                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,165 C180,165 180,185 210,185"/>
-                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,180 C180,180 180,160 210,160"/>
-                <path class="dag2-edge" style="animation-delay:1.4s" d="M150,180 C180,180 180,185 210,185"/>
-
-                <!-- R+2 → R+3 -->
-                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,55 C260,55 260,65 290,65"/>
-                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,55 C260,55 260,95 290,95"/>
-                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,90 C260,90 260,65 290,65"/>
-                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,90 C260,90 260,95 290,95"/>
-                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,90 C260,90 260,128 290,128"/>
-                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,125 C260,125 260,95 290,95"/>
-                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,125 C260,125 260,128 290,128"/>
-                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,125 C260,125 260,158 290,158"/>
-                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,160 C260,160 260,128 290,128"/>
-                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,160 C260,160 260,158 290,158"/>
-                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,160 C260,160 260,182 290,182"/>
-                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,185 C260,185 260,158 290,158"/>
-                <path class="dag2-edge" style="animation-delay:2.2s" d="M230,185 C260,185 260,182 290,182"/>
-
-                <!-- R+3 → R+4 -->
-                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,65 C340,65 340,55 370,55"/>
-                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,65 C340,65 340,90 370,90"/>
-                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,95 C340,95 340,55 370,55"/>
-                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,95 C340,95 340,90 370,90"/>
-                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,95 C340,95 340,125 370,125"/>
-                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,128 C340,128 340,90 370,90"/>
-                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,128 C340,128 340,125 370,125"/>
-                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,128 C340,128 340,160 370,160"/>
-                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,158 C340,158 340,125 370,125"/>
-                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,158 C340,158 340,160 370,160"/>
-                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,158 C340,158 340,185 370,185"/>
-                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,182 C340,182 340,160 370,160"/>
-                <path class="dag2-edge" style="animation-delay:3.0s" d="M310,182 C340,182 340,185 370,185"/>
-              </g>
-
-              <!-- Vertices: 5 columns × 5 vertices -->
-              <g class="dag2-verts">
-                <!-- Round R (col 0, x=70) — delay 0s -->
-                <circle cx="70" cy="55" r="2.5" class="dag2-vtx" style="--c:0"/>
-                <circle cx="70" cy="85" r="2.5" class="dag2-vtx" style="--c:0"/>
-                <circle cx="70" cy="115" r="2.5" class="dag2-vtx" style="--c:0"/>
-                <circle cx="70" cy="150" r="2.5" class="dag2-vtx" style="--c:0"/>
-                <circle cx="70" cy="180" r="2.5" class="dag2-vtx" style="--c:0"/>
-                <!-- Round R+1 (x=140) -->
-                <circle cx="140" cy="70" r="2.5" class="dag2-vtx" style="--c:1"/>
-                <circle cx="140" cy="100" r="2.5" class="dag2-vtx" style="--c:1"/>
-                <circle cx="140" cy="135" r="2.5" class="dag2-vtx" style="--c:1"/>
-                <circle cx="140" cy="165" r="2.5" class="dag2-vtx" style="--c:1"/>
-                <circle cx="140" cy="180" r="2.5" class="dag2-vtx" style="--c:1"/>
-                <!-- Round R+2 (x=220) -->
-                <circle cx="220" cy="55" r="2.5" class="dag2-vtx" style="--c:2"/>
-                <circle cx="220" cy="90" r="2.5" class="dag2-vtx" style="--c:2"/>
-                <circle cx="220" cy="125" r="2.5" class="dag2-vtx" style="--c:2"/>
-                <circle cx="220" cy="160" r="2.5" class="dag2-vtx" style="--c:2"/>
-                <circle cx="220" cy="185" r="2.5" class="dag2-vtx" style="--c:2"/>
-                <!-- Round R+3 (x=300) -->
-                <circle cx="300" cy="65" r="2.5" class="dag2-vtx" style="--c:3"/>
-                <circle cx="300" cy="95" r="2.5" class="dag2-vtx" style="--c:3"/>
-                <circle cx="300" cy="128" r="2.5" class="dag2-vtx" style="--c:3"/>
-                <circle cx="300" cy="158" r="2.5" class="dag2-vtx" style="--c:3"/>
-                <circle cx="300" cy="182" r="2.5" class="dag2-vtx" style="--c:3"/>
-                <!-- Round R+4 (x=380) — leader / commit-wave round -->
-                <circle cx="380" cy="55" r="2.5" class="dag2-vtx" style="--c:4"/>
-                <circle cx="380" cy="90" r="2.5" class="dag2-vtx" style="--c:4"/>
-                <circle cx="380" cy="125" r="2.5" class="dag2-vtx" style="--c:4"/>
-                <circle cx="380" cy="160" r="2.5" class="dag2-vtx" style="--c:4"/>
-                <circle cx="380" cy="185" r="2.5" class="dag2-vtx" style="--c:4"/>
-              </g>
-
-              <!-- Leader vertex highlight on R+4 (commit wave) -->
-              <circle cx="380" cy="125" r="6" fill="none" stroke="#ff7d4d" stroke-width="0.7" class="dag2-leader" opacity="0"/>
-              <text x="380" y="40" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="1" fill="#ff7d4d" class="dag2-leader-label" opacity="0">leader</text>
-
-              <!-- Commit wave (vertical glow line that sweeps) -->
-              <line x1="0" y1="36" x2="0" y2="204" stroke="#ff7d4d" stroke-width="1" opacity="0" class="dag2-wave"/>
-
-              <!-- Round labels (bottom) -->
-              <g font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="1.2" fill="currentColor" class="text-ink-3">
-                <text x="70" y="222" text-anchor="middle">r</text>
-                <text x="140" y="222" text-anchor="middle">r+1</text>
-                <text x="220" y="222" text-anchor="middle">r+2</text>
-                <text x="300" y="222" text-anchor="middle">r+3</text>
-                <text x="380" y="222" text-anchor="middle">r+4</text>
-              </g>
-
-              <!-- Bottom annotation: relation -->
-              <text x="210" y="237" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="0.5" fill="currentColor" class="text-ink-4">
-                V<tspan baseline-shift="sub" font-size="5">i</tspan><tspan baseline-shift="super" font-size="5">r+1</tspan>  →  refs ⌈2N⁄3⌉ + 1 vertices in round r
-              </text>
-            </svg>
-          </div>
-        </div>
-
-        <div class="p-8 md:p-12 lg:p-16 flex flex-col justify-center gap-6 lg:border-l border-rule-2">
-          <h3 class="font-display font-medium leading-[1.05] tracking-[-0.03em]" style="font-size:clamp(28px,2.8vw,42px)">
-            <span class="block font-light text-ink-2">Parallel</span>
-            by design.
-          </h3>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-2">
-            <div class="border-l-2 border-ink-4 pl-4">
-              <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ink-3 mb-2">Most chains</span>
-              <p class="text-[13.5px] leading-[1.6] text-ink-2">One leader proposes a block. The next leader proposes the next. Throughput is bounded by the slowest leader.</p>
-            </div>
-            <div class="border-l-2 border-ember pl-4">
-              <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ember mb-2">Adamant</span>
-              <p class="text-[13.5px] leading-[1.6] text-ink">Mysticeti-based DAG. The active set is dynamic — a constitutional floor of 7 <strong class="font-semibold text-ember">Node Runners</strong> (validators in the spec) and a soft ceiling of 75 at launch, calibrated to residential-fibre hardware (subject to revision via hard fork as the chain's hardware composition evolves). Selection is <strong class="font-semibold text-ember">first-come-first-served with transferable membership</strong>: slots are admitted in registration order, held through participation, and may be transferred to another address by mutual consent — never displaced involuntarily. The first 75 to take slots form the <strong class="font-semibold text-ember">genesis cohort</strong>, recognised by a permanent on-chain marker and a tradeable Genesis NFT. Each publishes a vertex every 250&nbsp;ms, referencing 2/3+1 of the prior round; every 4 rounds, a commit wave finalises blocks. The chain self-activates the moment 7 are simultaneously online.</p>
-            </div>
-          </div>
-
-          <div class="flex flex-wrap gap-2 mt-3 pt-5 border-t border-rule font-mono text-[10.5px] uppercase tracking-[0.18em] text-ink-3">
-            <span class="text-ink-2">→ Property delivered:</span>
-            <span class="text-ember">50,000+ TPS floor</span>
-            <span class="text-ink-4">·</span>
-            <span class="text-ember">~500ms finality</span>
-          </div>
+          <h2 class="title">The seven properties.</h2>
+          <p class="subtitle">A base layer is only useful if it makes guarantees. These are the seven properties Adamant is built to provide. The cells below are abridged; full justification with citations lives in the <a class="link" href="https://github.com/adamant-protocol/adamant-website/tree/main/whitepaper" rel="noopener" target="_blank">whitepaper</a>.</p>
         </div>
       </div>
 
-      <!-- ────── MECHANISM 02: ENCRYPTED MEMPOOL ────── -->
-      <div class="mechanism border-b border-rule-2 grid lg:grid-cols-2" data-reveal>
-        <div class="lg:order-2 bg-bg-2/60 backdrop-blur-sm p-8 md:p-12 lg:p-16 flex flex-col justify-center min-h-[420px]">
-          <div class="mb-8 flex items-baseline justify-between gap-3">
-            <span class="font-mono text-[11px] uppercase tracking-[0.22em] text-ember">MECHANISM 02 · MEMPOOL</span>
-            <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §3.6 · §8.4</span>
-          </div>
-
-          <!-- Parameter strip -->
-          <div class="mb-6 grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3 font-mono text-[10px] tracking-[0.06em]">
-            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">low-N</span><span class="text-ink">VDF · <span class="text-ember">time-lock</span></span></div>
-            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">N≥15</span><span class="text-ink">BLS · <span class="text-ember">threshold</span></span></div>
-            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">threshold</span><span class="text-ink">⌈<span class="text-ember">2N⁄3</span>⌉ + 1</span></div>
-            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">epoch length</span><span class="text-ink">≈ <span class="text-ember">36</span> s</span></div>
-          </div>
-
-          <div class="mp2-viz relative h-[230px]">
-            <svg viewBox="0 0 420 240" class="block w-full h-full" aria-hidden="true">
-              <!-- Top + bottom hairlines -->
-              <line x1="20" y1="32" x2="400" y2="32" stroke="currentColor" stroke-width="0.4" class="text-rule-2"/>
-              <line x1="20" y1="208" x2="400" y2="208" stroke="currentColor" stroke-width="0.4" class="text-rule-2"/>
-
-              <!-- Section labels -->
-              <g font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="1.4" fill="currentColor" class="text-ink-3">
-                <text x="80" y="48" text-anchor="middle">epoch E · ciphertexts</text>
-                <text x="210" y="48" text-anchor="middle">epoch boundary</text>
-                <text x="340" y="48" text-anchor="middle">epoch E+1 · plaintexts</text>
-              </g>
-
-              <!-- Encrypted blobs (left): rectangles with "hex bytes" -->
-              <g class="mp2-blobs-enc">
-                {[70, 100, 130, 160].map((y, i) => (
-                  <g class="mp2-blob-enc" style={`--i:${i}`}>
-                    <rect x="30" y={y} width="100" height="20" fill="none" stroke="currentColor" stroke-width="0.6" class="text-ember/70"/>
-                    {/* mini hex blocks inside */}
-                    {[0, 1, 2, 3, 4, 5, 6, 7].map((k) => (
-                      <rect x={36 + k * 11} y={y + 4} width="9" height="12" fill="currentColor" class="text-ember/40"/>
-                    ))}
-                  </g>
-                ))}
-              </g>
-
-              <!-- Vertical epoch boundary (dashed) -->
-              <line x1="210" y1="60" x2="210" y2="195" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3" class="text-ink-3"/>
-
-              <!-- Keypers (above the boundary) — N small dots with k highlighted at threshold -->
-              <g class="mp2-keypers">
-                {[
-                  { x: 168, y: 78, k: true },
-                  { x: 184, y: 70, k: true },
-                  { x: 200, y: 64, k: true },
-                  { x: 216, y: 64, k: false },
-                  { x: 232, y: 70, k: true },
-                  { x: 248, y: 78, k: false },
-                ].map((kp, i) => (
-                  <circle cx={kp.x} cy={kp.y} r="2.4"
-                    fill="currentColor"
-                    class:list={[kp.k ? 'text-ember mp2-keyper-active' : 'text-ink-4 mp2-keyper-idle']}
-                    style={`--i:${i}`}/>
-                ))}
-                <text x="210" y="108" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" letter-spacing="0.8" fill="currentColor" class="text-ink-3">k = ⌈2N⁄3⌉ + 1 share​s</text>
-              </g>
-
-              <!-- Share-converge lines from active keypers down to a single point at boundary -->
-              <g stroke="currentColor" stroke-width="0.5" fill="none" stroke-linecap="round" class="text-ember/45 mp2-shares">
-                <path d="M168,80 Q190,110 210,128"/>
-                <path d="M184,72 Q198,108 210,128"/>
-                <path d="M200,66 Q205,108 210,128"/>
-                <path d="M232,72 Q220,108 210,128"/>
-              </g>
-              <!-- Decryption point -->
-              <circle cx="210" cy="128" r="3" fill="#ff7d4d" class="mp2-decrypt"/>
-
-              <!-- Decrypted blobs (right): rectangles with clean horizontal lines -->
-              <g class="mp2-blobs-dec">
-                {[70, 100, 130, 160].map((y, i) => (
-                  <g class="mp2-blob-dec" style={`--i:${i}`}>
-                    <rect x="290" y={y} width="100" height="20" fill="none" stroke="currentColor" stroke-width="0.6" class="text-ink"/>
-                    <line x1="296" y1={y + 7}  x2="368" y2={y + 7}  stroke="currentColor" stroke-width="0.5" class="text-ink-3"/>
-                    <line x1="296" y1={y + 12} x2="356" y2={y + 12} stroke="currentColor" stroke-width="0.5" class="text-ink-3"/>
-                    <line x1="296" y1={y + 16.5} x2="344" y2={y + 16.5} stroke="currentColor" stroke-width="0.5" class="text-ink-3"/>
-                  </g>
-                ))}
-              </g>
-
-              <!-- Mid arrow connecting boundary point to first decrypted blob (visual cue) -->
-              <g stroke="currentColor" stroke-width="0.5" fill="none" class="text-ink-4">
-                <path d="M214,128 L286,128"/>
-                <path d="M283,125 L286,128 L283,131"/>
-              </g>
-
-              <!-- Bottom captions -->
-              <g font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="0.5" fill="currentColor">
-                <text x="210" y="226" text-anchor="middle" class="text-ink-3">c<tspan baseline-shift="sub" font-size="5">i</tspan> = Enc(pk<tspan baseline-shift="sub" font-size="5">E</tspan>, tx<tspan baseline-shift="sub" font-size="5">i</tspan>)  ·  σ<tspan baseline-shift="sub" font-size="5">j</tspan> ← Dec<tspan baseline-shift="sub" font-size="5">j</tspan>(sk<tspan baseline-shift="sub" font-size="5">j</tspan>, c<tspan baseline-shift="sub" font-size="5">i</tspan>)  ·  collect ⌈2N⁄3⌉+1  ⇒  tx<tspan baseline-shift="sub" font-size="5">i</tspan></text>
-              </g>
-            </svg>
-          </div>
-        </div>
-
-        <div class="lg:order-1 p-8 md:p-12 lg:p-16 flex flex-col justify-center gap-6 lg:border-r border-rule-2">
-          <h3 class="font-display font-medium leading-[1.05] tracking-[-0.03em]" style="font-size:clamp(28px,2.8vw,42px)">
-            <span class="block font-light text-ink-2">Encrypted</span>
-            in flight.
-          </h3>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-2">
-            <div class="border-l-2 border-ink-4 pl-4">
-              <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ink-3 mb-2">Most chains</span>
-              <p class="text-[13.5px] leading-[1.6] text-ink-2">Public mempool. Validators read every pending transaction. Over $1.8B has been extracted from users by front-running on Ethereum alone.</p>
-            </div>
-            <div class="border-l-2 border-ember pl-4">
-              <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ember mb-2">Adamant</span>
-              <p class="text-[13.5px] leading-[1.6] text-ink">Two regimes, automatic transition. <strong class="font-semibold text-ember">N≥15</strong>: users encrypt to the upcoming epoch's BLS threshold key; 2/3+1 Node Runners publish decryption shares at the boundary; MEV protection is structural. <strong class="font-semibold text-ember">N&lt;15</strong>: users encrypt to a Wesolowski VDF puzzle; the rotated round anchor decrypts atomically with their vertex; a bounded intra-anchor reordering surface is honestly disclosed.</p>
-            </div>
-          </div>
-
-          <div class="flex flex-wrap gap-2 mt-3 pt-5 border-t border-rule font-mono text-[10.5px] uppercase tracking-[0.18em] text-ink-3">
-            <span class="text-ink-2">→ Property delivered:</span>
-            <span class="text-ember">No front-running (N ≥ 15)</span>
-            <span class="text-ink-4">·</span>
-            <span class="text-ember">Censorship resistance</span>
-          </div>
-        </div>
+      <div class="props-row props-head">
+        <div class="label">Property</div>
+        <div class="label">Bitcoin</div>
+        <div class="label">Ethereum</div>
+        <div class="label">Monero</div>
+        <div class="label">Zcash</div>
+        <div class="label">Mina</div>
+        <div class="label col-adm">Adamant</div>
       </div>
 
-      <!-- ────── MECHANISM 03: RECURSIVE PROOFS ────── -->
-      <div class="mechanism border-b border-rule-2 grid lg:grid-cols-2" data-reveal>
-        <div class="bg-bg-2/60 backdrop-blur-sm p-8 md:p-12 lg:p-16 flex flex-col justify-center min-h-[420px]">
-          <div class="mb-8 flex items-baseline justify-between gap-3">
-            <span class="font-mono text-[11px] uppercase tracking-[0.22em] text-ember">MECHANISM 03 · VERIFICATION</span>
-            <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §8.5</span>
+      {SEVEN_PROPERTIES.map((row) => (
+        <div class="props-row">
+          <div class="pcell k">
+            <span class="name">{row.k}</span>
+            <span class="note">{row.note}</span>
           </div>
-
-          <!-- Parameter strip -->
-          <div class="mb-6 grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3 font-mono text-[10px] tracking-[0.06em]">
-            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">system</span><span class="text-ink"><span class="text-ember">Halo 2</span> · Pasta</span></div>
-            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">|π<sub>n</sub>|</span><span class="text-ink"><span class="text-ember">5–10</span> KB</span></div>
-            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">verify</span><span class="text-ink">≤ <span class="text-ember">200</span> ms</span></div>
-            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">recursion</span><span class="text-ink">O(<span class="text-ember">log</span> n)</span></div>
-          </div>
-
-          <div class="rp2-viz relative h-[230px]">
-            <svg viewBox="0 0 420 240" class="block w-full h-full" aria-hidden="true">
-              <!-- Top + bottom hairlines -->
-              <line x1="20" y1="32" x2="400" y2="32" stroke="currentColor" stroke-width="0.4" class="text-rule-2"/>
-              <line x1="20" y1="208" x2="400" y2="208" stroke="currentColor" stroke-width="0.4" class="text-rule-2"/>
-
-              <!-- Stage labels -->
-              <g font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="1.2" fill="currentColor" class="text-ink-3">
-                <text x="58" y="48" text-anchor="middle">chain history</text>
-                <text x="160" y="48" text-anchor="middle">prior proof</text>
-                <text x="232" y="48" text-anchor="middle">epoch txs</text>
-                <text x="310" y="48" text-anchor="middle">π<tspan baseline-shift="sub" font-size="5">n</tspan> = Prove(·)</text>
-                <text x="378" y="48" text-anchor="middle">verify</text>
-              </g>
-
-              <!-- Chain history bars (left) — accumulating epochs -->
-              <g class="rp2-chain">
-                {Array.from({ length: 18 }).map((_, i) => {
-                  const x = 22 + i * 4.2;
-                  const h = 36 + ((i * 13) % 28);
-                  const y = 130 - h / 2;
-                  return <rect x={x} y={y} width="2.6" height={h} fill="currentColor" class="text-ink-4 rp2-bar" style={`--i:${i}`}/>;
-                })}
-              </g>
-
-              <!-- Arrow → π_{n-1} -->
-              <g stroke="currentColor" stroke-width="0.6" fill="none" class="text-ink-4">
-                <path d="M104,128 L130,128"/>
-                <path d="M127,125 L130,128 L127,131"/>
-              </g>
-
-              <!-- π_{n-1} small box -->
-              <g class="rp2-prior">
-                <rect x="132" y="100" width="56" height="56" fill="none" stroke="currentColor" stroke-width="0.6" class="text-cold/70"/>
-                <text x="160" y="124" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="currentColor" class="text-cold">π<tspan baseline-shift="sub" font-size="6">n−1</tspan></text>
-                <text x="160" y="138" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" letter-spacing="0.5" fill="currentColor" class="text-ink-3">prior epoch</text>
-              </g>
-
-              <!-- Plus + epoch txs -->
-              <text x="200" y="132" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="currentColor" class="text-ink-3">+</text>
-              <g class="rp2-txs">
-                <rect x="210" y="108" width="48" height="44" fill="none" stroke="currentColor" stroke-width="0.6" class="text-ink-3" stroke-dasharray="2 2"/>
-                {[114, 121, 128, 135, 142].map((y, i) => (
-                  <line x1="216" y1={y} x2="252" y2={y} stroke="currentColor" stroke-width="0.5" class="text-ink-3 rp2-tx" style={`--i:${i}`}/>
-                ))}
-                <text x="234" y="161" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" letter-spacing="0.5" fill="currentColor" class="text-ink-4">txs<tspan baseline-shift="sub" font-size="3.5">E</tspan></text>
-              </g>
-
-              <!-- Arrow → Prove -->
-              <g stroke="currentColor" stroke-width="0.6" fill="none" class="text-ink-4">
-                <path d="M262,128 L284,128"/>
-                <path d="M281,125 L284,128 L281,131"/>
-              </g>
-
-              <!-- π_n new artifact (ember-bordered) -->
-              <g class="rp2-pi-n">
-                <rect x="286" y="92" width="62" height="72" fill="none" stroke="#ff7d4d" stroke-width="0.8" class="rp2-pi-glow"/>
-                <text x="317" y="118" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="14" fill="currentColor" class="text-ember">π<tspan baseline-shift="sub" font-size="8">n</tspan></text>
-                <text x="317" y="135" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" letter-spacing="0.5" fill="currentColor" class="text-ember">5–10 KB</text>
-                <text x="317" y="150" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" letter-spacing="0.6" fill="currentColor" class="text-ink-3">recursive</text>
-              </g>
-
-              <!-- Arrow → verifier -->
-              <g stroke="currentColor" stroke-width="0.6" fill="none" class="text-ink-4">
-                <path d="M352,128 L364,128"/>
-                <path d="M361,125 L364,128 L361,131"/>
-              </g>
-
-              <!-- Phone verifier (right) -->
-              <g class="rp2-phone">
-                <rect x="366" y="84" width="34" height="86" rx="3" fill="none" stroke="currentColor" stroke-width="1" class="text-ink-2"/>
-                <rect x="370" y="91" width="26" height="60" rx="1" fill="currentColor" class="text-bg-3"/>
-                <g class="rp2-spinner">
-                  <circle cx="383" cy="120" r="6" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="9 28" class="text-ember"/>
-                </g>
-                <g class="rp2-check" opacity="0">
-                  <path d="M375 121 L381 127 L391 113" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-ember"/>
-                </g>
-                <rect x="377" y="158" width="12" height="2" rx="1" fill="currentColor" class="text-ink-3"/>
-                <text x="383" y="184" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" letter-spacing="0.6" fill="currentColor" class="text-ember">≤ 200 ms</text>
-              </g>
-
-              <!-- Bottom relation caption -->
-              <g font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="0.5" fill="currentColor">
-                <text x="210" y="226" text-anchor="middle" class="text-ink-3">π<tspan baseline-shift="sub" font-size="5">n</tspan> = Prove(C<tspan baseline-shift="sub" font-size="5">chain</tspan> ; π<tspan baseline-shift="sub" font-size="5">n−1</tspan>, txs<tspan baseline-shift="sub" font-size="5">E</tspan>)  ·  Verify(π<tspan baseline-shift="sub" font-size="5">n</tspan>) → {0, 1}</text>
-              </g>
-            </svg>
-          </div>
+          <div class="pcell center">{row.gap.btc ? <span class="gap-yes">●</span> : <span class="gap-no">○</span>}</div>
+          <div class="pcell center">{row.gap.eth ? <span class="gap-yes">●</span> : <span class="gap-no">○</span>}</div>
+          <div class="pcell center">{row.gap.monero ? <span class="gap-yes">●</span> : <span class="gap-no">○</span>}</div>
+          <div class="pcell center">{row.gap.zec ? <span class="gap-yes">●</span> : <span class="gap-no">○</span>}</div>
+          <div class="pcell center">{row.gap.mina ? <span class="gap-yes">●</span> : <span class="gap-no">○</span>}</div>
+          <div class="pcell center shade">{row.gap.adm ? <span class="gap-yes">●</span> : <span class="gap-no">○</span>}</div>
         </div>
+      ))}
 
-        <div class="p-8 md:p-12 lg:p-16 flex flex-col justify-center gap-6 lg:border-l border-rule-2">
-          <h3 class="font-display font-medium leading-[1.05] tracking-[-0.03em]" style="font-size:clamp(28px,2.8vw,42px)">
-            <span class="block font-light text-ink-2">Anyone with a phone</span>
-            becomes a Witness.
-          </h3>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-2">
-            <div class="border-l-2 border-ink-4 pl-4">
-              <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ink-3 mb-2">Most chains</span>
-              <p class="text-[13.5px] leading-[1.6] text-ink-2">To verify the chain you run a full node — gigabytes of state, hours to sync. Or you trust a hosted RPC. Either way, verification is gated by infrastructure.</p>
-            </div>
-            <div class="border-l-2 border-ember pl-4">
-              <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ember mb-2">Adamant</span>
-              <p class="text-[13.5px] leading-[1.6] text-ink">A Halo 2 recursive proof at every epoch boundary verifies the previous proof plus this epoch's transactions — produced by a permissionless <strong class="font-semibold text-ember">prover market</strong> at steady state, with Node Runners fallback at degraded cadence so phone-verifiability never depends on the market. The proof-of-everything is one ~5–10 KB artifact. <strong class="font-semibold text-ember">Witnesses</strong> verify it in 50–200 ms on a smartphone, attest to it, and sample data availability — no node, no RPC, no trust.</p>
-            </div>
-          </div>
-
-          <div class="flex flex-wrap gap-2 mt-3 pt-5 border-t border-rule font-mono text-[10.5px] uppercase tracking-[0.18em] text-ink-3">
-            <span class="text-ink-2">→ Property delivered:</span>
-            <span class="text-ember">Phone-verifiable</span>
-            <span class="text-ink-4">·</span>
-            <span class="text-ember">No light-client trust</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- ────── MECHANISM 04: CONSTITUTIONAL IMMUTABILITY ────── -->
-      <div class="mechanism border-b border-rule-2 grid lg:grid-cols-2" data-reveal>
-        <div class="lg:order-2 bg-bg-2/60 backdrop-blur-sm p-8 md:p-12 lg:p-16 flex flex-col justify-center min-h-[420px]">
-          <div class="mb-8 flex items-baseline justify-between gap-3">
-            <span class="font-mono text-[11px] uppercase tracking-[0.22em] text-ember">MECHANISM 04 · GOVERNANCE</span>
-            <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §11.1</span>
-          </div>
-
-          <!-- Parameter strip -->
-          <div class="mb-6 grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3 font-mono text-[10px] tracking-[0.06em]">
-            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">spec</span><span class="text-ink"><span class="text-ember">v1.0</span> · frozen</span></div>
-            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">admin keys</span><span class="text-ink"><span class="text-ember">∅</span></span></div>
-            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">on-chain gov</span><span class="text-ink"><span class="text-ember">∅</span></span></div>
-            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">fork stake</span><span class="text-ink">≥ ⌈<span class="text-ember">2N⁄3</span>⌉ + 1</span></div>
-          </div>
-
-          <div class="im2-viz relative h-[230px]">
-            <svg viewBox="0 0 420 240" class="block w-full h-full" aria-hidden="true">
-              <!-- Top + bottom hairlines -->
-              <line x1="20" y1="32" x2="400" y2="32" stroke="currentColor" stroke-width="0.4" class="text-rule-2"/>
-              <line x1="20" y1="208" x2="400" y2="208" stroke="currentColor" stroke-width="0.4" class="text-rule-2"/>
-
-              <!-- Top: list of rejected control mechanisms with strike-through -->
-              <g class="im2-rejected" font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="0.8" fill="currentColor">
-                {[
-                  { x: 50,  label: 'foundation' },
-                  { x: 130, label: 'multisig' },
-                  { x: 200, label: 'admin key' },
-                  { x: 268, label: 'on-chain vote' },
-                  { x: 350, label: 'pause switch' },
-                ].map((r, i) => (
-                  <g style={`--i:${i}`} class="im2-reject-item">
-                    <text x={r.x} y="50" text-anchor="middle" class="text-ink-4">{r.label}</text>
-                    <line x1={r.x - 32} y1="48" x2={r.x + 32} y2="48" stroke="#ff7d4d" stroke-width="0.7" class="im2-strike"/>
-                  </g>
-                ))}
-              </g>
-
-              <!-- Center: spec_v1 anchor box with hash -->
-              <g class="im2-anchor">
-                <rect x="160" y="78" width="100" height="56" fill="none" stroke="currentColor" stroke-width="0.8" class="text-ember"/>
-                <text x="210" y="98" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="0.4" fill="currentColor" class="text-ember">spec<tspan baseline-shift="sub" font-size="6">v1</tspan></text>
-                <text x="210" y="115" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" letter-spacing="0.6" fill="currentColor" class="text-ember">H = 0x9a2f7c4e…</text>
-                <text x="210" y="127" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" letter-spacing="0.8" fill="currentColor" class="text-ink-3">fixed at genesis</text>
-              </g>
-
-              <!-- Validator nodes (around the anchor) — independent operators -->
-              <g class="im2-vals">
-                {[
-                  { x: 60,  y: 100, d: 0 },
-                  { x: 92,  y: 145, d: 0.3 },
-                  { x: 60,  y: 170, d: 0.6 },
-                  { x: 130, y: 175, d: 0.9 },
-                  { x: 175, y: 168, d: 1.2 },
-                  { x: 220, y: 175, d: 1.5 },
-                  { x: 265, y: 168, d: 1.8 },
-                  { x: 305, y: 175, d: 2.1 },
-                  { x: 360, y: 170, d: 2.4 },
-                  { x: 330, y: 145, d: 2.7 },
-                  { x: 360, y: 100, d: 3.0 },
-                ].map((v, i) => (
-                  <g style={`--d:${v.d}s`}>
-                    <circle cx={v.x} cy={v.y} r="3" fill="currentColor" class="text-cold im2-val" style={`--d:${v.d}s`}/>
-                    {/* tiny hairline from validator to anchor */}
-                    <line x1={v.x} y1={v.y} x2={v.x < 210 ? 162 : 258} y2={v.y < 110 ? 90 : 130} stroke="currentColor" stroke-width="0.3" class="text-cold/30"/>
-                  </g>
-                ))}
-              </g>
-
-              <!-- Annotation between rejected list and anchor -->
-              <text x="210" y="68" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="0.8" fill="currentColor" class="text-ink-3">no central coordinator exists</text>
-
-              <!-- Bottom relation caption -->
-              <g font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="0.5" fill="currentColor">
-                <text x="210" y="226" text-anchor="middle" class="text-ink-3">change ⇔ ⌈2N⁄3⌉ + 1 validators independently run client(spec′)</text>
-              </g>
-            </svg>
-          </div>
-        </div>
-
-        <div class="lg:order-1 p-8 md:p-12 lg:p-16 flex flex-col justify-center gap-6 lg:border-r border-rule-2">
-          <h3 class="font-display font-medium leading-[1.05] tracking-[-0.03em]" style="font-size:clamp(28px,2.8vw,42px)">
-            <span class="block font-light text-ink-2">No on-chain governance.</span>
-            No upgrade authority.
-          </h3>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-2">
-            <div class="border-l-2 border-ink-4 pl-4">
-              <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ink-3 mb-2">Most chains</span>
-              <p class="text-[13.5px] leading-[1.6] text-ink-2">A foundation, multisig, or token-holder vote can change consensus rules, gas costs, issuance, or system contracts. The capability is permanent once it exists.</p>
-            </div>
-            <div class="border-l-2 border-ember pl-4">
-              <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ember mb-2">Adamant</span>
-              <p class="text-[13.5px] leading-[1.6] text-ink">No on-chain governance. No admin keys. No upgrade authority. Change requires a published spec, a public reference implementation, and 2/3+1-by-stake of Node Runners each independently choosing to run new software. Node Runners that don't upgrade simply stay on the existing chain.</p>
-            </div>
-          </div>
-
-          <div class="flex flex-wrap gap-2 mt-3 pt-5 border-t border-rule font-mono text-[10.5px] uppercase tracking-[0.18em] text-ink-3">
-            <span class="text-ink-2">→ Property delivered:</span>
-            <span class="text-ember">Credibly neutral</span>
-            <span class="text-ink-4">·</span>
-            <span class="text-ember">Capture-resistant</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- ────── MECHANISM 05: SERVICE-NODE MARKET ────── -->
-      <div class="mechanism border-b border-rule-2 grid lg:grid-cols-2" data-reveal>
-        <div class="bg-bg-2/60 backdrop-blur-sm p-8 md:p-12 lg:p-16 flex flex-col justify-center min-h-[420px]">
-          <div class="mb-8 flex items-baseline justify-between gap-3">
-            <span class="font-mono text-[11px] uppercase tracking-[0.22em] text-ember">MECHANISM 05 · INFRASTRUCTURE</span>
-            <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §9.10 · §10.5.5</span>
-          </div>
-
-          <!-- Parameter strip -->
-          <div class="mb-6 grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3 font-mono text-[10px] tracking-[0.06em]">
-            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">operators</span><span class="text-ink"><span class="text-ember">permissionless</span></span></div>
-            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">queries</span><span class="text-ink"><span class="text-ember">standardised</span></span></div>
-            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">payment</span><span class="text-ink">channel · sponsor</span></div>
-            <div class="flex flex-col gap-0.5"><span class="text-ink-4 uppercase tracking-[0.18em] text-[9px]">issuance</span><span class="text-ink">→ <span class="text-ember">node runners only</span></span></div>
-          </div>
-
-          <div class="sn2-viz relative h-[230px]">
-            <svg viewBox="0 0 420 240" class="block w-full h-full" aria-hidden="true">
-              <!-- Top + bottom hairlines -->
-              <line x1="20" y1="32" x2="400" y2="32" stroke="currentColor" stroke-width="0.4" class="text-rule-2"/>
-              <line x1="20" y1="208" x2="400" y2="208" stroke="currentColor" stroke-width="0.4" class="text-rule-2"/>
-
-              <!-- Section labels (top) -->
-              <g font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing="1.2" fill="currentColor" class="text-ink-3">
-                <text x="55" y="48" text-anchor="middle">witness</text>
-                <text x="210" y="48" text-anchor="middle">service-node market</text>
-                <text x="365" y="48" text-anchor="middle">node runners</text>
-              </g>
-
-              <!-- Wallet (left) -->
-              <g class="sn2-wallet">
-                <rect x="30" y="100" width="50" height="68" rx="3" fill="none" stroke="currentColor" stroke-width="0.8" class="text-ink-2"/>
-                <rect x="34" y="106" width="42" height="50" rx="1" fill="currentColor" class="text-bg-3"/>
-                <line x1="40" y1="118" x2="68" y2="118" stroke="currentColor" stroke-width="0.5" class="text-ink-3"/>
-                <line x1="40" y1="125" x2="60" y2="125" stroke="currentColor" stroke-width="0.5" class="text-ink-3"/>
-                <line x1="40" y1="132" x2="64" y2="132" stroke="currentColor" stroke-width="0.5" class="text-ink-3"/>
-                <text x="55" y="186" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" letter-spacing="0.6" fill="currentColor" class="text-ink-3">wallet</text>
-              </g>
-
-              <!-- Service-node cluster (middle) — irregular topology with many nodes -->
-              <g class="sn2-nodes">
-                {[
-                  { x: 130, y: 80,  label: 'sn₁' },
-                  { x: 175, y: 110, label: 'sn₂' },
-                  { x: 145, y: 145, label: 'sn₃' },
-                  { x: 210, y: 75,  label: 'sn₄' },
-                  { x: 245, y: 115, label: 'sn₅' },
-                  { x: 215, y: 155, label: 'sn₆' },
-                  { x: 280, y: 90,  label: 'sn₇' },
-                  { x: 290, y: 145, label: 'sn₈' },
-                ].map((n, i) => (
-                  <g style={`--i:${i}`} class="sn2-node-grp">
-                    <rect x={n.x - 14} y={n.y - 8} width="28" height="16" rx="1" fill="none" stroke="currentColor" stroke-width="0.6" class="text-ember/70 sn2-node"/>
-                    <text x={n.x} y={n.y + 2.5} text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5.5" letter-spacing="0.4" fill="currentColor" class="text-ember">{n.label}</text>
-                  </g>
-                ))}
-                <text x="210" y="186" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" letter-spacing="0.6" fill="currentColor" class="text-ink-3">{`{ sn₁ … sn_k } ⊆ open set`}</text>
-              </g>
-
-              <!-- Wallet → service nodes: query/response (dashed lines, with arrows on a few) -->
-              <g stroke="currentColor" stroke-width="0.5" stroke-dasharray="2 3" fill="none" class="text-ink-3 sn2-queries">
-                <path d="M82,124 Q105,100 116,84"/>
-                <path d="M82,128 Q120,118 161,110"/>
-                <path d="M82,135 Q108,140 131,145"/>
-                <path d="M82,118 Q140,82 196,75"/>
-              </g>
-
-              <!-- Validators (right) -->
-              <g class="sn2-vals">
-                {[
-                  { x: 350, y: 88,  d: 0 },
-                  { x: 375, y: 110, d: 0.4 },
-                  { x: 348, y: 130, d: 0.8 },
-                  { x: 380, y: 150, d: 1.2 },
-                ].map((v, i) => (
-                  <circle cx={v.x} cy={v.y} r="3.5" fill="currentColor" class="text-cold sn2-val" style={`--d:${v.d}s`}/>
-                ))}
-                <text x="365" y="186" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" letter-spacing="0.6" fill="currentColor" class="text-ink-3">N node runners</text>
-              </g>
-
-              <!-- Validator-funded infrastructure flow (validators → nodes) — solid ember hairlines -->
-              <g stroke="currentColor" stroke-width="0.5" fill="none" class="text-ember/55 sn2-funding">
-                <path d="M345,90 Q310,90 294,90"/>
-                <path d="M348,128 Q310,135 261,115"/>
-                <path d="M380,150 Q335,148 304,145"/>
-              </g>
-
-              <!-- Bottom relation caption -->
-              <g font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="0.5" fill="currentColor">
-                <text x="210" y="226" text-anchor="middle" class="text-ink-3">q ∈ {"{"}get_state, get_proof, submit_tx{"}"}  ·  receipt = σ<tspan baseline-shift="sub" font-size="5">sn</tspan>(q, response)</text>
-              </g>
-            </svg>
-          </div>
-        </div>
-
-        <div class="p-8 md:p-12 lg:p-16 flex flex-col justify-center gap-6 lg:border-l border-rule-2">
-          <h3 class="font-display font-medium leading-[1.05] tracking-[-0.03em]" style="font-size:clamp(28px,2.8vw,42px)">
-            <span class="block font-light text-ink-2">A permissionless market for</span>
-            light-client infrastructure.
-          </h3>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-2">
-            <div class="border-l-2 border-ink-4 pl-4">
-              <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ink-3 mb-2">Most chains</span>
-              <p class="text-[13.5px] leading-[1.6] text-ink-2">Wallets quietly query a handful of hosted RPC providers. The "decentralised" chain runs on someone else's centralised infrastructure — and that infrastructure is the choke point for censorship and surveillance.</p>
-            </div>
-            <div class="border-l-2 border-ember pl-4">
-              <span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-ember mb-2">Adamant</span>
-              <p class="text-[13.5px] leading-[1.6] text-ink">A standardised query protocol opens a permissionless market for service nodes that serve Witnesses and other lightweight clients. Node Runners may, at their discretion, fund infrastructure from commission revenue to compete for delegators on service quality. The protocol enables the market; the ecosystem develops it.</p>
-            </div>
-          </div>
-
-          <div class="flex flex-wrap gap-2 mt-3 pt-5 border-t border-rule font-mono text-[10.5px] uppercase tracking-[0.18em] text-ink-3">
-            <span class="text-ink-2">→ Property enabled:</span>
-            <span class="text-ember">Decentralised RPC</span>
-            <span class="text-ink-4">·</span>
-            <span class="text-ember">Validator-funded infra</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Connect-the-dots summary -->
-      <div class="mt-px glass border-t-0 px-8 md:px-12 lg:px-16 py-12 md:py-14" data-reveal>
-        <p class="max-w-[72ch] mx-auto text-center font-display text-[18px] md:text-[22px] leading-[1.45] tracking-[-0.02em] text-ink-2">
-          <span class="text-ink">Each mechanism resolves one of the seven properties.</span>
-          Together, they deliver the property set no chain has combined, with credible neutrality enforced at genesis.
-        </p>
-      </div>
-
-      <!-- Footnote: diagram disclaimer -->
-      <p class="mt-8 mx-auto max-w-[68ch] text-center font-mono text-[10px] tracking-[0.18em] uppercase text-ink-4 leading-[1.7]">
-        Diagrams illustrate the protocol as specified. Parameters drawn from whitepaper §8 · §9 · §11. No chain is running; the protocol is in specification phase.
+      <p class="small" style="margin-top:14px; max-width: 64ch;">
+        ● = property satisfied. ○ = property absent or out of scope. The table is a summary; full justification with citations lives in the whitepaper.
       </p>
     </div>
   </section>
 
-  <!-- ───────── §03 / WHERE WE ARE ───────── -->
-  <section class="border-t border-rule">
-    <div class="wrap">
+  <!-- FIVE MECHANISMS -->
+  <section class="section" data-screen-label="Five mechanisms">
+    <div class="container">
       <div class="section-head">
+        <div class="num-mark">§ 02</div>
         <div>
-          <span class="num">§03 / STATUS</span>
-          <h2><span class="light">Specification phase.</span>No chain running. No token issued.</h2>
+          <h2 class="title">Five mechanisms.</h2>
+          <p class="subtitle">The protocol is the composition of five mechanisms. Each is described in full in the whitepaper; summarised here.</p>
         </div>
-        <p class="desc">
-          Adamant is a draft specification published for public review. No chain is running. No token has been issued. This site documents the design.
-        </p>
       </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-px bg-rule-2 border border-rule-2">
-        <div class="bg-bg-2/70 backdrop-blur-sm p-8 md:p-12 flex flex-col gap-4 min-h-[260px] card-hover" data-reveal>
-          <span class="font-mono text-[10px] tracking-[0.22em] uppercase text-ember">PHASE 01 · CURRENT</span>
-          <h3 class="font-display text-[22px] md:text-[24px] font-semibold leading-[1.15] tracking-[-0.02em]">Specification</h3>
-          <p class="text-[14px] leading-[1.65] text-ink-2">Whitepaper draft v0.1. Public for review and comment. Cryptographic primitives selected; consensus model documented; genesis mechanism defined.</p>
-        </div>
-        <div class="bg-bg-2/70 backdrop-blur-sm p-8 md:p-12 flex flex-col gap-4 min-h-[260px] card-hover" data-reveal style="transition-delay:80ms">
-          <span class="font-mono text-[10px] tracking-[0.22em] uppercase text-ink-3">PHASE 02 · NEXT</span>
-          <h3 class="font-display text-[22px] md:text-[24px] font-semibold leading-[1.15] tracking-[-0.02em] text-ink-2">Reference implementation</h3>
-          <p class="text-[14px] leading-[1.65] text-ink-3">Rust implementation, Apache 2.0. Public from the first commit. No private fork, no closed beta.</p>
-        </div>
-        <div class="bg-bg-2/70 backdrop-blur-sm p-8 md:p-12 flex flex-col gap-4 min-h-[260px] card-hover" data-reveal style="transition-delay:160ms">
-          <span class="font-mono text-[10px] tracking-[0.22em] uppercase text-ink-3">PHASE 03 · LATER</span>
-          <h3 class="font-display text-[22px] md:text-[24px] font-semibold leading-[1.15] tracking-[-0.02em] text-ink-2">Public testnet · audits · genesis</h3>
-          <p class="text-[14px] leading-[1.65] text-ink-3">Testnet open to anyone. Independent audits before mainnet. Genesis only when the work is ready.</p>
-        </div>
+      <div class="mech-grid">
+        {FIVE_MECHANISMS.map((m) => (
+          <div class="mech">
+            <span class="num">{m.num}</span>
+            <span class="h">{m.name}</span>
+            <span class="d">{m.d}</span>
+            <span class="meta">{m.meta}</span>
+          </div>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- ───────── MANIFESTO ───────── -->
-  <section class="relative overflow-hidden py-24 md:py-32 text-center">
-    <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse at center, rgba(255,125,77,0.08), transparent 60%)"></div>
-    <div class="wrap relative z-[2]" data-reveal>
-      <div class="mx-auto mb-8 font-mono text-[11px] tracking-[0.4em] uppercase text-ember-dim">— · —</div>
-      <h2 class="mx-auto max-w-[34ch] font-display font-medium leading-[1.15] tracking-[-0.025em]" style="font-size:clamp(26px,3.2vw,48px)">
-        <span class="block font-light text-ink-2">Enforced not by a foundation,</span>
-        but by the <span class="font-semibold text-ember">structural absence</span> of any mechanism to modify the protocol.
-      </h2>
-      <div class="mt-10 font-mono text-[11px] md:text-[12px] tracking-[0.26em] uppercase text-ink-3">
-        Whitepaper §11.1 · Constitutional commitment
+  <!-- GENESIS COHORT PROGRESS -->
+  <section class="section" data-screen-label="Genesis cohort progress">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 03</div>
+        <div>
+          <h2 class="title">Genesis cohort.</h2>
+          <p class="subtitle">The first 75 validators form the genesis cohort. They are recognised by a permanent on-chain marker and a freely tradeable Genesis NFT. Slots are first-come, first-served. This grid fills in real time once the chain is live.</p>
+        </div>
+      </div>
+
+      <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:14px;">
+        <div class="mono" style="font-size: 13px; color: var(--ink-2);">
+          <span>0</span><span style="color:var(--mute);"> / 75 slots taken</span>
+        </div>
+        <span class="mono" style="font-size: 11px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-3);">
+          Pre-launch · cohort opens at chain activation
+        </span>
+      </div>
+
+      <div class="cohort" aria-label="Genesis cohort, 75 slots">
+        {Array.from({ length: 75 }, (_, i) => i + 1).map((i) => (
+          <div class="slot is-empty" title={`Cohort #${i}`}>
+            <span class="n">#{String(i).padStart(2, '0')}</span>
+          </div>
+        ))}
+      </div>
+
+      <div style="display:flex; gap: 22px; margin-top: 14px; font-family: var(--mono); font-size: 11px; color: var(--ink-3); letter-spacing: 0.06em;">
+        <span><span style="display:inline-block; width:6px; height:6px; background: var(--signal); margin-right: 6px;"></span>filled</span>
+        <span><span style="display:inline-block; width:6px; height:6px; background: var(--ok); margin-right: 6px;"></span>active &amp; producing</span>
+        <span><span style="display:inline-block; width:6px; height:6px; border:1px solid var(--rule-2); margin-right: 6px;"></span>open</span>
       </div>
     </div>
   </section>
 
-  <style is:global>
-    /* ───────── DAG consensus (Mechanism 01, refreshed) ───────── */
-    /* Vertices: appear column-by-column, then "finalise" as the commit wave passes */
-    @keyframes dag2-vtx-life {
-      0%, 4%        { opacity: 0; transform: scale(0.6); fill: #2e3140; }
-      8%, 50%       { opacity: 1; transform: scale(1);   fill: #c9c5b9; }
-      62%, 92%      { opacity: 1; transform: scale(1.15); fill: #ff7d4d; }
-      100%          { opacity: 0; transform: scale(0.6); fill: #2e3140; }
-    }
-    .dag2-vtx {
-      transform-origin: center;
-      transform-box: fill-box;
-      animation: dag2-vtx-life 8s ease-in-out infinite;
-      animation-delay: calc(var(--c, 0) * 0.4s);
-    }
-    /* Edges: hairlines that draw in once both endpoints are produced */
-    @keyframes dag2-edge-draw {
-      0%, 5%        { opacity: 0; stroke-dashoffset: 30; }
-      15%, 50%      { opacity: 0.5; stroke-dashoffset: 0; }
-      62%, 92%      { opacity: 0.22; stroke-dashoffset: 0; }
-      100%          { opacity: 0; stroke-dashoffset: 30; }
-    }
-    .dag2-edge {
-      stroke-dasharray: 30;
-      stroke-dashoffset: 30;
-      animation: dag2-edge-draw 8s ease-in-out infinite;
-    }
-    /* Commit wave: a vertical glow line that sweeps L→R every cycle */
-    @keyframes dag2-wave-sweep {
-      0%, 50%       { transform: translateX(0px);    opacity: 0; }
-      55%           { transform: translateX(70px);   opacity: 0.9; }
-      62%           { transform: translateX(140px);  opacity: 0.9; }
-      72%           { transform: translateX(220px);  opacity: 0.9; }
-      82%           { transform: translateX(300px);  opacity: 0.9; }
-      90%           { transform: translateX(380px);  opacity: 0.6; }
-      96%, 100%     { transform: translateX(380px);  opacity: 0; }
-    }
-    .dag2-wave {
-      animation: dag2-wave-sweep 8s ease-in-out infinite;
-      filter: drop-shadow(0 0 6px rgba(255,125,77,0.55));
-      will-change: transform;
-    }
-    /* Leader (commit-vertex on round r+4) — appears at the end of the cycle */
-    @keyframes dag2-leader-show {
-      0%, 80%       { opacity: 0; transform: scale(0.5); }
-      88%, 96%      { opacity: 1; transform: scale(1); }
-      100%          { opacity: 0; transform: scale(1); }
-    }
-    .dag2-leader {
-      transform-origin: 380px 125px;
-      transform-box: view-box;
-      animation: dag2-leader-show 8s ease-in-out infinite;
-    }
-    @keyframes dag2-leader-label-show {
-      0%, 80%       { opacity: 0; }
-      90%, 96%      { opacity: 0.9; }
-      100%          { opacity: 0; }
-    }
-    .dag2-leader-label {
-      animation: dag2-leader-label-show 8s ease-in-out infinite;
-    }
+  <!-- LATEST UPDATE -->
+  <section class="section" data-screen-label="Latest update">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 04</div>
+        <div>
+          <h2 class="title">Latest from the journal.</h2>
+          <p class="subtitle">Every design decision is logged. <a class="link" href="https://github.com/adamant-protocol/adamant-website/commits/main" rel="noopener" target="_blank">Open the full commit log →</a></p>
+        </div>
+      </div>
 
-    /* ───────── Encrypted mempool (Mechanism 02, refreshed) ───────── */
-    /* Encrypted blobs appear staggered, then "decrypt" mid-cycle */
-    @keyframes mp2-blob-enc-life {
-      0%, 4%   { opacity: 0; transform: translateX(-12px); }
-      10%, 50% { opacity: 1; transform: translateX(0); }
-      55%, 70% { opacity: 0.35; }
-      85%, 100% { opacity: 0; }
-    }
-    .mp2-blob-enc {
-      transform-box: fill-box;
-      animation: mp2-blob-enc-life 8s ease-in-out infinite;
-      animation-delay: calc(var(--i, 0) * 0.18s);
-    }
-    /* Active keypers glow when threshold contributes */
-    @keyframes mp2-keyper-active {
-      0%, 40%  { opacity: 0.35; transform: scale(0.85); }
-      50%, 75% { opacity: 1;    transform: scale(1.15); }
-      85%, 100% { opacity: 0.35; transform: scale(0.85); }
-    }
-    .mp2-keyper-active {
-      transform-origin: center;
-      transform-box: fill-box;
-      animation: mp2-keyper-active 8s ease-in-out infinite;
-      animation-delay: calc(var(--i, 0) * 0.07s);
-    }
-    .mp2-keyper-idle { opacity: 0.3; }
-    /* Share lines draw from keypers to decrypt point */
-    @keyframes mp2-share-draw {
-      0%, 40%  { stroke-dashoffset: 50; opacity: 0; }
-      50%, 75% { stroke-dashoffset: 0; opacity: 0.8; }
-      85%, 100% { stroke-dashoffset: 50; opacity: 0; }
-    }
-    .mp2-shares path {
-      stroke-dasharray: 50;
-      stroke-dashoffset: 50;
-      animation: mp2-share-draw 8s ease-in-out infinite;
-    }
-    /* Decrypt point pulses ember when threshold reached */
-    @keyframes mp2-decrypt-flash {
-      0%, 50%  { opacity: 0; r: 2; }
-      55%, 70% { opacity: 1; r: 4; }
-      80%, 100% { opacity: 0; r: 2; }
-    }
-    .mp2-decrypt {
-      animation: mp2-decrypt-flash 8s ease-in-out infinite;
-      filter: drop-shadow(0 0 4px rgba(255,125,77,0.7));
-    }
-    /* Decrypted blobs appear after the threshold flash */
-    @keyframes mp2-blob-dec-life {
-      0%, 55%  { opacity: 0; transform: translateX(8px); }
-      65%, 92% { opacity: 1; transform: translateX(0); }
-      100%     { opacity: 0; transform: translateX(8px); }
-    }
-    .mp2-blob-dec {
-      transform-box: fill-box;
-      animation: mp2-blob-dec-life 8s ease-in-out infinite;
-      animation-delay: calc(var(--i, 0) * 0.12s);
-    }
+      <article style="display:grid; grid-template-columns: 220px 1fr; gap: 32px; padding-top: 8px; border-top: 1px solid var(--ink);">
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <span class="label">{latestUpdate.date}</span>
+          <span class="tag">{latestUpdate.tag}</span>
+        </div>
+        <div>
+          <h3 class="serif" style="font-size: 28px; line-height: 1.1; letter-spacing: -0.015em;">{latestUpdate.title}</h3>
+          <p class="serif" style="font-size: 17px; line-height: 1.5; color: var(--ink-2); max-width: 64ch; margin-top: 12px;">{latestUpdate.d}</p>
+        </div>
+      </article>
+    </div>
+  </section>
 
-    /* ───────── Recursive proof (Mechanism 03, refreshed) ───────── */
-    @keyframes rp2-bar-pulse {
-      0%, 100% { opacity: 0.45; }
-      50%      { opacity: 0.85; }
-    }
-    .rp2-bar {
-      animation: rp2-bar-pulse 5s ease-in-out infinite;
-      animation-delay: calc(var(--i, 0) * 0.08s);
-    }
-    @keyframes rp2-tx-fade {
-      0%, 30%  { opacity: 0; }
-      40%, 65% { opacity: 0.7; }
-      75%, 100% { opacity: 0.25; }
-    }
-    .rp2-tx {
-      animation: rp2-tx-fade 5s ease-in-out infinite;
-      animation-delay: calc(var(--i, 0) * 0.06s);
-    }
-    @keyframes rp2-pi-glow {
-      0%, 65%  { opacity: 0.5; filter: drop-shadow(0 0 0 rgba(255,125,77,0)); }
-      75%, 95% { opacity: 1;   filter: drop-shadow(0 0 6px rgba(255,125,77,0.55)); }
-      100%     { opacity: 0.5; filter: drop-shadow(0 0 0 rgba(255,125,77,0)); }
-    }
-    .rp2-pi-glow {
-      animation: rp2-pi-glow 5s ease-in-out infinite;
-    }
-    @keyframes rp2-spinner-show {
-      0%, 60%  { opacity: 1; }
-      80%, 100% { opacity: 0; }
-    }
-    .rp2-spinner {
-      animation: rp2-spinner-show 5s linear infinite;
-    }
-    @keyframes rp2-spinner-rot {
-      0%   { transform: rotate(0deg); }
-      100% { transform: rotate(720deg); }
-    }
-    .rp2-spinner > circle {
-      transform-origin: 383px 120px;
-      transform-box: view-box;
-      animation: rp2-spinner-rot 5s linear infinite;
-    }
-    @keyframes rp2-check-show {
-      0%, 70%  { opacity: 0; transform: scale(0.6); }
-      80%, 95% { opacity: 1; transform: scale(1); }
-      100%     { opacity: 0; }
-    }
-    .rp2-check {
-      transform-origin: 383px 120px;
-      transform-box: view-box;
-      animation: rp2-check-show 5s ease-out infinite;
-    }
-
-    /* ───────── Constitutional immutability (Mechanism 04, refreshed) ───────── */
-    /* Rejected items: strike-through draws and item dims */
-    @keyframes im2-strike-draw {
-      0%       { stroke-dashoffset: 64; opacity: 0; }
-      30%, 100% { stroke-dashoffset: 0; opacity: 0.7; }
-    }
-    .im2-strike {
-      stroke-dasharray: 64;
-      stroke-dashoffset: 64;
-      animation: im2-strike-draw 5s ease-out infinite;
-      animation-delay: calc(var(--i, 0) * 0.18s);
-    }
-    @keyframes im2-reject-fade {
-      0%       { opacity: 1; }
-      30%, 100% { opacity: 0.45; }
-    }
-    .im2-reject-item text {
-      animation: im2-reject-fade 5s ease-out infinite;
-      animation-delay: calc(var(--i, 0) * 0.18s);
-    }
-    /* Each validator pulses independently with a per-validator phase delay */
-    @keyframes im2-val-pulse {
-      0%, 100% { opacity: 0.5; transform: scale(0.9); }
-      50%      { opacity: 1;   transform: scale(1.15); }
-    }
-    .im2-val {
-      transform-origin: center;
-      transform-box: fill-box;
-      animation: im2-val-pulse 3.4s ease-in-out infinite;
-      animation-delay: var(--d, 0s);
-    }
-
-    /* ───────── Service-node market (Mechanism 05, refreshed) ───────── */
-    @keyframes sn2-node-pulse {
-      0%, 100% { opacity: 0.55; }
-      50%      { opacity: 1; }
-    }
-    .sn2-node {
-      animation: sn2-node-pulse 3.6s ease-in-out infinite;
-    }
-    .sn2-node-grp {
-      animation: sn2-node-pulse 3.6s ease-in-out infinite;
-      animation-delay: calc(var(--i, 0) * 0.22s);
-    }
-    @keyframes sn2-val-pulse {
-      0%, 100% { opacity: 0.55; transform: scale(0.95); }
-      50%      { opacity: 1;    transform: scale(1.1); }
-    }
-    .sn2-val {
-      transform-origin: center;
-      transform-box: fill-box;
-      animation: sn2-val-pulse 3.4s ease-in-out infinite;
-      animation-delay: var(--d, 0s);
-    }
-    @keyframes sn2-query-flow {
-      0%   { stroke-dashoffset: 80; opacity: 0.2; }
-      50%  { opacity: 0.8; }
-      100% { stroke-dashoffset: 0; opacity: 0.2; }
-    }
-    .sn2-queries path {
-      stroke-dasharray: 4 5;
-      animation: sn2-query-flow 4s linear infinite;
-    }
-    @keyframes sn2-funding-flow {
-      0%   { stroke-dashoffset: 50; opacity: 0.3; }
-      50%  { opacity: 0.9; }
-      100% { stroke-dashoffset: 0; opacity: 0.3; }
-    }
-    .sn2-funding path {
-      stroke-dasharray: 3 4;
-      animation: sn2-funding-flow 5s linear infinite;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .dag2-vtx, .dag2-edge, .dag2-wave, .dag2-leader, .dag2-leader-label,
-      .mp2-blob-enc, .mp2-keyper-active, .mp2-shares path, .mp2-decrypt, .mp2-blob-dec,
-      .rp2-bar, .rp2-tx, .rp2-pi-glow, .rp2-spinner, .rp2-spinner > circle, .rp2-check,
-      .im2-strike, .im2-reject-item text, .im2-val,
-      .sn2-node, .sn2-node-grp, .sn2-val, .sn2-queries path, .sn2-funding path {
-        animation: none !important;
-      }
-      .dag2-vtx { opacity: 1; transform: scale(1); fill: #c9c5b9; }
-      .dag2-edge { stroke-dashoffset: 0; opacity: 0.35; }
-      .dag2-wave { opacity: 0; }
-      .dag2-leader, .dag2-leader-label { opacity: 1; }
-      .mp2-blob-enc, .mp2-blob-dec { opacity: 1; transform: none; }
-      .mp2-shares path { stroke-dashoffset: 0; opacity: 0.5; }
-      .mp2-decrypt { opacity: 1; }
-      .rp2-tx, .rp2-bar { opacity: 1; }
-      .rp2-pi-glow { opacity: 1; }
-      .rp2-spinner { opacity: 0; }
-      .rp2-check { opacity: 1; transform: scale(1); }
-      .im2-strike { stroke-dashoffset: 0; opacity: 0.7; }
-      .im2-reject-item text { opacity: 0.5; }
-      .im2-val { opacity: 1; transform: scale(1); }
-      .sn2-node, .sn2-node-grp, .sn2-val { opacity: 1; transform: scale(1); }
-      .sn2-queries path, .sn2-funding path { stroke-dashoffset: 0; opacity: 0.5; }
-    }
-  </style>
-</BaseLayout>
+</HubLayout>

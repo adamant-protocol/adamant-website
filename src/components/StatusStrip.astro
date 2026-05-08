@@ -1,0 +1,37 @@
+---
+import { PHASE } from '@/data/chain';
+const p = PHASE;
+---
+
+<div class="status-strip" id="status-strip">
+  <div class="row">
+    <div class="status-cell is-hero">
+      <span class="label">Block height</span>
+      <span class="v"><span data-spec="true">specification</span></span>
+      <span class="sub">no chain yet</span>
+    </div>
+    <div class="status-cell">
+      <span class="label">Active validators</span>
+      <span class="v">{p.activeValidators} <span class="sub">/ {p.activeMax}</span></span>
+      <span class="sub">floor {p.activeFloor} · standby {p.standbyQueue}</span>
+    </div>
+    <div class="status-cell">
+      <span class="label">Security tier</span>
+      <span class="v">{p.securityTier}</span>
+      <span class="sub">not yet established</span>
+    </div>
+    <div class="status-cell">
+      <span class="label">TPS · current</span>
+      <span class="v"><span data-spec="true">specification</span></span>
+      <span class="sub">—</span>
+    </div>
+    <div class="status-cell">
+      <span class="label">ADM in circulation</span>
+      <span class="v"><span data-spec="true">0</span></span>
+      <span class="sub">specification only</span>
+    </div>
+  </div>
+  <div class="spec-band">
+    <span><b>Specification phase.</b> Values shown are placeholders for layout. No live chain.</span>
+  </div>
+</div>

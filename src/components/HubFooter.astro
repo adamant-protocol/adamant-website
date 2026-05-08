@@ -1,0 +1,41 @@
+---
+import { PHASE } from '@/data/chain';
+const p = PHASE;
+const REPO = 'https://github.com/adamant-protocol/adamant-website';
+---
+
+<footer class="foot" role="contentinfo">
+  <div class="container">
+    <div>
+      <h4>Adamant Protocol</h4>
+      <div class="meta">A Layer 1 blockchain protocol.<br/>No foundation. No premine. No admin keys.</div>
+      <div class="meta" style="margin-top:14px;">
+        <span class="phase-pill" data-phase={p.key}><span>{p.shortLabel}</span></span>
+      </div>
+    </div>
+    <div>
+      <h4>Reference</h4>
+      <ul>
+        <li><a href={`${REPO}/tree/main/whitepaper`} rel="noopener" target="_blank">Whitepaper v0.1</a></li>
+        <li><a href={REPO} rel="noopener" target="_blank">GitHub repository</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Channels</h4>
+      <ul>
+        <li><a href={`${REPO}/commits/main`} rel="noopener" target="_blank">Project journal</a></li>
+        <li><a href={`${REPO}/issues`} rel="noopener" target="_blank">Discussion</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Status</h4>
+      <div class="meta">Specification phase.<br/>Reference implementation in progress.</div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="build">
+      <span>Spec v0.1 · pre-launch</span>
+      <span>This document is a prototype.</span>
+    </div>
+  </div>
+</footer>

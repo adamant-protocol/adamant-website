@@ -1,0 +1,48 @@
+---
+import '@/styles/global.css';
+import Topbar from '@/components/Topbar.astro';
+import StatusStrip from '@/components/StatusStrip.astro';
+import HubFooter from '@/components/HubFooter.astro';
+import { PHASE } from '@/data/chain';
+
+interface Props {
+  active?: string;
+  title?: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const {
+  active = 'home',
+  title = 'Adamant — Protocol v0.1',
+  description = 'A Layer 1 blockchain protocol. Privacy by default, post-quantum, no foundation, no premine, no admin keys.',
+  ogImage = '/home-og.png',
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString();
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>{title}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <link rel="icon" type="image/svg+xml" href="/adm-logo-square.svg" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonical} />
+  <meta name="twitter:card" content="summary_large_image" />
+</head>
+<body data-page={active} data-phase={PHASE.key}>
+  <Topbar active={active} />
+  <StatusStrip />
+  <main>
+    <slot />
+  </main>
+  <HubFooter />
+</body>
+</html>
