@@ -93,7 +93,7 @@ const lastUpdate = '2026-05-01';
 
       <ol style="list-style:none; padding:0; margin:0; border-top: 1px solid var(--ink);">
         {sections.map((s) => (
-          <li data-reveal style="display:grid; grid-template-columns: 80px 1fr 110px; gap: 32px; padding: 28px 0; border-bottom: 1px solid var(--rule); align-items: start;">
+          <li class="spec-row" data-reveal style="display:grid; grid-template-columns: 80px 1fr 110px; gap: 32px; padding: 28px 0; border-bottom: 1px solid var(--rule); align-items: start;">
             <span class="mono" style="font-size: 11px; letter-spacing: 0.14em; color: var(--ink-3); padding-top: 8px;">§ {s.n.padStart(2, '0')}</span>
             <div>
               <a href={`${REPO}/blob/main/whitepaper/${s.file}`} rel="noopener" target="_blank" style="color: var(--ink);">

@@ -27,7 +27,7 @@ const ROLES = [
 
   <section style="padding: 0;">
     <div class="container" style="padding-top: 16px;">
-      <div style="display: flex; gap: 0; border-bottom: 1px solid var(--ink); flex-wrap: wrap;">
+      <div class="role-tabs" style="display: flex; gap: 0; border-bottom: 1px solid var(--ink); flex-wrap: wrap;">
         {ROLES.map((r, i) => (
           <div style={`padding: 14px 24px; border-right: 1px solid var(--rule); display: flex; flex-direction: column; gap: 4px; min-width: 200px; ${i===0 ? 'background: var(--ink); color: var(--paper);' : ''}`}>
             <span class="mono" style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;">{r.h}</span>

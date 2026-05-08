@@ -7,12 +7,13 @@ interface Props {
 const { active = 'home' } = Astro.props;
 ---
 
-<header class="topbar" role="banner">
+<header class="topbar" role="banner" id="topbar">
   <div class="topbar-row">
     <a class="brand" href="/" aria-label="Adamant home">
       <img class="mark" src="/adm-mark.svg" alt="Adamant" />
       <span class="brand-meta">Protocol</span>
     </a>
+
     <nav class="nav" aria-label="Primary">
       {PAGES.map((p) => (
         <a
@@ -22,8 +23,38 @@ const { active = 'home' } = Astro.props;
         >{p.label}</a>
       ))}
     </nav>
+
     <div class="phase-pill" data-phase={PHASE.key}>
       <span>{PHASE.shortLabel}</span>
     </div>
+
+    <button
+      class="nav-toggle"
+      type="button"
+      id="nav-toggle"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="nav-drawer"
+    >
+      <span class="nav-toggle-bars" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+      <span class="nav-toggle-label">Menu</span>
+    </button>
+  </div>
+
+  <div class="nav-drawer" id="nav-drawer" hidden>
+    <nav aria-label="Mobile primary">
+      {PAGES.map((p) => (
+        <a
+          href={p.href}
+          class:list={[p.k === active ? 'is-current' : '']}
+          {...(('external' in p && p.external) ? { rel: 'noopener', target: '_blank' } : {})}
+        >
+          <span class="nav-drawer-label">{p.label}</span>
+          <span class="nav-drawer-arrow" aria-hidden="true">→</span>
+        </a>
+      ))}
+    </nav>
   </div>
 </header>

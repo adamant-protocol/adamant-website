@@ -195,6 +195,33 @@ const PHASE_DATA = JSON.stringify(PHASES);
         btn.addEventListener('click', function () { setPhase(btn.getAttribute('data-phase')); });
       });
 
+      // Wire mobile nav drawer
+      var topbar = document.getElementById('topbar');
+      var navToggle = document.getElementById('nav-toggle');
+      var navDrawer = document.getElementById('nav-drawer');
+      if (topbar && navToggle && navDrawer) {
+        var setOpen = function (open) {
+          topbar.classList.toggle('is-open', open);
+          navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+          navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+          if (open) navDrawer.removeAttribute('hidden');
+          else setTimeout(function () { navDrawer.setAttribute('hidden', ''); }, 320);
+          document.body.style.overflow = open ? 'hidden' : '';
+        };
+        navToggle.addEventListener('click', function () {
+          setOpen(!topbar.classList.contains('is-open'));
+        });
+        // Close drawer on escape and on link tap
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && topbar.classList.contains('is-open')) setOpen(false); });
+        navDrawer.querySelectorAll('a').forEach(function (a) {
+          a.addEventListener('click', function () { setOpen(false); });
+        });
+        // Close drawer if window resizes back up to desktop
+        window.addEventListener('resize', function () {
+          if (window.innerWidth > 760 && topbar.classList.contains('is-open')) setOpen(false);
+        });
+      }
+
       // Apply on load
       applyPhase(getPhase());
 

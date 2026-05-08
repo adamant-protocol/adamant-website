@@ -37,7 +37,7 @@ import { SEVEN_PROPERTIES, FOUR_TIERS, SEVEN_PRINCIPLES, PLAIN_FRAMINGS, NOT_THI
         </div>
       </div>
 
-      <div style="display:grid; grid-template-columns: 80px 1fr repeat(5, 56px) 1fr 80px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--rule); align-items:center;" class="props-full-head">
+      <div class="props-full-head" style="display:grid; grid-template-columns: 80px 1fr repeat(5, 56px) 1fr 80px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--rule); align-items:center;">
         <div class="label" style="padding:10px 12px;">Item</div>
         <div class="label" style="padding:10px 12px;">Property</div>
         <div class="label" style="padding:10px 6px; text-align:center;">BTC</div>
@@ -113,7 +113,7 @@ import { SEVEN_PROPERTIES, FOUR_TIERS, SEVEN_PRINCIPLES, PLAIN_FRAMINGS, NOT_THI
 
       <div style="border-top: 1px solid var(--ink);">
         {SEVEN_PRINCIPLES.map((p) => (
-          <div style="display:grid; grid-template-columns: 80px 1fr 1.2fr; gap: 32px; padding: 26px 0; border-bottom: 1px solid var(--rule);">
+          <div class="principles-row" style="display:grid; grid-template-columns: 80px 1fr 1.2fr; gap: 32px; padding: 26px 0; border-bottom: 1px solid var(--rule);">
             <div class="mono" style="font-size: 11px; letter-spacing: 0.14em; color: var(--ink-3); padding-top: 8px;">{p.n}</div>
             <h3 class="serif" style="font-size: 28px; line-height: 1.05; letter-spacing: -0.015em; max-width: 16ch;">{p.k}</h3>
             <p class="serif" style="font-size: 17px; line-height: 1.5; color: var(--ink-2); margin:0; max-width: 56ch;">{p.d}</p>
@@ -135,7 +135,7 @@ import { SEVEN_PROPERTIES, FOUR_TIERS, SEVEN_PRINCIPLES, PLAIN_FRAMINGS, NOT_THI
       </div>
       <div style="border-top: 1px solid var(--ink);">
         {PLAIN_FRAMINGS.map((f) => (
-          <div style="display:grid; grid-template-columns: 200px 1fr 1fr; gap: 32px; padding: 28px 0; border-bottom: 1px solid var(--rule); align-items: start;">
+          <div class="framings-row" style="display:grid; grid-template-columns: 200px 1fr 1fr; gap: 32px; padding: 28px 0; border-bottom: 1px solid var(--rule); align-items: start;">
             <div class="serif" style="font-size: 22px; line-height: 1.1; letter-spacing: -0.01em;">{f.vs}</div>
             <p class="serif" style="font-size: 16px; line-height: 1.5; color: var(--ink); margin: 0;"><span class="label" style="display:block; margin-bottom:6px;">Same as</span>{f.ada}</p>
             <p class="serif" style="font-size: 16px; line-height: 1.5; color: var(--ink); margin: 0;"><span class="label" style="display:block; margin-bottom:6px;">Different in</span>{f.adb}</p>
@@ -157,7 +157,7 @@ import { SEVEN_PROPERTIES, FOUR_TIERS, SEVEN_PRINCIPLES, PLAIN_FRAMINGS, NOT_THI
       </div>
       <ol style="list-style:none; padding:0; margin:0; border-top: 1px solid var(--ink);">
         {NOT_THIS_LIST.map((s, i) => (
-          <li style="display:grid; grid-template-columns: 80px 1fr; gap: 32px; padding: 22px 0; border-bottom: 1px solid var(--rule);">
+          <li class="negation-row" style="display:grid; grid-template-columns: 80px 1fr; gap: 32px; padding: 22px 0; border-bottom: 1px solid var(--rule);">
             <span class="mono" style="font-size: 11px; letter-spacing: 0.14em; color: var(--ink-3);">N.{String(i+1).padStart(2,"0")}</span>
             <span class="serif" style="font-size: 20px; line-height: 1.35; letter-spacing: -0.005em;">{s}</span>
           </li>
