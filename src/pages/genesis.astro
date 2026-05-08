@@ -237,6 +237,26 @@ import Starfield from '@/components/Starfield.astro';
         </div>
         <p class="text-[14.5px] leading-[1.7] text-ink-2">Active-set slots themselves are <strong class="font-medium text-ink">transferable by mutual consent</strong>: a Node Runner may transfer their slot to another address at any time, the protocol is neutral on the economic terms, and there is no counterparty restriction. The launch period rewards registration order and continuity; the long-term composition of the active set reflects the choices of slot holders. The two artefacts split the recognition cleanly. The marker is non-transferable because it records a historical fact about an address — the chain's record of who was there, which is not something anyone can sell. The NFT is transferable because it is a cultural artefact, and cultural artefacts are properly tradeable. Genesis validators who later transfer their slot retain the marker (the chain remembers them) and may keep, sell, or pass on the NFT (the cultural value of having been there). The cohort closes once 75 distinct addresses have been seated; slot 76 onward is an ordinary slot with no marker and no NFT.</p>
       </div>
+
+      <!-- Stake floors callout -->
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-px bg-rule-2 border border-rule-2" data-reveal>
+        <article class="bg-bg-2/70 backdrop-blur-sm p-7 md:p-9 flex flex-col gap-3.5">
+          <div class="flex items-baseline justify-between">
+            <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-ember">TO TAKE A SLOT</span>
+            <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §8.1.4</span>
+          </div>
+          <h3 class="font-display text-[22px] md:text-[26px] font-semibold leading-[1.15] tracking-[-0.025em]">Node Runner · 1,000 ADM</h3>
+          <p class="text-[14px] leading-[1.65] text-ink-2">Each genesis cohort slot requires <strong class="font-semibold text-ink">1,000 ADM bonded stake</strong> at registration to be admitted; transfers also require the buyer to post the current minimum. 28-day unbonding. At 20 ADM per USD-equivalent that's 50 USD-equivalent in burned external value to obtain — the floor is calibrated for residential-fibre accessibility, not VC-grade scarcity. Subject to scheduled re-evaluation at five-year intervals (WP §11.5.4) to prevent token-appreciation-driven exclusion.</p>
+        </article>
+        <article class="bg-bg-2/70 backdrop-blur-sm p-7 md:p-9 flex flex-col gap-3.5">
+          <div class="flex items-baseline justify-between">
+            <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-ember">TO PARTICIPATE WITHOUT A SLOT</span>
+            <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">WP §8.7.2</span>
+          </div>
+          <h3 class="font-display text-[22px] md:text-[26px] font-semibold leading-[1.15] tracking-[-0.025em]">Node Watcher · 100 ADM</h3>
+          <p class="text-[14px] leading-[1.65] text-ink-2">A <strong class="font-semibold text-ink">100 ADM Sybil-resistance stake</strong> registers a phone-class device as a Node Watcher: attests to the recursive proof, samples data availability, verifies on-device, flags fraud. 7-day unbonding; slashable for false attestations corroborated by other watchers. Provers and service nodes are stake-free — anyone with the relevant hardware can begin operating the moment the chain is live. See <a href="/about#participation" class="text-ember underline-offset-4 hover:underline">about §03</a> for the full four-tier breakdown.</p>
+        </article>
+      </div>
     </div>
   </section>
 

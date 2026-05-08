@@ -45,9 +45,9 @@ import Starfield from '@/components/Starfield.astro';
       <div class="section-head">
         <div>
           <span class="num">§01 / CORE PROPERTIES</span>
-          <h2><span class="light">Four properties</span>that constitute the protocol.</h2>
+          <h2><span class="light">Four core properties</span>that constitute the protocol.</h2>
         </div>
-        <p class="desc">Existing chains trade privacy, throughput, and governance neutrality against one another. The protocol is constructed on the premise that the trade-off is not fundamental — that integration of standard, peer-reviewed primitives delivers all three.</p>
+        <p class="desc">Existing chains trade privacy, throughput, and governance neutrality against one another. The protocol is constructed on the premise that the trade-off is not fundamental — that integration of standard, peer-reviewed primitives delivers all three. The <a href="/" class="text-ember underline-offset-4 hover:underline">homepage</a> frames the same gap as a seven-way analysis (no chain combines more than three of seven properties); the four below are the consolidated user-facing framing — what the architecture commits to, rather than what it differentiates against.</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-rule-2 border border-rule-2">
@@ -129,12 +129,84 @@ import Starfield from '@/components/Starfield.astro';
     </div>
   </section>
 
-  <!-- ───────── §03 / FRAMINGS ───────── -->
+  <!-- ───────── §03 / PARTICIPATION ───────── -->
+  <section id="participation" class="border-t border-rule scroll-mt-20">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="num">§03 / PARTICIPATION</span>
+          <h2><span class="light">Four tiers,</span>bounded power, no permission required.</h2>
+        </div>
+        <p class="desc">Participation is structured across four tiers, each with its own role, hardware profile, and economic compensation. None requires permission from any party. The tiers exist so that a chain bootstrapped on residential-fibre commodity desktops can still offer phone-class participation as a meaningful, paid role — and so steady-state proof generation can run in a permissionless market without becoming a chokepoint.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-rule-2 border border-rule-2">
+        {[
+          {
+            tag: 'TIER 01 · NODE RUNNER',
+            spec: 'validator · WP §8',
+            stake: '1,000 ADM',
+            hw: 'residential-fibre commodity desktop',
+            pay: 'block rewards (genesis pool, then issuance) + tips',
+            title: 'Run the chain.',
+            body: 'The active set. Produces a vertex every 250 ms in DAG consensus, references 2/3+1 of the prior round, decrypts the threshold-encrypted mempool at epoch boundaries. First-come-first-served slot admission with transferable membership; constitutional floor of 7, soft ceiling of 75 at launch. Falls back to producing recursive proofs if the prover market is insufficient.',
+          },
+          {
+            tag: 'TIER 02 · NODE WATCHER',
+            spec: 'witness · WP §8.7.2',
+            stake: '100 ADM',
+            hw: 'phone-class · backgrounded',
+            pay: 'verification fees + small slice of issuance',
+            title: 'Verify from a phone.',
+            body: 'Phone-class participation as a paid role. Downloads the 5–10 KB recursive proof, verifies the chain in 50–200 ms, attests to the result, samples data availability, and flags fraud or reordering. Permissionless registration; slashable for false attestations corroborated by other Node Watchers. AC-only, Wi-Fi-only, background-only by default in the reference wallet.',
+          },
+          {
+            tag: 'TIER 03 · PROVER',
+            spec: 'WP §8.5.3',
+            stake: 'none',
+            hw: 'GPU-class',
+            pay: 'per-proof bounty (proof-generation fee dimension)',
+            title: 'Generate the recursive proofs.',
+            body: 'A permissionless market for steady-state proof generation. No registration, no stake, no approval — provers race to submit valid Halo 2 proofs and win the bounty. Node Runners fall back to producing proofs at degraded cadence if the market is insufficient, so phone-verifiability never depends on the market materialising.',
+          },
+          {
+            tag: 'TIER 04 · SERVICE NODE',
+            spec: 'WP §9.10',
+            stake: 'none',
+            hw: 'flexible · server-class typical',
+            pay: 'wallet payment channels + optional Node Runner sponsorship (WP §10.5.5)',
+            title: 'Serve the lightweight clients.',
+            body: 'Light-client infrastructure for wallets and applications. Standardised query protocol; permissionless to operate. No registry, no allocation, no issuance. Earns from per-query payments via wallet-side payment channels, optionally subsidised by Node Runners from commission revenue competing on service quality.',
+          },
+        ].map((t) => (
+          <article class="bg-bg-2/70 backdrop-blur-sm p-7 md:p-9 flex flex-col gap-4 min-h-[360px] card-hover" data-reveal>
+            <div class="flex items-baseline justify-between">
+              <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-ember">{t.tag}</span>
+              <span class="font-mono text-[10px] tracking-[0.18em] text-ink-4">{t.spec}</span>
+            </div>
+            <h3 class="font-display text-[22px] md:text-[26px] font-semibold leading-[1.15] tracking-[-0.025em]">{t.title}</h3>
+            <p class="text-[13.5px] leading-[1.65] text-ink-2">{t.body}</p>
+            <dl class="mt-auto pt-4 border-t border-rule grid grid-cols-1 gap-1.5 font-mono text-[10.5px] tracking-[0.04em]">
+              <div class="flex justify-between gap-3"><dt class="text-ink-3 uppercase tracking-[0.18em] text-[9.5px]">Stake</dt><dd class="text-ink text-right">{t.stake}</dd></div>
+              <div class="flex justify-between gap-3"><dt class="text-ink-3 uppercase tracking-[0.18em] text-[9.5px]">Hardware</dt><dd class="text-ink-2 text-right">{t.hw}</dd></div>
+              <div class="flex justify-between gap-3"><dt class="text-ink-3 uppercase tracking-[0.18em] text-[9.5px]">Compensation</dt><dd class="text-ink-2 text-right">{t.pay}</dd></div>
+            </dl>
+          </article>
+        ))}
+      </div>
+
+      <p class="mt-8 max-w-[68ch] text-[14px] leading-[1.7] text-ink-3">
+        Stake parameters (1,000 ADM Node Runner, 100 ADM Node Watcher) are subject to scheduled re-evaluation at five-year intervals post-genesis (WP §11.5.4) to prevent token-appreciation-driven exclusion. Issuance flows to Node Runners (substantial majority) and Node Watchers (small slice, ~5%). Provers and service nodes are fee-funded; they receive no issuance.
+      </p>
+    </div>
+  </section>
+
+  <!-- ───────── §04 / FRAMINGS ───────── -->
   <section class="border-t border-rule">
     <div class="wrap">
       <div class="section-head">
         <div>
-          <span class="num">§03 / FRAMINGS</span>
+          <span class="num">§04 / FRAMINGS</span>
           <h2><span class="light">The protocol</span>in familiar terms.</h2>
         </div>
         <p class="desc">The protocol's relevance differs depending on the system it is compared to. The framings below describe what Adamant is in terms of infrastructure already familiar to particular audiences.</p>
@@ -163,7 +235,7 @@ import Starfield from '@/components/Starfield.astro';
     <div class="wrap">
       <div class="section-head">
         <div>
-          <span class="num">§04 / INTENDED USERS</span>
+          <span class="num">§05 / INTENDED USERS</span>
           <h2><span class="light">The users for whom</span>existing chains are insufficient.</h2>
         </div>
         <p class="desc">If none of the following describes a meaningful concern, existing chains are likely adequate. Adamant is designed for users whose threat model includes their own bank, their own protocol foundation, or their own jurisdiction — and for applications whose correctness must outlive the institutions that hosted them at deployment.</p>
@@ -195,7 +267,7 @@ import Starfield from '@/components/Starfield.astro';
     <div class="wrap">
       <div class="section-head">
         <div>
-          <span class="num">§05 / WHAT IT IS NOT</span>
+          <span class="num">§06 / WHAT IT IS NOT</span>
           <h2><span class="light">Notable absences,</span>by design.</h2>
         </div>
         <p class="desc">Most chain launches involve at least some of these. Adamant deliberately involves none. The absence is constitutive, not incidental.</p>
@@ -227,7 +299,7 @@ import Starfield from '@/components/Starfield.astro';
     <div class="wrap">
       <div class="section-head">
         <div>
-          <span class="num">§06 / GLOSSARY</span>
+          <span class="num">§07 / GLOSSARY</span>
           <h2><span class="light">The protocol's</span>vocabulary, defined.</h2>
         </div>
         <p class="desc">Concise definitions of the terms used across this site, the whitepaper, and the reference implementation. The whitepaper adopts "Node Runners" as the friendly alias for validators and "Node Watchers" as the friendly alias for witnesses; spec terminology (Provers, Service Nodes) is used directly for the other two tiers.</p>
