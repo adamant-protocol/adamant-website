@@ -2,8 +2,8 @@
 import HubLayout from '@/layouts/HubLayout.astro';
 import SeeAlso from '@/components/SeeAlso.astro';
 
-const REPO = 'https://github.com/adamant-protocol/adamant-website';
-const WP_BASE = `${REPO}/tree/main/whitepaper`;
+const REPO = 'https://github.com/adamant-protocol';
+const WP_BASE = `https://github.com/adamant-protocol/adamant-spec`;
 
 // Read every whitepaper section at build time.
 // `import.meta.glob` resolves at build, so this is fully static.
@@ -65,7 +65,7 @@ const lastUpdate = '2026-05-01';
         </p>
         <div style="display:flex; gap: 12px; margin-top: 16px; flex-wrap: wrap;">
           <a class="link mono small" href={WP_BASE} rel="noopener" target="_blank" style="border:1px solid var(--ink); padding:8px 14px; letter-spacing:0.10em; text-transform:uppercase;">Markdown source ↗</a>
-          <a class="link mono small" href={`${REPO}/blob/main/whitepaper/adamant-whitepaper-complete.md`} rel="noopener" target="_blank" style="border:1px solid var(--rule-2); padding:8px 14px; letter-spacing:0.10em; text-transform:uppercase;">Single-file view ↗</a>
+          <a class="link mono small" href={`https://github.com/adamant-protocol/adamant-spec/blob/main/whitepaper/adamant-whitepaper-complete.md`} rel="noopener" target="_blank" style="border:1px solid var(--rule-2); padding:8px 14px; letter-spacing:0.10em; text-transform:uppercase;">Single-file view ↗</a>
         </div>
       </div>
     </div>
