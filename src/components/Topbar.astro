@@ -5,6 +5,8 @@ interface Props {
   active?: string;
 }
 const { active = 'home' } = Astro.props;
+const interfacePages = PAGES.filter((p) => !p.header);
+const interfacesActive = interfacePages.some((p) => p.k === active);
 ---
 
 <header class="topbar" role="banner" id="topbar">
@@ -21,6 +23,24 @@ const { active = 'home' } = Astro.props;
           class:list={[p.k === active ? 'is-current' : '']}
         >{p.label}</a>
       ))}
+      <details class:list={['nav-menu', interfacesActive ? 'is-current' : '']}>
+        <summary>
+          <span>Interfaces</span>
+          <span class="nav-menu-chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="nav-menu-panel">
+          <div class="nav-menu-head">
+            <span class="label">Operational surfaces</span>
+            <span class="mono">03</span>
+          </div>
+          {interfacePages.map((p, i) => (
+            <a href={p.href} class:list={[p.k === active ? 'is-current' : '']}>
+              <span class="nav-menu-index">{String(i + 1).padStart(2, '0')}</span>
+              <span>{p.label}</span>
+            </a>
+          ))}
+        </div>
+      </details>
     </nav>
 
     <div class="phase-pill" data-phase={PHASE.key}>

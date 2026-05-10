@@ -6,6 +6,23 @@ import { SEVEN_PROPERTIES, CAPABILITIES, FIVE_MECHANISMS, PHASE, fmtAdm } from '
 const p = PHASE;
 const burnRem = fmtAdm(p.genesisPool.burnRemaining);
 const valRem = fmtAdm(p.genesisPool.validatorRemaining);
+
+const CLAIM_STATES = [
+  { k: 'Privacy', state: 'Specified', note: 'Default-shielded model and view-key disclosure are defined in the whitepaper.' },
+  { k: 'Post-quantum', state: 'Specified', note: 'Hybrid signature and key-agreement primitives are selected, not yet audited in implementation.' },
+  { k: 'Throughput', state: 'Pending benchmark', note: '50,000 TPS is the conservative design floor to prove during testnet.' },
+  { k: 'Finality', state: 'Pending benchmark', note: 'Sub-second target depends on public testnet measurements.' },
+  { k: 'Mempool integrity', state: 'Specified', note: 'Threshold encryption and VDF fallback regimes are described in the protocol spec.' },
+  { k: 'Verifiability', state: 'Specified', note: 'Recursive verification design is documented; client implementation remains in progress.' },
+  { k: 'Decentralisation', state: 'Operational target', note: 'Residential-fibre requirements are the launch constraint to validate.' },
+];
+
+const FLOW_STEPS = [
+  { n: '01', h: 'Burn source asset', d: 'BTC, ETH, USDT or USDC leaves circulation through a verifiable burn path.' },
+  { n: '02', h: 'Mint shielded ADM', d: 'The validator set verifies the burn proof and mints ADM to a private destination.' },
+  { n: '03', h: 'Run the cohort', d: 'Node Runners and Watchers bring the active set above the safety floor.' },
+  { n: '04', h: 'Verify locally', d: 'Recursive proofs let clients verify chain state without trusting an operator.' },
+];
 ---
 
 <HubLayout active="home" title="Adamant — Home" description="A Layer 1 blockchain protocol. Privacy by default, post-quantum, no foundation, no premine, no admin keys.">
@@ -15,6 +32,7 @@ const valRem = fmtAdm(p.genesisPool.validatorRemaining);
   <section class="hero-state">
     <div class="container">
       <div class="eyebrow"><span class="num">§ 00</span> &nbsp; A Layer 1 blockchain protocol &nbsp; · &nbsp; Privacy by default &nbsp; · &nbsp; Post-quantum &nbsp; · &nbsp; No foundation, no premine</div>
+      <h1 class="hero-title">Private, post-quantum settlement without an owner.</h1>
       <div class="hero-figure" id="home-hero-figure">100,000,000<span class="unit">ADM</span></div>
       <div class="hero-meta">
         <div class="left">
@@ -39,23 +57,23 @@ const valRem = fmtAdm(p.genesisPool.validatorRemaining);
   <section data-screen-label="Primary actions">
     <div class="container" style="padding-top:24px; padding-bottom:24px;">
       <div class="actions">
-        <a class="action is-disabled" href="#" data-action="acquire">
+        <a class="action" href="/spec" data-action="spec">
           <span class="label">Action 01</span>
-          <span class="h">Acquire ADM</span>
-          <span class="d">Burn BTC, ETH, USDT or USDC. 20 ADM minted per USD-equivalent burned.</span>
-          <span class="arrow">Inactive · pre-launch</span>
+          <span class="h">Read the specification</span>
+          <span class="d">Start with the canonical whitepaper: protocol behaviour, assumptions, and launch constraints.</span>
+          <span class="arrow">Open spec</span>
         </a>
-        <a class="action is-disabled" href="#" data-action="runner">
+        <a class="action" href="/genesis" data-action="genesis">
           <span class="label">Action 02</span>
-          <span class="h">Become a Node Runner</span>
-          <span class="d">Take a slot in the validator set. Stake floor 1 000 ADM. Cohort #1–75 are recognised permanently.</span>
-          <span class="arrow">Inactive · pre-launch</span>
+          <span class="h">Review genesis mechanics</span>
+          <span class="d">See how the 100M ADM pool drains through burn-to-mint and validator rewards.</span>
+          <span class="arrow">Open genesis</span>
         </a>
-        <a class="action is-disabled" href="#" data-action="watcher">
+        <a class="action" href="/updates" data-action="updates">
           <span class="label">Action 03</span>
-          <span class="h">Become a Node Watcher</span>
-          <span class="d">Attest, sample data availability, surface fraud. Stake floor 100 ADM. Uncapped set.</span>
-          <span class="arrow">Inactive · pre-launch</span>
+          <span class="h">Follow implementation</span>
+          <span class="d">Track material changes from the repository journal as the reference implementation progresses.</span>
+          <span class="arrow">Open updates</span>
         </a>
       </div>
     </div>
@@ -68,8 +86,19 @@ const valRem = fmtAdm(p.genesisPool.validatorRemaining);
         <div class="num-mark">§ 01</div>
         <div>
           <h2 class="title">The seven properties.</h2>
-          <p class="subtitle">A base layer is only useful if it makes guarantees. These are the seven properties Adamant is built to provide. The cells below are abridged; full justification with citations lives in the <a class="link" href="https://github.com/adamant-protocol/adamant-website/tree/main/whitepaper" rel="noopener" target="_blank">whitepaper</a>.</p>
+          <p class="subtitle">A base layer is only useful if it makes guarantees. These are the seven properties Adamant is built to provide. Each claim is marked by maturity so pre-launch reads as evidence, not theatre.</p>
         </div>
+      </div>
+
+      <div class="claim-grid" aria-label="Claim maturity">
+        {CLAIM_STATES.map((claim, i) => (
+          <article class="claim-card">
+            <span class="num">{`M.${String(i + 1).padStart(2, '0')}`}</span>
+            <h3>{claim.k}</h3>
+            <span class="tag solid">{claim.state}</span>
+            <p>{claim.note}</p>
+          </article>
+        ))}
       </div>
 
       <div class="props-row props-head">
@@ -149,11 +178,34 @@ const valRem = fmtAdm(p.genesisPool.validatorRemaining);
     </div>
   </section>
 
+  <!-- PROTOCOL FLOW -->
+  <section class="section" data-screen-label="Protocol flow">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 04</div>
+        <div>
+          <h2 class="title">From burn to verification.</h2>
+          <p class="subtitle">The launch path in one operational view: supply enters through proof, the active set secures ordering, and clients verify the result locally.</p>
+        </div>
+      </div>
+
+      <div class="flow-map" aria-label="Adamant protocol flow">
+        {FLOW_STEPS.map((step) => (
+          <article class="flow-step">
+            <span class="flow-num">{step.n}</span>
+            <h3>{step.h}</h3>
+            <p>{step.d}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <!-- GENESIS COHORT PROGRESS -->
   <section class="section" data-screen-label="Genesis cohort progress">
     <div class="container">
       <div class="section-head">
-        <div class="num-mark">§ 04</div>
+        <div class="num-mark">§ 05</div>
         <div>
           <h2 class="title">Genesis cohort.</h2>
           <p class="subtitle">The first 75 validators form the genesis cohort. They are recognised by a permanent on-chain marker and a freely tradeable Genesis NFT. Slots are first-come, first-served. This grid fills in real time once the chain is live.</p>

@@ -246,7 +246,7 @@ const PHASE_DATA = JSON.stringify(PHASES);
       }
 
       // Auto-reveal section heads + key blocks on scroll (additive — manual [data-reveal] still works)
-      document.querySelectorAll('section.section .section-head, .props-full-row, .mech, .gn-assets > div, .principles-row, .framings-row, .negation-row, .spec-row, .cohort, .pool, .actions').forEach(function (el) {
+      document.querySelectorAll('section.section .section-head, .props-full-row, .mech, .gn-assets > div, .gn-rule, .gn-proof-row, .gn-rights, .principles-row, .framings-row, .negation-row, .spec-row, .cohort, .pool, .actions').forEach(function (el) {
         if (!el.hasAttribute('data-reveal')) el.setAttribute('data-reveal', '');
       });
 

@@ -6,7 +6,21 @@ interface Props {
 }
 const { current = 'home' } = Astro.props;
 
-const items = PAGES.filter((p) => !p.header && p.k !== current);
+const RELATED: Record<string, string[]> = {
+  home: ['spec', 'genesis', 'updates'],
+  about: ['spec', 'genesis', 'network'],
+  genesis: ['operator', 'network', 'spec'],
+  network: ['operator', 'wallet', 'updates'],
+  wallet: ['network', 'operator', 'spec'],
+  operator: ['genesis', 'network', 'updates'],
+  spec: ['genesis', 'network', 'updates'],
+  updates: ['spec', 'network', 'operator'],
+};
+
+const order = RELATED[current] ?? PAGES.filter((p) => p.k !== current).map((p) => p.k);
+const items = order
+  .map((k) => PAGES.find((p) => p.k === k))
+  .filter((p): p is (typeof PAGES)[number] => Boolean(p) && p.k !== current);
 ---
 
 {items.length > 0 && (

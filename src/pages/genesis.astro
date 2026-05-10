@@ -18,6 +18,20 @@ const FLOW = [
   { k: '06', h: 'Watch ADM mint',        d: 'Adamant validator set verifies the burn proof and mints ADM to your destination address.' },
   { k: '07', h: 'Confirmation',          d: 'ADM appears in your wallet, shielded by default. The burn is logged in the public mint ledger.' },
 ];
+
+const BOOT_RULES = [
+  { n: '01', h: 'Supply boundary', d: 'The 100M ADM genesis pool is the only launch-phase source of ADM: 70M is burn-allocated, 30M is validator-allocated.' },
+  { n: '02', h: 'Activation floor', d: 'The chain self-activates when at least 7 Node Runners are simultaneously registered, stake-eligible, and online.' },
+  { n: '03', h: 'Cohort ceiling', d: 'The first 75 validator slots form the genesis cohort. Registration is first-come, first-served until the ceiling is reached.' },
+  { n: '04', h: 'Post-genesis regime', d: 'When both pool segments reach zero, the chain leaves launch issuance and moves into the scheduled post-genesis regime.' },
+];
+
+const COHORT_RIGHTS = [
+  { k: 'Permanent marker', v: 'The original cohort address receives a non-transferable on-chain marker for the lifetime of the chain.' },
+  { k: 'Genesis NFT', v: 'Each cohort slot is paired with a freely tradeable Genesis NFT, separate from the permanent marker.' },
+  { k: 'Slot transfer', v: 'Validator slots can transfer by mutual consent at an epoch boundary; seniority stays with the slot.' },
+  { k: 'Marker retention', v: 'The cohort marker does not move when a slot transfers. It remains attached to the original address.' },
+];
 ---
 
 <HubLayout active="genesis" title="Adamant — Genesis" description="100M ADM genesis pool, partitioned 70/30 between burn-to-mint and validator block rewards. No premine, no foundation allocation.">
@@ -34,6 +48,7 @@ const FLOW = [
         </p>
         <div style="display:flex; gap:8px; margin-top:18px; flex-wrap: wrap;">
           <a href="#pool" class="tag">Pool drain</a>
+          <a href="#boot-rules" class="tag">Boot rules</a>
           <a href="#burn-to-mint" class="tag">Burn-to-mint</a>
           <a href="#cohort" class="tag">Cohort register</a>
           <a href="#stake" class="tag">Stake floors</a>
@@ -83,11 +98,45 @@ const FLOW = [
     </div>
   </section>
 
+  <!-- BOOT RULES -->
+  <section class="section" id="boot-rules">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 02 / Boot</div>
+        <div>
+          <h2 class="title">The launch rules.</h2>
+          <p class="subtitle">Genesis is not an allocation event. It is a bounded state machine: supply enters only through verified burn or validator emission, and the chain activates only after the minimum validator floor is actually online.</p>
+        </div>
+      </div>
+
+      <div class="gn-rule-grid">
+        {BOOT_RULES.map((r) => (
+          <article class="gn-rule">
+            <span class="num">{r.n}</span>
+            <h3>{r.h}</h3>
+            <p>{r.d}</p>
+          </article>
+        ))}
+      </div>
+
+      <div class="gn-proof-row">
+        <div>
+          <span class="label">Source of truth</span>
+          <p>The whitepaper controls the mechanics. Site counters, calculators, and cohort views are public interfaces over those rules, not alternate policy.</p>
+        </div>
+        <div>
+          <span class="label">Launch invariant</span>
+          <p>No foundation allocation, no premine, no investor round. If ADM exists during launch, it came from the pool by one of the two defined drains.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- BURN-TO-MINT -->
   <section class="section" id="burn-to-mint">
     <div class="container">
       <div class="section-head">
-        <div class="num-mark">§ 02 / Acquisition</div>
+        <div class="num-mark">§ 03 / Acquisition</div>
         <div>
           <h2 class="title">Burn-to-mint.</h2>
           <p class="subtitle">The only way to acquire newly-minted ADM during the launch phase. Provably burn BTC, ETH, USDT or USDC; receive ADM at the fixed rate. During pre-launch the calculator below is informational only.</p>
@@ -164,7 +213,7 @@ const FLOW = [
   <section class="section" id="cohort">
     <div class="container">
       <div class="section-head">
-        <div class="num-mark">§ 03 / Cohort</div>
+        <div class="num-mark">§ 04 / Cohort</div>
         <div>
           <h2 class="title">The genesis cohort register.</h2>
           <p class="subtitle">All 75 slots, in registration order. Each filled slot shows the validator address, activation epoch, and Genesis NFT identifier. The cohort marker is permanent — bound to the original address for the lifetime of the chain even if the slot is later transferred.</p>
@@ -199,6 +248,14 @@ const FLOW = [
           </table>
         </div>
       </div>
+      <div class="gn-rights">
+        {COHORT_RIGHTS.map((item) => (
+          <article>
+            <span class="label">{item.k}</span>
+            <p>{item.v}</p>
+          </article>
+        ))}
+      </div>
     </div>
   </section>
 
@@ -206,7 +263,7 @@ const FLOW = [
   <section class="section" id="stake">
     <div class="container">
       <div class="section-head">
-        <div class="num-mark">§ 04 / Stake</div>
+        <div class="num-mark">§ 05 / Stake</div>
         <div>
           <h2 class="title">Stake floors.</h2>
           <p class="subtitle">The minimum bond to take a staked role. Floors apply at genesis and are subject to scheduled re-evaluation at five-year intervals (WP §11.5.4) to prevent token-appreciation-driven exclusion.</p>
