@@ -1,6 +1,6 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import Provenance from '@/components/Provenance.astro';
+import Layout from '@/layouts/Layout.astro';
+import Provenance from '@/components/ui/Provenance.astro';
 
 const FIRST_PARTY = [
   { c: 'E.01', n: 'Reference wallet',       type: 'Wallet',         status: 'in-progress', href: '/wallet',                blurb: 'iOS · Android · desktop. Apache 2.0. Default-shielded with social recovery.' },
@@ -19,7 +19,7 @@ const COMMUNITY = [
   { c: 'C.05', n: 'Service Node operator',  type: 'Infrastructure',  status: 'open',    blurb: 'Light-client RPC for wallets, per-query payment channels.' },
 ];
 ---
-<HubLayout active="home" title="Adamant — Ecosystem" description="Wallets, explorers, RPC providers, indexers, prover markets. First-party tooling plus reserved space for community work.">
+<Layout active="home" title="Adamant — Ecosystem" description="Wallets, explorers, RPC providers, indexers, prover markets. First-party tooling plus reserved space for community work.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -83,4 +83,4 @@ const COMMUNITY = [
       <Provenance section="Ecosystem" />
     </div>
   </section>
-</HubLayout>
+</Layout>

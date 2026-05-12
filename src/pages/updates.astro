@@ -1,6 +1,6 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import SeeAlso from '@/components/SeeAlso.astro';
+import Layout from '@/layouts/Layout.astro';
+import SeeAlso from '@/components/ui/SeeAlso.astro';
 
 const REPO = 'https://github.com/adamant-protocol/adamant-website';
 const OWNER = 'adamant-protocol';
@@ -59,7 +59,7 @@ const fallbackEntries = [
 ];
 ---
 
-<HubLayout active="updates" title="Adamant — Updates" description="Project journal. Material design and operational changes, pulled live from the commit log." schemaType="Article">
+<Layout active="updates" title="Adamant — Updates" description="Project journal. Material design and operational changes, pulled live from the commit log." schemaType="Article">
 
   <section class="page-intro">
     <div class="container">
@@ -130,7 +130,7 @@ const fallbackEntries = [
 
   <SeeAlso current="updates" />
 
-</HubLayout>
+</Layout>
 
 <style>
 @media (max-width: 980px) {

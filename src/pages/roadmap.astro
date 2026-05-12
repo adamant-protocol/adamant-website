@@ -1,6 +1,6 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import Provenance from '@/components/Provenance.astro';
+import Layout from '@/layouts/Layout.astro';
+import Provenance from '@/components/ui/Provenance.astro';
 
 const STAGES = [
   {
@@ -69,7 +69,7 @@ const STAGES = [
   },
 ];
 ---
-<HubLayout active="home" title="Adamant — Roadmap" description="Entry conditions, not calendar dates. Each stage opens when its prerequisites are met.">
+<Layout active="home" title="Adamant — Roadmap" description="Entry conditions, not calendar dates. Each stage opens when its prerequisites are met.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -144,4 +144,4 @@ const STAGES = [
       <Provenance section="Roadmap · WP §12" />
     </div>
   </section>
-</HubLayout>
+</Layout>

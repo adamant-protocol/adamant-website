@@ -1,9 +1,9 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import ExplorerSearch from '@/components/ExplorerSearch.astro';
+import Layout from '@/layouts/Layout.astro';
+import ExplorerSearch from '@/components/ui/ExplorerSearch.astro';
 import { MOCK_TXS } from '@/data/chain';
 ---
-<HubLayout active="network" title="Adamant — Transactions" description="Latest transactions. Hash, block, fee, encryption regime, finalisation status.">
+<Layout active="network" title="Adamant — Transactions" description="Latest transactions. Hash, block, fee, encryption regime, finalisation status.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -58,4 +58,4 @@ import { MOCK_TXS } from '@/data/chain';
       </div>
     </div>
   </section>
-</HubLayout>
+</Layout>

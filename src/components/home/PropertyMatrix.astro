@@ -1,0 +1,59 @@
+---
+// SEVEN PROPERTIES — comparison matrix.
+import { SEVEN_PROPERTIES } from '@/data/chain';
+
+const cols = [
+  { k: 'btc',    label: 'BTC' },
+  { k: 'eth',    label: 'ETH' },
+  { k: 'monero', label: 'XMR' },
+  { k: 'zec',    label: 'ZEC' },
+  { k: 'mina',   label: 'MINA' },
+  { k: 'adm',    label: 'ADM', self: true },
+] as const;
+
+type GapMap = Record<string, boolean>;
+const rows = SEVEN_PROPERTIES.map((p) => ({
+  k: p.k,
+  note: p.note,
+  cells: cols.map((c) => (p.gap as GapMap)[c.k] === true),
+}));
+---
+<section class="section wrap" id="properties" data-screen-label="01 properties">
+  <div class="sec-eyebrow" data-reveal>
+    <span class="num">§ 01</span>
+    <span>SEVEN PROPERTIES</span>
+    <span class="rule"></span>
+    <span>NO EXISTING CHAIN DELIVERS ALL SEVEN</span>
+  </div>
+  <h2 class="sec-title" data-reveal>
+    Each property in isolation exists. <span class="it">Their conjunction</span> does not.
+  </h2>
+  <p class="sec-lede" data-reveal>
+    The thesis is not a single feature. It is the simultaneous delivery of seven properties
+    whose joint absence elsewhere is the entire reason Adamant exists.
+  </p>
+
+  <div class="matrix" data-reveal>
+    <div class="matrix-row head">
+      <div>Property</div>
+      <div>Mechanism</div>
+      {cols.map((c) => (
+        <div class={`matrix-cell gap ${c.self ? 'self' : ''}`} style="border-left: 1px solid var(--line);">{c.label}</div>
+      ))}
+    </div>
+    {rows.map((r) => (
+      <div class="matrix-row">
+        <div class="matrix-cell prop">{r.k}</div>
+        <div class="matrix-cell note">{r.note}</div>
+        {r.cells.map((has, i) => (
+          <div class={`matrix-cell gap ${cols[i].self ? 'self' : ''}`}>
+            {has ? <span class="gap-y">●</span> : <span class="gap-n">○</span>}
+          </div>
+        ))}
+      </div>
+    ))}
+  </div>
+  <p class="matrix-foot" data-reveal>
+    ● delivered by protocol &nbsp;·&nbsp; ○ not delivered &nbsp;·&nbsp; sources: project documentation, WP §01 motivation
+  </p>
+</section>

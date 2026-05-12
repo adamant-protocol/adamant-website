@@ -1,9 +1,13 @@
 ---
-import '@/styles/global.css';
-import Topbar from '@/components/Topbar.astro';
-import StatusStrip from '@/components/StatusStrip.astro';
-import HubFooter from '@/components/HubFooter.astro';
-import PhaseSwitcher from '@/components/PhaseSwitcher.astro';
+import '@/styles/cinematic.css';
+import '@/styles/pages.css';
+import CmdBar from '@/components/chrome/CmdBar.astro';
+import Footer from '@/components/chrome/Footer.astro';
+import Scanlines from '@/components/chrome/Scanlines.jsx';
+import AmbientNoise from '@/components/chrome/AmbientNoise.jsx';
+import TitleCard from '@/components/chrome/TitleCard.jsx';
+import StatusStrip from '@/components/chrome/StatusStrip.astro';
+import PhaseSwitcher from '@/components/chrome/PhaseSwitcher.astro';
 import { PHASE, PHASES } from '@/data/chain';
 
 interface Props {
@@ -12,22 +16,32 @@ interface Props {
   description?: string;
   ogImage?: string;
   schemaType?: 'WebSite' | 'TechArticle' | 'Article' | 'FAQPage';
+  /** Cold-open title card. True only for home. */
+  showTitleCard?: boolean;
+  /** Six-cell status strip. On for inner pages, off for the cinematic home. */
+  showStatusStrip?: boolean;
+  /** Floating phase preview switcher (lower-right). */
+  showPhaseSwitcher?: boolean;
+  /** Reserve top space for the floating cmd-bar. Off for the home hero. */
+  topPad?: boolean;
 }
 
 const {
   active = 'home',
-  title = 'Adamant — Protocol',
-  description = 'A Layer 1 blockchain protocol. Privacy by default, post-quantum, no foundation, no premine, no admin keys.',
+  title = 'Adamant — A Layer 1 protocol. Privacy by default. Governed by no one.',
+  description = 'A credibly neutral, privacy-default Layer 1 with DAG-BFT consensus, post-quantum cryptography, sub-second finality, and phone-verifiable state. Pre-launch.',
   ogImage,
   schemaType = 'WebSite',
+  showTitleCard = false,
+  showStatusStrip = true,
+  showPhaseSwitcher = true,
+  topPad = true,
 } = Astro.props;
 
-// Until `npm run gen-og` is run to capture per-page hero screenshots into
-// /public/og/{slug}.png, every page falls back to the universal OG card.
-const ogPath = ogImage ?? '/home-og.png';
+const ogPath = ogImage ?? '/adm-mark.svg';
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString();
 
-// Inline the phase data for the client-side switcher
+// Phase data injected for client-side phase switcher script.
 const PHASE_DATA = JSON.stringify(PHASES);
 ---
 <!doctype html>
@@ -38,9 +52,14 @@ const PHASE_DATA = JSON.stringify(PHASES);
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="description" content={description} />
   <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#000000" />
   <link rel="canonical" href={canonical} />
   <link rel="icon" type="image/svg+xml" href="/adm-mark.svg" />
   <link rel="alternate" type="application/rss+xml" title="Adamant — commits" href="https://github.com/adamant-protocol/adamant-website/commits/main.atom" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" />
 
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
@@ -66,13 +85,22 @@ const PHASE_DATA = JSON.stringify(PHASES);
 </head>
 <body data-page={active} data-phase={PHASE.key}>
   <a href="#main" class="skip-to-content">Skip to content</a>
-  <Topbar active={active} />
-  <StatusStrip />
+
+  {showTitleCard && <TitleCard client:load />}
+  <Scanlines />
+  <AmbientNoise client:idle />
+
+  <CmdBar active={active} skipAnim={!showTitleCard} />
+  {topPad && <div style="height: 84px;" aria-hidden="true"></div>}
+  {showStatusStrip && <StatusStrip />}
+
   <main id="main" tabindex="-1">
     <slot />
   </main>
-  <HubFooter />
-  <PhaseSwitcher />
+
+  <Footer />
+  {showPhaseSwitcher && <PhaseSwitcher />}
+
   <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
 
   <script is:inline define:vars={{ PHASE_DATA }}>
@@ -94,14 +122,12 @@ const PHASE_DATA = JSON.stringify(PHASES);
       function applyPhase(p) {
         document.body.setAttribute('data-phase', p.key);
 
-        // Phase pills
         document.querySelectorAll('.phase-pill').forEach(function (el) {
           el.setAttribute('data-phase', p.key);
           var s = el.querySelector('span');
           if (s) s.textContent = p.shortLabel;
         });
 
-        // Status strip cells
         var height = document.getElementById('ss-height');
         var heightSub = document.getElementById('ss-height-sub');
         if (height) {
@@ -136,7 +162,6 @@ const PHASE_DATA = JSON.stringify(PHASES);
         }
         if (circSub) circSub.textContent = p.live ? ('of ' + fmtAdm(p.genesisPool.total) + ' pool') : 'specification only';
 
-        // Spec band
         var band = document.getElementById('ss-band');
         if (band) {
           if (p.spec) {
@@ -152,34 +177,12 @@ const PHASE_DATA = JSON.stringify(PHASES);
           }
         }
 
-        // Phase switch buttons
         document.querySelectorAll('#phase-switch button[data-phase]').forEach(function (btn) {
           var on = btn.getAttribute('data-phase') === p.key;
           btn.classList.toggle('is-active', on);
           btn.setAttribute('aria-pressed', on ? 'true' : 'false');
         });
 
-        // Home hero figure: genesis pool pre-launch, block height once live
-        var heroFig = document.getElementById('home-hero-figure');
-        var heroLabel = document.getElementById('home-hero-label');
-        var heroTag = document.getElementById('home-hero-tag');
-        if (heroFig) {
-          if (p.live && p.blockHeight != null) {
-            heroFig.innerHTML = fmtBlock(p.blockHeight);
-          } else if (p.halted && p.blockHeight != null) {
-            heroFig.innerHTML = fmtBlock(p.blockHeight);
-          } else {
-            heroFig.innerHTML = '100,000,000<span class="unit">ADM</span>';
-          }
-        }
-        if (heroLabel) {
-          if (p.live) heroLabel.textContent = 'Block height   ·   ' + p.label;
-          else if (p.halted) heroLabel.textContent = 'Frozen at halt   ·   ' + p.label;
-          else heroLabel.textContent = 'Genesis pool   ·   ' + p.label;
-        }
-        if (heroTag) heroTag.textContent = p.tagline;
-
-        // Notify pages so they can update phase-aware bits
         window.dispatchEvent(new CustomEvent('adamant-phase', { detail: p }));
       }
 
@@ -191,7 +194,6 @@ const PHASE_DATA = JSON.stringify(PHASES);
 
       window.AdamantPhase = { get: getPhase, set: setPhase, all: PHASES };
 
-      // Wire phase switcher
       var sw = document.getElementById('phase-switch');
       var toggle = document.getElementById('phase-switch-toggle');
       if (toggle && sw) {
@@ -204,37 +206,6 @@ const PHASE_DATA = JSON.stringify(PHASES);
         btn.addEventListener('click', function () { setPhase(btn.getAttribute('data-phase')); });
       });
 
-      // Wire mobile nav drawer (top-anchored panel + backdrop scrim)
-      var topbar = document.getElementById('topbar');
-      var navToggle = document.getElementById('nav-toggle');
-      var navDrawer = document.getElementById('nav-drawer');
-      var navDrawerClose = document.getElementById('nav-drawer-close');
-      var navDrawerBackdrop = document.getElementById('nav-drawer-backdrop');
-      if (topbar && navToggle && navDrawer) {
-        var setOpen = function (open) {
-          topbar.classList.toggle('is-open', open);
-          document.body.classList.toggle('drawer-open', open);
-          navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-          navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-          if (open) navDrawer.removeAttribute('inert');
-          else navDrawer.setAttribute('inert', '');
-          document.body.style.overflow = open ? 'hidden' : '';
-        };
-        navToggle.addEventListener('click', function () { setOpen(!topbar.classList.contains('is-open')); });
-        if (navDrawerClose) navDrawerClose.addEventListener('click', function () { setOpen(false); });
-        if (navDrawerBackdrop) navDrawerBackdrop.addEventListener('click', function () { setOpen(false); });
-        document.addEventListener('keydown', function (e) {
-          if (e.key === 'Escape' && topbar.classList.contains('is-open')) setOpen(false);
-        });
-        navDrawer.querySelectorAll('a').forEach(function (a) {
-          a.addEventListener('click', function () { setOpen(false); });
-        });
-        window.addEventListener('resize', function () {
-          if (window.innerWidth > 760 && topbar.classList.contains('is-open')) setOpen(false);
-        });
-      }
-
-      // Scroll progress hairline — paints across the topbar's bottom edge
       var bar = document.getElementById('scroll-progress');
       if (bar) {
         var raf = 0;
@@ -251,31 +222,12 @@ const PHASE_DATA = JSON.stringify(PHASES);
         paint();
       }
 
-      // Auto-reveal section heads + key blocks on scroll (additive — manual [data-reveal] still works)
       document.querySelectorAll('section.section .section-head, .props-full-row, .mech, .gn-assets > div, .gn-rule, .gn-proof-row, .gn-rights, .principles-row, .framings-row, .negation-row, .spec-row, .cohort, .pool, .actions').forEach(function (el) {
         if (!el.hasAttribute('data-reveal')) el.setAttribute('data-reveal', '');
       });
 
-      // Animate hero figure counter on home (only when showing the genesis pool)
-      var heroFig = document.getElementById('home-hero-figure');
-      if (heroFig && /100,000,000/.test(heroFig.textContent || '')) {
-        var target = 100000000;
-        var duration = 1400;
-        var startT = performance.now();
-        var tick = function (now) {
-          var p = Math.min(1, (now - startT) / duration);
-          var eased = 1 - Math.pow(1 - p, 3);
-          var v = Math.floor(target * eased);
-          heroFig.innerHTML = v.toLocaleString('en-US') + '<span class="unit">ADM</span>';
-          if (p < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-      }
-
-      // Apply on load
       applyPhase(getPhase());
 
-      // Reveal-on-scroll for [data-reveal]
       if ('IntersectionObserver' in window) {
         var io = new IntersectionObserver(function (entries) {
           entries.forEach(function (e) {

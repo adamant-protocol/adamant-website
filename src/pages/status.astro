@@ -1,9 +1,9 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import SeeAlso from '@/components/SeeAlso.astro';
+import Layout from '@/layouts/Layout.astro';
+import SeeAlso from '@/components/ui/SeeAlso.astro';
 import { INCIDENT_LOG, PUBLIC_RPC, PHASE } from '@/data/chain';
 ---
-<HubLayout active="status" title="Adamant — Status" description="Glanceable network health. Active set proximity to floor, last finalised block, security tier, incident log.">
+<Layout active="status" title="Adamant — Status" description="Glanceable network health. Active set proximity to floor, last finalised block, security tier, incident log.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -74,4 +74,4 @@ import { INCIDENT_LOG, PUBLIC_RPC, PHASE } from '@/data/chain';
   </section>
 
   <SeeAlso current="status" />
-</HubLayout>
+</Layout>

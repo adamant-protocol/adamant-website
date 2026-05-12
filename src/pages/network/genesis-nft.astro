@@ -1,10 +1,10 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import ExplorerSearch from '@/components/ExplorerSearch.astro';
+import Layout from '@/layouts/Layout.astro';
+import ExplorerSearch from '@/components/ui/ExplorerSearch.astro';
 import CohortMarker from '@/components/diagrams/CohortMarker.astro';
 import { GENESIS_NFTS } from '@/data/chain';
 ---
-<HubLayout active="network" title="Adamant — Genesis NFTs" description="The 75 Genesis NFTs. Cohort marker (immovable) vs Genesis NFT (tradeable). Transfer history.">
+<Layout active="network" title="Adamant — Genesis NFTs" description="The 75 Genesis NFTs. Cohort marker (immovable) vs Genesis NFT (tradeable). Transfer history.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -59,4 +59,4 @@ import { GENESIS_NFTS } from '@/data/chain';
       </div>
     </div>
   </section>
-</HubLayout>
+</Layout>

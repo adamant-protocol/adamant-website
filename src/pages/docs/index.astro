@@ -1,6 +1,6 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import Provenance from '@/components/Provenance.astro';
+import Layout from '@/layouts/Layout.astro';
+import Provenance from '@/components/ui/Provenance.astro';
 
 const TASKS = [
   { code: 'T.01', title: 'Send a shielded transaction',  href: '/docs/send-shielded',     section: 'WP §7.1, §7.2' },
@@ -18,7 +18,7 @@ const VERSIONS = [
   { v: 'v0.1', tag: 'spec · current', href: '/docs' },
 ];
 ---
-<HubLayout active="developers" title="Adamant — Docs" description="Task-oriented documentation. Send a shielded transaction, verify a burn proof, issue a view key — each cross-linked to the whitepaper section that governs the behaviour.">
+<Layout active="developers" title="Adamant — Docs" description="Task-oriented documentation. Send a shielded transaction, verify a burn proof, issue a view key — each cross-linked to the whitepaper section that governs the behaviour.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -87,4 +87,4 @@ const VERSIONS = [
       <Provenance section="Docs index" />
     </div>
   </section>
-</HubLayout>
+</Layout>

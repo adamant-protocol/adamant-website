@@ -1,7 +1,7 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
+import Layout from '@/layouts/Layout.astro';
 ---
-<HubLayout active="network" title="Adamant — Charts" description="Chain charts. TPS, finality, validator distribution, mempool depth, security tier history, fee dimensions.">
+<Layout active="network" title="Adamant — Charts" description="Chain charts. TPS, finality, validator distribution, mempool depth, security tier history, fee dimensions.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -39,4 +39,4 @@ import HubLayout from '@/layouts/HubLayout.astro';
       <p class="small" style="margin-top: 24px;">All charts are rendered client-side from public RPC subscriptions. Endpoints listed at <a class="link" href="/developers/rpc">/developers/rpc</a>.</p>
     </div>
   </section>
-</HubLayout>
+</Layout>

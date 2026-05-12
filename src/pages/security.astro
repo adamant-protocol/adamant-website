@@ -1,8 +1,8 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import SeeAlso from '@/components/SeeAlso.astro';
-import AuditProgress from '@/components/AuditProgress.astro';
-import Provenance from '@/components/Provenance.astro';
+import Layout from '@/layouts/Layout.astro';
+import SeeAlso from '@/components/ui/SeeAlso.astro';
+import AuditProgress from '@/components/ui/AuditProgress.astro';
+import Provenance from '@/components/ui/Provenance.astro';
 import { SECURITY_PRIMITIVES, INCIDENT_LOG } from '@/data/chain';
 
 const SIGNING_KEYS = [
@@ -14,7 +14,7 @@ const REPRODUCIBLE = [
   { artefact: 'adamant-wallet (Android)', version: 'v0.1.0', sha256: '— pre-launch —', signers: 'Ryan Geldart' },
 ];
 ---
-<HubLayout active="security" title="Adamant — Security" description="Threat model, cryptographic primitive provenance, audit status, responsible disclosure, bug bounty.">
+<Layout active="security" title="Adamant — Security" description="Threat model, cryptographic primitive provenance, audit status, responsible disclosure, bug bounty.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -197,4 +197,4 @@ adamant-node verify-signers v0.1.0      # checks Ed25519 + ML-DSA on the release
   </section>
 
   <SeeAlso current="security" />
-</HubLayout>
+</Layout>

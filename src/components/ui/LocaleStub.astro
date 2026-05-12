@@ -1,5 +1,5 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
+import Layout from '@/layouts/Layout.astro';
 
 interface Props {
   locale: 'zh' | 'ja' | 'ko' | 'es' | 'ar';
@@ -9,7 +9,7 @@ interface Props {
 }
 const { locale, title, endonym, comingSoon } = Astro.props;
 ---
-<HubLayout active="home" title={`Adamant — ${endonym}`} description={comingSoon}>
+<Layout active="home" title={`Adamant — ${endonym}`} description={comingSoon}>
   <section class="page-intro">
     <div class="container">
       <div>
@@ -24,4 +24,4 @@ const { locale, title, endonym, comingSoon } = Astro.props;
       </div>
     </div>
   </section>
-</HubLayout>
+</Layout>

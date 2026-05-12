@@ -1,7 +1,7 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
+import Layout from '@/layouts/Layout.astro';
 ---
-<HubLayout active="developers" title="Adamant — Stealth addresses" description="ML-KEM-768 stealth address derivation. Payment-request URI scheme.">
+<Layout active="developers" title="Adamant — Stealth addresses" description="ML-KEM-768 stealth address derivation. Payment-request URI scheme.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -62,4 +62,4 @@ for env in chain.envelopes() {
 // and broadcast as a shielded transaction.`}</pre>
     </div>
   </section>
-</HubLayout>
+</Layout>

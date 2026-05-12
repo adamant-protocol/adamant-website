@@ -1,9 +1,9 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import Provenance from '@/components/Provenance.astro';
+import Layout from '@/layouts/Layout.astro';
+import Provenance from '@/components/ui/Provenance.astro';
 import ShieldedTransparent from '@/components/diagrams/ShieldedTransparent.astro';
 ---
-<HubLayout active="developers" title="Adamant — Send a shielded transaction" description="Task: send ADM with sender, recipient, amount, and memo encrypted on-device. Code walkthrough using the Rust SDK.">
+<Layout active="developers" title="Adamant — Send a shielded transaction" description="Task: send ADM with sender, recipient, amount, and memo encrypted on-device. Code walkthrough using the Rust SDK.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -82,4 +82,4 @@ async fn main() -> anyhow::Result<()> {
       <Provenance section="Send shielded tx · T.01" />
     </div>
   </section>
-</HubLayout>
+</Layout>

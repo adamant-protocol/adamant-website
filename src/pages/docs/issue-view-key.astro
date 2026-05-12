@@ -1,8 +1,8 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import Provenance from '@/components/Provenance.astro';
+import Layout from '@/layouts/Layout.astro';
+import Provenance from '@/components/ui/Provenance.astro';
 ---
-<HubLayout active="developers" title="Adamant — Issue a view key" description="Task: issue a scoped, revocable view key for selective disclosure.">
+<Layout active="developers" title="Adamant — Issue a view key" description="Task: issue a scoped, revocable view key for selective disclosure.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -68,4 +68,4 @@ println!("{}", vk.encode_bech32m());`}</pre>
       <Provenance section="Issue view key · T.03" />
     </div>
   </section>
-</HubLayout>
+</Layout>

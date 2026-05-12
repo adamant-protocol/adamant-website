@@ -1,6 +1,6 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import SeeAlso from '@/components/SeeAlso.astro';
+import Layout from '@/layouts/Layout.astro';
+import SeeAlso from '@/components/ui/SeeAlso.astro';
 import BurnToMint from '@/components/diagrams/BurnToMint.astro';
 import { PHASE, fmtAdm } from '@/data/chain';
 
@@ -35,7 +35,7 @@ const COHORT_RIGHTS = [
 ];
 ---
 
-<HubLayout active="genesis" title="Adamant — Genesis" description="100M ADM genesis pool, partitioned 70/30 between burn-to-mint and validator block rewards. No premine, no foundation allocation.">
+<Layout active="genesis" title="Adamant — Genesis" description="100M ADM genesis pool, partitioned 70/30 between burn-to-mint and validator block rewards. No premine, no foundation allocation.">
 
   <section class="page-intro">
     <div class="container">
@@ -290,4 +290,4 @@ const COHORT_RIGHTS = [
 
   <SeeAlso current="genesis" />
 
-</HubLayout>
+</Layout>

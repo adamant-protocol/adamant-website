@@ -1,0 +1,23 @@
+---
+import { FOUR_TIERS } from '@/data/chain';
+import TheatreTier from '@/components/home/TheatreTier.jsx';
+---
+<section class="tiers-stage" id="tiers" data-screen-label="04 tiers">
+  <div class="wrap">
+    <div class="stage-eyebrow">— FOUR ROLES · TWO PERMISSIONLESS —</div>
+    <h2 class="stage-title">
+      Who runs the chain.<br />
+      <span class="it">A residential-fibre desktop is enough.</span>
+    </h2>
+    <p class="stage-lede">
+      Validator hardware stays on commodity desktops because GPU-class proof
+      generation lives in its own permissionless tier. A phone is sufficient
+      to witness the chain. No tier alone controls it.
+    </p>
+    <div class="theatre-grid">
+      {FOUR_TIERS.map((t, i) => (
+        <TheatreTier client:visible tier={t} idx={i} />
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,29 @@
+---
+import { NOT_THIS_LIST } from '@/data/chain';
+
+// Convert "X — Y" entries to {title, body} pairs.
+const items = NOT_THIS_LIST.map((line) => {
+  const idx = line.indexOf(' — ');
+  if (idx === -1) return { t: line, d: '' };
+  return { t: line.slice(0, idx), d: line.slice(idx + 3) };
+});
+---
+<section class="section wrap" id="not-this" data-screen-label="07 not-this">
+  <div class="sec-eyebrow" data-reveal>
+    <span class="num">§ 07</span>
+    <span>WHAT ADAMANT IS NOT</span>
+    <span class="rule"></span>
+  </div>
+  <h2 class="sec-title" data-reveal>
+    Six things <span class="it">it is not.</span>
+  </h2>
+
+  <div class="not-list">
+    {items.map((n) => (
+      <div class="not-row" data-reveal>
+        <div class="tag">NOT</div>
+        <div class="txt"><strong>{n.t}</strong> <span style="color: var(--dim);"> &nbsp;{n.d}</span></div>
+      </div>
+    ))}
+  </div>
+</section>

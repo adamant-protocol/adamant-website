@@ -1,9 +1,9 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import ExplorerSearch from '@/components/ExplorerSearch.astro';
+import Layout from '@/layouts/Layout.astro';
+import ExplorerSearch from '@/components/ui/ExplorerSearch.astro';
 import { MOCK_BLOCKS } from '@/data/chain';
 ---
-<HubLayout active="network" title="Adamant — Blocks" description="Latest finalised blocks. Proposer, transaction count, fee total, finality time.">
+<Layout active="network" title="Adamant — Blocks" description="Latest finalised blocks. Proposer, transaction count, fee total, finality time.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -53,4 +53,4 @@ import { MOCK_BLOCKS } from '@/data/chain';
       <p class="small" style="margin-top: 18px;">Block time targets approximately 8 seconds (WP §10.2.3). Finality is sub-second for transactions that do not require shared-state consensus (WP §2.4).</p>
     </div>
   </section>
-</HubLayout>
+</Layout>

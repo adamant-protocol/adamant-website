@@ -1,7 +1,7 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
+import Layout from '@/layouts/Layout.astro';
 ---
-<HubLayout active="developers" title="Adamant — View-key format" description="Encoding, scope bits, sub-view-key derivation, on-chain disclosure protocol.">
+<Layout active="developers" title="Adamant — View-key format" description="Encoding, scope bits, sub-view-key derivation, on-chain disclosure protocol.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -61,4 +61,4 @@ for tx in d.iter() {
       <p class="small" style="margin-top: 16px;">Scans run locally. The chain has no idea who is decrypting; it only verifies signature validity if the disclosure is published on-chain (paying fee dimension F.05).</p>
     </div>
   </section>
-</HubLayout>
+</Layout>

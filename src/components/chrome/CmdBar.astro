@@ -1,0 +1,222 @@
+---
+// Floating glass command bar with categorized dropdown navigation.
+// All links resolve to real routes under src/pages.
+import { NAV_GROUPS, activeGroupKey } from '@/data/nav';
+
+interface Props { active?: string; skipAnim?: boolean }
+const { active = 'home', skipAnim = false } = Astro.props;
+const activeKey = activeGroupKey(active);
+---
+<header class={`cmd-bar ${skipAnim ? 'skip-anim' : ''}`} id="cmd-bar" data-nav-open="false">
+  <a href="/" class="cmd-mark" aria-label="Adamant — home">
+    <svg class="mark-svg" width="42" height="42" viewBox="0 208 832 832" fill="currentColor" aria-hidden="true">
+      <path d="M523.189 551.686c1.908 4.669 3.886 8.91 5.374 13.316.443 1.31.073 3.787-.873 4.543-19.5 15.586-39.137 31.001-58.76 46.435-.232.183-.618.169-1.476.381-15.5-38.805-31.026-77.676-47.075-117.855-3.467 8.83-6.443 16.479-9.471 24.108-22.598 56.927-45.231 113.839-67.742 170.8-1.31 3.315-3.216 5.355-6.313 7.128-30.408 17.41-62.572 31.101-94.624 45.039-.569.247-1.206.337-2.572.704 2.118-5.422 3.96-10.291 5.913-15.116 31.038-76.694 62.124-153.368 93.122-230.078 12.534-31.018 24.93-62.093 37.243-93.2 1.342-3.39 2.998-4.778 6.794-4.754 25.323.16 50.648.175 75.97-.033 3.467-.024 4.807 1.218 6.041 4.279 19.36 48.013 38.861 95.97 58.449 144.303z"/>
+      <path d="M574.565 603.592c-48.42 57.681-105.078 105.248-168.62 144.743-32.15 19.984-65.732 37.27-100.452 52.368-1.952.849-3.87 2.99-4.708 4.989-5.41 12.893-10.526 25.909-15.71 38.896-.82 2.054-1.501 3.663-4.413 3.654-38.642-.111-77.284-.074-116.595-.074 0-5.45-.003-10.862 0-16.275.002-3.999.009-7.998.018-11.997.026-11.029.021-11.046 10.611-14.845 75.317-27.013 147.27-61.052 215.598-102.76 69.638-42.508 132.452-93.361 188.198-152.932 34.668-37.046 65.951-76.751 93.504-119.371 3.336-5.16 6.484-10.442 9.765-15.638.631-1 1.475-1.866 2.953-2.316-24.575 70.717-61.609 134.234-110.149 191.558z"/>
+      <path d="M537.611 797.481c-11.676-28.873-23.192-57.397-34.536-85.496 20.813-19.158 41.34-38.052 62.093-57.155 26.134 64.018 52.388 128.333 78.809 193.054-1.462.126-2.69.321-3.918.324-26.315.057-52.631.002-78.944.249-3.196.03-3.935-1.531-4.809-3.746-6.168-15.63-12.354-31.254-18.695-47.23z"/>
+    </svg>
+  </a>
+  <span class="cmd-sep"></span>
+  <nav class="cmd-nav" aria-label="Primary">
+    {NAV_GROUPS.map((g) => (g.href
+      ? (
+        <a
+          href={g.href}
+          class="cmd-nav-link"
+          aria-current={activeKey === g.key ? 'page' : undefined}
+        >{g.label}</a>
+      )
+      : (
+        <div class="cmd-nav-item" data-group={g.key}>
+          <button
+            type="button"
+            class="cmd-nav-link cmd-nav-trigger"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls={`cmd-pop-${g.key}`}
+            aria-current={activeKey === g.key ? 'page' : undefined}
+            data-trigger={g.key}
+          >
+            {g.label}
+            <svg class="cmd-chev" width="9" height="9" viewBox="0 0 9 9" aria-hidden="true">
+              <path d="M1 3 L4.5 6.5 L8 3" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="round" />
+            </svg>
+          </button>
+          <div class="cmd-pop" id={`cmd-pop-${g.key}`} role="menu" aria-hidden="true">
+            <div class="cmd-pop-grid">
+              {g.primary && (
+                <ul class="cmd-pop-col" role="none">
+                  {g.primary.map((l) => (
+                    <li role="none">
+                      <a
+                        role="menuitem"
+                        href={l.href}
+                        aria-current={active === l.key ? 'page' : undefined}
+                      >
+                        <span class="cmd-pop-label">{l.label}</span>
+                        {l.desc && <span class="cmd-pop-desc">{l.desc}</span>}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {g.secondary && (
+                <ul class="cmd-pop-col" role="none">
+                  {g.secondary.map((l) => (
+                    <li role="none">
+                      <a
+                        role="menuitem"
+                        href={l.href}
+                        aria-current={active === l.key ? 'page' : undefined}
+                      >
+                        <span class="cmd-pop-label">{l.label}</span>
+                        {l.desc && <span class="cmd-pop-desc">{l.desc}</span>}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            {g.tagline && (
+              <div class="cmd-pop-foot serif-it">{g.tagline}</div>
+            )}
+          </div>
+        </div>
+      )
+    ))}
+  </nav>
+  <button class="cmd-menu-toggle" id="cmd-menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="cmd-drawer">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+  </button>
+</header>
+
+<div class="cmd-drawer" id="cmd-drawer" inert>
+  <button class="close" id="cmd-drawer-close" aria-label="Close menu">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+  </button>
+  <nav aria-label="All pages">
+    {NAV_GROUPS.map((g) => (
+      <div class="drawer-group">
+        <div class="drawer-group-label">{g.label}</div>
+        {g.href && <a class="drawer-link drawer-link-main" href={g.href}>{g.label}</a>}
+        {g.primary && g.primary.map((l) => (
+          <a class="drawer-link" href={l.href}>{l.label}</a>
+        ))}
+        {g.secondary && g.secondary.map((l) => (
+          <a class="drawer-link" href={l.href}>{l.label}</a>
+        ))}
+      </div>
+    ))}
+  </nav>
+</div>
+
+<script is:inline>
+  (function () {
+    var bar = document.getElementById('cmd-bar');
+    if (bar) {
+      var onScroll = function () {
+        bar.classList.toggle('scrolled', window.scrollY > 80);
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+
+    /* ── desktop dropdowns ── */
+    var triggers = document.querySelectorAll('.cmd-nav-trigger');
+    var openItem = null;
+    var hoverTimer = 0;
+
+    function setOpen(item, open) {
+      if (!item) return;
+      var trigger = item.querySelector('.cmd-nav-trigger');
+      var pop = item.querySelector('.cmd-pop');
+      item.classList.toggle('open', open);
+      if (trigger) trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (pop) pop.setAttribute('aria-hidden', open ? 'false' : 'true');
+    }
+
+    function closeAll(except) {
+      document.querySelectorAll('.cmd-nav-item.open').forEach(function (el) {
+        if (el !== except) setOpen(el, false);
+      });
+      if (!except) openItem = null;
+    }
+
+    triggers.forEach(function (t) {
+      var item = t.parentElement;
+      // Hover (desktop) — open on enter, close on leave with grace
+      item.addEventListener('mouseenter', function () {
+        if (window.matchMedia('(hover: none)').matches) return;
+        clearTimeout(hoverTimer);
+        closeAll(item);
+        setOpen(item, true);
+        openItem = item;
+      });
+      item.addEventListener('mouseleave', function () {
+        if (window.matchMedia('(hover: none)').matches) return;
+        clearTimeout(hoverTimer);
+        hoverTimer = setTimeout(function () {
+          setOpen(item, false);
+          if (openItem === item) openItem = null;
+        }, 180);
+      });
+      // Click / Enter / Space — toggle (also covers touch/keyboard)
+      t.addEventListener('click', function (e) {
+        e.preventDefault();
+        var nowOpen = !item.classList.contains('open');
+        closeAll(item);
+        setOpen(item, nowOpen);
+        openItem = nowOpen ? item : null;
+      });
+      // Keyboard support
+      t.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          setOpen(item, true);
+          openItem = item;
+          var first = item.querySelector('.cmd-pop a');
+          if (first) first.focus();
+        }
+        if (e.key === 'Escape') setOpen(item, false);
+      });
+    });
+
+    // Close dropdown when clicking outside it
+    document.addEventListener('click', function (e) {
+      if (!openItem) return;
+      if (!openItem.contains(e.target)) {
+        setOpen(openItem, false);
+        openItem = null;
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && openItem) {
+        setOpen(openItem, false);
+        var trigger = openItem.querySelector('.cmd-nav-trigger');
+        if (trigger) trigger.focus();
+        openItem = null;
+      }
+    });
+
+    /* ── mobile drawer ── */
+    var toggle = document.getElementById('cmd-menu-toggle');
+    var drawer = document.getElementById('cmd-drawer');
+    var closer = document.getElementById('cmd-drawer-close');
+    function setDrawerOpen(open) {
+      if (!drawer) return;
+      drawer.classList.toggle('open', open);
+      if (open) drawer.removeAttribute('inert'); else drawer.setAttribute('inert', '');
+      if (toggle) toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+    if (toggle) toggle.addEventListener('click', function () { setDrawerOpen(!drawer.classList.contains('open')); });
+    if (closer) closer.addEventListener('click', function () { setDrawerOpen(false); });
+    if (drawer) {
+      drawer.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', function () { setDrawerOpen(false); });
+      });
+    }
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && drawer && drawer.classList.contains('open')) setDrawerOpen(false);
+    });
+  })();
+</script>

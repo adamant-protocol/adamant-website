@@ -1,7 +1,7 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
+import Layout from '@/layouts/Layout.astro';
 ---
-<HubLayout active="network" title="Adamant — Peer map" description="Geographic and ASN distribution of validators and service nodes. Residential-fibre claim, in numbers.">
+<Layout active="network" title="Adamant — Peer map" description="Geographic and ASN distribution of validators and service nodes. Residential-fibre claim, in numbers.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -17,7 +17,7 @@ import HubLayout from '@/layouts/HubLayout.astro';
   <section class="section">
     <div class="container">
       <div style="display:grid; grid-template-columns: 2fr 1fr; gap: 32px;" class="net-grid">
-        <div style="border: 1px solid var(--ink); padding: 28px; min-height: 360px; background: repeating-linear-gradient(45deg, transparent 0 18px, oklch(0% 0 0 / 0.022) 18px 19px); display:flex; align-items:center; justify-content:center;">
+        <div style="border: 1px solid var(--ink); padding: 28px; min-height: 360px; background: repeating-linear-gradient(45deg, transparent 0 18px, rgba(255,255,255,0.04) 18px 19px); display:flex; align-items:center; justify-content:center;">
           <span class="serif" style="font-size: 22px; font-style: italic; color: var(--ink-3);">Map renders at testnet activation.</span>
         </div>
         <div>
@@ -44,4 +44,4 @@ import HubLayout from '@/layouts/HubLayout.astro';
       <p class="small" style="margin-top: 18px;">Operators self-declare their connection type; the chain does not verify it cryptographically. Truthful disclosure is a community norm, audited by collective observation rather than enforcement.</p>
     </div>
   </section>
-</HubLayout>
+</Layout>

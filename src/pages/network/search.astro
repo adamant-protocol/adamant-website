@@ -1,6 +1,6 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import ExplorerSearch from '@/components/ExplorerSearch.astro';
+import Layout from '@/layouts/Layout.astro';
+import ExplorerSearch from '@/components/ui/ExplorerSearch.astro';
 
 const q = (Astro.url.searchParams.get('q') ?? '').trim();
 
@@ -16,7 +16,7 @@ function classify(raw: string): { kind: string; target: string | null } {
 
 const result = classify(q);
 ---
-<HubLayout active="network" title={`Adamant — Search · ${q || '—'}`} description="Explorer search results.">
+<Layout active="network" title={`Adamant — Search · ${q || '—'}`} description="Explorer search results.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -49,4 +49,4 @@ const result = classify(q);
       )}
     </div>
   </section>
-</HubLayout>
+</Layout>

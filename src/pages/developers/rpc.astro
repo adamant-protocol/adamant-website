@@ -1,8 +1,8 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
+import Layout from '@/layouts/Layout.astro';
 import { RPC_METHODS, PUBLIC_RPC } from '@/data/chain';
 ---
-<HubLayout active="developers" title="Adamant — JSON-RPC reference" description="JSON-RPC + WebSocket reference for the Adamant chain. Methods, params, return types, examples, rate limits.">
+<Layout active="developers" title="Adamant — JSON-RPC reference" description="JSON-RPC + WebSocket reference for the Adamant chain. Methods, params, return types, examples, rate limits.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -99,4 +99,4 @@ ws.send(JSON.stringify({
       <p class="small" style="margin-top: 18px;">Rate limits: 100 RPS per IP, 10 subscriptions per connection. Production traffic should run a local Service Node — see <a class="link" href="/developers/run-a-node">/developers/run-a-node</a>.</p>
     </div>
   </section>
-</HubLayout>
+</Layout>

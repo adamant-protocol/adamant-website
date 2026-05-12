@@ -1,9 +1,9 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import ExplorerSearch from '@/components/ExplorerSearch.astro';
+import Layout from '@/layouts/Layout.astro';
+import ExplorerSearch from '@/components/ui/ExplorerSearch.astro';
 import { BURN_REGISTRY } from '@/data/chain';
 ---
-<HubLayout active="network" title="Adamant — Burn registry" description="Live record of every burn-to-mint event. Source chain, transaction hash, amount, recipient.">
+<Layout active="network" title="Adamant — Burn registry" description="Live record of every burn-to-mint event. Source chain, transaction hash, amount, recipient.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -57,4 +57,4 @@ import { BURN_REGISTRY } from '@/data/chain';
       <p class="small" style="margin-top: 18px;">Source-chain confirmations: BTC 6, ETH 32 epochs, USDT/USDC 64. Per-address claim caps grow 1% &rarr; 2% &rarr; 4% &rarr; 8% &rarr; uncapped over months 1, 3, 6, 12 from genesis (WP §10.2.3).</p>
     </div>
   </section>
-</HubLayout>
+</Layout>

@@ -1,6 +1,6 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import ExplorerSearch from '@/components/ExplorerSearch.astro';
+import Layout from '@/layouts/Layout.astro';
+import ExplorerSearch from '@/components/ui/ExplorerSearch.astro';
 
 export function getStaticPaths() {
   return [
@@ -11,7 +11,7 @@ export function getStaticPaths() {
 
 const { addr } = Astro.params;
 ---
-<HubLayout active="network" title={`Adamant — Address ${addr}`} description="Per-address page. Public state for transparent addresses; opaque view with disclosure CTA for shielded.">
+<Layout active="network" title={`Adamant — Address ${addr}`} description="Per-address page. Public state for transparent addresses; opaque view with disclosure CTA for shielded.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -61,4 +61,4 @@ const { addr } = Astro.params;
       </div>
     </div>
   </section>
-</HubLayout>
+</Layout>

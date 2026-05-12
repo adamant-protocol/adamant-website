@@ -1,11 +1,11 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import SeeAlso from '@/components/SeeAlso.astro';
-import ExplorerSearch from '@/components/ExplorerSearch.astro';
+import Layout from '@/layouts/Layout.astro';
+import SeeAlso from '@/components/ui/SeeAlso.astro';
+import ExplorerSearch from '@/components/ui/ExplorerSearch.astro';
 import { MOCK_BLOCKS, MOCK_TXS } from '@/data/chain';
 ---
 
-<HubLayout active="network" title="Adamant — Explorer" description="Block explorer for the Adamant chain. Blocks, transactions, addresses, validators, mempool, burns, genesis NFTs.">
+<Layout active="network" title="Adamant — Explorer" description="Block explorer for the Adamant chain. Blocks, transactions, addresses, validators, mempool, burns, genesis NFTs.">
 
   <section class="page-intro">
     <div class="container">
@@ -137,7 +137,7 @@ import { MOCK_BLOCKS, MOCK_TXS } from '@/data/chain';
 
   <SeeAlso current="network" />
 
-</HubLayout>
+</Layout>
 
 <style>
   .xp-tabs {

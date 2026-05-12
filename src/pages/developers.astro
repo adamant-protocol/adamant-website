@@ -1,8 +1,8 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import SeeAlso from '@/components/SeeAlso.astro';
+import Layout from '@/layouts/Layout.astro';
+import SeeAlso from '@/components/ui/SeeAlso.astro';
 ---
-<HubLayout active="developers" title="Adamant — Developers" description="Build on Adamant. SDKs, JSON-RPC reference, run-a-node, faucet, Move language, view-key format, stealth-address derivation.">
+<Layout active="developers" title="Adamant — Developers" description="Build on Adamant. SDKs, JSON-RPC reference, run-a-node, faucet, Move language, view-key format, stealth-address derivation.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -63,4 +63,4 @@ import SeeAlso from '@/components/SeeAlso.astro';
   </section>
 
   <SeeAlso current="developers" />
-</HubLayout>
+</Layout>

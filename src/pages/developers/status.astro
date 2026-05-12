@@ -1,5 +1,5 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
+import Layout from '@/layouts/Layout.astro';
 
 const MODULES = [
   { code: 'adamant-crypto',     name: 'Cryptographic primitives',   status: 'in-progress', notes: 'SHA3, BLAKE3, Ed25519, ML-DSA, ML-KEM, BLS, Poseidon. Halo 2 wrapper pre-audit.' },
@@ -14,7 +14,7 @@ const MODULES = [
   { code: 'adamant-prover',     name: 'Prover market',              status: 'spec only',   notes: 'Open market protocol; reference prover GPU-accelerated.' },
 ];
 ---
-<HubLayout active="developers" title="Adamant — Implementation status" description="Module-by-module readiness of the reference Rust client.">
+<Layout active="developers" title="Adamant — Implementation status" description="Module-by-module readiness of the reference Rust client.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -47,4 +47,4 @@ const MODULES = [
       <p class="small" style="margin-top: 18px;">Status is read off the reference repository at build time. To verify any line of this table, open the linked crate's <span class="mono">README</span> and CI status.</p>
     </div>
   </section>
-</HubLayout>
+</Layout>

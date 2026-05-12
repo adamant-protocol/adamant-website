@@ -1,9 +1,9 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import Provenance from '@/components/Provenance.astro';
+import Layout from '@/layouts/Layout.astro';
+import Provenance from '@/components/ui/Provenance.astro';
 import BurnToMint from '@/components/diagrams/BurnToMint.astro';
 ---
-<HubLayout active="developers" title="Adamant — Verify a burn proof" description="Task: verify that a source-chain burn-to-mint event was correctly minted as ADM.">
+<Layout active="developers" title="Adamant — Verify a burn proof" description="Task: verify that a source-chain burn-to-mint event was correctly minted as ADM.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -61,4 +61,4 @@ const capPct = month < 1 ? 1 : month < 3 ? 2 : month < 6 ? 4 : month < 12 ? 8 : 
       <Provenance section="Verify burn · T.02" />
     </div>
   </section>
-</HubLayout>
+</Layout>

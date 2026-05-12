@@ -1,0 +1,24 @@
+---
+import { PLAIN_FRAMINGS } from '@/data/chain';
+---
+<section class="section wrap" id="framings" data-screen-label="06 framings">
+  <div class="sec-eyebrow" data-reveal>
+    <span class="num">§ 06</span>
+    <span>PLAIN FRAMINGS</span>
+    <span class="rule"></span>
+    <span>FOR READERS WHO HAVE SEEN THE LANDSCAPE</span>
+  </div>
+  <h2 class="sec-title" data-reveal>
+    Where Adamant sits, in <span class="it">plain language.</span>
+  </h2>
+
+  <div class="frames" data-reveal>
+    {PLAIN_FRAMINGS.map((f) => (
+      <div class="frame">
+        <div class="vs">{f.vs}</div>
+        <p class="ada">{f.ada}</p>
+        <p class="adb">{f.adb}</p>
+      </div>
+    ))}
+  </div>
+</section>

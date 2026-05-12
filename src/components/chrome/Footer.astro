@@ -1,0 +1,56 @@
+---
+import Mark from '@/components/ui/Mark.jsx';
+import { FOOTER_COLUMNS, FOOTER_REPOS } from '@/data/nav';
+
+const year = new Date().getFullYear();
+---
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="/" class="foot-brand-mark" aria-label="Adamant — home">
+          <Mark size={56} color="#ffffff" />
+        </a>
+        <p>
+          A Layer 1 protocol. Privacy by default. Verifiable by anyone. Governed by no one.
+          The whitepaper is the source of truth; the protocol is the team.
+        </p>
+        <div class="foot-tagline serif-it">
+          Built to outlive the people who built it.
+        </div>
+      </div>
+      <div class="foot-cols">
+        {FOOTER_COLUMNS.map((col) => (
+          <div class="foot-col">
+            <h4>{col.title}</h4>
+            {col.links.map((l) => (
+              <a href={l.href}>{l.label}</a>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="foot-repos">
+      <div class="foot-repos-label">Source code</div>
+      <div class="foot-repos-list">
+        {FOOTER_REPOS.map((r) => (
+          <a href={r.href} target="_blank" rel="noreferrer">{r.label}</a>
+        ))}
+      </div>
+    </div>
+
+    <div class="foot-base">
+      <div class="foot-base-left">
+        <span class="mono">Apache 2.0</span>
+        <span class="dot">·</span>
+        <span class="mono">whitepaper · reference implementation · website</span>
+      </div>
+      <div class="foot-base-right">
+        <span class="mono">© {year} Adamant Protocol</span>
+        <span class="dot">·</span>
+        <a class="mono" href="https://github.com/adamant-protocol" target="_blank" rel="noreferrer">github.com/adamant-protocol</a>
+      </div>
+    </div>
+  </div>
+</footer>

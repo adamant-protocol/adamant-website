@@ -1,0 +1,29 @@
+---
+import { FIVE_MECHANISMS } from '@/data/chain';
+---
+<section class="section wrap" id="mechanisms" data-screen-label="02 mechanisms">
+  <div class="sec-eyebrow" data-reveal>
+    <span class="num">§ 02</span>
+    <span>FIVE MECHANISMS</span>
+    <span class="rule"></span>
+    <span>WP §3–§10</span>
+  </div>
+  <h2 class="sec-title" data-reveal>
+    How the protocol <span class="it">actually works.</span>
+  </h2>
+  <p class="sec-lede" data-reveal>
+    Five mechanisms, each specified to component level in the whitepaper. No novel
+    cryptography. The contribution is the synthesis.
+  </p>
+
+  <div class="mech-grid" data-reveal>
+    {FIVE_MECHANISMS.map((m) => (
+      <div class="mech">
+        <div class="num">§ {m.num}</div>
+        <div class="name">{m.name}</div>
+        <div class="desc">{m.d}</div>
+        <div class="meta">{m.meta}</div>
+      </div>
+    ))}
+  </div>
+</section>

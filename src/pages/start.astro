@@ -1,13 +1,13 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import PhaseLine from '@/components/PhaseLine.astro';
-import Provenance from '@/components/Provenance.astro';
+import Layout from '@/layouts/Layout.astro';
+import PhaseLine from '@/components/ui/PhaseLine.astro';
+import Provenance from '@/components/ui/Provenance.astro';
 import BurnToMint from '@/components/diagrams/BurnToMint.astro';
 import ShieldedTransparent from '@/components/diagrams/ShieldedTransparent.astro';
 import DagBft from '@/components/diagrams/DagBft.astro';
 import RecursiveProof from '@/components/diagrams/RecursiveProof.astro';
 ---
-<HubLayout active="home" title="Adamant — Start here" description="Adamant in five steps. The shortest path from zero to a working mental model of the protocol.">
+<Layout active="home" title="Adamant — Start here" description="Adamant in five steps. The shortest path from zero to a working mental model of the protocol.">
 
   <section class="page-intro">
     <div class="container">
@@ -134,7 +134,7 @@ import RecursiveProof from '@/components/diagrams/RecursiveProof.astro';
     </div>
   </section>
 
-</HubLayout>
+</Layout>
 
 <style>
   .pool-mini { margin-top: 20px; }

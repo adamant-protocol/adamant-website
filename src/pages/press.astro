@@ -1,7 +1,7 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
+import Layout from '@/layouts/Layout.astro';
 ---
-<HubLayout active="about" title="Adamant — Press kit" description="Logos, screenshots, colour tokens, talking points. Apache 2.0; honest framing preferred.">
+<Layout active="about" title="Adamant — Press kit" description="Logos, screenshots, colour tokens, talking points. Apache 2.0; honest framing preferred.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -41,14 +41,16 @@ import HubLayout from '@/layouts/HubLayout.astro';
       <div class="section-head"><div class="num-mark">§ 02 / Tokens</div><div><h2 class="title">Brand colour tokens.</h2></div></div>
       <div class="scroll-x">
         <table class="ledger">
-          <thead><tr><th>Token</th><th>Role</th><th>OKLCH</th></tr></thead>
+          <thead><tr><th>Token</th><th>Role</th><th>Value</th></tr></thead>
           <tbody>
-            <tr><td class="mono">--paper</td><td>Page background</td><td class="mono">oklch(97.8% 0.006 80)</td></tr>
-            <tr><td class="mono">--ink</td><td>Primary text</td><td class="mono">oklch(20% 0.012 250)</td></tr>
-            <tr><td class="mono">--signal</td><td>Accent (cinnabar)</td><td class="mono">oklch(54% 0.16 45)</td></tr>
-            <tr><td class="mono">--spec</td><td>Pre-launch placeholder</td><td class="mono">oklch(46% 0.08 250)</td></tr>
-            <tr><td class="mono">--ok</td><td>Healthy state</td><td class="mono">oklch(50% 0.10 145)</td></tr>
-            <tr><td class="mono">--warn</td><td>Halted / critical</td><td class="mono">oklch(48% 0.18 28)</td></tr>
+            <tr><td class="mono">--bg</td><td>Page background — onyx</td><td class="mono">#000000</td></tr>
+            <tr><td class="mono">--ink</td><td>Primary text — white</td><td class="mono">#ffffff</td></tr>
+            <tr><td class="mono">--ink-2</td><td>Body text</td><td class="mono">#d4d4d4</td></tr>
+            <tr><td class="mono">--dim</td><td>De-emphasised text</td><td class="mono">#8e8e8e</td></tr>
+            <tr><td class="mono">--faint</td><td>Faintest text / labels</td><td class="mono">#555555</td></tr>
+            <tr><td class="mono">--line</td><td>Hairline rules</td><td class="mono">rgba(255,255,255,0.08)</td></tr>
+            <tr><td class="mono">--accent</td><td>Section eyebrow / link hover</td><td class="mono">#ffffff</td></tr>
+            <tr><td class="mono">--warn</td><td>Halted / critical</td><td class="mono">#ffffff</td></tr>
           </tbody>
         </table>
       </div>
@@ -75,4 +77,4 @@ import HubLayout from '@/layouts/HubLayout.astro';
       </ul>
     </div>
   </section>
-</HubLayout>
+</Layout>

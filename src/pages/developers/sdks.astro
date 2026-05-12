@@ -1,7 +1,7 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
+import Layout from '@/layouts/Layout.astro';
 ---
-<HubLayout active="developers" title="Adamant — SDKs" description="Official SDKs: Rust (canonical), TypeScript, Go.">
+<Layout active="developers" title="Adamant — SDKs" description="Official SDKs: Rust (canonical), TypeScript, Go.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -48,4 +48,4 @@ h, _ := c.BlockHeight(ctx)`}</pre>
       <p class="small" style="margin-top: 18px;">SDKs are versioned with the protocol. Pin to a minor version; major bumps follow hard forks.</p>
     </div>
   </section>
-</HubLayout>
+</Layout>

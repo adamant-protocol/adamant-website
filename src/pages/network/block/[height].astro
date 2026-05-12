@@ -1,6 +1,6 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import ExplorerSearch from '@/components/ExplorerSearch.astro';
+import Layout from '@/layouts/Layout.astro';
+import ExplorerSearch from '@/components/ui/ExplorerSearch.astro';
 
 export function getStaticPaths() {
   return Array.from({ length: 12 }, (_, i) => ({ params: { height: String(i + 1) } }));
@@ -8,7 +8,7 @@ export function getStaticPaths() {
 
 const { height } = Astro.params;
 ---
-<HubLayout active="network" title={`Adamant — Block ${height}`} description={`Per-block detail page for height ${height}. Proposer, transactions, fee, finality, encryption regime split.`}>
+<Layout active="network" title={`Adamant — Block ${height}`} description={`Per-block detail page for height ${height}. Proposer, transactions, fee, finality, encryption regime split.`}>
   <section class="page-intro">
     <div class="container">
       <div>
@@ -63,4 +63,4 @@ const { height } = Astro.params;
       </div>
     </div>
   </section>
-</HubLayout>
+</Layout>

@@ -1,6 +1,6 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import SeeAlso from '@/components/SeeAlso.astro';
+import Layout from '@/layouts/Layout.astro';
+import SeeAlso from '@/components/ui/SeeAlso.astro';
 
 const REPO = 'https://github.com/adamant-protocol';
 const WP_BASE = `https://github.com/adamant-protocol/adamant-spec`;
@@ -73,7 +73,7 @@ try {
 } catch (e) { /* fall through */ }
 ---
 
-<HubLayout active="spec" title="Adamant — Specification" description="The Adamant whitepaper. Draft v0.1. The canonical reference for the protocol's behaviour. Thirteen sections, parsed inline." schemaType="TechArticle">
+<Layout active="spec" title="Adamant — Specification" description="The Adamant whitepaper. Draft v0.1. The canonical reference for the protocol's behaviour. Thirteen sections, parsed inline." schemaType="TechArticle">
 
   <section class="page-intro">
     <div class="container">
@@ -147,4 +147,4 @@ try {
 
   <SeeAlso current="spec" />
 
-</HubLayout>
+</Layout>

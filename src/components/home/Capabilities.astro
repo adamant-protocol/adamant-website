@@ -1,0 +1,26 @@
+---
+import { CAPABILITIES } from '@/data/chain';
+---
+<section class="apps-stage" id="capabilities" data-screen-label="05 capabilities">
+  <div class="wrap">
+    <div class="stage-eyebrow">— WHAT YOU CAN BUILD —</div>
+    <h2 class="stage-title">
+      Six categories of <span class="it">consequence.</span>
+    </h2>
+    <p class="stage-lede">
+      Adamant is a base-layer settlement chain. These are the use-cases its
+      property set makes possible — and, in their conjunction, makes possible
+      nowhere else.
+    </p>
+    <div class="apps-grid" data-reveal>
+      {CAPABILITIES.map((c, i) => (
+        <div class="app-cell">
+          <div class="num">C.{String(i + 1).padStart(2, '0')}</div>
+          <div class="ttl">{c.title}</div>
+          <div class="desc">{c.desc}</div>
+          <div class="eg">{c.eg}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

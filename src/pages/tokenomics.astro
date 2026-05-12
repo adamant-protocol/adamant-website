@@ -1,11 +1,11 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import SeeAlso from '@/components/SeeAlso.astro';
+import Layout from '@/layouts/Layout.astro';
+import SeeAlso from '@/components/ui/SeeAlso.astro';
 import AprDemo from '@/components/demos/AprDemo.astro';
-import Provenance from '@/components/Provenance.astro';
+import Provenance from '@/components/ui/Provenance.astro';
 import { POST_GENESIS_EMISSION, SLASHING_CONDITIONS, FEE_DIMENSIONS, fmtAdm } from '@/data/chain';
 ---
-<HubLayout active="genesis" title="Adamant — Tokenomics" description="Token mechanics. Launch phase + post-genesis emission, fee market, staking economy, slashing.">
+<Layout active="genesis" title="Adamant — Tokenomics" description="Token mechanics. Launch phase + post-genesis emission, fee market, staking economy, slashing.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -135,4 +135,4 @@ import { POST_GENESIS_EMISSION, SLASHING_CONDITIONS, FEE_DIMENSIONS, fmtAdm } fr
   </section>
 
   <SeeAlso current="genesis" />
-</HubLayout>
+</Layout>

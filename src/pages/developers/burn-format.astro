@@ -1,7 +1,7 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
+import Layout from '@/layouts/Layout.astro';
 ---
-<HubLayout active="developers" title="Adamant — Burn-tx format" description="Per-source-chain spec for burn-to-mint transactions. BTC OP_RETURN, ETH burn precompile, USDT/USDC burn addresses.">
+<Layout active="developers" title="Adamant — Burn-tx format" description="Per-source-chain spec for burn-to-mint transactions. BTC OP_RETURN, ETH burn precompile, USDT/USDC burn addresses.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -48,4 +48,4 @@ emit AdamantDest(bytes32 destAddr, uint8 capWindow);`}</pre>
       <p class="small" style="margin-top: 14px;">64 source-chain confirmations. Rate: 1 USDT/USDC → 20 ADM, fixed for the launch phase.</p>
     </div>
   </section>
-</HubLayout>
+</Layout>

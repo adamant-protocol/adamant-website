@@ -1,10 +1,10 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import SeeAlso from '@/components/SeeAlso.astro';
+import Layout from '@/layouts/Layout.astro';
+import SeeAlso from '@/components/ui/SeeAlso.astro';
 import { SEVEN_PROPERTIES, FOUR_TIERS, SEVEN_PRINCIPLES, PLAIN_FRAMINGS, NOT_THIS_LIST } from '@/data/chain';
 ---
 
-<HubLayout active="about" title="Adamant — About" description="A Layer 1 settlement chain. Privacy by default, post-quantum, no foundation, no premine, no governance.">
+<Layout active="about" title="Adamant — About" description="A Layer 1 settlement chain. Privacy by default, post-quantum, no foundation, no premine, no governance.">
 
   <section class="page-intro">
     <div class="container">
@@ -208,4 +208,4 @@ import { SEVEN_PROPERTIES, FOUR_TIERS, SEVEN_PRINCIPLES, PLAIN_FRAMINGS, NOT_THI
 
   <SeeAlso current="about" />
 
-</HubLayout>
+</Layout>

@@ -1,11 +1,11 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import SeeAlso from '@/components/SeeAlso.astro';
+import Layout from '@/layouts/Layout.astro';
+import SeeAlso from '@/components/ui/SeeAlso.astro';
 import { GLOSSARY } from '@/data/chain';
 
 const sorted = [...GLOSSARY].sort((a, b) => a.term.localeCompare(b.term));
 ---
-<HubLayout active="about" title="Adamant — Glossary" description="Plain-language definitions of every term Adamant uses.">
+<Layout active="about" title="Adamant — Glossary" description="Plain-language definitions of every term Adamant uses.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -50,4 +50,4 @@ const sorted = [...GLOSSARY].sort((a, b) => a.term.localeCompare(b.term));
   </section>
 
   <SeeAlso current="about" />
-</HubLayout>
+</Layout>

@@ -1,0 +1,79 @@
+---
+// Genesis pool drain + interactive burn calculator.
+import { PHASE, fmtAdm } from '@/data/chain';
+import BurnCalculator from '@/components/home/BurnCalculator.jsx';
+
+const p = PHASE;
+const total = p.genesisPool.total;
+const burnTotal = 70_000_000;
+const valTotal = 30_000_000;
+const burnClaimed = burnTotal - p.genesisPool.burnRemaining;
+const valClaimed = valTotal - p.genesisPool.validatorRemaining;
+const remain = p.genesisPool.burnRemaining + p.genesisPool.validatorRemaining;
+const burnClaimedPct = (burnClaimed / total) * 100;
+const valClaimedPct = (valClaimed / total) * 100;
+const remainPct = 100 - burnClaimedPct - valClaimedPct;
+---
+<section class="section wrap" id="genesis" data-screen-label="03 genesis">
+  <div class="sec-eyebrow" data-reveal>
+    <span class="num">§ 03</span>
+    <span>GENESIS ECONOMICS</span>
+    <span class="rule"></span>
+    <span>WP §10 · §11</span>
+  </div>
+  <h2 class="sec-title" data-reveal>
+    The first ADM is acquired by <span class="it">burners.</span>
+  </h2>
+  <p class="sec-lede" data-reveal>
+    100,000,000 ADM at genesis. Partitioned 70 / 30 between burn-to-mint and validator
+    block rewards. No premine, no founder allocation, no investor allocation, no
+    foundation treasury. The launch phase ends in five years or pool exhaustion,
+    whichever comes first.
+  </p>
+
+  <div class="gen-grid">
+    <div class="gen-panel" data-reveal>
+      <h3>Fig. 02 — 100M pool drain</h3>
+      <div class="pool">
+        <div class="pool-fill">
+          {burnClaimedPct > 0 && (
+            <div class="pool-burn" style={`height: ${burnClaimedPct}%`}>
+              <div class="pool-label amber">
+                Burn-to-mint claimed
+                <span class="pct">{fmtAdm(burnClaimed)} ADM</span>
+              </div>
+            </div>
+          )}
+          {valClaimedPct > 0 && (
+            <div class="pool-val" style={`height: ${valClaimedPct}%`}>
+              <div class="pool-label mint">
+                Validator emission paid
+                <span class="pct">{fmtAdm(valClaimed)} ADM</span>
+              </div>
+            </div>
+          )}
+          <div class="pool-remain" style={`flex-basis: ${remainPct}%`}>
+            <div class="pool-label faint">
+              {burnClaimedPct === 0 && valClaimedPct === 0 ? 'Pool — pre-launch · undrained' : 'Pool remaining'}
+              <span class="pct">{fmtAdm(remain)} ADM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pool-legend">
+        <div><div class="k">Burn-to-mint pool</div><div class="v amber">70,000,000</div></div>
+        <div><div class="k">Validator pool</div><div class="v mint">30,000,000</div></div>
+        <div><div class="k">Genesis total</div><div class="v">100,000,000</div></div>
+      </div>
+      <p class="mono" style="color: var(--faint); font-size: 11px; margin-top: 14px; line-height: 1.55;">
+        Unclaimed pool at the 5-year cap is destroyed. Post-genesis emission follows the fixed schedule in WP §11.3.
+      </p>
+    </div>
+
+    <div class="gen-panel" data-reveal>
+      <h3>Fig. 03 — Burn-to-mint rate (20 ADM / USD-eq)</h3>
+      <BurnCalculator client:load />
+    </div>
+  </div>
+</section>

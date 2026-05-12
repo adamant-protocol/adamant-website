@@ -1,8 +1,8 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
+import Layout from '@/layouts/Layout.astro';
 import { ADIP_PROCESS } from '@/data/chain';
 ---
-<HubLayout active="updates" title="Adamant — Community" description="How protocol change happens without on-chain governance. Channels, ADIP process, contributors.">
+<Layout active="updates" title="Adamant — Community" description="How protocol change happens without on-chain governance. Channels, ADIP process, contributors.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -55,4 +55,4 @@ import { ADIP_PROCESS } from '@/data/chain';
       <p class="serif" style="font-size: 17px; line-height: 1.55; color: var(--ink-2); max-width: 64ch; margin-top: 14px;">If you've written a non-trivial PR that landed, add yourself to the contributors file of that repo. If you've written non-code (audits, ADIPs, translations, documentation), add yourself there too.</p>
     </div>
   </section>
-</HubLayout>
+</Layout>

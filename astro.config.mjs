@@ -1,9 +1,10 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import react from '@astrojs/react';
 
 export default defineConfig({
   site: 'https://adamantprotocol.com',
-  integrations: [sitemap()],
+  integrations: [react(), sitemap()],
   build: {
     assets: 'assets',
   },

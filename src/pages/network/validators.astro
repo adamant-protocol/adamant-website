@@ -1,9 +1,9 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import ExplorerSearch from '@/components/ExplorerSearch.astro';
+import Layout from '@/layouts/Layout.astro';
+import ExplorerSearch from '@/components/ui/ExplorerSearch.astro';
 import DagBft from '@/components/diagrams/DagBft.astro';
 ---
-<HubLayout active="network" title="Adamant — Validators" description="Active validator set, standby queue, registration order. Genesis cohort markers.">
+<Layout active="network" title="Adamant — Validators" description="Active validator set, standby queue, registration order. Genesis cohort markers.">
   <section class="page-intro">
     <div class="container">
       <div>
@@ -52,4 +52,4 @@ import DagBft from '@/components/diagrams/DagBft.astro';
       <p class="small" style="margin-top: 16px;">Slots are transferable by mutual consent at an epoch boundary (WP §8.1.8); seniority preserved. The cohort marker is non-transferable and remains attached to the original address (WP §8.1.9).</p>
     </div>
   </section>
-</HubLayout>
+</Layout>

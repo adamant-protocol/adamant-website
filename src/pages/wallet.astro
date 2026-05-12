@@ -1,12 +1,12 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import SeeAlso from '@/components/SeeAlso.astro';
+import Layout from '@/layouts/Layout.astro';
+import SeeAlso from '@/components/ui/SeeAlso.astro';
 import ViewKeyDemo from '@/components/demos/ViewKeyDemo.astro';
 import ShieldedTransparent from '@/components/diagrams/ShieldedTransparent.astro';
 import { HARDWARE_WALLETS } from '@/data/chain';
 ---
 
-<HubLayout active="wallet" title="Adamant — Wallet" description="Reference wallet for the Adamant protocol. Privacy by default; selective disclosure on intent. Burn-to-mint, view keys, social recovery, hardware support.">
+<Layout active="wallet" title="Adamant — Wallet" description="Reference wallet for the Adamant protocol. Privacy by default; selective disclosure on intent. Burn-to-mint, view keys, social recovery, hardware support.">
 
   <section class="page-intro">
     <div class="container">
@@ -390,13 +390,13 @@ import { HARDWARE_WALLETS } from '@/data/chain';
           <span class="label">iOS</span>
           <div class="serif" style="font-size: 32px; margin-top: 8px;">App Store · TestFlight</div>
           <p class="mono small" style="color: var(--ink-3); margin-top: 12px;">Available at mainnet activation. TestFlight builds during public testnet.</p>
-          <div style="height: 80px; margin-top: 14px; background: repeating-linear-gradient(45deg, transparent 0 18px, oklch(0% 0 0 / 0.022) 18px 19px); display:flex; align-items:center; justify-content:center;"><span class="serif" style="font-style:italic; color: var(--ink-3);">badges render at launch</span></div>
+          <div style="height: 80px; margin-top: 14px; background: repeating-linear-gradient(45deg, transparent 0 18px, rgba(255,255,255,0.04) 18px 19px); display:flex; align-items:center; justify-content:center;"><span class="serif" style="font-style:italic; color: var(--ink-3);">badges render at launch</span></div>
         </div>
         <div style="border: 1px solid var(--ink); padding: 24px;">
           <span class="label">Android</span>
           <div class="serif" style="font-size: 32px; margin-top: 8px;">Play Store · F-Droid · APK</div>
           <p class="mono small" style="color: var(--ink-3); margin-top: 12px;">Reproducible builds on F-Droid. APK + signing keys published in the reference-wallet repository.</p>
-          <div style="height: 80px; margin-top: 14px; background: repeating-linear-gradient(45deg, transparent 0 18px, oklch(0% 0 0 / 0.022) 18px 19px); display:flex; align-items:center; justify-content:center;"><span class="serif" style="font-style:italic; color: var(--ink-3);">badges render at launch</span></div>
+          <div style="height: 80px; margin-top: 14px; background: repeating-linear-gradient(45deg, transparent 0 18px, rgba(255,255,255,0.04) 18px 19px); display:flex; align-items:center; justify-content:center;"><span class="serif" style="font-style:italic; color: var(--ink-3);">badges render at launch</span></div>
         </div>
       </div>
     </div>
@@ -404,7 +404,7 @@ import { HARDWARE_WALLETS } from '@/data/chain';
 
   <SeeAlso current="wallet" />
 
-</HubLayout>
+</Layout>
 
 <style>
 @media (max-width: 980px) {

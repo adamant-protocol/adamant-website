@@ -1,6 +1,6 @@
 ---
-import HubLayout from '@/layouts/HubLayout.astro';
-import SeeAlso from '@/components/SeeAlso.astro';
+import Layout from '@/layouts/Layout.astro';
+import SeeAlso from '@/components/ui/SeeAlso.astro';
 import { FAQ_ITEMS } from '@/data/chain';
 
 const ld = {
@@ -13,7 +13,7 @@ const ld = {
   })),
 };
 ---
-<HubLayout active="about" title="Adamant — FAQ" description="Frequently asked questions. Aligned to the whitepaper; answers are short and direct.">
+<Layout active="about" title="Adamant — FAQ" description="Frequently asked questions. Aligned to the whitepaper; answers are short and direct.">
   <script type="application/ld+json" set:html={JSON.stringify(ld)} />
   <section class="page-intro">
     <div class="container">
@@ -47,4 +47,4 @@ const ld = {
   </section>
 
   <SeeAlso current="about" />
-</HubLayout>
+</Layout>

@@ -1,0 +1,27 @@
+---
+import { UPDATES } from '@/data/chain';
+---
+<section class="section wrap" id="updates" data-screen-label="08 updates">
+  <div class="sec-eyebrow" data-reveal>
+    <span class="num">§ 08</span>
+    <span>PROJECT JOURNAL</span>
+    <span class="rule"></span>
+    <span>LIVE FROM COMMIT LOG</span>
+  </div>
+  <h2 class="sec-title" data-reveal>
+    Decisions, in <span class="it">order.</span>
+  </h2>
+
+  <div class="updates-list" data-reveal>
+    {UPDATES.map((u) => (
+      <div class="update">
+        <div class="date">{u.date}</div>
+        <div class="tag">{u.tag}</div>
+        <div>
+          <div class="ttl">{u.title}</div>
+          <div class="desc">{u.d}</div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
