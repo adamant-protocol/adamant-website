@@ -5,6 +5,10 @@
   "private": true,
   "description": "Adamant — privacy by default. Verifiable by anyone. Governed by no one.",
   "scripts": {
+    "sync-spec": "node scripts/sync-spec.mjs",
+    "predev": "node scripts/sync-spec.mjs",
+    "prestart": "node scripts/sync-spec.mjs",
+    "prebuild": "node scripts/sync-spec.mjs",
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",

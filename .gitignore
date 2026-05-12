@@ -2,6 +2,11 @@
 dist/
 .output/
 
+# whitepaper content — synced from adamant-spec at build time
+# via scripts/sync-spec.mjs. Canonical source:
+# https://github.com/adamant-protocol/adamant-spec
+whitepaper/
+
 # dependencies
 node_modules/
 
