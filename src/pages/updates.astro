@@ -17,7 +17,6 @@ type Commit = {
 };
 
 let commits: Commit[] = [];
-let fetchError: string | null = null;
 try {
   const headers: Record<string, string> = {
     Accept: 'application/vnd.github+json',
@@ -26,14 +25,9 @@ try {
   };
   if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
   const res = await fetch(`https://api.github.com/repos/${OWNER}/${NAME}/commits?per_page=20`, { headers });
-  if (res.ok) {
-    commits = (await res.json()) as Commit[];
-  } else {
-    fetchError = `GitHub API ${res.status}`;
-  }
-} catch (e) {
-  fetchError = (e as Error).message;
-}
+  if (res.ok) commits = (await res.json()) as Commit[];
+} catch { /* fall through to static fallback */ }
+const liveOk = commits.length > 0;
 
 function tagFor(message: string): string {
   const first = message.split('\n')[0].toLowerCase();
@@ -116,7 +110,7 @@ const fallbackEntries = [
         </div>
       ) : (
         <div style="padding: 14px 0 0;">
-          <p class="mono small" style="color: var(--warn); margin-bottom: 24px;">{fetchError ? `Live commit log unavailable (${fetchError}). Showing a static fallback.` : 'No commits returned.'}</p>
+          <p class="mono small" style="color: var(--ink-3); margin-bottom: 24px;">Static journal · live commit feed will appear here at build time.</p>
           {fallbackEntries.map((u, i) => (
             <article data-reveal style={`display: grid; grid-template-columns: 200px 1fr; gap: 64px; padding: 48px 0; border-top: ${i===0 ? '1px solid var(--ink)' : '1px solid var(--rule)'};`} class="update-entry">
               <div>

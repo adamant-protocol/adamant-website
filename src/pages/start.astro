@@ -145,11 +145,11 @@ import RecursiveProof from '@/components/diagrams/RecursiveProof.astro';
   }
   .pool-mini-seg {
     background: var(--ink);
-    color: var(--paper);
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  .pool-mini-seg.alt { background: var(--paper-2); color: var(--ink); border-left: 1px solid var(--ink); }
-  .pool-mini-seg .label { font-size: 10px; letter-spacing: 0.14em; }
+  .pool-mini-seg .label { font-size: 10px; letter-spacing: 0.14em; color: var(--paper); }
+  .pool-mini-seg.alt { background: var(--paper-2); border-left: 1px solid var(--ink); }
+  .pool-mini-seg.alt .label { color: var(--ink); }
 </style>

@@ -39,17 +39,39 @@ const VERSIONS = [
   <section class="section">
     <div class="container">
       <div class="section-head"><div class="num-mark">§ 01 / Tasks</div><div><h2 class="title">By what you want to do.</h2></div></div>
-      <ol style="list-style:none; padding:0; margin:0; border-top: 1px solid var(--ink);">
+      <ol class="docs-list">
         {TASKS.map((t) => (
-          <li style="border-bottom: 1px solid var(--rule);">
-            <a href={t.href} style="display:grid; grid-template-columns: 80px 1fr 200px; gap: 20px; padding: 22px 0; align-items: baseline; color: var(--ink);" class="negation-row">
-              <span class="mono" style="font-size: 11px; letter-spacing: 0.14em; color: var(--ink-3);">{t.code}</span>
-              <span class="serif" style="font-size: 22px; line-height: 1.2; letter-spacing: -0.01em;">{t.title}</span>
-              <span class="mono small" style="color: var(--ink-3); text-align: right; letter-spacing: 0.06em;">{t.section} ↗</span>
+          <li class="docs-row">
+            <a href={t.href} class="docs-row-link">
+              <span class="docs-code mono">{t.code}</span>
+              <span class="docs-title serif">{t.title}</span>
+              <span class="docs-section mono small">{t.section} ↗</span>
             </a>
           </li>
         ))}
       </ol>
+
+      <style>
+        .docs-list { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--ink); }
+        .docs-row { border-bottom: 1px solid var(--rule); }
+        .docs-row-link {
+          display: grid;
+          grid-template-columns: 80px 1fr 200px;
+          gap: 20px;
+          padding: 22px 0;
+          align-items: baseline;
+          color: var(--ink);
+        }
+        .docs-row-link:hover { background: var(--paper-2); }
+        .docs-code  { font-size: 11px; letter-spacing: 0.14em; color: var(--ink-3); padding-left: 4px; }
+        .docs-title { font-size: 22px; line-height: 1.2; letter-spacing: -0.01em; }
+        .docs-section { color: var(--ink-3); text-align: right; letter-spacing: 0.06em; padding-right: 4px; }
+        @media (max-width: 760px) {
+          .docs-row-link { grid-template-columns: 60px 1fr; gap: 6px 14px; padding: 16px 4px; }
+          .docs-title { font-size: 18px; }
+          .docs-section { grid-column: 1 / -1; text-align: left; padding-left: 0; }
+        }
+      </style>
     </div>
   </section>
 
