@@ -229,10 +229,10 @@ const DOORS = [
       .hero-split { grid-template-columns: 1fr; gap: 28px; }
     }
 
-    /* Five doors */
+    /* Five doors — auto-fit so cards never go below ~240px */
     .door-grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 0;
       border-top: 1px solid var(--ink);
       border-bottom: 1px solid var(--ink);
@@ -241,8 +241,9 @@ const DOORS = [
       display: flex;
       flex-direction: column;
       gap: 12px;
-      padding: 22px 18px;
+      padding: 24px 20px;
       border-left: 1px solid var(--rule);
+      border-top: 1px solid transparent;
       background: var(--paper);
       transition: background 140ms;
       min-height: 220px;
@@ -252,20 +253,13 @@ const DOORS = [
     .door:first-child { border-left: 0; }
     .door:hover { background: var(--paper-2); }
     .door-num { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--ink-3); }
-    .door-label { font-family: var(--serif); font-size: 22px; line-height: 1.15; letter-spacing: -0.01em; color: var(--ink); }
+    .door-label { font-family: var(--serif); font-size: 22px; line-height: 1.15; letter-spacing: -0.01em; color: var(--ink); margin: 0; }
     .door-blurb { font-family: var(--serif); font-size: 14.5px; line-height: 1.5; color: var(--ink-2); margin: 0; }
     .door-sub { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.10em; color: var(--signal); text-transform: uppercase; }
 
-    @media (max-width: 1024px) {
-      .door-grid { grid-template-columns: repeat(2, 1fr); }
-      .door { border-left: 1px solid var(--rule); min-height: 0; }
-      .door:nth-child(odd) { border-left: 0; }
-      .door:nth-child(n+3) { border-top: 1px solid var(--rule); }
-      .door:last-child:nth-child(odd) { grid-column: 1 / -1; }
-    }
     @media (max-width: 540px) {
       .door-grid { grid-template-columns: 1fr; }
-      .door { border-left: 0 !important; border-top: 1px solid var(--rule); }
+      .door { border-left: 0 !important; border-top: 1px solid var(--rule); min-height: 0; }
       .door:first-child { border-top: 0; }
     }
   </style>

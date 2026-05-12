@@ -80,24 +80,50 @@ import { SEVEN_PROPERTIES, FOUR_TIERS, SEVEN_PRINCIPLES, PLAIN_FRAMINGS, NOT_THI
         </div>
       </div>
 
-      <div style="display:grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink);" class="tiers-grid">
+      <div class="tiers-grid">
         {FOUR_TIERS.map((t, i) => (
-          <div style={`padding: 22px 18px; border-left: 1px solid var(--rule); display: flex; flex-direction: column; gap: 14px; min-height: 360px; ${i===0 ? 'border-left:0;' : ''}`}>
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <span class="mono" style="font-size: 11px; letter-spacing: 0.10em; color: var(--ink-3);">T.{String(i+1).padStart(2,"0")}</span>
+          <article class={`tier-card ${i === 0 ? 'tier-card--first' : ''}`}>
+            <div class="tier-head">
+              <span class="tier-code mono">T.{String(i+1).padStart(2, '0')}</span>
               {t.permissionless ? <span class="tag">Permissionless</span> : <span class="tag solid">Staked</span>}
             </div>
-            <h3 class="serif" style="font-size: 28px; line-height: 1.05; letter-spacing: -0.015em;">{t.k}</h3>
-            <p class="serif" style="font-size: 15px; line-height: 1.45; color: var(--ink-2); margin:0;">{t.role}</p>
-            <dl style="margin-top: auto; display:grid; grid-template-columns: 1fr; row-gap: 8px;">
-              <div style="display:flex; justify-content:space-between; gap:8px;"><dt class="label">Stake floor</dt><dd class="mono" style="margin:0; font-size:12px;">{t.stake}</dd></div>
-              <div style="display:flex; justify-content:space-between; gap:8px;"><dt class="label">Hardware</dt><dd class="mono" style="margin:0; font-size:11px; line-height:1.4; text-align:right;">{t.hw}</dd></div>
-              <div style="display:flex; justify-content:space-between; gap:8px;"><dt class="label">Compensation</dt><dd class="mono" style="margin:0; font-size:11px; line-height:1.4; text-align:right;">{t.comp}</dd></div>
-              <div style="display:flex; justify-content:space-between; gap:8px;"><dt class="label">Set size</dt><dd class="mono" style="margin:0; font-size:12px;">{t.count}</dd></div>
+            <h3 class="tier-name serif">{t.k}</h3>
+            <p class="tier-role serif">{t.role}</p>
+            <dl class="tier-stats">
+              <div><dt class="label">Stake floor</dt><dd class="mono">{t.stake}</dd></div>
+              <div><dt class="label">Hardware</dt><dd class="mono">{t.hw}</dd></div>
+              <div><dt class="label">Compensation</dt><dd class="mono">{t.comp}</dd></div>
+              <div><dt class="label">Set size</dt><dd class="mono">{t.count}</dd></div>
             </dl>
-          </div>
+          </article>
         ))}
       </div>
+
+      <style>
+        .tiers-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          border-top: 1px solid var(--ink);
+          border-bottom: 1px solid var(--ink);
+        }
+        .tier-card {
+          padding: 22px 18px;
+          border-left: 1px solid var(--rule);
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+          min-height: 360px;
+        }
+        .tier-card--first { border-left: 0; }
+        .tier-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+        .tier-code { font-size: 11px; letter-spacing: 0.10em; color: var(--ink-3); }
+        .tier-name { font-size: 26px; line-height: 1.05; letter-spacing: -0.015em; margin: 0; }
+        .tier-role { font-size: 15px; line-height: 1.45; color: var(--ink-2); margin: 0; max-width: 28ch; }
+        .tier-stats { margin: auto 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+        .tier-stats > div { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; align-items: baseline; }
+        .tier-stats dt { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.10em; color: var(--ink-3); text-transform: uppercase; }
+        .tier-stats dd { margin: 0; font-size: 12px; color: var(--ink); text-align: right; line-height: 1.4; min-width: 0; overflow-wrap: anywhere; }
+      </style>
     </div>
   </section>
 

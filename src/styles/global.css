@@ -265,11 +265,18 @@ footer.foot .brand .mark { width: 32px; height: 32px; }
 .nav-menu-panel a:hover .nav-menu-index,
 .nav-menu-panel a.is-current .nav-menu-index { color: var(--paper); }
 
-@media (max-width: 1160px) {
+@media (max-width: 1240px) {
   .topbar-row { gap: 18px; }
-  .nav { gap: 12px; }
+  .nav { gap: 14px; }
   .nav a,
   .nav-menu summary { font-size: 10.5px; letter-spacing: 0.08em; }
+  .brand-meta { display: none; }
+}
+@media (max-width: 1060px) {
+  .nav { gap: 10px; }
+  .nav a,
+  .nav-menu summary { font-size: 10px; }
+  .phase-pill { display: none; }
 }
 
 /* Hamburger menu (mobile) */
@@ -1074,9 +1081,9 @@ footer.foot .foot-socials svg {
   border-bottom: 1px solid var(--ink);
   padding: 56px 0 40px;
 }
-.page-intro .container { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gut); align-items: end; }
-.page-intro .lede { font-family: var(--serif); font-size: 22px; line-height: 1.4; color: var(--ink-2); max-width: 56ch; }
-.page-intro h1.title { font-family: var(--serif); font-size: 64px; line-height: 0.98; letter-spacing: -0.025em; }
+.page-intro .container { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 56px; align-items: end; }
+.page-intro .lede { font-family: var(--serif); font-size: 22px; line-height: 1.45; color: var(--ink-2); max-width: 58ch; margin: 0; }
+.page-intro h1.title { font-family: var(--serif); font-size: clamp(36px, 5vw, 60px); line-height: 1.02; letter-spacing: -0.022em; margin: 0; max-width: 16ch; }
 .page-intro .crumb { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 18px; }
 
 /* callouts */
@@ -1640,6 +1647,31 @@ table.ledger .badge-cohort {
   .pool-cell .v .of { display: block; margin-left: 0; margin-top: 2px; }
 }
 
+/* ============ SECTION HEAD CONSISTENCY ============
+ * Tighten the rhythm between section-head and the first block of content
+ * (claim-grid, diagrams, tables) so things don't look pasted-on.
+ */
+.section-head + .adm-diagram,
+.section-head + .claim-grid,
+.section-head + .scroll-x,
+.section-head + .caps-grid,
+.section-head + .mech-grid,
+.section-head + .gn-rule-grid {
+  margin-top: 0;
+}
+.section-head { margin-bottom: 32px; }
+.section-head .title { font-size: 32px; line-height: 1.08; max-width: 24ch; }
+.section-head .subtitle { font-size: 14.5px; line-height: 1.55; max-width: 64ch; margin-top: 10px; }
+
+/* Tighten section padding so consecutive sections breathe consistently */
+section.section { padding: 64px 0; }
+
+@media (max-width: 1024px) {
+  section.section { padding: 48px 0; }
+  .section-head { margin-bottom: 24px; }
+  .section-head .title { font-size: 28px; }
+}
+
 /* ============ CLICKABLE CLAIM-CARDS ============
  * When a claim-card is used as an <a>, give it proper hover/active feel.
  */
@@ -1660,6 +1692,12 @@ a.tag:hover { background: var(--ink); color: var(--paper); border-color: var(--i
   .adm-diagram { margin: 18px 0; }
   .adm-diagram > svg { padding: 16px !important; }
 }
+
+/* ============ BIG NUMBERS RESPONSIVE ============
+ * Numbers in genesis stake floors and tokenomics that easily overflow.
+ */
+.gn-stake .mono { font-size: clamp(36px, 5vw, 56px); line-height: 1; word-break: keep-all; }
+.gn-stake .mono > span { font-size: clamp(18px, 2.4vw, 28px); }
 
 /* ============ MOBILE FIXES (cross-page) ============ */
 
