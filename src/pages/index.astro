@@ -30,14 +30,42 @@ const DOORS = [
       <div class="eyebrow"><span class="num">§ 00</span> &nbsp; A Layer 1 blockchain protocol &middot; Privacy by default &middot; Post-quantum &middot; No foundation, no premine</div>
       <h1 class="hero-title">Private, post-quantum settlement<br/><em style="font-style:italic; color:var(--ink-2);">without an owner.</em></h1>
 
-      <div class="letter">
-        <p class="letter-body">
-          Adamant is a base layer. It is built to outlive the people who built it. There is no foundation, no premine, no admin key, no on-chain governance. <strong>ADM</strong> enters circulation only through public burn-to-mint or validator emission, drained from a 100&nbsp;000&nbsp;000 pool capped at five years. Transactions are shielded by default and selectively disclosable. Active set 7&ndash;75, residential-fibre. The whitepaper is the source of truth.
-        </p>
-        <p class="letter-sign">— the rules, as they stand on <span class="mono" id="letter-block">specification phase · block 0</span></p>
-      </div>
+      <div class="hero-split">
+        <div class="letter">
+          <p class="letter-body">
+            Adamant is a base layer. It is built to outlive the people who built it. There is no foundation, no premine, no admin key, no on-chain governance. <strong>ADM</strong> enters circulation only through public burn-to-mint or validator emission, drained from a 100&nbsp;000&nbsp;000 pool capped at five years. Transactions are shielded by default and selectively disclosable. Active set 7&ndash;75, residential-fibre. The whitepaper is the source of truth.
+          </p>
+          <p class="letter-sign">— the rules, as they stand on <span class="mono" id="letter-block">specification phase · block 0</span></p>
+          <PhaseLine />
+        </div>
 
-      <PhaseLine />
+        <aside class="hero-at-a-glance" aria-label="Chain identifiers">
+          <div class="hag-row">
+            <span class="label">Identifier</span>
+            <span class="mono hag-v">adamant/mainnet · chain-id 0x4d41</span>
+          </div>
+          <div class="hag-row">
+            <span class="label">Spec</span>
+            <span class="mono hag-v">v0.1 · draft</span>
+          </div>
+          <div class="hag-row">
+            <span class="label">Genesis pool</span>
+            <span class="mono hag-v">100 000 000 ADM</span>
+          </div>
+          <div class="hag-row">
+            <span class="label">Partition</span>
+            <span class="mono hag-v">{burnRem} burn · {valRem} validator</span>
+          </div>
+          <div class="hag-row">
+            <span class="label">Active set</span>
+            <span class="mono hag-v">floor 7 · ceiling 75</span>
+          </div>
+          <div class="hag-row">
+            <span class="label">Phase</span>
+            <span class="mono hag-v">{p.label}</span>
+          </div>
+        </aside>
+      </div>
     </div>
   </section>
 
@@ -79,17 +107,17 @@ const DOORS = [
       <div class="hero-meta">
         <div class="left">
           <span class="label" id="home-hero-label">Genesis pool &nbsp; · &nbsp; {p.label}</span>
-          <span class="serif" id="home-hero-tag" style="font-size: 22px; line-height: 1.4; color: var(--ink-2); max-width: 56ch;">
+          <span class="serif" id="home-hero-tag" style="font-size: 22px; line-height: 1.4; color: var(--ink-2);">
             {p.tagline}
           </span>
         </div>
         <div class="right">
-          <span class="label">Identifier</span>
-          <span class="mono" style="font-size:13px;color:var(--ink-2);">adamant/mainnet · chain-id 0x4d41 &nbsp; · &nbsp; spec v0.1</span>
-          <span class="label" style="margin-top:8px;">Partition</span>
+          <span class="label">Drain</span>
           <span class="mono" id="home-hero-partition" style="font-size:18px;color:var(--ink);">
             {burnRem} <span style="color:var(--mute);">burn</span> · {valRem} <span style="color:var(--mute);">validator</span>
           </span>
+          <span class="label" style="margin-top:8px;">Floor &middot; Ceiling</span>
+          <span class="mono" style="font-size:14px;color:var(--ink-2);">7 &middot; 75 validators</span>
         </div>
       </div>
     </div>
@@ -161,11 +189,45 @@ const DOORS = [
   </script>
 
   <style>
-    /* Letter from the protocol */
-    .letter { max-width: 64ch; margin-top: 20px; }
-    .letter-body { font-family: var(--serif); font-size: 19px; line-height: 1.55; color: var(--ink); margin: 0; }
+    /* Hero split: letter (left) + at-a-glance (right) */
+    .hero-split {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(280px, 1fr);
+      gap: 48px;
+      margin-top: 24px;
+      align-items: start;
+    }
+    .letter { max-width: 70ch; }
+    .letter-body { font-family: var(--serif); font-size: 20px; line-height: 1.55; color: var(--ink); margin: 0; }
     .letter-sign { margin-top: 14px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; color: var(--ink-3); text-transform: uppercase; }
     .letter-sign .mono { letter-spacing: 0.06em; color: var(--ink-2); }
+    .letter .phase-line { margin-top: 18px; }
+
+    .hero-at-a-glance {
+      border-top: 1px solid var(--ink);
+      border-bottom: 1px solid var(--ink);
+      background: var(--paper);
+    }
+    .hag-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .hag-row:last-child { border-bottom: 0; }
+    .hag-row .label { flex: 0 0 auto; }
+    .hag-v {
+      font-size: 12.5px;
+      color: var(--ink);
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 980px) {
+      .hero-split { grid-template-columns: 1fr; gap: 28px; }
+    }
 
     /* Five doors */
     .door-grid {

@@ -2,53 +2,54 @@
 // Halo 2 recursive verification — proof of proof of proof
 ---
 <figure class="adm-diagram" aria-label="Halo 2 recursive verification">
-  <svg viewBox="0 0 800 280" role="img" aria-labelledby="rp-title rp-desc">
+  <svg viewBox="0 0 860 320" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="rp-title rp-desc">
     <title id="rp-title">Halo 2 recursive verification</title>
     <desc id="rp-desc">A single recursive proof attests to the validity of all earlier proofs; a phone can verify the chain from one anchor.</desc>
+    <style>
+      .d-text { font-family: "Newsreader", Georgia, serif; }
+      .d-mono { font-family: "JetBrains Mono", "SF Mono", Menlo, monospace; }
+      .d-eyebrow { font-size: 11px; letter-spacing: 0.14em; opacity: 0.7; }
+      .d-small   { font-size: 10.5px; opacity: 0.6; letter-spacing: 0.06em; }
+    </style>
 
     <!-- many txs at bottom -->
-    <g>
-      {Array.from({length: 24}).map((_, i) => (
-        <rect x={20 + i * 32} y="200" width="22" height="14" fill="none" stroke="currentColor" opacity="0.55"/>
-      ))}
-      <text x="400" y="240" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="currentColor" opacity="0.6">individual transaction proofs</text>
-    </g>
+    {Array.from({length: 22}).map((_, i) => (
+      <rect x={30 + i * 32} y="232" width="22" height="16" fill="none" stroke="currentColor" opacity="0.55"/>
+    ))}
+    <text x="380" y="278" text-anchor="middle" class="d-mono d-small" fill="currentColor">individual transaction proofs</text>
 
     <!-- intermediate -->
-    <g>
-      {Array.from({length: 6}).map((_, i) => (
-        <rect x={80 + i * 110} y="120" width="64" height="36" fill="none" stroke="currentColor"/>
-      ))}
-    </g>
-    <g stroke="currentColor" fill="none" opacity="0.35">
-      {Array.from({length: 24}).map((_, i) => {
-        const fromX = 31 + i * 32;
-        const toX = 112 + Math.floor(i / 4) * 110;
-        return <path d={`M ${fromX} 200 L ${toX} 156`} />;
+    {Array.from({length: 6}).map((_, i) => (
+      <rect x={60 + i * 110} y="140" width="70" height="38" fill="none" stroke="currentColor"/>
+    ))}
+    <g stroke="currentColor" fill="none" opacity="0.3">
+      {Array.from({length: 22}).map((_, i) => {
+        const fromX = 41 + i * 32;
+        const toX = 95 + Math.floor((i * 6) / 22) * 110;
+        return <path d={`M ${fromX} 232 L ${toX} 178`} />;
       })}
     </g>
 
     <!-- top recursive -->
-    <g>
-      <rect x="320" y="40" width="160" height="48" fill="var(--ink)"/>
-      <text x="400" y="62" text-anchor="middle" font-family="var(--mono)" font-size="10" letter-spacing="0.14em" fill="var(--paper)" opacity="0.7">ANCHOR</text>
-      <text x="400" y="80" text-anchor="middle" font-family="var(--serif)" font-size="16" fill="var(--paper)">Recursive proof</text>
-    </g>
+    <rect x="320" y="50" width="200" height="56" fill="currentColor"/>
+    <text x="420" y="74"  text-anchor="middle" class="d-mono d-eyebrow" fill="var(--paper)">ANCHOR</text>
+    <text x="420" y="94"  text-anchor="middle" class="d-text" font-size="17" fill="var(--paper)">Recursive proof</text>
+
     <g stroke="currentColor" fill="none" opacity="0.5">
       {[0, 1, 2, 3, 4, 5].map((i) => (
-        <path d={`M ${112 + i * 110} 120 L 400 88`} />
+        <path d={`M ${95 + i * 110} 140 L 420 106`} />
       ))}
     </g>
 
     <!-- phone -->
-    <g transform="translate(680,50)">
-      <rect x="0" y="0" width="56" height="100" fill="none" stroke="currentColor"/>
-      <rect x="6" y="10" width="44" height="68" fill="none" stroke="currentColor" opacity="0.5"/>
-      <circle cx="28" cy="88" r="3" fill="none" stroke="currentColor"/>
-      <text x="28" y="125" text-anchor="middle" font-family="var(--mono)" font-size="9" letter-spacing="0.10em" fill="currentColor" opacity="0.7">PHONE</text>
-      <text x="28" y="140" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="currentColor" opacity="0.55">verifies all</text>
+    <g transform="translate(720,52)">
+      <rect x="0" y="0" width="64" height="110" fill="none" stroke="currentColor"/>
+      <rect x="7" y="11" width="50" height="76" fill="none" stroke="currentColor" opacity="0.5"/>
+      <circle cx="32" cy="98" r="3.5" fill="none" stroke="currentColor"/>
+      <text x="32" y="134" text-anchor="middle" class="d-mono d-eyebrow" fill="currentColor">PHONE</text>
+      <text x="32" y="150" text-anchor="middle" class="d-mono d-small" fill="currentColor">verifies all</text>
     </g>
-    <path d="M 480 64 L 670 90" stroke="currentColor" fill="none" stroke-dasharray="3 3" opacity="0.5"/>
+    <path d="M 520 76 L 712 100" stroke="currentColor" fill="none" stroke-dasharray="3 3" opacity="0.5"/>
   </svg>
   <figcaption class="adm-diagram-caption">Recursive verification · WP §7.5, §8.5</figcaption>
 </figure>

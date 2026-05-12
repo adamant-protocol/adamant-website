@@ -2,88 +2,89 @@
 // Burn-to-mint flow: 4 source-chain boxes → burn → ADM mint
 ---
 <figure class="adm-diagram" aria-label="Burn-to-mint flow">
-  <svg viewBox="0 0 800 280" role="img" aria-labelledby="btm-title btm-desc">
+  <svg viewBox="0 0 860 320" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="btm-title btm-desc">
     <title id="btm-title">Burn-to-mint flow</title>
     <desc id="btm-desc">Four supported source assets (BTC, ETH, USDT, USDC) burn to a verifiably-unspendable address; Adamant validators verify the burn proof and mint ADM at the launch-phase rate.</desc>
+    <style>
+      .d-text  { font-family: "Newsreader", Georgia, serif; }
+      .d-mono  { font-family: "JetBrains Mono", "SF Mono", Menlo, monospace; }
+      .d-eyebrow { font-size: 11px; letter-spacing: 0.14em; opacity: 0.6; }
+      .d-title { font-size: 18px; }
+      .d-small { font-size: 10.5px; opacity: 0.55; letter-spacing: 0.06em; }
+    </style>
 
-    <!-- frame -->
-    <rect x="0.5" y="0.5" width="799" height="279" fill="none" stroke="currentColor" stroke-width="1"/>
+    <rect x="0.5" y="0.5" width="859" height="319" fill="none" stroke="currentColor"/>
 
-    <!-- source assets column -->
-    <g font-family="var(--mono)" font-size="11" letter-spacing="0.10em" text-anchor="middle">
-      <text x="100" y="28" fill="currentColor" opacity="0.6">SOURCE CHAIN</text>
-    </g>
-    <g>
-      <!-- 4 source assets -->
-      <g transform="translate(40,50)">
-        <rect width="120" height="40" fill="none" stroke="currentColor"/>
-        <text x="60" y="25" text-anchor="middle" font-family="var(--serif)" font-size="18" fill="currentColor">BTC</text>
+    <!-- column header -->
+    <text x="110" y="36" text-anchor="middle" class="d-mono d-eyebrow" fill="currentColor">SOURCE CHAIN</text>
+
+    <!-- source asset rows -->
+    <g class="d-text">
+      <g transform="translate(40,56)">
+        <rect width="140" height="42" fill="none" stroke="currentColor"/>
+        <text x="70" y="27" text-anchor="middle" class="d-title" fill="currentColor">BTC</text>
       </g>
-      <g transform="translate(40,100)">
-        <rect width="120" height="40" fill="none" stroke="currentColor"/>
-        <text x="60" y="25" text-anchor="middle" font-family="var(--serif)" font-size="18" fill="currentColor">ETH</text>
+      <g transform="translate(40,108)">
+        <rect width="140" height="42" fill="none" stroke="currentColor"/>
+        <text x="70" y="27" text-anchor="middle" class="d-title" fill="currentColor">ETH</text>
       </g>
-      <g transform="translate(40,150)">
-        <rect width="120" height="40" fill="none" stroke="currentColor"/>
-        <text x="60" y="25" text-anchor="middle" font-family="var(--serif)" font-size="18" fill="currentColor">USDT</text>
+      <g transform="translate(40,160)">
+        <rect width="140" height="42" fill="none" stroke="currentColor"/>
+        <text x="70" y="27" text-anchor="middle" class="d-title" fill="currentColor">USDT</text>
       </g>
-      <g transform="translate(40,200)">
-        <rect width="120" height="40" fill="none" stroke="currentColor"/>
-        <text x="60" y="25" text-anchor="middle" font-family="var(--serif)" font-size="18" fill="currentColor">USDC</text>
+      <g transform="translate(40,212)">
+        <rect width="140" height="42" fill="none" stroke="currentColor"/>
+        <text x="70" y="27" text-anchor="middle" class="d-title" fill="currentColor">USDC</text>
       </g>
     </g>
 
     <!-- arrows to burn -->
     <g stroke="currentColor" fill="none">
-      <path d="M160,70 L260,140" />
-      <path d="M160,120 L260,140" />
-      <path d="M160,170 L260,140" />
-      <path d="M160,220 L260,140" />
+      <path d="M180,77 L280,160" />
+      <path d="M180,129 L280,160" />
+      <path d="M180,181 L280,160" />
+      <path d="M180,233 L280,160" />
     </g>
 
     <!-- burn step -->
-    <g transform="translate(260,100)">
-      <rect width="200" height="80" fill="none" stroke="currentColor" stroke-width="2"/>
-      <text x="100" y="32" text-anchor="middle" font-family="var(--mono)" font-size="10" letter-spacing="0.14em" fill="currentColor" opacity="0.6">STEP 01</text>
-      <text x="100" y="55" text-anchor="middle" font-family="var(--serif)" font-size="20" fill="currentColor">Burn</text>
-      <text x="100" y="72" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="currentColor" opacity="0.55">to unspendable address</text>
+    <g transform="translate(280,118)">
+      <rect width="220" height="84" fill="none" stroke="currentColor" stroke-width="2"/>
+      <text x="110" y="28" text-anchor="middle" class="d-mono d-eyebrow" fill="currentColor">STEP 01</text>
+      <text x="110" y="56" text-anchor="middle" class="d-text" font-size="22" fill="currentColor">Burn</text>
+      <text x="110" y="75" text-anchor="middle" class="d-mono d-small" fill="currentColor">to unspendable address</text>
     </g>
 
     <!-- arrow + proof -->
-    <g stroke="currentColor" fill="none">
-      <path d="M460,140 L520,140" marker-end="url(#arrow)"/>
-    </g>
-    <text x="490" y="128" text-anchor="middle" font-family="var(--mono)" font-size="10" letter-spacing="0.12em" fill="currentColor">PROOF</text>
+    <text x="540" y="148" text-anchor="middle" class="d-mono" font-size="10" letter-spacing="0.12em" fill="currentColor">PROOF</text>
+    <path d="M500,160 L580,160" stroke="currentColor" fill="none" marker-end="url(#btm-arrow)"/>
 
     <!-- verify step -->
-    <g transform="translate(520,100)">
-      <rect width="120" height="80" fill="none" stroke="currentColor"/>
-      <text x="60" y="32" text-anchor="middle" font-family="var(--mono)" font-size="10" letter-spacing="0.14em" fill="currentColor" opacity="0.6">STEP 02</text>
-      <text x="60" y="55" text-anchor="middle" font-family="var(--serif)" font-size="18" fill="currentColor">Verify</text>
-      <text x="60" y="72" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="currentColor" opacity="0.55">validators</text>
+    <g transform="translate(580,118)">
+      <rect width="140" height="84" fill="none" stroke="currentColor"/>
+      <text x="70" y="28" text-anchor="middle" class="d-mono d-eyebrow" fill="currentColor">STEP 02</text>
+      <text x="70" y="56" text-anchor="middle" class="d-text" font-size="20" fill="currentColor">Verify</text>
+      <text x="70" y="75" text-anchor="middle" class="d-mono d-small" fill="currentColor">validators</text>
     </g>
 
-    <g stroke="currentColor" fill="none">
-      <path d="M640,140 L700,140" marker-end="url(#arrow)"/>
-    </g>
+    <path d="M720,160 L760,160" stroke="currentColor" fill="none" marker-end="url(#btm-arrow)"/>
 
     <!-- mint step -->
-    <g transform="translate(700,100)">
-      <rect width="60" height="80" fill="currentColor"/>
-      <text x="30" y="32" text-anchor="middle" font-family="var(--mono)" font-size="10" letter-spacing="0.14em" fill="var(--paper)">STEP 03</text>
-      <text x="30" y="55" text-anchor="middle" font-family="var(--serif)" font-size="16" fill="var(--paper)">Mint</text>
-      <text x="30" y="72" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--paper)">ADM</text>
+    <g transform="translate(760,118)">
+      <rect width="80" height="84" fill="currentColor"/>
+      <text x="40" y="28" text-anchor="middle" class="d-mono d-eyebrow" fill="var(--paper)">STEP 03</text>
+      <text x="40" y="56" text-anchor="middle" class="d-text" font-size="18" fill="var(--paper)">Mint</text>
+      <text x="40" y="75" text-anchor="middle" class="d-mono" font-size="11" fill="var(--paper)">ADM</text>
     </g>
 
     <!-- annotations -->
-    <g font-family="var(--mono)" font-size="10" fill="currentColor" opacity="0.55" letter-spacing="0.06em">
-      <text x="100" y="258" text-anchor="middle">USD-equivalent at design time</text>
-      <text x="360" y="258" text-anchor="middle">tokens permanently destroyed</text>
-      <text x="730" y="258" text-anchor="middle">20 ADM / USD-eq · capped</text>
+    <g fill="currentColor">
+      <text x="110" y="290" text-anchor="middle" class="d-mono d-small">USD-equivalent at design time</text>
+      <text x="390" y="290" text-anchor="middle" class="d-mono d-small">tokens permanently destroyed</text>
+      <text x="800" y="290" text-anchor="middle" class="d-mono d-small">20 ADM / USD-eq · capped</text>
     </g>
 
     <defs>
-      <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <marker id="btm-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
         <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/>
       </marker>
     </defs>
@@ -92,21 +93,7 @@
 </figure>
 
 <style>
-  .adm-diagram {
-    margin: 24px 0;
-    border: 1px solid var(--rule);
-    background: var(--paper);
-    color: var(--ink);
-  }
+  .adm-diagram { margin: 24px 0; border: 1px solid var(--rule); background: var(--paper); color: var(--ink); }
   .adm-diagram svg { display: block; width: 100%; height: auto; padding: 18px; box-sizing: border-box; }
-  .adm-diagram-caption {
-    border-top: 1px solid var(--rule);
-    padding: 10px 18px;
-    font-family: var(--mono);
-    font-size: 10.5px;
-    letter-spacing: 0.10em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-    background: var(--paper-2);
-  }
+  .adm-diagram-caption { border-top: 1px solid var(--rule); padding: 10px 18px; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-3); background: var(--paper-2); }
 </style>

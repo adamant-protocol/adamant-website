@@ -2,59 +2,62 @@
 // DAG-BFT vertex/round structure
 ---
 <figure class="adm-diagram" aria-label="DAG-BFT vertex and round structure">
-  <svg viewBox="0 0 800 280" role="img" aria-labelledby="dag-title dag-desc">
+  <svg viewBox="0 0 860 300" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="dag-title dag-desc">
     <title id="dag-title">DAG-BFT vertex/round structure</title>
     <desc id="dag-desc">Each validator proposes one vertex per round; vertices reference parents in the previous round. Mysticeti-shaped DAG-BFT consensus.</desc>
+    <style>
+      .d-mono { font-family: "JetBrains Mono", "SF Mono", Menlo, monospace; }
+      .d-eyebrow { font-size: 11px; letter-spacing: 0.14em; opacity: 0.6; }
+      .d-small   { font-size: 11px; opacity: 0.6; letter-spacing: 0.06em; }
+    </style>
 
     <!-- round labels -->
-    <g font-family="var(--mono)" font-size="11" letter-spacing="0.14em" fill="currentColor" opacity="0.6">
-      <text x="100" y="32" text-anchor="middle">ROUND r</text>
-      <text x="300" y="32" text-anchor="middle">ROUND r+1</text>
-      <text x="500" y="32" text-anchor="middle">ROUND r+2</text>
-      <text x="700" y="32" text-anchor="middle">ROUND r+3</text>
+    <g class="d-mono d-eyebrow" fill="currentColor">
+      <text x="120" y="36" text-anchor="middle">ROUND r</text>
+      <text x="320" y="36" text-anchor="middle">ROUND r+1</text>
+      <text x="520" y="36" text-anchor="middle">ROUND r+2</text>
+      <text x="720" y="36" text-anchor="middle">ROUND r+3</text>
     </g>
 
-    <!-- validator rows -->
+    <!-- validator rows + vertices -->
     {[0, 1, 2, 3, 4].map((row) => (
       <g>
-        <text x="20" y={70 + row * 40} font-family="var(--mono)" font-size="10" fill="currentColor" opacity="0.6">V{row + 1}</text>
-        {[100, 300, 500, 700].map((cx) => (
-          <circle cx={cx} cy={66 + row * 40} r="6" fill={row === 2 ? 'currentColor' : 'none'} stroke="currentColor" stroke-width="1.5"/>
+        <text x="40" y={80 + row * 44} class="d-mono d-small" fill="currentColor">V{row + 1}</text>
+        {[120, 320, 520, 720].map((cx) => (
+          <circle cx={cx} cy={76 + row * 44} r="7" fill={row === 2 ? 'currentColor' : 'none'} stroke="currentColor" stroke-width="1.5"/>
         ))}
       </g>
     ))}
 
-    <!-- arrows between rounds (sample) -->
-    <g stroke="currentColor" fill="none" opacity="0.35">
+    <!-- edges (sample subset) -->
+    <g stroke="currentColor" fill="none" opacity="0.3">
       <!-- col 1→2 -->
-      <path d="M 106 66 L 294 66" />
-      <path d="M 106 66 L 294 106" />
-      <path d="M 106 106 L 294 66" />
-      <path d="M 106 106 L 294 146" />
-      <path d="M 106 146 L 294 106" />
-      <path d="M 106 146 L 294 186" />
-      <path d="M 106 186 L 294 146" />
-      <path d="M 106 186 L 294 226" />
-      <path d="M 106 226 L 294 186" />
-      <path d="M 106 226 L 294 226" />
+      <path d="M 127 76  L 313 76" />
+      <path d="M 127 76  L 313 120" />
+      <path d="M 127 120 L 313 76" />
+      <path d="M 127 120 L 313 164" />
+      <path d="M 127 164 L 313 120" />
+      <path d="M 127 164 L 313 208" />
+      <path d="M 127 208 L 313 164" />
+      <path d="M 127 208 L 313 252" />
+      <path d="M 127 252 L 313 208" />
       <!-- col 2→3 -->
-      <path d="M 306 66 L 494 66" />
-      <path d="M 306 106 L 494 106" />
-      <path d="M 306 146 L 494 146" />
-      <path d="M 306 186 L 494 186" />
-      <path d="M 306 226 L 494 226" />
-      <path d="M 306 66 L 494 106" />
-      <path d="M 306 146 L 494 106" />
+      <path d="M 327 76  L 513 76" />
+      <path d="M 327 120 L 513 120" />
+      <path d="M 327 164 L 513 164" />
+      <path d="M 327 208 L 513 208" />
+      <path d="M 327 252 L 513 252" />
+      <path d="M 327 76  L 513 164" />
+      <path d="M 327 164 L 513 76" />
       <!-- col 3→4 -->
-      <path d="M 506 66 L 694 66" />
-      <path d="M 506 106 L 694 106" />
-      <path d="M 506 146 L 694 146" />
-      <path d="M 506 186 L 694 186" />
-      <path d="M 506 226 L 694 226" />
+      <path d="M 527 76  L 713 76" />
+      <path d="M 527 120 L 713 120" />
+      <path d="M 527 164 L 713 164" />
+      <path d="M 527 208 L 713 208" />
+      <path d="M 527 252 L 713 252" />
     </g>
 
-    <!-- annotation -->
-    <text x="500" y="270" text-anchor="middle" font-family="var(--mono)" font-size="10" letter-spacing="0.06em" fill="currentColor" opacity="0.55">
+    <text x="430" y="290" text-anchor="middle" class="d-mono d-small" fill="currentColor">
       Each validator proposes one vertex per round, referencing 2f+1 parents from the previous round.
     </text>
   </svg>

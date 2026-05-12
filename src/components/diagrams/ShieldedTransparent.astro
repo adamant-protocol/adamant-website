@@ -2,41 +2,46 @@
 // Shielded vs transparent state: split rectangle showing what each side reveals.
 ---
 <figure class="adm-diagram" aria-label="Shielded vs transparent state">
-  <svg viewBox="0 0 800 280" role="img" aria-labelledby="st-title st-desc">
+  <svg viewBox="0 0 860 320" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="st-title st-desc">
     <title id="st-title">Shielded vs transparent state</title>
     <desc id="st-desc">A side-by-side comparison of what observers can see for shielded versus transparent objects on Adamant.</desc>
+    <style>
+      .d-text { font-family: "Newsreader", Georgia, serif; }
+      .d-mono { font-family: "JetBrains Mono", "SF Mono", Menlo, monospace; }
+      .d-eyebrow { font-size: 11px; letter-spacing: 0.14em; opacity: 0.6; }
+    </style>
 
-    <!-- shielded side -->
+    <!-- shielded -->
     <g>
-      <rect x="20" y="20" width="370" height="240" fill="var(--ink)"/>
-      <text x="40" y="56" font-family="var(--mono)" font-size="11" letter-spacing="0.14em" fill="var(--paper)" opacity="0.6">DEFAULT</text>
-      <text x="40" y="88" font-family="var(--serif)" font-size="28" fill="var(--paper)">Shielded</text>
-      <line x1="40" y1="100" x2="370" y2="100" stroke="var(--paper)" opacity="0.3"/>
+      <rect x="20" y="20" width="400" height="280" fill="var(--ink)"/>
+      <text x="40" y="56"  class="d-mono d-eyebrow" fill="var(--paper)">DEFAULT</text>
+      <text x="40" y="92"  class="d-text" font-size="30" fill="var(--paper)">Shielded</text>
+      <line x1="40" y1="108" x2="400" y2="108" stroke="var(--paper)" opacity="0.3"/>
 
-      <g font-family="var(--mono)" font-size="12" fill="var(--paper)" letter-spacing="0.04em">
-        <text x="40" y="128">Existence</text>     <text x="350" y="128" text-anchor="end" opacity="0.95">visible</text>
-        <text x="40" y="150">Validity proof</text> <text x="350" y="150" text-anchor="end" opacity="0.95">visible</text>
-        <text x="40" y="172">Fee</text>            <text x="350" y="172" text-anchor="end" opacity="0.95">visible</text>
-        <text x="40" y="194">Sender</text>         <text x="350" y="194" text-anchor="end" opacity="0.55">encrypted</text>
-        <text x="40" y="216">Recipient</text>      <text x="350" y="216" text-anchor="end" opacity="0.55">encrypted</text>
-        <text x="40" y="238">Amount</text>         <text x="350" y="238" text-anchor="end" opacity="0.55">encrypted</text>
+      <g class="d-mono" fill="var(--paper)" font-size="13" letter-spacing="0.04em">
+        <text x="40" y="140">Existence</text>     <text x="380" y="140" text-anchor="end" opacity="0.95">visible</text>
+        <text x="40" y="166">Validity proof</text> <text x="380" y="166" text-anchor="end" opacity="0.95">visible</text>
+        <text x="40" y="192">Fee</text>            <text x="380" y="192" text-anchor="end" opacity="0.95">visible</text>
+        <text x="40" y="218">Sender</text>         <text x="380" y="218" text-anchor="end" opacity="0.55">encrypted</text>
+        <text x="40" y="244">Recipient</text>      <text x="380" y="244" text-anchor="end" opacity="0.55">encrypted</text>
+        <text x="40" y="270">Amount</text>         <text x="380" y="270" text-anchor="end" opacity="0.55">encrypted</text>
       </g>
     </g>
 
-    <!-- transparent side -->
+    <!-- transparent -->
     <g>
-      <rect x="410" y="20" width="370" height="240" fill="none" stroke="currentColor"/>
-      <text x="430" y="56" font-family="var(--mono)" font-size="11" letter-spacing="0.14em" fill="currentColor" opacity="0.6">OPT-IN</text>
-      <text x="430" y="88" font-family="var(--serif)" font-size="28" fill="currentColor">Transparent</text>
-      <line x1="430" y1="100" x2="760" y2="100" stroke="currentColor" opacity="0.2"/>
+      <rect x="440" y="20" width="400" height="280" fill="none" stroke="currentColor"/>
+      <text x="460" y="56"  class="d-mono d-eyebrow" fill="currentColor">OPT-IN</text>
+      <text x="460" y="92"  class="d-text" font-size="30" fill="currentColor">Transparent</text>
+      <line x1="460" y1="108" x2="820" y2="108" stroke="currentColor" opacity="0.2"/>
 
-      <g font-family="var(--mono)" font-size="12" fill="currentColor" letter-spacing="0.04em">
-        <text x="430" y="128">Existence</text>     <text x="740" y="128" text-anchor="end">visible</text>
-        <text x="430" y="150">Validity proof</text> <text x="740" y="150" text-anchor="end">n/a</text>
-        <text x="430" y="172">Fee</text>            <text x="740" y="172" text-anchor="end">visible</text>
-        <text x="430" y="194">Sender</text>         <text x="740" y="194" text-anchor="end">visible</text>
-        <text x="430" y="216">Recipient</text>      <text x="740" y="216" text-anchor="end">visible</text>
-        <text x="430" y="238">Amount</text>         <text x="740" y="238" text-anchor="end">visible</text>
+      <g class="d-mono" fill="currentColor" font-size="13" letter-spacing="0.04em">
+        <text x="460" y="140">Existence</text>     <text x="820" y="140" text-anchor="end">visible</text>
+        <text x="460" y="166">Validity proof</text> <text x="820" y="166" text-anchor="end">n/a</text>
+        <text x="460" y="192">Fee</text>            <text x="820" y="192" text-anchor="end">visible</text>
+        <text x="460" y="218">Sender</text>         <text x="820" y="218" text-anchor="end">visible</text>
+        <text x="460" y="244">Recipient</text>      <text x="820" y="244" text-anchor="end">visible</text>
+        <text x="460" y="270">Amount</text>         <text x="820" y="270" text-anchor="end">visible</text>
       </g>
     </g>
   </svg>
