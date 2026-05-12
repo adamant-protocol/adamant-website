@@ -1,0 +1,55 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import Provenance from '@/components/Provenance.astro';
+
+const ROWS = [
+  { c: 'I.01', n: 'Centralised exchanges',  status: 'post-mainnet',  notes: 'Listings determined by exchange policy; protocol does not coordinate listings.' },
+  { c: 'I.02', n: 'Decentralised exchanges',status: 'post-mainnet',  notes: 'Native Adamant DEX possible via Move modules; bridge-based DEXes possible from launch.' },
+  { c: 'I.03', n: 'Custody providers',      status: 'planned',       notes: 'ML-DSA support required on the custody side. Engaging early.' },
+  { c: 'I.04', n: 'Stablecoin issuers',     status: 'inbound only',  notes: 'USDT/USDC accepted as burn-to-mint source assets only during launch. No native ADM-denominated stablecoin issued by the protocol.' },
+  { c: 'I.05', n: 'Bridges',                status: 'unplanned',     notes: 'No first-party bridge. Burn-to-mint is the only protocol-defined cross-chain mechanism during launch.' },
+  { c: 'I.06', n: 'On/off-ramps',           status: 'post-mainnet',  notes: 'Fiat ramps will be operated by third parties subject to their compliance regimes.' },
+  { c: 'I.07', n: 'Analytics / explorers',  status: 'open',          notes: 'Reference explorer ships; expect community alternatives.' },
+];
+---
+<HubLayout active="home" title="Adamant — Integrations" description="Exchanges, custody, bridges, ramps — what the protocol expects post-mainnet and what it does not.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Integrations · /integrations</div>
+        <h1 class="title">External surfaces.</h1>
+      </div>
+      <div>
+        <p class="lede">Adamant&rsquo;s integration posture is honest: most of these will exist when third parties decide to build them. The protocol does not coordinate listings, run bridges, or operate ramps.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="scroll-x">
+        <table class="ledger">
+          <thead><tr><th>Code</th><th>Surface</th><th>Status</th><th>Notes</th></tr></thead>
+          <tbody>
+            {ROWS.map((r) => (
+              <tr><td class="mono">{r.c}</td><td>{r.n}</td><td><span class="tag">{r.status}</span></td><td>{r.notes}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="callout">
+        <div class="mark-c">§</div>
+        <div>
+          <p>"Integration" is not a roadmap promise. Adamant ships a base layer; integrators decide whether the trade-offs make sense for their customers. We can be useful at the spec level, never at the listing level.</p>
+          <small>— posture</small>
+        </div>
+      </div>
+      <Provenance section="Integrations" />
+    </div>
+  </section>
+</HubLayout>

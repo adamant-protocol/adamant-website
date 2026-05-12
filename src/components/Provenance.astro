@@ -1,0 +1,60 @@
+---
+// Per-page provenance: when written, against which whitepaper version,
+// against which commit. The HQ telegraphs "this page is a record, not a
+// pamphlet."
+interface Props {
+  spec?: string;
+  revised?: string;
+  section?: string;
+}
+const {
+  spec = 'v0.1 · draft',
+  revised = '2026-05-12',
+  section,
+} = Astro.props;
+
+// Pull commit hash at build time from CI env, or fall back to a stub.
+const COMMIT = (
+  process.env.VERCEL_GIT_COMMIT_SHA ||
+  process.env.GITHUB_SHA ||
+  ''
+).slice(0, 7);
+---
+<aside class="provenance" aria-label="Page provenance">
+  <span class="provenance-key">Provenance</span>
+  <span class="provenance-row">
+    <span><span class="mute">whitepaper</span> {spec}</span>
+    <span><span class="mute">revised</span> {revised}</span>
+    {COMMIT && <span><span class="mute">commit</span> <code>{COMMIT}</code></span>}
+    {section && <span><span class="mute">§</span> {section}</span>}
+  </span>
+</aside>
+
+<style>
+  .provenance {
+    margin-top: 32px;
+    padding: 12px 0;
+    border-top: 1px dashed var(--rule-2);
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+    flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    color: var(--ink-3);
+  }
+  .provenance-key {
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  .provenance-row {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .provenance .mute { color: var(--mute); text-transform: uppercase; letter-spacing: 0.10em; margin-right: 6px; }
+  .provenance code { font-family: var(--mono); color: var(--ink-2); }
+</style>

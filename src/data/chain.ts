@@ -103,6 +103,7 @@ export const PHASE: PhaseState = PHASES.prelaunch;
 
 export const PAGES = [
   { k: 'home',       href: '/',           label: 'Home',       header: true  },
+  { k: 'start',      href: '/start',      label: 'Start',      header: true  },
   { k: 'about',      href: '/about',      label: 'About',      header: true  },
   { k: 'genesis',    href: '/genesis',    label: 'Genesis',    header: true  },
   { k: 'spec',       href: '/spec',       label: 'Spec',       header: true  },
@@ -113,6 +114,8 @@ export const PAGES = [
   { k: 'operator',   href: '/operator',   label: 'Operator',   header: false },
   { k: 'status',     href: '/status',     label: 'Status',     header: false },
   { k: 'security',   href: '/security',   label: 'Security',   header: false },
+  { k: 'roadmap',    href: '/roadmap',    label: 'Roadmap',    header: false },
+  { k: 'ecosystem',  href: '/ecosystem',  label: 'Ecosystem',  header: false },
 ] as const;
 
 export const HEADER_PAGES = PAGES.filter((p) => p.header);

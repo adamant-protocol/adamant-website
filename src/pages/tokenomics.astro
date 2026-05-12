@@ -1,6 +1,8 @@
 ---
 import HubLayout from '@/layouts/HubLayout.astro';
 import SeeAlso from '@/components/SeeAlso.astro';
+import AprDemo from '@/components/demos/AprDemo.astro';
+import Provenance from '@/components/Provenance.astro';
 import { POST_GENESIS_EMISSION, SLASHING_CONDITIONS, FEE_DIMENSIONS, fmtAdm } from '@/data/chain';
 ---
 <HubLayout active="genesis" title="Adamant — Tokenomics" description="Token mechanics. Launch phase + post-genesis emission, fee market, staking economy, slashing.">
@@ -113,25 +115,8 @@ import { POST_GENESIS_EMISSION, SLASHING_CONDITIONS, FEE_DIMENSIONS, fmtAdm } fr
   <!-- APR -->
   <section class="section" id="apr">
     <div class="container">
-      <div class="section-head"><div class="num-mark">§ 06 / APR</div><div><h2 class="title">Validator APR calculator.</h2><p class="subtitle">Pre-launch model. Inputs are placeholders; the calculator updates from RPC once mainnet is live.</p></div></div>
-      <div style="border: 1px solid var(--ink); padding: 0;">
-        <div class="send-row" style="display:grid; grid-template-columns: 200px 1fr; border-bottom: 1px solid var(--rule);">
-          <div class="send-lab" style="padding: 14px 18px; border-right: 1px solid var(--rule);"><span class="label">Bond size · ADM</span></div>
-          <div class="send-val mono" style="padding: 14px 18px;">1 000</div>
-        </div>
-        <div class="send-row" style="display:grid; grid-template-columns: 200px 1fr; border-bottom: 1px solid var(--rule);">
-          <div class="send-lab" style="padding: 14px 18px; border-right: 1px solid var(--rule);"><span class="label">Active set · N</span></div>
-          <div class="send-val mono" style="padding: 14px 18px;">42</div>
-        </div>
-        <div class="send-row" style="display:grid; grid-template-columns: 200px 1fr; border-bottom: 1px solid var(--rule);">
-          <div class="send-lab" style="padding: 14px 18px; border-right: 1px solid var(--rule);"><span class="label">Delegated · ADM</span></div>
-          <div class="send-val mono" style="padding: 14px 18px;">0</div>
-        </div>
-        <div class="send-row" style="display:grid; grid-template-columns: 200px 1fr; background: var(--paper-2);">
-          <div class="send-lab" style="padding: 14px 18px; border-right: 1px solid var(--rule);"><span class="label">Est. APR · launch phase</span></div>
-          <div class="send-val mono" style="padding: 14px 18px; font-size: 22px;" data-spec="true">specification</div>
-        </div>
-      </div>
+      <div class="section-head"><div class="num-mark">§ 06 / APR</div><div><h2 class="title">Validator APR · interactive.</h2><p class="subtitle">Drag the inputs. The calculator uses the launch-phase emission model (30M ADM drained over ~2 years at the ceiling). Real numbers will replace this on mainnet.</p></div></div>
+      <AprDemo />
       <p class="small" style="margin-top: 16px;">Validator selection is first-come-first-served (WP §8.1.3); delegation affects <em>economics</em> not <em>selection</em>. More delegated stake = larger share of validator rewards, same probability of being in the active set.</p>
     </div>
   </section>

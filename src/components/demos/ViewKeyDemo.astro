@@ -1,0 +1,93 @@
+---
+// Try a view key — client-side disclosure demo.
+// No real cryptography; choreography that proves the protocol can be played with.
+---
+<div class="vk-demo" data-vk-demo>
+  <header class="vk-demo-head">
+    <span class="label">Try a view key</span>
+    <span class="mono small" style="color: var(--ink-3);">demo · no real chain</span>
+  </header>
+  <div class="vk-demo-body">
+    <div class="vk-demo-tx" id="vk-demo-tx">
+      <div class="vk-demo-row"><span class="label">Tx hash</span><span class="mono">0x9f3a…c0a1</span></div>
+      <div class="vk-demo-row"><span class="label">Block</span><span class="mono">184 217</span></div>
+      <div class="vk-demo-row"><span class="label">Fee</span><span class="mono">0.0042 ADM</span></div>
+      <div class="vk-demo-row vk-demo-encrypted" data-field="sender"><span class="label">Sender</span><span class="mono">▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒</span></div>
+      <div class="vk-demo-row vk-demo-encrypted" data-field="recipient"><span class="label">Recipient</span><span class="mono">▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒</span></div>
+      <div class="vk-demo-row vk-demo-encrypted" data-field="amount"><span class="label">Amount</span><span class="mono">▒▒▒▒▒▒▒▒</span></div>
+      <div class="vk-demo-row vk-demo-encrypted" data-field="memo"><span class="label">Memo</span><span class="mono">▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒</span></div>
+    </div>
+    <div class="vk-demo-controls">
+      <button type="button" data-vk-scope="amount">Reveal: amount only</button>
+      <button type="button" data-vk-scope="counterparty">Reveal: counterparty (sender + recipient)</button>
+      <button type="button" data-vk-scope="full">Reveal: full disclosure</button>
+      <button type="button" data-vk-scope="reset">Re-encrypt</button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var REAL = {
+      sender:    'adm1q9c3vk8u5n2gx4z3p7a6h2w0e8d4r1l5y',
+      recipient: 'adm1q7a2x4j9d3h8k1m5b6t0v3u7r2y9p4w6',
+      amount:    '250.000 ADM',
+      memo:      'invoice #42 · vendor X',
+    };
+    function unmask(field) {
+      document.querySelectorAll('[data-field="' + field + '"] .mono').forEach(function (el) {
+        el.textContent = REAL[field];
+      });
+      document.querySelector('[data-field="' + field + '"]').classList.remove('vk-demo-encrypted');
+    }
+    function maskAll() {
+      Object.keys(REAL).forEach(function (k) {
+        document.querySelector('[data-field="' + k + '"] .mono').textContent =
+          k === 'amount' ? '▒▒▒▒▒▒▒▒'
+          : k === 'memo' ? '▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒'
+          : '▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒';
+        document.querySelector('[data-field="' + k + '"]').classList.add('vk-demo-encrypted');
+      });
+    }
+    document.querySelectorAll('[data-vk-scope]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var scope = btn.getAttribute('data-vk-scope');
+        if (scope === 'reset') { maskAll(); return; }
+        maskAll();
+        if (scope === 'amount') unmask('amount');
+        if (scope === 'counterparty') { unmask('sender'); unmask('recipient'); }
+        if (scope === 'full') { unmask('sender'); unmask('recipient'); unmask('amount'); unmask('memo'); }
+      });
+    });
+  })();
+</script>
+
+<style>
+  .vk-demo { border: 1px solid var(--ink); background: var(--paper); margin: 24px 0; }
+  .vk-demo-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid var(--rule); }
+  .vk-demo-body { display: grid; grid-template-columns: 1.5fr 1fr; gap: 0; }
+  .vk-demo-tx { padding: 18px; border-right: 1px solid var(--rule); }
+  .vk-demo-row { display: grid; grid-template-columns: 100px 1fr; padding: 8px 0; border-bottom: 1px dashed var(--rule); font-size: 13px; align-items: baseline; }
+  .vk-demo-row:last-child { border-bottom: 0; }
+  .vk-demo-row .label { color: var(--ink-3); }
+  .vk-demo-row .mono { color: var(--ink); font-size: 13px; word-break: break-all; }
+  .vk-demo-encrypted .mono { color: var(--mute); letter-spacing: 0.05em; }
+  .vk-demo-controls { display: flex; flex-direction: column; gap: 8px; padding: 18px; background: var(--paper-2); }
+  .vk-demo-controls button {
+    text-align: left;
+    padding: 10px 14px;
+    border: 1px solid var(--rule-2);
+    background: var(--paper);
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.06em;
+    color: var(--ink-2);
+    cursor: pointer;
+    transition: background 120ms, color 120ms, border-color 120ms;
+  }
+  .vk-demo-controls button:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  @media (max-width: 760px) {
+    .vk-demo-body { grid-template-columns: 1fr; }
+    .vk-demo-tx { border-right: 0; border-bottom: 1px solid var(--rule); }
+  }
+</style>

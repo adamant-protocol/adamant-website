@@ -1,6 +1,8 @@
 ---
 import HubLayout from '@/layouts/HubLayout.astro';
 import SeeAlso from '@/components/SeeAlso.astro';
+import ViewKeyDemo from '@/components/demos/ViewKeyDemo.astro';
+import ShieldedTransparent from '@/components/diagrams/ShieldedTransparent.astro';
 import { HARDWARE_WALLETS } from '@/data/chain';
 ---
 
@@ -130,6 +132,9 @@ import { HARDWARE_WALLETS } from '@/data/chain';
           </div>
         ))}
       </div>
+
+      <ShieldedTransparent />
+      <ViewKeyDemo />
 
       <div style="border: 1px solid var(--rule); margin-top: 32px;">
         <div style="display:flex; justify-content:space-between; padding: 12px 16px; border-bottom: 1px solid var(--rule);">

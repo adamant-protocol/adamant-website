@@ -1,0 +1,51 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import Provenance from '@/components/Provenance.astro';
+---
+<HubLayout active="home" title="Adamant — Grants" description="There is no grants programme. Yet. This page exists so its absence is explicit.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Grants · /grants</div>
+        <h1 class="title">No grants.<br/><em style="font-style:italic; color:var(--ink-2);">Yet.</em></h1>
+      </div>
+      <div>
+        <p class="lede">Adamant has no foundation. There is no treasury, no allocation, no discretionary pool from which to award grants. That posture is structural, not provisional.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 01 / Why</div><div><h2 class="title">Grant programmes require allocations.</h2></div></div>
+      <p class="serif" style="font-size: 17px; line-height: 1.6; color: var(--ink-2); max-width: 64ch;">
+        Granting authority comes from holding the money. Adamant&rsquo;s constitutional commitment is that no party holds protocol money. The genesis pool drains only via burn-to-mint and validator emission. There is no party that can wake up tomorrow and decide to fund work it likes.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 02 / What instead</div><div><h2 class="title">If you want to fund ecosystem work&hellip;</h2></div></div>
+      <div class="claim-grid">
+        <article class="claim-card"><span class="num">G.01</span><h3>Bug bounty</h3><p>Real, with public reward bands. See <a class="link" href="/security#bounty">/security#bounty</a>. Funded from a custody mechanism declared in the constitution.</p></article>
+        <article class="claim-card"><span class="num">G.02</span><h3>Public ADIPs</h3><p>Anyone can fund implementation of a published improvement proposal. Donations to a public ADIP-bounty address are visible on-chain; payouts are conditional on ADIP acceptance.</p></article>
+        <article class="claim-card"><span class="num">G.03</span><h3>Validator pledges</h3><p>Validators may pledge a share of their block rewards toward open work. This is voluntary, transparent, and on-chain.</p></article>
+        <article class="claim-card"><span class="num">G.04</span><h3>Prover market</h3><p>Prover compensation is a market, not a grant. Anyone can be a prover; earnings come from proof-as-a-service fees.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="callout">
+        <div class="mark-c">§</div>
+        <div>
+          <p>This page is deliberately empty. If you came expecting a portal, the protocol&rsquo;s answer is: build it, fund it, ship it. The chain rewards work that lands; it does not arbitrate work that has not.</p>
+          <small>— posture</small>
+        </div>
+      </div>
+      <Provenance section="Grants" />
+    </div>
+  </section>
+</HubLayout>

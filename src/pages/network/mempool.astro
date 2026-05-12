@@ -1,6 +1,8 @@
 ---
 import HubLayout from '@/layouts/HubLayout.astro';
 import ExplorerSearch from '@/components/ExplorerSearch.astro';
+import RegimeSlider from '@/components/demos/RegimeSlider.astro';
+import MempoolRegimes from '@/components/diagrams/MempoolRegimes.astro';
 ---
 <HubLayout active="network" title="Adamant — Mempool" description="Two-regime encrypted mempool. Threshold encryption (N≥15) or time-lock VDF (N<15).">
   <section class="page-intro">
@@ -24,6 +26,9 @@ import ExplorerSearch from '@/components/ExplorerSearch.astro';
         <div style="padding: 14px 18px; border-left: 1px solid var(--rule);"><span class="label">Threshold</span><div class="mono" style="font-size: 28px; margin-top: 4px;" data-spec="true">—</div></div>
         <div style="padding: 14px 18px; border-left: 1px solid var(--rule);"><span class="label">VDF</span><div class="mono" style="font-size: 28px; margin-top: 4px;" data-spec="true">—</div></div>
       </div>
+
+      <MempoolRegimes />
+      <RegimeSlider />
 
       <div class="gn-rule-grid" style="margin-top: 28px;">
         <article class="gn-rule">

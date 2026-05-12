@@ -1,6 +1,7 @@
 ---
 import HubLayout from '@/layouts/HubLayout.astro';
 import ExplorerSearch from '@/components/ExplorerSearch.astro';
+import DagBft from '@/components/diagrams/DagBft.astro';
 ---
 <HubLayout active="network" title="Adamant — Validators" description="Active validator set, standby queue, registration order. Genesis cohort markers.">
   <section class="page-intro">
@@ -24,6 +25,8 @@ import ExplorerSearch from '@/components/ExplorerSearch.astro';
         <div style="padding: 14px 18px; border-left: 1px solid var(--rule);"><span class="label">Security tier</span><div class="mono" style="font-size: 28px; margin-top: 4px;" data-spec="true">—</div></div>
         <div style="padding: 14px 18px; border-left: 1px solid var(--rule);"><span class="label">Cohort filled</span><div class="mono" style="font-size: 28px; margin-top: 4px;">0 / 75</div></div>
       </div>
+
+      <DagBft />
 
       <div style="margin-top: 32px;" class="scroll-x">
         <table class="ledger">

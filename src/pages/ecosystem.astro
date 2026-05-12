@@ -1,0 +1,86 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import Provenance from '@/components/Provenance.astro';
+
+const FIRST_PARTY = [
+  { c: 'E.01', n: 'Reference wallet',       type: 'Wallet',         status: 'in-progress', href: '/wallet',                blurb: 'iOS · Android · desktop. Apache 2.0. Default-shielded with social recovery.' },
+  { c: 'E.02', n: 'Reference node',         type: 'Validator client',status: 'in-progress',href: '/developers/run-a-node', blurb: 'Single-binary Rust client. Node Runner, Watcher, Service, Prover.' },
+  { c: 'E.03', n: 'Block explorer',         type: 'Explorer',       status: 'in-progress', href: '/network',                blurb: 'Public-record view of the chain.' },
+  { c: 'E.04', n: 'Adamant Move toolchain', type: 'Developer tools',status: 'in-progress', href: '/developers/move',        blurb: 'Move compiler, prover, gadget library.' },
+  { c: 'E.05', n: 'JSON-RPC + WebSocket',   type: 'API',            status: 'in-progress', href: '/developers/rpc',         blurb: 'Stable JSON-RPC surface; WS subscriptions.' },
+  { c: 'E.06', n: 'SDKs · Rust / TS / Go',  type: 'Libraries',      status: 'in-progress', href: '/developers/sdks',        blurb: 'Canonical Rust + generated TS/Go.' },
+];
+
+const COMMUNITY = [
+  { c: 'C.01', n: 'Third-party wallet',     type: 'Wallet',          status: 'open',    blurb: 'Slot reserved. ADIP a wallet spec compatible with view-keys.' },
+  { c: 'C.02', n: 'Independent explorer',   type: 'Explorer',        status: 'open',    blurb: 'Multiple explorers expected; the protocol does not own the front-end.' },
+  { c: 'C.03', n: 'Indexer / archive',      type: 'Infrastructure',  status: 'open',    blurb: 'Historical query, contracts, view-key disclosure indexers.' },
+  { c: 'C.04', n: 'Prover marketplace',     type: 'Compute market',  status: 'open',    blurb: 'GPU-accelerated Halo 2 proof-as-a-service. Permissionless.' },
+  { c: 'C.05', n: 'Service Node operator',  type: 'Infrastructure',  status: 'open',    blurb: 'Light-client RPC for wallets, per-query payment channels.' },
+];
+---
+<HubLayout active="home" title="Adamant — Ecosystem" description="Wallets, explorers, RPC providers, indexers, prover markets. First-party tooling plus reserved space for community work.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Ecosystem · /ecosystem</div>
+        <h1 class="title">Tooling around the protocol.</h1>
+      </div>
+      <div>
+        <p class="lede">The chain does not own its front-ends. First-party reference implementations ship from day one; everything else is built by whoever wants to build it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 01 / First-party</div><div><h2 class="title">What the project ships.</h2></div></div>
+      <div class="scroll-x">
+        <table class="ledger">
+          <thead><tr><th>Code</th><th>Name</th><th>Type</th><th>Status</th><th>Notes</th><th>Link</th></tr></thead>
+          <tbody>
+            {FIRST_PARTY.map((e) => (
+              <tr>
+                <td class="mono">{e.c}</td>
+                <td>{e.n}</td>
+                <td><span class="tag">{e.type}</span></td>
+                <td><span class="tag">{e.status}</span></td>
+                <td>{e.blurb}</td>
+                <td><a class="link mono small" href={e.href}>open ↗</a></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 02 / Open slots</div><div><h2 class="title">Reserved for the community.</h2></div></div>
+      <div class="scroll-x">
+        <table class="ledger">
+          <thead><tr><th>Code</th><th>Name</th><th>Type</th><th>Status</th><th>Notes</th></tr></thead>
+          <tbody>
+            {COMMUNITY.map((c) => (
+              <tr>
+                <td class="mono">{c.c}</td>
+                <td>{c.n}</td>
+                <td><span class="tag">{c.type}</span></td>
+                <td><span class="tag">{c.status}</span></td>
+                <td>{c.blurb}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="small" style="margin-top: 14px;">Want to fill a slot? Open an ADIP or just ship — the protocol is permissionless. See <a class="link" href="/community#adip">/community#adip</a>.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <Provenance section="Ecosystem" />
+    </div>
+  </section>
+</HubLayout>

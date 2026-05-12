@@ -1,6 +1,7 @@
 ---
 import HubLayout from '@/layouts/HubLayout.astro';
 import ExplorerSearch from '@/components/ExplorerSearch.astro';
+import CohortMarker from '@/components/diagrams/CohortMarker.astro';
 import { GENESIS_NFTS } from '@/data/chain';
 ---
 <HubLayout active="network" title="Adamant — Genesis NFTs" description="The 75 Genesis NFTs. Cohort marker (immovable) vs Genesis NFT (tradeable). Transfer history.">
@@ -19,7 +20,8 @@ import { GENESIS_NFTS } from '@/data/chain';
 
   <section class="section">
     <div class="container">
-      <div class="scroll-x">
+      <CohortMarker />
+      <div class="scroll-x" style="margin-top: 18px;">
         <table class="ledger">
           <thead>
             <tr>

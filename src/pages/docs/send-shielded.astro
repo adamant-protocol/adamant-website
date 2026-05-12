@@ -1,0 +1,85 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import Provenance from '@/components/Provenance.astro';
+import ShieldedTransparent from '@/components/diagrams/ShieldedTransparent.astro';
+---
+<HubLayout active="developers" title="Adamant — Send a shielded transaction" description="Task: send ADM with sender, recipient, amount, and memo encrypted on-device. Code walkthrough using the Rust SDK.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Docs · T.01</div>
+        <h1 class="title">Send a shielded transaction.</h1>
+      </div>
+      <div>
+        <p class="lede">The default mode of transferring ADM. Sender, recipient, amount and memo are encrypted before the transaction leaves the device; the chain sees the envelope, the validity proof, and the fee.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <ShieldedTransparent />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 01 / Code</div><div><h2 class="title">In Rust.</h2></div></div>
+      <pre class="mono" style="background: var(--paper-2); border: 1px solid var(--rule); padding: 18px; overflow-x: auto; font-size: 12.5px;">{`use adamant_sdk::{Client, Tx, Amount};
+use adamant_sdk::address::StealthAddress;
+
+#[tokio::main]
+async fn main() -> anyhow::Result<()> {
+    let client = Client::new("wss://rpc.adamantprotocol.com").await?;
+    let wallet = adamant_sdk::Wallet::from_seed_phrase(&std::env::var("ADM_SEED")?)?;
+
+    // Derive a one-time recipient address from the recipient's published
+    // viewing key (ML-KEM-768 encapsulation).
+    let recipient = StealthAddress::derive(
+        "vkpub1...",     // recipient's long-lived view pubkey
+    )?;
+
+    let tx = Tx::shielded_transfer()
+        .from(wallet.address())
+        .to(recipient)
+        .amount(Amount::adm(10))               // 10 ADM
+        .memo("invoice #42")                   // encrypted, included in envelope
+        .build(&wallet)
+        .await?;
+
+    let hash = client.submit(tx).await?;
+    println!("submitted: {}", hash);
+    Ok(())
+}`}</pre>
+      <p class="small" style="margin-top: 14px;">Behind the scenes: the SDK constructs a fresh stealth address, encrypts the body under ML-KEM-768, generates a Halo 2 proof of correct state transition, and packages it into a transaction envelope. The validator set verifies the proof; the body is decryptable only by the recipient&rsquo;s view key.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 02 / What an observer sees</div><div><h2 class="title">From the public view.</h2></div></div>
+      <div class="scroll-x">
+        <table class="ledger">
+          <thead><tr><th>Field</th><th>Visible?</th></tr></thead>
+          <tbody>
+            <tr><td>Transaction hash</td><td><span class="tag">yes</span></td></tr>
+            <tr><td>Block height</td><td><span class="tag">yes</span></td></tr>
+            <tr><td>Fee · multi-dim</td><td><span class="tag">yes</span></td></tr>
+            <tr><td>Validity proof</td><td><span class="tag">yes</span></td></tr>
+            <tr><td>Encryption regime</td><td><span class="tag">yes</span></td></tr>
+            <tr><td>Sender</td><td><span class="tag" style="color:var(--mute); border-color:var(--rule-2);">encrypted</span></td></tr>
+            <tr><td>Recipient</td><td><span class="tag" style="color:var(--mute); border-color:var(--rule-2);">encrypted</span></td></tr>
+            <tr><td>Amount</td><td><span class="tag" style="color:var(--mute); border-color:var(--rule-2);">encrypted</span></td></tr>
+            <tr><td>Memo</td><td><span class="tag" style="color:var(--mute); border-color:var(--rule-2);">encrypted</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <Provenance section="Send shielded tx · T.01" />
+    </div>
+  </section>
+</HubLayout>

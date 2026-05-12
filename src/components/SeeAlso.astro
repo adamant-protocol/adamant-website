@@ -7,7 +7,8 @@ interface Props {
 const { current = 'home' } = Astro.props;
 
 const RELATED: Record<string, string[]> = {
-  home:       ['spec', 'genesis', 'developers'],
+  home:       ['start', 'spec', 'developers'],
+  start:      ['spec', 'wallet', 'developers'],
   about:      ['spec', 'genesis', 'security'],
   genesis:    ['operator', 'network', 'spec'],
   network:    ['developers', 'wallet', 'status'],
@@ -18,6 +19,8 @@ const RELATED: Record<string, string[]> = {
   developers: ['network', 'spec', 'security'],
   security:   ['spec', 'status', 'developers'],
   status:     ['network', 'security', 'updates'],
+  roadmap:    ['spec', 'developers', 'security'],
+  ecosystem:  ['developers', 'wallet', 'network'],
 };
 
 const order = RELATED[current] ?? PAGES.filter((p) => p.k !== current).map((p) => p.k);

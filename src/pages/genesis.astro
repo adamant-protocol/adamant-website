@@ -1,6 +1,7 @@
 ---
 import HubLayout from '@/layouts/HubLayout.astro';
 import SeeAlso from '@/components/SeeAlso.astro';
+import BurnToMint from '@/components/diagrams/BurnToMint.astro';
 import { PHASE, fmtAdm } from '@/data/chain';
 
 const p = PHASE;
@@ -142,6 +143,8 @@ const COHORT_RIGHTS = [
           <p class="subtitle">The only way to acquire newly-minted ADM during the launch phase. Provably burn BTC, ETH, USDT or USDC; receive ADM at the fixed rate. During pre-launch the calculator below is informational only.</p>
         </div>
       </div>
+
+      <BurnToMint />
 
       <div class="gn-assets" style="display:grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--rule);">
         {[

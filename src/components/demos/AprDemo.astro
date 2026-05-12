@@ -1,0 +1,103 @@
+---
+// Validator APR estimator. Pre-launch numbers; calibrated against the
+// validator-allocated sub-counter (30M ADM over ~2 years at the ceiling).
+---
+<div class="apr-demo" data-apr-demo>
+  <header class="apr-head">
+    <span class="label">Validator APR · estimate</span>
+    <span class="mono small" style="color: var(--ink-3);">demo · launch-phase model · not live</span>
+  </header>
+  <div class="apr-body">
+    <div class="apr-controls">
+      <label class="apr-field">
+        <span class="label">Self-bond · ADM</span>
+        <input type="number" id="apr-bond" value="1000" min="1000" step="100" />
+      </label>
+      <label class="apr-field">
+        <span class="label">Active set · N</span>
+        <input type="range" id="apr-n" min="7" max="75" value="42" />
+        <span class="mono small" id="apr-n-val" style="color: var(--ink-2);">42</span>
+      </label>
+      <label class="apr-field">
+        <span class="label">Delegated · ADM</span>
+        <input type="number" id="apr-delegated" value="0" min="0" step="100" />
+      </label>
+      <label class="apr-field">
+        <span class="label">Block time · s</span>
+        <input type="number" id="apr-bt" value="8" min="2" max="20" step="1" />
+      </label>
+    </div>
+    <div class="apr-readout">
+      <div class="apr-cell"><span class="label">ADM / epoch</span><div class="mono apr-val" id="apr-per-epoch">—</div></div>
+      <div class="apr-cell"><span class="label">ADM / year</span><div class="mono apr-val" id="apr-per-year">—</div></div>
+      <div class="apr-cell apr-cell-hero"><span class="label">APR on self-bond</span><div class="mono apr-val" id="apr-pct">—</div></div>
+    </div>
+  </div>
+  <footer class="apr-foot">
+    <p class="small">Validator pool = 30 000 000 ADM drained over ~2 years at N=75. APR scales inversely with N: smaller active sets mean a bigger share per validator. Delegation increases your share of validator rewards but does not change your selection probability — selection is first-come, first-served (WP §8.1.3).</p>
+  </footer>
+</div>
+
+<script is:inline>
+  (function () {
+    var POOL = 30_000_000;        // validator-allocated, ADM
+    var DRAIN_YEARS = 2;          // calibrated drain at ceiling
+    var SECONDS_PER_YEAR = 31_536_000;
+
+    var bondEl      = document.getElementById('apr-bond');
+    var nEl         = document.getElementById('apr-n');
+    var nValEl      = document.getElementById('apr-n-val');
+    var delEl       = document.getElementById('apr-delegated');
+    var btEl        = document.getElementById('apr-bt');
+    var perEpoch    = document.getElementById('apr-per-epoch');
+    var perYear     = document.getElementById('apr-per-year');
+    var pct         = document.getElementById('apr-pct');
+    if (!bondEl) return;
+
+    function recompute() {
+      var bond  = Math.max(1000, +bondEl.value || 1000);
+      var n     = Math.max(7, Math.min(75, +nEl.value || 42));
+      var del   = Math.max(0, +delEl.value || 0);
+      var bt    = Math.max(2, Math.min(20, +btEl.value || 8));
+      nValEl.textContent = n;
+      // Total ADM emitted per year at full ceiling -> POOL / DRAIN_YEARS
+      // For N validators: each gets a 1/N share of issuance.
+      // Self-bond share within the validator = bond / (bond + delegated).
+      var emissionPerYear = POOL / DRAIN_YEARS;
+      var perValPerYear = emissionPerYear / 75;            // emission is sized to ceiling
+      var selfShareOfVal = bond / Math.max(1, bond + del);
+      var selfPerYear  = perValPerYear * selfShareOfVal * (75 / n);   // smaller N -> larger slice
+      var blocksPerEpoch = 256;  // illustrative
+      var epochsPerYear  = SECONDS_PER_YEAR / (bt * blocksPerEpoch);
+      var selfPerEpoch   = selfPerYear / epochsPerYear;
+      var aprPct         = (selfPerYear / bond) * 100;
+      perEpoch.textContent = selfPerEpoch.toFixed(4);
+      perYear.textContent  = selfPerYear.toFixed(2);
+      pct.textContent      = aprPct.toFixed(1) + ' %';
+    }
+    [bondEl, nEl, delEl, btEl].forEach(function (el) { el.addEventListener('input', recompute); });
+    recompute();
+  })();
+</script>
+
+<style>
+  .apr-demo { border: 1px solid var(--ink); background: var(--paper); margin: 24px 0; }
+  .apr-head, .apr-foot { padding: 14px 18px; }
+  .apr-head { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--rule); }
+  .apr-foot { border-top: 1px solid var(--rule); background: var(--paper-2); }
+  .apr-body { display: grid; grid-template-columns: 1.4fr 1fr; gap: 0; }
+  .apr-controls { padding: 18px; border-right: 1px solid var(--rule); display: flex; flex-direction: column; gap: 14px; }
+  .apr-field { display: flex; flex-direction: column; gap: 6px; }
+  .apr-field input[type="number"] { font-family: var(--mono); font-size: 16px; padding: 8px 10px; border: 1px solid var(--rule-2); background: var(--paper); }
+  .apr-field input[type="range"] { accent-color: var(--ink); }
+  .apr-readout { display: grid; grid-template-columns: 1fr 1fr; }
+  .apr-cell { padding: 16px 18px; border-bottom: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+  .apr-cell:nth-child(odd) { border-left: 0; }
+  .apr-cell-hero { grid-column: 1 / -1; border-bottom: 0; background: var(--paper-2); }
+  .apr-val { font-size: 26px; margin-top: 4px; }
+  .apr-cell-hero .apr-val { font-size: 38px; }
+  @media (max-width: 760px) {
+    .apr-body { grid-template-columns: 1fr; }
+    .apr-controls { border-right: 0; border-bottom: 1px solid var(--rule); }
+  }
+</style>

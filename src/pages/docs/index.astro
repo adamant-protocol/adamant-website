@@ -1,0 +1,68 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import Provenance from '@/components/Provenance.astro';
+
+const TASKS = [
+  { code: 'T.01', title: 'Send a shielded transaction',  href: '/docs/send-shielded',     section: 'WP §7.1, §7.2' },
+  { code: 'T.02', title: 'Verify a burn proof',          href: '/docs/verify-burn',       section: 'WP §10.2.3, §11.4' },
+  { code: 'T.03', title: 'Issue a view key',             href: '/docs/issue-view-key',    section: 'WP §4.4, §7.4' },
+  { code: 'T.04', title: 'Register as a validator',      href: '/docs/register-validator',section: 'WP §8.1.2' },
+  { code: 'T.05', title: 'Run a Node Watcher',           href: '/docs/run-watcher',       section: 'WP §8.7' },
+  { code: 'T.06', title: 'Deploy an Adamant Move module',href: '/docs/deploy-move',       section: 'WP §6.4' },
+  { code: 'T.07', title: 'Verify the chain on a phone',  href: '/docs/light-verify',      section: 'WP §8.9' },
+  { code: 'T.08', title: 'Subscribe to live blocks',     href: '/docs/subscribe-blocks',  section: 'WP §11.5 · RPC' },
+  { code: 'T.09', title: 'Disclose with a scoped view key', href: '/docs/disclose',       section: 'WP §4.4.2' },
+];
+
+const VERSIONS = [
+  { v: 'v0.1', tag: 'spec · current', href: '/docs' },
+];
+---
+<HubLayout active="developers" title="Adamant — Docs" description="Task-oriented documentation. Send a shielded transaction, verify a burn proof, issue a view key — each cross-linked to the whitepaper section that governs the behaviour.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Docs · /docs</div>
+        <h1 class="title">Task-oriented documentation.</h1>
+      </div>
+      <div>
+        <p class="lede">Versioned with the protocol. Every page is anchored to a whitepaper section so the spec is the source of truth and the docs are the working surface.</p>
+        <div style="display:flex; gap: 8px; margin-top: 18px; flex-wrap: wrap;">
+          {VERSIONS.map((v) => (
+            <a class="tag" href={v.href}>{v.v} · {v.tag}</a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 01 / Tasks</div><div><h2 class="title">By what you want to do.</h2></div></div>
+      <ol style="list-style:none; padding:0; margin:0; border-top: 1px solid var(--ink);">
+        {TASKS.map((t) => (
+          <li style="border-bottom: 1px solid var(--rule);">
+            <a href={t.href} style="display:grid; grid-template-columns: 80px 1fr 200px; gap: 20px; padding: 22px 0; align-items: baseline; color: var(--ink);" class="negation-row">
+              <span class="mono" style="font-size: 11px; letter-spacing: 0.14em; color: var(--ink-3);">{t.code}</span>
+              <span class="serif" style="font-size: 22px; line-height: 1.2; letter-spacing: -0.01em;">{t.title}</span>
+              <span class="mono small" style="color: var(--ink-3); text-align: right; letter-spacing: 0.06em;">{t.section} ↗</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="callout">
+        <div class="mark-c">§</div>
+        <div>
+          <p>Documentation is part of the protocol — and breaks when the protocol breaks. Each page declares the whitepaper section and the commit it was written against; if the whitepaper changes, the docs page is rebuilt or marked stale.</p>
+          <small>— editorial policy</small>
+        </div>
+      </div>
+      <Provenance section="Docs index" />
+    </div>
+  </section>
+</HubLayout>

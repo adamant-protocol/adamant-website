@@ -1,7 +1,18 @@
 ---
 import HubLayout from '@/layouts/HubLayout.astro';
 import SeeAlso from '@/components/SeeAlso.astro';
+import AuditProgress from '@/components/AuditProgress.astro';
+import Provenance from '@/components/Provenance.astro';
 import { SECURITY_PRIMITIVES, INCIDENT_LOG } from '@/data/chain';
+
+const SIGNING_KEYS = [
+  { who: 'Ryan Geldart', role: 'Spec maintainer · genesis cohort', pgp: '— pre-launch —', mldsa: '— pre-launch —' },
+];
+const REPRODUCIBLE = [
+  { artefact: 'adamant-node',             version: 'v0.1.0', sha256: '— pre-launch —', signers: 'Ryan Geldart' },
+  { artefact: 'adamant-wallet (iOS)',     version: 'v0.1.0', sha256: '— pre-launch —', signers: 'Ryan Geldart' },
+  { artefact: 'adamant-wallet (Android)', version: 'v0.1.0', sha256: '— pre-launch —', signers: 'Ryan Geldart' },
+];
 ---
 <HubLayout active="security" title="Adamant — Security" description="Threat model, cryptographic primitive provenance, audit status, responsible disclosure, bug bounty.">
   <section class="page-intro">
@@ -25,10 +36,18 @@ import { SECURITY_PRIMITIVES, INCIDENT_LOG } from '@/data/chain';
     </div>
   </section>
 
+  <!-- AUDIT METERS -->
+  <section class="section" id="audit-progress">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 01 / Progress</div><div><h2 class="title">Audit progress, per primitive.</h2><p class="subtitle">Visible bars. The chain ships when these reach 100% on the audits that matter for consensus and privacy.</p></div></div>
+      <AuditProgress />
+    </div>
+  </section>
+
   <!-- PRIMITIVES -->
   <section class="section" id="primitives">
     <div class="container">
-      <div class="section-head"><div class="num-mark">§ 01 / Primitives</div><div><h2 class="title">Cryptographic primitives.</h2><p class="subtitle">Standard, peer-reviewed primitives. The synthesis is what's novel; the building blocks are not (WP §2.6, §3).</p></div></div>
+      <div class="section-head"><div class="num-mark">§ 02 / Primitives</div><div><h2 class="title">Cryptographic primitives.</h2><p class="subtitle">Standard, peer-reviewed primitives. The synthesis is what's novel; the building blocks are not (WP §2.6, §3).</p></div></div>
       <div class="scroll-x">
         <table class="ledger">
           <thead><tr><th>Code</th><th>Primitive</th><th>Use</th><th>Standard</th><th>Audit status</th></tr></thead>
@@ -132,14 +151,48 @@ import { SECURITY_PRIMITIVES, INCIDENT_LOG } from '@/data/chain';
   <!-- REPRODUCIBLE -->
   <section class="section" id="reproducible">
     <div class="container">
-      <div class="section-head"><div class="num-mark">§ 07 / Builds</div><div><h2 class="title">Reproducible.</h2></div></div>
+      <div class="section-head"><div class="num-mark">§ 07 / Builds</div><div><h2 class="title">Reproducible.</h2><p class="subtitle">Builds use Nix for deterministic output. Each release publishes SHA-256 hashes signed by maintainer Ed25519 and ML-DSA keys.</p></div></div>
       <pre class="mono" style="background: var(--paper-2); border: 1px solid var(--rule); padding: 18px; overflow-x: auto; font-size: 12.5px;">{`# Verify a release binary
 git clone https://github.com/adamant-protocol/adamant-node
 cd adamant-node
 git checkout v0.1.0
-nix build .#adamant-node          # or: just build
-sha256sum result/bin/adamant-node # compare to published hash`}</pre>
-      <p class="small" style="margin-top: 16px;">Builds use Nix for deterministic output. Each release publishes SHA-256 hashes signed by maintainer Ed25519 + ML-DSA keys.</p>
+nix build .#adamant-node                # or: just build
+sha256sum result/bin/adamant-node       # compare to the table below
+adamant-node verify-signers v0.1.0      # checks Ed25519 + ML-DSA on the release manifest`}</pre>
+      <div class="scroll-x" style="margin-top: 18px;">
+        <table class="ledger">
+          <thead><tr><th>Artefact</th><th>Version</th><th>SHA-256</th><th>Signers</th></tr></thead>
+          <tbody>
+            {REPRODUCIBLE.map((b) => (
+              <tr><td>{b.artefact}</td><td class="mono">{b.version}</td><td class="mono small">{b.sha256}</td><td>{b.signers}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIGNING KEYS -->
+  <section class="section" id="signing-keys">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 08 / Signing keys</div><div><h2 class="title">Who signs what.</h2><p class="subtitle">Every release artefact carries a classical + post-quantum signature. The list below is the canonical roster of authorised signers.</p></div></div>
+      <div class="scroll-x">
+        <table class="ledger">
+          <thead><tr><th>Signer</th><th>Role</th><th>PGP / Ed25519</th><th>ML-DSA</th></tr></thead>
+          <tbody>
+            {SIGNING_KEYS.map((k) => (
+              <tr><td>{k.who}</td><td>{k.role}</td><td class="mono small">{k.pgp}</td><td class="mono small">{k.mldsa}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="small" style="margin-top: 14px;">Fingerprints are published here and signed by the prior release's key on rotation. Compromise of any single key requires consensus among the remaining signers to revoke and re-issue.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <Provenance section="Security" />
     </div>
   </section>
 
