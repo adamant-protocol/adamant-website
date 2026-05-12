@@ -1,6 +1,6 @@
 # Adamant Protocol
 
-> A Layer 1 blockchain protocol — privacy by default, post-quantum cryptography, sub-second finality. No foundation, no premine, no admin keys, no on-chain governance. Adamant Move VM for narrow smart contracts with shielded execution.
+> A Layer 1 blockchain protocol — privacy by default, post-quantum cryptography, sub-second finality. No foundation, no premine, no admin keys, no on-chain governance.
 
 Adamant is a base-layer settlement chain. It is the conjunction of seven properties that no existing programmable chain delivers in combination: privacy by default, post-quantum security, ≥50,000 TPS throughput floor, sub-second finality, encrypted mempool, phone-verifiability, and residential-fibre decentralisation.
 
@@ -8,92 +8,40 @@ The protocol is in the specification phase. There is no live chain. The whitepap
 
 ## Canonical sources
 
-- [Whitepaper (markdown, 13 sections)](https://github.com/adamant-protocol/adamant-spec/tree/main/whitepaper)
-- [Single-file whitepaper](https://github.com/adamant-protocol/adamant-spec/blob/main/whitepaper/adamant-whitepaper-complete.md)
-- [Reference node (Rust)](https://github.com/adamant-protocol/adamant-node)
-- [Website repository](https://github.com/adamant-protocol/adamant-website)
+- [Whitepaper (markdown, 13 sections)](https://github.com/adamant-protocol/adamant-website/tree/main/whitepaper)
+- [Single-file whitepaper](https://github.com/adamant-protocol/adamant-website/blob/main/whitepaper/adamant-whitepaper-complete.md)
+- [GitHub repository](https://github.com/adamant-protocol/adamant-website)
 - [Commit log (project journal)](https://github.com/adamant-protocol/adamant-website/commits/main)
 - [Sitemap](https://adamantprotocol.com/sitemap-index.xml)
 
 ## Site pages
 
-- [/](https://adamantprotocol.com/) — home: chain status, seven properties, five mechanisms, genesis cohort grid
+- [/ (home)](https://adamantprotocol.com/) — chain status, seven properties, five mechanisms, genesis cohort grid
 - [/about](https://adamantprotocol.com/about) — seven properties, four participation tiers, seven design principles, plain framings, what Adamant is not
 - [/genesis](https://adamantprotocol.com/genesis) — 100M ADM pool drain, burn-to-mint flow, cohort register, stake floors
-- [/tokenomics](https://adamantprotocol.com/tokenomics) — supply, post-genesis emission, fee market, staking, slashing, delegation
-- [/spec](https://adamantprotocol.com/spec) — whitepaper sections parsed inline
-- [/developers](https://adamantprotocol.com/developers) — SDKs, JSON-RPC reference, run-a-node, faucet, Move language, burn format, view keys, stealth addresses, implementation status
-- [/developers/rpc](https://adamantprotocol.com/developers/rpc) — JSON-RPC + WebSocket reference
-- [/developers/run-a-node](https://adamantprotocol.com/developers/run-a-node) — quickstart, hardware, config, ops
-- [/developers/move](https://adamantprotocol.com/developers/move) — Adamant Move language, #[shielded] functions, object mutability
-- [/developers/burn-format](https://adamantprotocol.com/developers/burn-format) — per-source-chain burn-tx spec
-- [/developers/view-keys](https://adamantprotocol.com/developers/view-keys) — view-key encoding, derivation, disclosure protocol
-- [/developers/stealth-addresses](https://adamantprotocol.com/developers/stealth-addresses) — ML-KEM-768 derivation, payment-request URI
-- [/developers/faucet](https://adamantprotocol.com/developers/faucet) — testnet faucet
-- [/developers/sdks](https://adamantprotocol.com/developers/sdks) — Rust, TypeScript, Go bindings
-- [/developers/status](https://adamantprotocol.com/developers/status) — module-by-module implementation readiness
-- [/network](https://adamantprotocol.com/network) — block explorer (search, blocks, txs, addresses, validators, mempool, burns, charts, NFTs)
-- [/network/blocks](https://adamantprotocol.com/network/blocks) — block list
-- [/network/txs](https://adamantprotocol.com/network/txs) — transaction list
-- [/network/validators](https://adamantprotocol.com/network/validators) — active set + standby queue
-- [/network/mempool](https://adamantprotocol.com/network/mempool) — two-regime encrypted mempool inspector
-- [/network/burns](https://adamantprotocol.com/network/burns) — burn-to-mint registry
-- [/network/genesis-nft](https://adamantprotocol.com/network/genesis-nft) — cohort marker + Genesis NFT registry
-- [/network/charts](https://adamantprotocol.com/network/charts) — chain charts
-- [/network/peers](https://adamantprotocol.com/network/peers) — peer map (ASN + geography)
-- [/wallet](https://adamantprotocol.com/wallet) — reference wallet: balances, send/receive, view keys, history, address book, burn-to-mint, fees, recovery, hardware, mobile
-- [/operator](https://adamantprotocol.com/operator) — operator dashboard for the four participation tiers
-- [/status](https://adamantprotocol.com/status) — glanceable network health + incident log + public RPC list
-- [/security](https://adamantprotocol.com/security) — threat model, cryptographic primitive provenance, audits, disclosure, bug bounty, reproducible builds
-- [/updates](https://adamantprotocol.com/updates) — project journal pulled live from commit log
-- [/community](https://adamantprotocol.com/community) — channels, ADIP improvement process, contributors
-- [/faq](https://adamantprotocol.com/faq) — frequently asked questions
-- [/glossary](https://adamantprotocol.com/glossary) — every term Adamant uses
-- [/press](https://adamantprotocol.com/press) — press kit (logos, colours, talking points)
-- [/legal](https://adamantprotocol.com/legal) — website terms + privacy policy
-- [/license](https://adamantprotocol.com/license) — Apache 2.0
+- [/network](https://adamantprotocol.com/network) — operational view (validator set, mempool, throughput)
+- [/wallet](https://adamantprotocol.com/wallet) — reference wallet (shielded by default, view-key disclosure)
+- [/operator](https://adamantprotocol.com/operator) — dashboard for the four participation tiers
+- [/spec](https://adamantprotocol.com/spec) — whitepaper sections parsed inline from markdown
+- [/updates](https://adamantprotocol.com/updates) — project journal pulled live from the commit log
 
 ## Key parameters
 
 - Genesis pool: 100,000,000 ADM, partitioned 70 / 30 between burn-to-mint and validator block rewards
-- Burn-to-mint rate: 20 ADM per USD-equivalent (USDT/USDC 1:20; BTC/ETH calibrated at protocol design time, constant through launch — NOT a live oracle)
-- Per-address claim cap: 1% m0–m1 → 2% m1–m3 → 4% m3–m6 → 8% m6–m12 → uncapped (WP §10.2.3)
-- Launch phase cap: 5 years from genesis; unclaimed pool at cap is destroyed
+- Burn-to-mint rate: 20 ADM minted per USD-equivalent of BTC, ETH, USDT, or USDC burned
 - Active set: floor 7, ceiling 75 at launch (FCFS with mutual-consent transferable membership)
 - Stake floors: 1,000 ADM Node Runner, 100 ADM Node Watcher (re-evaluated every 5 years per WP §11.5.4)
-- Unbonding: 28 days (Node Runner), 7 days (Node Watcher)
 - Throughput floor: ≥ 50,000 TPS at the launch active-set ceiling on residential-fibre commodity hardware
 - Finality target: ~500 ms for owned-object transactions
-- Block time target: ~8 seconds
-- Token: ADM, native (not contract-defined), 10^-9 decimals; no fixed supply cap
-- Security tiers: I (N=7–14), II (N=15–29), III (N≥30)
-- Mempool: two-regime — threshold-encrypted at N≥15 validators (BLS on BLS12-381), time-lock VDF at N<15 (Wesolowski). Hysteresis: switch up at N≥15, down at N<10.
-- Genesis cohort: first 75 active-set slots receive a permanent on-chain marker (non-transferable, stays with original address) + freely tradeable Genesis NFT (WP §8.1.9)
-- Slot transferability: by mutual consent at an epoch boundary; the cohort marker does not transfer with the slot
-
-## Cryptography
-
-- Primary hash: SHA3-256, SHAKE-256 (FIPS 202) with BIP-340 tagged-hash domain separation
-- Auxiliary hash: BLAKE3 (non-consensus-critical performance paths only)
-- zk-friendly hash: Poseidon (in-circuit only)
-- Classical signatures: Ed25519 (RFC 8032)
-- Post-quantum signatures: ML-DSA-65 / FIPS 204 (CRYSTALS-Dilithium), 1952-byte pubkeys, 3309-byte sigs
-- Aggregate signatures: BLS on BLS12-381 (validator vote aggregation)
-- Symmetric: ChaCha20-Poly1305 (RFC 8439)
-- Threshold encryption: BLS threshold on BLS12-381 (mempool, N≥15 regime)
-- Time-lock encryption: Wesolowski VDF on RSA / class groups (mempool, N<15 regime)
-- Post-quantum KEM: ML-KEM-768 / FIPS 203 (CRYSTALS-Kyber) — stealth addresses, encrypted memos
-- Zero-knowledge proofs: Halo 2 (PLONKish, no trusted setup) — shielded execution + recursive verification
-- Vector commitments: KZG on BLS12-381
-
-## Adamant Move (VM)
-
-Adamant ships a Move-based language and VM (Adamant Move + AVM). Objects are typed resources with declared mutability (IMMUTABLE | OWNER_UPGRADEABLE | VOTE_UPGRADEABLE | UPGRADEABLE_UNTIL_FROZEN | CUSTOM). Functions annotated #[shielded] compile to Halo 2 circuits; state transitions ship as zero-knowledge proofs. Mutability declarations are always cleartext, regardless of shielding (WP §6, §7.8).
+- Cryptography: Ed25519 + ML-DSA (FIPS 204) hybrid signatures, ML-KEM-768 (FIPS 203) key agreement, BLS12-381 aggregation, SHA-3 hashing, Halo 2 proofs, Wesolowski VDF time-lock
+- Mempool: two-regime — threshold-encrypted at N≥15 validators, time-lock VDF at N<15
+- Genesis cohort: first 75 validators receive a permanent on-chain marker (non-transferable) plus a freely tradeable Genesis NFT (WP §8.1.9)
+- Slot transferability: validator slots are transferable by mutual consent (WP §8.1.8); the cohort marker remains attached to the original address
 
 ## What Adamant is not
 
 - Not a token launch — no premine, no foundation allocation, no investor round
-- Not a general-purpose world computer — Move contracts pay gas; shielded functions carry proofs; the VM is narrow on purpose
+- Not a smart-contract platform — does not host arbitrary computation
 - Not a governance system — no on-chain governance, no admin keys
 - Not a scaling layer — base layer, not a rollup or sidechain
 - Not a privacy add-on — privacy is structural, not opt-in
@@ -101,4 +49,4 @@ Adamant ships a Move-based language and VM (Adamant Move + AVM). Objects are typ
 
 ## License
 
-Apache 2.0 (whitepaper, reference implementation, reference wallet, website).
+Apache 2.0 (whitepaper and reference implementation).

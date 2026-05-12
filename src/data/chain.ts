@@ -102,20 +102,14 @@ export const PHASE_OPTIONS = [
 export const PHASE: PhaseState = PHASES.prelaunch;
 
 export const PAGES = [
-  { k: 'home',       href: '/',           label: 'Home',       header: true  },
-  { k: 'start',      href: '/start',      label: 'Start',      header: true  },
-  { k: 'about',      href: '/about',      label: 'About',      header: true  },
-  { k: 'genesis',    href: '/genesis',    label: 'Genesis',    header: true  },
-  { k: 'spec',       href: '/spec',       label: 'Spec',       header: true  },
-  { k: 'developers', href: '/developers', label: 'Developers', header: true  },
-  { k: 'updates',    href: '/updates',    label: 'Updates',    header: true  },
-  { k: 'network',    href: '/network',    label: 'Explorer',   header: false },
-  { k: 'wallet',     href: '/wallet',     label: 'Wallet',     header: false },
-  { k: 'operator',   href: '/operator',   label: 'Operator',   header: false },
-  { k: 'status',     href: '/status',     label: 'Status',     header: false },
-  { k: 'security',   href: '/security',   label: 'Security',   header: false },
-  { k: 'roadmap',    href: '/roadmap',    label: 'Roadmap',    header: false },
-  { k: 'ecosystem',  href: '/ecosystem',  label: 'Ecosystem',  header: false },
+  { k: 'home',     href: '/',         label: 'Home',     header: true  },
+  { k: 'about',    href: '/about',    label: 'About',    header: true  },
+  { k: 'genesis',  href: '/genesis',  label: 'Genesis',  header: true  },
+  { k: 'spec',     href: '/spec',     label: 'Spec',     header: true  },
+  { k: 'updates',  href: '/updates',  label: 'Updates',  header: true  },
+  { k: 'network',  href: '/network',  label: 'Network',  header: false },
+  { k: 'wallet',   href: '/wallet',   label: 'Wallet',   header: false },
+  { k: 'operator', href: '/operator', label: 'Operator', header: false },
 ] as const;
 
 export const HEADER_PAGES = PAGES.filter((p) => p.header);

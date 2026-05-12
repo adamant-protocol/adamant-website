@@ -7,20 +7,14 @@ interface Props {
 const { current = 'home' } = Astro.props;
 
 const RELATED: Record<string, string[]> = {
-  home:       ['start', 'spec', 'developers'],
-  start:      ['spec', 'wallet', 'developers'],
-  about:      ['spec', 'genesis', 'security'],
-  genesis:    ['operator', 'network', 'spec'],
-  network:    ['developers', 'wallet', 'status'],
-  wallet:     ['network', 'security', 'developers'],
-  operator:   ['developers', 'genesis', 'network'],
-  spec:       ['developers', 'security', 'genesis'],
-  updates:    ['spec', 'network', 'operator'],
-  developers: ['network', 'spec', 'security'],
-  security:   ['spec', 'status', 'developers'],
-  status:     ['network', 'security', 'updates'],
-  roadmap:    ['spec', 'developers', 'security'],
-  ecosystem:  ['developers', 'wallet', 'network'],
+  home: ['spec', 'genesis', 'updates'],
+  about: ['spec', 'genesis', 'network'],
+  genesis: ['operator', 'network', 'spec'],
+  network: ['operator', 'wallet', 'updates'],
+  wallet: ['network', 'operator', 'spec'],
+  operator: ['genesis', 'network', 'updates'],
+  spec: ['genesis', 'network', 'updates'],
+  updates: ['spec', 'network', 'operator'],
 };
 
 const order = RELATED[current] ?? PAGES.filter((p) => p.k !== current).map((p) => p.k);

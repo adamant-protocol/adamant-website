@@ -11,7 +11,6 @@ interface Props {
   title?: string;
   description?: string;
   ogImage?: string;
-  schemaType?: 'WebSite' | 'TechArticle' | 'Article' | 'FAQPage';
 }
 
 const {
@@ -19,7 +18,6 @@ const {
   title = 'Adamant — Protocol',
   description = 'A Layer 1 blockchain protocol. Privacy by default, post-quantum, no foundation, no premine, no admin keys.',
   ogImage,
-  schemaType = 'WebSite',
 } = Astro.props;
 
 // Until `npm run gen-og` is run to capture per-page hero screenshots into
@@ -55,20 +53,16 @@ const PHASE_DATA = JSON.stringify(PHASES);
 
   <script type="application/ld+json" set:html={JSON.stringify({
     '@context': 'https://schema.org',
-    '@type': schemaType,
-    name: title,
-    headline: title,
-    url: canonical,
+    '@type': 'WebSite',
+    name: 'Adamant Protocol',
+    url: 'https://adamantprotocol.com',
     description,
-    inLanguage: 'en',
-    publisher: { '@type': 'Organization', name: 'Adamant Protocol', url: 'https://adamantprotocol.com' },
   })} />
 </head>
 <body data-page={active} data-phase={PHASE.key}>
-  <a href="#main" class="skip-to-content">Skip to content</a>
   <Topbar active={active} />
   <StatusStrip />
-  <main id="main" tabindex="-1">
+  <main>
     <slot />
   </main>
   <HubFooter />
