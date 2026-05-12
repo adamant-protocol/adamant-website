@@ -1,0 +1,42 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+---
+<HubLayout active="network" title="Adamant — Charts" description="Chain charts. TPS, finality, validator distribution, mempool depth, security tier history, fee dimensions.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Explorer · /network/charts</div>
+        <h1 class="title">Charts.</h1>
+      </div>
+      <div>
+        <p class="lede">Operational time-series of the chain. Each chart will draw from the public RPC once mainnet is live. Pre-launch values are placeholders.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="claim-grid">
+        {[
+          { n: '01', h: 'Throughput · TPS',           d: 'Rolling 60s and 7d averages; floor at 50 000 TPS.' },
+          { n: '02', h: 'Finality histogram · ms',    d: 'Distribution of finalisation latency by tier.' },
+          { n: '03', h: 'Active set size',            d: 'N over time; tier boundaries at 15 and 30 annotated.' },
+          { n: '04', h: 'Mempool depth',              d: 'Pending tx count by encryption regime (threshold vs VDF).' },
+          { n: '05', h: 'Security tier history',     d: 'I → II → III transitions; halts annotated.' },
+          { n: '06', h: 'Fee dimensions',             d: 'Compute, bandwidth, state, mempool, disclosure — per-block.' },
+          { n: '07', h: 'Validator distribution',     d: 'Geographic + ASN spread (anonymised). Residential-fibre claim, proven.' },
+          { n: '08', h: 'Genesis pool drain',         d: 'Burn-allocated and validator-allocated counters over time.' },
+          { n: '09', h: 'Burn-to-mint by source',     d: 'BTC / ETH / USDT / USDC breakdown of every mint.' },
+        ].map((c) => (
+          <article class="claim-card" data-reveal>
+            <span class="num">CH.{c.n}</span>
+            <h3>{c.h}</h3>
+            <div style="height: 90px; border-top: 1px dashed var(--rule-2); margin-top: auto; display:flex; align-items:center; justify-content:center; font-family: var(--serif); font-style: italic; color: var(--ink-3); font-size: 13px;">specification</div>
+            <p style="margin: 0; padding-top: 0; border-top: 0;">{c.d}</p>
+          </article>
+        ))}
+      </div>
+      <p class="small" style="margin-top: 24px;">All charts are rendered client-side from public RPC subscriptions. Endpoints listed at <a class="link" href="/developers/rpc">/developers/rpc</a>.</p>
+    </div>
+  </section>
+</HubLayout>

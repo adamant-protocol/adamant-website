@@ -1,0 +1,72 @@
+---
+// DAG-BFT vertex/round structure
+---
+<figure class="adm-diagram" aria-label="DAG-BFT vertex and round structure">
+  <svg viewBox="0 0 860 300" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="dag-title dag-desc">
+    <title id="dag-title">DAG-BFT vertex/round structure</title>
+    <desc id="dag-desc">Each validator proposes one vertex per round; vertices reference parents in the previous round. Mysticeti-shaped DAG-BFT consensus.</desc>
+    <style>
+      .d-mono { font-family: "JetBrains Mono", "SF Mono", Menlo, monospace; }
+      .d-eyebrow { font-size: 11px; letter-spacing: 0.14em; opacity: 0.6; }
+      .d-small   { font-size: 11px; opacity: 0.6; letter-spacing: 0.06em; }
+    </style>
+
+    <!-- round labels -->
+    <g class="d-mono d-eyebrow" fill="currentColor">
+      <text x="120" y="36" text-anchor="middle">ROUND r</text>
+      <text x="320" y="36" text-anchor="middle">ROUND r+1</text>
+      <text x="520" y="36" text-anchor="middle">ROUND r+2</text>
+      <text x="720" y="36" text-anchor="middle">ROUND r+3</text>
+    </g>
+
+    <!-- validator rows + vertices -->
+    {[0, 1, 2, 3, 4].map((row) => (
+      <g>
+        <text x="40" y={80 + row * 44} class="d-mono d-small" fill="currentColor">V{row + 1}</text>
+        {[120, 320, 520, 720].map((cx) => (
+          <circle cx={cx} cy={76 + row * 44} r="7" fill={row === 2 ? 'currentColor' : 'none'} stroke="currentColor" stroke-width="1.5"/>
+        ))}
+      </g>
+    ))}
+
+    <!-- edges (sample subset) -->
+    <g stroke="currentColor" fill="none" opacity="0.3">
+      <!-- col 1→2 -->
+      <path d="M 127 76  L 313 76" />
+      <path d="M 127 76  L 313 120" />
+      <path d="M 127 120 L 313 76" />
+      <path d="M 127 120 L 313 164" />
+      <path d="M 127 164 L 313 120" />
+      <path d="M 127 164 L 313 208" />
+      <path d="M 127 208 L 313 164" />
+      <path d="M 127 208 L 313 252" />
+      <path d="M 127 252 L 313 208" />
+      <!-- col 2→3 -->
+      <path d="M 327 76  L 513 76" />
+      <path d="M 327 120 L 513 120" />
+      <path d="M 327 164 L 513 164" />
+      <path d="M 327 208 L 513 208" />
+      <path d="M 327 252 L 513 252" />
+      <path d="M 327 76  L 513 164" />
+      <path d="M 327 164 L 513 76" />
+      <!-- col 3→4 -->
+      <path d="M 527 76  L 713 76" />
+      <path d="M 527 120 L 713 120" />
+      <path d="M 527 164 L 713 164" />
+      <path d="M 527 208 L 713 208" />
+      <path d="M 527 252 L 713 252" />
+    </g>
+
+    <text x="430" y="290" text-anchor="middle" class="d-mono d-small" fill="currentColor">
+      Each validator proposes one vertex per round, referencing 2f+1 parents from the previous round.
+    </text>
+  </svg>
+  <figcaption class="adm-diagram-caption">DAG-BFT · WP §8.3</figcaption>
+</figure>
+
+<style>
+  .adm-diagram { margin: 24px 0; border: 1px solid var(--rule); background: var(--paper); color: var(--ink); }
+  .adm-diagram svg { display: block; width: 100%; height: auto; padding: 0; box-sizing: border-box; }
+  .adm-diagram > svg { padding: 24px; }
+  .adm-diagram-caption { border-top: 1px solid var(--rule); padding: 10px 18px; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-3); background: var(--paper-2); }
+</style>

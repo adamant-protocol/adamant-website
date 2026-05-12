@@ -1,0 +1,60 @@
+---
+// Phase-aware editorial line. Different copy per phase, set by client-side
+// script. Stops the site from apologising for "specification phase" — it
+// owns it.
+interface Props {
+  variant?: 'page' | 'inline';
+}
+const { variant = 'page' } = Astro.props;
+---
+<p
+  class:list={['phase-line', variant === 'inline' ? 'phase-line-inline' : '']}
+  data-phase-line
+  data-spec="This page describes what the chain will be. It is not yet. That distinction is the point."
+  data-testnet-early="The chain is alive but young. What you read here is observed, not asserted."
+  data-testnet-mature="The chain is operating. Numbers below are measurements, not promises."
+  data-mainnet="The chain is the record. This page reads from it."
+  data-halted="The chain is below floor. State is frozen at the last finalised block. This page preserves the record."
+>
+  This page describes what the chain will be. It is not yet. That distinction is the point.
+</p>
+
+<script is:inline>
+  (function () {
+    function apply() {
+      var p = (window.AdamantPhase && window.AdamantPhase.get()) || { key: 'prelaunch' };
+      var key = p.key === 'prelaunch' ? 'spec'
+              : p.key === 'testnet-early'  ? 'testnet-early'
+              : p.key === 'testnet-mature' ? 'testnet-mature'
+              : p.key === 'mainnet'        ? 'mainnet'
+              : p.key === 'halted'         ? 'halted'
+              : 'spec';
+      document.querySelectorAll('[data-phase-line]').forEach(function (el) {
+        var text = el.getAttribute('data-' + key);
+        if (text) el.textContent = text;
+      });
+    }
+    if (window.AdamantPhase) apply();
+    window.addEventListener('adamant-phase', apply);
+    window.addEventListener('DOMContentLoaded', apply);
+  })();
+</script>
+
+<style>
+  .phase-line {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    border-left: 2px solid var(--ink);
+    padding: 4px 0 4px 16px;
+    margin: 0;
+    max-width: 64ch;
+  }
+  .phase-line-inline {
+    font-size: 14.5px;
+    border-left-width: 1px;
+    padding-left: 12px;
+  }
+</style>

@@ -1,0 +1,57 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import ExplorerSearch from '@/components/ExplorerSearch.astro';
+import RegimeSlider from '@/components/demos/RegimeSlider.astro';
+import MempoolRegimes from '@/components/diagrams/MempoolRegimes.astro';
+---
+<HubLayout active="network" title="Adamant — Mempool" description="Two-regime encrypted mempool. Threshold encryption (N≥15) or time-lock VDF (N<15).">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Explorer · /network/mempool</div>
+        <h1 class="title">Mempool inspector.</h1>
+      </div>
+      <div>
+        <p class="lede">Adamant's mempool is encrypted by default. Two regimes: threshold encryption (when the active set has N≥15 validators) and time-lock VDF (when N&lt;15). Transitions are automatic with hysteresis — switch up at N≥15, switch back at N&lt;10 (WP §8.4).</p>
+        <div style="margin-top: 18px;"><ExplorerSearch /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div style="display:grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink);" class="gn-cohort-stats">
+        <div style="padding: 14px 18px;"><span class="label">Current regime</span><div class="mono" style="font-size: 22px; margin-top: 4px;" data-spec="true">VDF (pre-launch)</div></div>
+        <div style="padding: 14px 18px; border-left: 1px solid var(--rule);"><span class="label">Pending</span><div class="mono" style="font-size: 28px; margin-top: 4px;" data-spec="true">—</div></div>
+        <div style="padding: 14px 18px; border-left: 1px solid var(--rule);"><span class="label">Threshold</span><div class="mono" style="font-size: 28px; margin-top: 4px;" data-spec="true">—</div></div>
+        <div style="padding: 14px 18px; border-left: 1px solid var(--rule);"><span class="label">VDF</span><div class="mono" style="font-size: 28px; margin-top: 4px;" data-spec="true">—</div></div>
+      </div>
+
+      <MempoolRegimes />
+      <RegimeSlider />
+
+      <div class="gn-rule-grid" style="margin-top: 28px;">
+        <article class="gn-rule">
+          <span class="num">01 · Threshold</span>
+          <h3>Threshold encryption</h3>
+          <p>BLS threshold on BLS12-381 (Boneh-Lynn-Shacham). Validators run a coordinated distributed key generation; decryption requires a quorum. The standard regime once the active set crosses N≥15.</p>
+        </article>
+        <article class="gn-rule">
+          <span class="num">02 · VDF</span>
+          <h3>Time-lock (Wesolowski)</h3>
+          <p>Wesolowski VDF on RSA / class groups. Used when N&lt;15 — the chain can still encrypt the mempool against pre-execution MEV without a coordinated DKG. Inclusion latency is higher (10–30s) during this regime.</p>
+        </article>
+        <article class="gn-rule">
+          <span class="num">03 · Boundary</span>
+          <h3>Hysteresis</h3>
+          <p>The chain switches to threshold at N≥15 and back to VDF at N&lt;10. The gap prevents flapping at the boundary. Transitions happen at epoch boundaries; pending transactions complete in the regime they entered under.</p>
+        </article>
+        <article class="gn-rule">
+          <span class="num">04 · Anti-MEV</span>
+          <h3>What this buys</h3>
+          <p>Encrypted-by-default mempool means a single validator cannot read transaction contents before inclusion. This eliminates the class of MEV attacks that depend on pre-execution visibility (sandwich, front-run, copy).</p>
+        </article>
+      </div>
+    </div>
+  </section>
+</HubLayout>

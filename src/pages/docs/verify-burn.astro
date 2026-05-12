@@ -1,0 +1,64 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import Provenance from '@/components/Provenance.astro';
+import BurnToMint from '@/components/diagrams/BurnToMint.astro';
+---
+<HubLayout active="developers" title="Adamant — Verify a burn proof" description="Task: verify that a source-chain burn-to-mint event was correctly minted as ADM.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Docs · T.02</div>
+        <h1 class="title">Verify a burn proof.</h1>
+      </div>
+      <div>
+        <p class="lede">Every ADM minted during the launch phase has a public source-chain transaction behind it. This task walks through verifying a burn ↔ mint pair end-to-end.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container"><BurnToMint /></div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 01 / Steps</div><div><h2 class="title">Three checks.</h2></div></div>
+      <ol class="serif" style="font-size: 17px; line-height: 1.6; padding-left: 22px; color: var(--ink-2);">
+        <li><strong>Source confirmation.</strong> Fetch the source-chain transaction by hash; check that the destination is the verifiably-unspendable burn address for that asset and that the required confirmation count has passed (BTC 6, ETH 32 epochs, USDT/USDC 64).</li>
+        <li><strong>Adamant mint record.</strong> Query <span class="mono">adamant_getBurns(from, to)</span> for the corresponding mint event; verify the <span class="mono">src_tx</span> field matches the source-chain hash and the <span class="mono">adm</span> amount equals (USD-equivalent &times; 20).</li>
+        <li><strong>Cap-window invariant.</strong> The minted amount must respect the per-address cap for its launch-month window (1 / 2 / 4 / 8 % then uncapped). The validator set rejects burns that would exceed.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 02 / In code</div><div><h2 class="title">TypeScript SDK.</h2></div></div>
+      <pre class="mono" style="background: var(--paper-2); border: 1px solid var(--rule); padding: 18px; overflow-x: auto; font-size: 12.5px;">{`import { Client } from '@adamant/sdk';
+
+const c = new Client('https://rpc.adamantprotocol.com');
+
+const burn = await c.getBurnByMintTx('0xadm...mint-hash');
+// { src_chain: 'eth', src_tx: '0xeth...', usd_eq: 2500, adm: 50000, dest: 'adm1...', cap_window: 3 }
+
+// 1. confirm source-chain finality (here using viem)
+const ethTx = await viem.getTransactionReceipt({ hash: burn.src_tx });
+const confs = await viem.getBlockNumber() - ethTx.blockNumber;
+if (confs < 32n * 32n) throw new Error('insufficient confirmations');
+
+// 2. confirm Adamant mint matches USD-eq × 20
+if (burn.adm !== burn.usd_eq * 20n) throw new Error('rate mismatch');
+
+// 3. cap window check
+const month = monthsSinceGenesis(burn.activated_at);
+const capPct = month < 1 ? 1 : month < 3 ? 2 : month < 6 ? 4 : month < 12 ? 8 : 100;
+// ...verify dest's cumulative mints stay below capPct % of 70_000_000`}</pre>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <Provenance section="Verify burn · T.02" />
+    </div>
+  </section>
+</HubLayout>

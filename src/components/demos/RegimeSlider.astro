@@ -1,0 +1,57 @@
+---
+// Drag N from 7→75 and watch the mempool regime + tier swap
+---
+<div class="rs-demo" data-rs-demo>
+  <header class="rs-head">
+    <span class="label">Active set size · drag N</span>
+    <span class="mono small" style="color: var(--ink-3);">demo · WP §8.4 + §8.7</span>
+  </header>
+  <div class="rs-body">
+    <input type="range" min="0" max="75" value="0" step="1" id="rs-input" aria-label="Active set size" />
+    <div class="rs-readout">
+      <div class="rs-cell"><span class="label">N</span><div class="mono rs-val" id="rs-n">0</div></div>
+      <div class="rs-cell"><span class="label">Phase</span><div class="mono rs-val" id="rs-phase">halted</div></div>
+      <div class="rs-cell"><span class="label">Regime</span><div class="mono rs-val" id="rs-regime">—</div></div>
+      <div class="rs-cell"><span class="label">Tier</span><div class="mono rs-val" id="rs-tier">—</div></div>
+    </div>
+    <p class="mono small rs-note" id="rs-note" style="color: var(--ink-3); margin-top: 14px;">Below floor (N&lt;7): chain halts on disagreement; preserves safety, suspends liveness.</p>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var input = document.getElementById('rs-input');
+    var n = document.getElementById('rs-n');
+    var phase = document.getElementById('rs-phase');
+    var regime = document.getElementById('rs-regime');
+    var tier = document.getElementById('rs-tier');
+    var note = document.getElementById('rs-note');
+    if (!input) return;
+    function update() {
+      var v = parseInt(input.value, 10);
+      n.textContent = v;
+      if (v < 7) { phase.textContent = 'halted'; regime.textContent = '—'; tier.textContent = '—'; note.textContent = 'Below floor (N<7): chain halts on disagreement; preserves safety, suspends liveness.'; }
+      else if (v < 15) { phase.textContent = 'active'; regime.textContent = 'Time-lock VDF'; tier.textContent = 'I'; note.textContent = 'Tier I (N=7–14): time-lock VDF mempool. Inclusion latency 10–30s during this regime (WP §8.4).'; }
+      else if (v < 30) { phase.textContent = 'active'; regime.textContent = 'Threshold'; tier.textContent = 'II'; note.textContent = 'Tier II (N=15–29): threshold encryption activates via coordinated DKG. Sub-second finality target.'; }
+      else { phase.textContent = 'active'; regime.textContent = 'Threshold'; tier.textContent = 'III'; note.textContent = 'Tier III (N≥30): full security tier. BFT collusion attacks commercially infeasible.'; }
+    }
+    input.addEventListener('input', update);
+    update();
+  })();
+</script>
+
+<style>
+  .rs-demo { border: 1px solid var(--ink); background: var(--paper); margin: 24px 0; }
+  .rs-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid var(--rule); }
+  .rs-body { padding: 22px 18px; }
+  #rs-input { width: 100%; accent-color: var(--ink); height: 6px; }
+  .rs-readout { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 22px; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .rs-cell { padding: 14px 12px; border-left: 1px solid var(--rule); }
+  .rs-cell:first-child { border-left: 0; }
+  .rs-val { font-size: 22px; margin-top: 4px; }
+  @media (max-width: 540px) {
+    .rs-readout { grid-template-columns: repeat(2, 1fr); }
+    .rs-cell:nth-child(odd) { border-left: 0; }
+    .rs-cell:nth-child(n+3) { border-top: 1px solid var(--rule); }
+  }
+</style>

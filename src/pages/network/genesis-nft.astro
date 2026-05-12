@@ -1,0 +1,62 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import ExplorerSearch from '@/components/ExplorerSearch.astro';
+import CohortMarker from '@/components/diagrams/CohortMarker.astro';
+import { GENESIS_NFTS } from '@/data/chain';
+---
+<HubLayout active="network" title="Adamant — Genesis NFTs" description="The 75 Genesis NFTs. Cohort marker (immovable) vs Genesis NFT (tradeable). Transfer history.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Explorer · /network/genesis-nft</div>
+        <h1 class="title">Genesis NFT registry.</h1>
+      </div>
+      <div>
+        <p class="lede">The first 75 validators to take an active-set slot are the genesis cohort. Each receives <strong>two</strong> artefacts: a permanent on-chain marker (non-transferable, attached to the original address forever) and a tradeable Genesis NFT (freely transferable, no protocol-level function).</p>
+        <div style="margin-top: 18px;"><ExplorerSearch /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <CohortMarker />
+      <div class="scroll-x" style="margin-top: 18px;">
+        <table class="ledger">
+          <thead>
+            <tr>
+              <th>Slot</th>
+              <th>Cohort marker (immovable)</th>
+              <th>Genesis NFT owner (tradeable)</th>
+              <th class="r">Activated · epoch</th>
+              <th>Transferred?</th>
+            </tr>
+          </thead>
+          <tbody>
+            {GENESIS_NFTS.slice(0, 15).map((n) => (
+              <tr>
+                <td class="mono">#{String(n.slot).padStart(2, '0')}</td>
+                <td class="addr">—</td>
+                <td class="addr">—</td>
+                <td class="r">—</td>
+                <td>—</td>
+              </tr>
+            ))}
+            <tr><td colspan="5" class="mono small" style="color: var(--ink-3); padding: 22px 12px; text-align:center;">No cohort slots filled — cohort opens at chain activation.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="gn-proof-row" style="margin-top: 28px;">
+        <div>
+          <span class="label">Cohort marker</span>
+          <p>Permanent. Non-transferable. Records position (1–75), activation epoch, and a commitment to the chain state at activation. Survives slot transfer, slashing, exit. It records who you were at the moment of activation, not what you later did.</p>
+        </div>
+        <div>
+          <span class="label">Genesis NFT</span>
+          <p>Tradeable. No protocol-level function. A cultural artefact a cohort validator may hold, gift, or sell. Holding the NFT does not make you a validator; selling it does not strip the marker from the original address.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</HubLayout>

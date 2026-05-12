@@ -1,0 +1,58 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import { ADIP_PROCESS } from '@/data/chain';
+---
+<HubLayout active="updates" title="Adamant — Community" description="How protocol change happens without on-chain governance. Channels, ADIP process, contributors.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Community · /community</div>
+        <h1 class="title">No foundation,<br/><em style="font-style:italic; color:var(--ink-2);">but not no community.</em></h1>
+      </div>
+      <div>
+        <p class="lede">Adamant has no on-chain governance and no admin keys. Protocol change happens by hard fork — and hard forks happen by social coordination. This page is the social-coordination surface.</p>
+        <div style="display:flex; gap:8px; margin-top:18px; flex-wrap: wrap;">
+          <a href="#channels" class="tag">Channels</a>
+          <a href="#adip" class="tag">ADIP process</a>
+          <a href="#contributors" class="tag">Contributors</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="channels">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 01 / Channels</div><div><h2 class="title">Where the conversation happens.</h2></div></div>
+      <div class="claim-grid">
+        <article class="claim-card"><span class="num">CH.01</span><h3>GitHub</h3><p>Source code, issues, pull requests, ADIPs. Public history; truth-by-commit.</p><p style="margin-top: 8px;"><a class="link mono small" href="https://github.com/adamant-protocol" rel="noopener" target="_blank">github.com/adamant-protocol ↗</a></p></article>
+        <article class="claim-card"><span class="num">CH.02</span><h3>X</h3><p>Announcements and reach. Not a place for governance discussion.</p><p style="margin-top: 8px;"><a class="link mono small" href="https://x.com/adamantprotocol" rel="noopener" target="_blank">@adamantprotocol ↗</a></p></article>
+        <article class="claim-card"><span class="num">CH.03</span><h3>Matrix</h3><p>Federated chat for working-group discussion. Bridge-free; no Discord, no proprietary platform.</p><p class="mono small" style="margin-top: 8px;">#adamant:matrix.org — pre-launch</p></article>
+        <article class="claim-card"><span class="num">CH.04</span><h3>RSS · commits</h3><p>The journal lives in the commit log. Subscribe via atom.</p><p style="margin-top: 8px;"><a class="link mono small" href="https://github.com/adamant-protocol/adamant-website/commits/main.atom" rel="noopener" target="_blank">commits/main.atom ↗</a></p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="adip">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 02 / ADIP</div><div><h2 class="title">Adamant Improvement Proposal.</h2><p class="subtitle">There's no on-chain vote. Adoption is the signal: operators run the new client at a coordinated height, and the change ships — or doesn't.</p></div></div>
+      <div class="flow-map">
+        {ADIP_PROCESS.map((p) => (
+          <article class="flow-step">
+            <span class="flow-num">{p.n}</span>
+            <h3>{p.h}</h3>
+            <p>{p.d}</p>
+          </article>
+        ))}
+      </div>
+      <p class="small" style="margin-top: 18px;">ADIPs live at <a class="link" href="https://github.com/adamant-protocol/adamant-improvements" rel="noopener" target="_blank">adamant-protocol/adamant-improvements</a>. Anyone may open a draft; no permission required.</p>
+    </div>
+  </section>
+
+  <section class="section" id="contributors">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 03 / Contributors</div><div><h2 class="title">Who builds this.</h2></div></div>
+      <p class="serif" style="font-size: 17px; line-height: 1.55; color: var(--ink-2); max-width: 64ch;">Adamant was designed and bootstrapped by <span class="serif" style="font-style: italic;">Ryan Geldart</span> (WP §8.1.5, honest framing). Beyond that there is no team page, because there is no team in the foundation-with-equity sense. Contributors are visible in the commit log of each repository.</p>
+      <p class="serif" style="font-size: 17px; line-height: 1.55; color: var(--ink-2); max-width: 64ch; margin-top: 14px;">If you've written a non-trivial PR that landed, add yourself to the contributors file of that repo. If you've written non-code (audits, ADIPs, translations, documentation), add yourself there too.</p>
+    </div>
+  </section>
+</HubLayout>

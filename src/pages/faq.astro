@@ -1,0 +1,50 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import SeeAlso from '@/components/SeeAlso.astro';
+import { FAQ_ITEMS } from '@/data/chain';
+
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: FAQ_ITEMS.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+<HubLayout active="about" title="Adamant — FAQ" description="Frequently asked questions. Aligned to the whitepaper; answers are short and direct.">
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ FAQ · /faq</div>
+        <h1 class="title">Frequently asked,<br/><em style="font-style:italic; color:var(--ink-2);">directly answered.</em></h1>
+      </div>
+      <div>
+        <p class="lede">Plain-language answers. Where a question depends on a whitepaper section, the section number is cited.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <ol style="list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--ink);">
+        {FAQ_ITEMS.map((f, i) => (
+          <li style="padding: 28px 0; border-bottom: 1px solid var(--rule);">
+            <div style="display:grid; grid-template-columns: 80px 1fr; gap: 24px;" class="negation-row">
+              <span class="mono" style="font-size: 11px; letter-spacing: 0.14em; color: var(--ink-3); padding-top: 6px;">Q.{String(i + 1).padStart(2, '0')}</span>
+              <div>
+                <h3 class="serif" style="font-size: 22px; line-height: 1.2; letter-spacing: -0.01em; margin: 0 0 10px;">{f.q}</h3>
+                <p class="serif" style="font-size: 16.5px; line-height: 1.55; color: var(--ink-2); margin: 0; max-width: 70ch;">{f.a}</p>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <p class="small" style="margin-top: 24px;">Don't see your question? Open an issue at the <a class="link" href="https://github.com/adamant-protocol/adamant-website/issues" rel="noopener" target="_blank">repository</a> or check the <a class="link" href="/glossary">glossary</a>.</p>
+    </div>
+  </section>
+
+  <SeeAlso current="about" />
+</HubLayout>

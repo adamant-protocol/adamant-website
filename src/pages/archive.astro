@@ -1,0 +1,55 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import Provenance from '@/components/Provenance.astro';
+
+const VERSIONS = [
+  { v: 'v0.1', date: '2026-05-01', tag: 'current draft', notes: 'Initial public draft. Adamant Move VM, two-regime mempool, 100M genesis pool.', href: 'https://github.com/adamant-protocol/adamant-spec/tree/v0.1/whitepaper' },
+];
+---
+<HubLayout active="home" title="Adamant — Archive" description="The history of the protocol description. Every published whitepaper version, preserved.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Archive · /archive</div>
+        <h1 class="title">The history<br/><em style="font-style:italic; color:var(--ink-2);">of the description.</em></h1>
+      </div>
+      <div>
+        <p class="lede">A chain that is built to outlive its builders deserves a written record that does the same. Every published version of the whitepaper is preserved verbatim with its commit hash. Earlier drafts are not "out of date" — they are how the protocol thought of itself at that moment.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="scroll-x">
+        <table class="ledger">
+          <thead><tr><th>Version</th><th>Date</th><th>Tag</th><th>Notes</th><th>Source</th></tr></thead>
+          <tbody>
+            {VERSIONS.map((v) => (
+              <tr>
+                <td class="mono">{v.v}</td>
+                <td>{v.date}</td>
+                <td><span class="tag">{v.tag}</span></td>
+                <td>{v.notes}</td>
+                <td><a class="link mono small" href={v.href} rel="noopener" target="_blank">github ↗</a></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="callout">
+        <div class="mark-c">§</div>
+        <div>
+          <p>The current draft is the working text. Earlier drafts are the historical record. Both are part of the protocol's documentation.</p>
+          <small>— editorial policy</small>
+        </div>
+      </div>
+      <Provenance section="Archive" />
+    </div>
+  </section>
+</HubLayout>

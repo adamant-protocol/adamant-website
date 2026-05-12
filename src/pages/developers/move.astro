@@ -1,0 +1,78 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+---
+<HubLayout active="developers" title="Adamant — Move language" description="Adamant Move: object-and-resource Move dialect with shielded execution circuits.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Developers · /developers/move</div>
+        <h1 class="title">Adamant Move.</h1>
+      </div>
+      <div>
+        <p class="lede">Move with privacy. Objects are typed resources with an explicit mutability declaration. Functions annotated <span class="mono">#[shielded]</span> run inside a Halo 2 circuit; their state transitions ship as zero-knowledge proofs alongside the transaction.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 01 / Hello, object</div>
+        <div><h2 class="title">Minimal module.</h2></div>
+      </div>
+      <pre class="mono" style="background: var(--paper-2); border: 1px solid var(--rule); padding: 18px; overflow-x: auto; font-size: 12.5px;">{`module example::token {
+    use adamant::object::{Self, ObjectId};
+    use adamant::shielded;
+
+    /// A shielded token note.
+    #[mutability = IMMUTABLE]
+    struct Note has key, store {
+        id: ObjectId,
+        amount: u64,
+        owner_view_key_hint: vector<u8>,
+    }
+
+    /// Transfer a note shielded: prove correctness inside Halo 2.
+    #[shielded]
+    public fun transfer(note: Note, new_owner_hint: vector<u8>): Note {
+        Note { id: object::new(), amount: note.amount, owner_view_key_hint: new_owner_hint }
+    }
+}`}</pre>
+      <p class="small" style="margin-top: 16px;">Shielded functions compile to a Halo 2 circuit; the prover (local or via the prover market) generates the proof; the chain verifies. Outside the circuit, observers see only the input/output object commitments and the validity proof.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 02 / Mutability</div>
+        <div><h2 class="title">Declared at creation.</h2></div>
+      </div>
+      <div class="scroll-x">
+        <table class="ledger">
+          <thead><tr><th>Declaration</th><th>What it means</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">IMMUTABLE</td><td>Object cannot be changed after creation. Code cannot upgrade itself.</td></tr>
+            <tr><td class="mono">OWNER_UPGRADEABLE</td><td>Designated owner key may mutate / upgrade.</td></tr>
+            <tr><td class="mono">VOTE_UPGRADEABLE</td><td>Token-holder vote with declared threshold.</td></tr>
+            <tr><td class="mono">UPGRADEABLE_UNTIL_FROZEN</td><td>Mutable until explicitly frozen by the owner; immovable thereafter.</td></tr>
+            <tr><td class="mono">CUSTOM</td><td>Validation logic declared at creation, fixed.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small" style="margin-top: 16px;">Mutability declarations are <strong>always cleartext</strong>, regardless of whether the object is shielded. Users must be able to determine mutability without trust (WP §2.5, §7.8.3).</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="callout">
+        <div class="mark-c">§</div>
+        <div>
+          <p>Adamant Move is a <em>narrow</em> smart-contract platform. Every function pays gas; every shielded function carries a proof. There is no off-chain compute drain, no arbitrary state explosion. This is the trade-off for being a base layer that holds money.</p>
+          <small>— WP §6</small>
+        </div>
+      </div>
+    </div>
+  </section>
+</HubLayout>

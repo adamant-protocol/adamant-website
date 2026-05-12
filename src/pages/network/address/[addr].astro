@@ -1,0 +1,64 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import ExplorerSearch from '@/components/ExplorerSearch.astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { addr: 'adm1example' } },
+    { params: { addr: 'adm1transparent' } },
+  ];
+}
+
+const { addr } = Astro.params;
+---
+<HubLayout active="network" title={`Adamant — Address ${addr}`} description="Per-address page. Public state for transparent addresses; opaque view with disclosure CTA for shielded.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Explorer · /network/address/{addr}</div>
+        <h1 class="title">Address <span class="mono" style="font-size:0.5em;">{addr}</span></h1>
+      </div>
+      <div>
+        <p class="lede">Addresses are not assumed to be public on Adamant. Shielded addresses present an opaque view by default; only the holder, or someone holding a scoped view key from the holder, can read transactions.</p>
+        <div style="margin-top: 18px;"><ExplorerSearch /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div style="display:grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink);" class="gn-cohort-stats">
+        <div style="padding: 14px 18px;"><span class="label">Account class</span><div class="mono" style="font-size: 18px; margin-top: 4px;">Shielded</div></div>
+        <div style="padding: 14px 18px; border-left: 1px solid var(--rule);"><span class="label">Transparent balance</span><div class="mono" style="font-size: 22px; margin-top: 4px;" data-spec="true">—</div></div>
+        <div style="padding: 14px 18px; border-left: 1px solid var(--rule);"><span class="label">Shielded balance</span><div class="mono" style="font-size: 22px; margin-top: 4px;" data-spec="true">opaque</div></div>
+        <div style="padding: 14px 18px; border-left: 1px solid var(--rule);"><span class="label">First seen</span><div class="mono" style="font-size: 22px; margin-top: 4px;" data-spec="true">—</div></div>
+      </div>
+
+      <div class="gn-proof-row" style="margin-top: 28px;">
+        <div>
+          <span class="label">Public view</span>
+          <p>For a shielded account: only the existence of the address is visible. Sender/recipient/amount of inbound and outbound transactions is encrypted. Account-level analysis ("how many transactions has this address sent?") is impossible from the chain alone.</p>
+        </div>
+        <div>
+          <span class="label">Try a view key</span>
+          <p>Hold a view key issued by the account holder for a specific scope? Paste it below to decrypt the matching transactions.</p>
+          <div style="display:flex; gap: 0; border: 1px solid var(--rule-2); margin-top: 12px;">
+            <input class="mono" placeholder="vkey1… (paste scoped view key)" style="flex:1; border: 0; padding: 10px 12px; font-size: 12.5px; background: var(--paper); color: var(--ink-2); outline: none; min-width: 0;"/>
+            <button class="mono" style="border: 0; border-left: 1px solid var(--rule-2); background: var(--ink); color: var(--paper); padding: 10px 14px; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;">Disclose</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 28px;" class="scroll-x">
+        <table class="ledger">
+          <thead>
+            <tr><th>Tx hash</th><th>Block</th><th>Direction</th><th class="r">Amount</th><th>Memo</th></tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="5" class="mono small" style="color: var(--ink-3); padding: 32px 16px; text-align:center; font-style: italic;">No transactions visible without a view key — this address is shielded.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</HubLayout>

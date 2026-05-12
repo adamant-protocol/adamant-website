@@ -1,0 +1,27 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+
+interface Props {
+  locale: 'zh' | 'ja' | 'ko' | 'es' | 'ar';
+  title: string;
+  endonym: string;
+  comingSoon: string;
+}
+const { locale, title, endonym, comingSoon } = Astro.props;
+---
+<HubLayout active="home" title={`Adamant — ${endonym}`} description={comingSoon}>
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ /{locale}</div>
+        <h1 class="title">{title}<br/><em style="font-style:italic; color:var(--ink-2);">{endonym}</em></h1>
+      </div>
+      <div>
+        <p class="lede">{comingSoon}</p>
+        <div style="margin-top: 18px;">
+          <a class="link mono small" href="/" style="border:1px solid var(--ink); padding:8px 14px; letter-spacing:0.10em; text-transform:uppercase;">English ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</HubLayout>

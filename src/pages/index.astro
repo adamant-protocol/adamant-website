@@ -1,242 +1,267 @@
 ---
 import HubLayout from '@/layouts/HubLayout.astro';
 import SeeAlso from '@/components/SeeAlso.astro';
-import { SEVEN_PROPERTIES, CAPABILITIES, FIVE_MECHANISMS, PHASE, fmtAdm } from '@/data/chain';
+import PhaseLine from '@/components/PhaseLine.astro';
+import RepoPulse from '@/components/RepoPulse.astro';
+import { PHASE, fmtAdm } from '@/data/chain';
 
 const p = PHASE;
 const burnRem = fmtAdm(p.genesisPool.burnRemaining);
 const valRem = fmtAdm(p.genesisPool.validatorRemaining);
 
-const CLAIM_STATES = [
-  { k: 'Privacy', state: 'Specified', note: 'Default-shielded model and view-key disclosure are defined in the whitepaper.' },
-  { k: 'Post-quantum', state: 'Specified', note: 'Hybrid signature and key-agreement primitives are selected, not yet audited in implementation.' },
-  { k: 'Throughput', state: 'Pending benchmark', note: '50,000 TPS is the conservative design floor to prove during testnet.' },
-  { k: 'Finality', state: 'Pending benchmark', note: 'Sub-second target depends on public testnet measurements.' },
-  { k: 'Mempool integrity', state: 'Specified', note: 'Threshold encryption and VDF fallback regimes are described in the protocol spec.' },
-  { k: 'Verifiability', state: 'Specified', note: 'Recursive verification design is documented; client implementation remains in progress.' },
-  { k: 'Decentralisation', state: 'Operational target', note: 'Residential-fibre requirements are the launch constraint to validate.' },
-];
-
-const FLOW_STEPS = [
-  { n: '01', h: 'Burn source asset', d: 'BTC, ETH, USDT or USDC leaves circulation through a verifiable burn path.' },
-  { n: '02', h: 'Mint shielded ADM', d: 'The validator set verifies the burn proof and mints ADM to a private destination.' },
-  { n: '03', h: 'Run the cohort', d: 'Node Runners and Watchers bring the active set above the safety floor.' },
-  { n: '04', h: 'Verify locally', d: 'Recursive proofs let clients verify chain state without trusting an operator.' },
+// Five doors. The site is structured as a hub-and-spoke around them.
+const DOORS = [
+  { k: 'use',       label: 'I want to use ADM',          to: '/wallet',     blurb: 'Receive, send, disclose. Reference wallet for the privacy-by-default chain.', sub: 'wallet · burn-to-mint' },
+  { k: 'run',       label: 'I want to run a node',       to: '/operator',   blurb: 'Validator, watcher, prover, service node — residential-fibre by design.',     sub: 'operator · stake · economics' },
+  { k: 'build',     label: 'I want to build on it',      to: '/developers', blurb: 'Adamant Move VM, JSON-RPC, SDKs, view-key format, stealth addresses.',         sub: 'developers · Move · API' },
+  { k: 'audit',     label: 'I want to audit it',         to: '/security',   blurb: 'Primitives, threat model, audits, reproducible builds, signing keys.',         sub: 'security · spec · sources' },
+  { k: 'understand',label: 'I want to understand it',    to: '/start',      blurb: 'Start with five steps. End with the whitepaper and a working mental model.',   sub: 'start · faq · glossary' },
 ];
 ---
 
-<HubLayout active="home" title="Adamant — Home" description="A Layer 1 blockchain protocol. Privacy by default, post-quantum, no foundation, no premine, no admin keys.">
+<HubLayout
+  active="home"
+  title="Adamant — Public Record"
+  description="A Layer 1 blockchain protocol. Privacy by default, post-quantum, no foundation, no premine, no admin keys. Adamant Move VM with shielded execution.">
 
-  <!-- HERO: chain status is the hero. Pre-launch shows the genesis pool;
-       once the chain is live the phase switcher swaps it for block height. -->
+  <!-- LETTER FROM THE PROTOCOL -->
   <section class="hero-state">
     <div class="container">
-      <div class="eyebrow"><span class="num">§ 00</span> &nbsp; A Layer 1 blockchain protocol &nbsp; · &nbsp; Privacy by default &nbsp; · &nbsp; Post-quantum &nbsp; · &nbsp; No foundation, no premine</div>
-      <h1 class="hero-title">Private, post-quantum settlement without an owner.</h1>
+      <div class="eyebrow"><span class="num">§ 00</span> &nbsp; A Layer 1 blockchain protocol &middot; Privacy by default &middot; Post-quantum &middot; No foundation, no premine</div>
+      <h1 class="hero-title">Private, post-quantum settlement<br/><em style="font-style:italic; color:var(--ink-2);">without an owner.</em></h1>
+
+      <div class="hero-split">
+        <div class="letter">
+          <p class="letter-body">
+            Adamant is a base layer. It is built to outlive the people who built it. There is no foundation, no premine, no admin key, no on-chain governance. <strong>ADM</strong> enters circulation only through public burn-to-mint or validator emission, drained from a 100&nbsp;000&nbsp;000 pool capped at five years. Transactions are shielded by default and selectively disclosable. Active set 7&ndash;75, residential-fibre. The whitepaper is the source of truth.
+          </p>
+          <p class="letter-sign">— the rules, as they stand on <span class="mono" id="letter-block">specification phase · block 0</span></p>
+          <PhaseLine />
+        </div>
+
+        <aside class="hero-at-a-glance" aria-label="Chain identifiers">
+          <div class="hag-row">
+            <span class="label">Identifier</span>
+            <span class="mono hag-v">adamant/mainnet · chain-id 0x4d41</span>
+          </div>
+          <div class="hag-row">
+            <span class="label">Spec</span>
+            <span class="mono hag-v">v0.1 · draft</span>
+          </div>
+          <div class="hag-row">
+            <span class="label">Genesis pool</span>
+            <span class="mono hag-v">100 000 000 ADM</span>
+          </div>
+          <div class="hag-row">
+            <span class="label">Partition</span>
+            <span class="mono hag-v">{burnRem} burn · {valRem} validator</span>
+          </div>
+          <div class="hag-row">
+            <span class="label">Active set</span>
+            <span class="mono hag-v">floor 7 · ceiling 75</span>
+          </div>
+          <div class="hag-row">
+            <span class="label">Phase</span>
+            <span class="mono hag-v">{p.label}</span>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- FIVE DOORS -->
+  <section class="section" data-screen-label="Audience routing">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <div class="num-mark">§ 01 / Five doors</div>
+        <div>
+          <h2 class="title">Where to start.</h2>
+          <p class="subtitle">Pick a door. Each one is the canonical path through the site for that audience.</p>
+        </div>
+      </div>
+
+      <nav class="door-grid" aria-label="Audience routes">
+        {DOORS.map((d, i) => (
+          <a class="door" href={d.to}>
+            <span class="door-num">{`D.${String(i + 1).padStart(2, '0')}`}</span>
+            <h3 class="door-label">{d.label}</h3>
+            <p class="door-blurb">{d.blurb}</p>
+            <span class="door-sub">{d.sub} &rarr;</span>
+          </a>
+        ))}
+      </nav>
+    </div>
+  </section>
+
+  <!-- LIVE POOL FIGURE -->
+  <section class="section" data-screen-label="Genesis pool figure">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <div class="num-mark">§ 02 / Supply</div>
+        <div>
+          <h2 class="title">100 000 000 ADM, draining.</h2>
+          <p class="subtitle">70 % burn-allocated, 30 % validator-allocated. Five-year cap. Unclaimed at the cap is destroyed (WP §10.2.4). This number is the only ADM that will ever exist during the launch phase.</p>
+        </div>
+      </div>
       <div class="hero-figure" id="home-hero-figure">100,000,000<span class="unit">ADM</span></div>
       <div class="hero-meta">
         <div class="left">
           <span class="label" id="home-hero-label">Genesis pool &nbsp; · &nbsp; {p.label}</span>
-          <span class="serif" id="home-hero-tag" style="font-size: 22px; line-height: 1.4; color: var(--ink-2); max-width: 56ch;">
+          <span class="serif" id="home-hero-tag" style="font-size: 22px; line-height: 1.4; color: var(--ink-2);">
             {p.tagline}
           </span>
         </div>
         <div class="right">
-          <span class="label">Identifier</span>
-          <span class="mono" style="font-size:13px;color:var(--ink-2);">adamant/mainnet · chain-id 0x4d41 &nbsp; · &nbsp; spec v0.1</span>
-          <span class="label" style="margin-top:8px;">Partition</span>
+          <span class="label">Drain</span>
           <span class="mono" id="home-hero-partition" style="font-size:18px;color:var(--ink);">
             {burnRem} <span style="color:var(--mute);">burn</span> · {valRem} <span style="color:var(--mute);">validator</span>
           </span>
+          <span class="label" style="margin-top:8px;">Floor &middot; Ceiling</span>
+          <span class="mono" style="font-size:14px;color:var(--ink-2);">7 &middot; 75 validators</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PRIMARY ACTIONS -->
-  <section data-screen-label="Primary actions">
-    <div class="container" style="padding-top:24px; padding-bottom:24px;">
-      <div class="actions">
-        <a class="action" href="/spec" data-action="spec">
-          <span class="label">Action 01</span>
-          <span class="h">Read the specification</span>
-          <span class="d">Start with the canonical whitepaper: protocol behaviour, assumptions, and launch constraints.</span>
-          <span class="arrow">Open spec</span>
-        </a>
-        <a class="action" href="/genesis" data-action="genesis">
-          <span class="label">Action 02</span>
-          <span class="h">Review genesis mechanics</span>
-          <span class="d">See how the 100M ADM pool drains through burn-to-mint and validator rewards.</span>
-          <span class="arrow">Open genesis</span>
-        </a>
-        <a class="action" href="/updates" data-action="updates">
-          <span class="label">Action 03</span>
-          <span class="h">Follow implementation</span>
-          <span class="d">Track material changes from the repository journal as the reference implementation progresses.</span>
-          <span class="arrow">Open updates</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- SEVEN-PROPERTIES GAP ANALYSIS -->
-  <section class="section" data-screen-label="Seven properties · gap analysis">
+  <!-- CALLOUTS / KEY PROPOSITIONS -->
+  <section class="section">
     <div class="container">
-      <div class="section-head">
-        <div class="num-mark">§ 01</div>
+      <div class="section-head" data-reveal>
+        <div class="num-mark">§ 03 / Propositions</div>
         <div>
-          <h2 class="title">The seven properties.</h2>
-          <p class="subtitle">A base layer is only useful if it makes guarantees. These are the seven properties Adamant is built to provide. Each claim is marked by maturity so pre-launch reads as evidence, not theatre.</p>
+          <h2 class="title">Three claims, plainly.</h2>
         </div>
       </div>
-
-      <div class="claim-grid" aria-label="Claim maturity">
-        {CLAIM_STATES.map((claim, i) => (
-          <article class="claim-card">
-            <span class="num">{`M.${String(i + 1).padStart(2, '0')}`}</span>
-            <h3>{claim.k}</h3>
-            <span class="tag solid">{claim.state}</span>
-            <p>{claim.note}</p>
-          </article>
-        ))}
+      <div class="claim-grid">
+        <article class="claim-card">
+          <span class="num">P.01</span>
+          <h3>Settlement that doesn&rsquo;t leak.</h3>
+          <p>Shielded by default. Sender, recipient, amount and memo are encrypted before the transaction leaves the device. <a class="link" href="/wallet#view-keys">View keys</a> let you disclose what you choose, when you choose, to whom you choose.</p>
+        </article>
+        <article class="claim-card">
+          <span class="num">P.02</span>
+          <h3>Cryptography for the next century.</h3>
+          <p>ML-DSA (FIPS 204) hybridised with Ed25519 at the identity layer. ML-KEM-768 at the privacy layer. Halo 2 recursive proofs. No trusted setup.</p>
+        </article>
+        <article class="claim-card">
+          <span class="num">P.03</span>
+          <h3>Validation from your living room.</h3>
+          <p>50 000 TPS floor at the launch active-set ceiling of 75, on residential fibre. The protocol is the team and the team is the operators.</p>
+        </article>
       </div>
-
-      <div class="props-row props-head">
-        <div class="label">Property</div>
-        <div class="label">Bitcoin</div>
-        <div class="label">Ethereum</div>
-        <div class="label">Monero</div>
-        <div class="label">Zcash</div>
-        <div class="label">Mina</div>
-        <div class="label col-adm">Adamant</div>
-      </div>
-
-      {SEVEN_PROPERTIES.map((row) => (
-        <div class="props-row">
-          <div class="pcell k">
-            <span class="name">{row.k}</span>
-            <span class="note">{row.note}</span>
-          </div>
-          <div class="pcell center">{row.gap.btc ? <span class="gap-yes">●</span> : <span class="gap-no">○</span>}</div>
-          <div class="pcell center">{row.gap.eth ? <span class="gap-yes">●</span> : <span class="gap-no">○</span>}</div>
-          <div class="pcell center">{row.gap.monero ? <span class="gap-yes">●</span> : <span class="gap-no">○</span>}</div>
-          <div class="pcell center">{row.gap.zec ? <span class="gap-yes">●</span> : <span class="gap-no">○</span>}</div>
-          <div class="pcell center">{row.gap.mina ? <span class="gap-yes">●</span> : <span class="gap-no">○</span>}</div>
-          <div class="pcell center shade">{row.gap.adm ? <span class="gap-yes">●</span> : <span class="gap-no">○</span>}</div>
-        </div>
-      ))}
-
-      <p class="small" style="margin-top:14px; max-width: 64ch;">
-        ● = property satisfied. ○ = property absent or out of scope. The table is a summary; full justification with citations lives in the whitepaper.
+      <p class="small" style="margin-top: 18px;">
+        Each claim is justified in detail in the <a class="link" href="/spec">specification</a> and in the <a class="link" href="/about#properties">seven-property gap analysis</a>.
       </p>
     </div>
   </section>
 
-  <!-- WHAT YOU CAN BUILD -->
-  <section class="section" data-screen-label="What you can build">
+  <!-- LIVE PULSE (build-time) -->
+  <section class="section">
     <div class="container">
-      <div class="section-head">
-        <div class="num-mark">§ 02</div>
+      <div class="section-head" data-reveal>
+        <div class="num-mark">§ 04 / Pulse</div>
         <div>
-          <h2 class="title">What you can build.</h2>
-          <p class="subtitle">A base layer is only useful if it makes things possible. These are the capabilities Adamant's property combination opens.</p>
+          <h2 class="title">What is alive right now.</h2>
+          <p class="subtitle">Even pre-launch, the protocol moves. These numbers update at each site build from the public repository.</p>
         </div>
       </div>
-      <div class="caps-grid">
-        {CAPABILITIES.map((c, i) => (
-          <article class="cap">
-            <span class="num">{`C.${String(i + 1).padStart(2, '0')}`}</span>
-            <h3 class="cap-title">{c.title}</h3>
-            <p class="cap-desc">{c.desc}</p>
-            <p class="cap-eg"><span class="label">Examples</span>{c.eg}</p>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- FIVE MECHANISMS -->
-  <section class="section" data-screen-label="Five mechanisms">
-    <div class="container">
-      <div class="section-head">
-        <div class="num-mark">§ 03</div>
-        <div>
-          <h2 class="title">Five mechanisms.</h2>
-          <p class="subtitle">The protocol is the composition of five mechanisms. Each is described in full in the whitepaper; summarised here.</p>
-        </div>
-      </div>
-      <div class="mech-grid">
-        {FIVE_MECHANISMS.map((m) => (
-          <div class="mech">
-            <span class="num">{m.num}</span>
-            <span class="h">{m.name}</span>
-            <span class="d">{m.d}</span>
-            <span class="meta">{m.meta}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- PROTOCOL FLOW -->
-  <section class="section" data-screen-label="Protocol flow">
-    <div class="container">
-      <div class="section-head">
-        <div class="num-mark">§ 04</div>
-        <div>
-          <h2 class="title">From burn to verification.</h2>
-          <p class="subtitle">The launch path in one operational view: supply enters through proof, the active set secures ordering, and clients verify the result locally.</p>
-        </div>
-      </div>
-
-      <div class="flow-map" aria-label="Adamant protocol flow">
-        {FLOW_STEPS.map((step) => (
-          <article class="flow-step">
-            <span class="flow-num">{step.n}</span>
-            <h3>{step.h}</h3>
-            <p>{step.d}</p>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- GENESIS COHORT PROGRESS -->
-  <section class="section" data-screen-label="Genesis cohort progress">
-    <div class="container">
-      <div class="section-head">
-        <div class="num-mark">§ 05</div>
-        <div>
-          <h2 class="title">Genesis cohort.</h2>
-          <p class="subtitle">The first 75 validators form the genesis cohort. They are recognised by a permanent on-chain marker and a freely tradeable Genesis NFT. Slots are first-come, first-served. This grid fills in real time once the chain is live.</p>
-        </div>
-      </div>
-
-      <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:14px;">
-        <div class="mono" style="font-size: 13px; color: var(--ink-2);">
-          <span>0</span><span style="color:var(--mute);"> / 75 slots taken</span>
-        </div>
-        <span class="mono" style="font-size: 11px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-3);">
-          Pre-launch · cohort opens at chain activation
-        </span>
-      </div>
-
-      <div class="cohort" aria-label="Genesis cohort, 75 slots">
-        {Array.from({ length: 75 }, (_, i) => i + 1).map((i) => (
-          <div class="slot is-empty" title={`Cohort #${i}`}>
-            <span class="n">#{String(i).padStart(2, '0')}</span>
-          </div>
-        ))}
-      </div>
-
-      <div style="display:flex; gap: 22px; margin-top: 14px; font-family: var(--mono); font-size: 11px; color: var(--ink-3); letter-spacing: 0.06em;">
-        <span><span style="display:inline-block; width:6px; height:6px; background: var(--signal); margin-right: 6px;"></span>filled</span>
-        <span><span style="display:inline-block; width:6px; height:6px; background: var(--ok); margin-right: 6px;"></span>active &amp; producing</span>
-        <span><span style="display:inline-block; width:6px; height:6px; border:1px solid var(--rule-2); margin-right: 6px;"></span>open</span>
-      </div>
+      <RepoPulse />
+      <p class="small" style="margin-top: 18px;">Full implementation readiness lives at <a class="link" href="/developers/status">/developers/status</a>. Detailed roadmap at <a class="link" href="/roadmap">/roadmap</a>.</p>
     </div>
   </section>
 
   <SeeAlso current="home" />
+
+  <script is:inline>
+    // Phase-aware letter sign-off
+    (function () {
+      function apply() {
+        var p = (window.AdamantPhase && window.AdamantPhase.get()) || { key: 'prelaunch', blockHeight: null };
+        var el = document.getElementById('letter-block');
+        if (!el) return;
+        if (p.key === 'prelaunch') el.textContent = 'specification phase · block 0';
+        else if (p.blockHeight != null) el.textContent = 'block ' + p.blockHeight.toLocaleString('en-US');
+      }
+      if (window.AdamantPhase) apply();
+      window.addEventListener('adamant-phase', apply);
+      window.addEventListener('DOMContentLoaded', apply);
+    })();
+  </script>
+
+  <style>
+    /* Hero split: letter (left) + at-a-glance (right) */
+    .hero-split {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(280px, 1fr);
+      gap: 48px;
+      margin-top: 24px;
+      align-items: start;
+    }
+    .letter { max-width: 70ch; }
+    .letter-body { font-family: var(--serif); font-size: 20px; line-height: 1.55; color: var(--ink); margin: 0; }
+    .letter-sign { margin-top: 14px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; color: var(--ink-3); text-transform: uppercase; }
+    .letter-sign .mono { letter-spacing: 0.06em; color: var(--ink-2); }
+    .letter .phase-line { margin-top: 18px; }
+
+    .hero-at-a-glance {
+      border-top: 1px solid var(--ink);
+      border-bottom: 1px solid var(--ink);
+      background: var(--paper);
+    }
+    .hag-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .hag-row:last-child { border-bottom: 0; }
+    .hag-row .label { flex: 0 0 auto; }
+    .hag-v {
+      font-size: 12.5px;
+      color: var(--ink);
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 980px) {
+      .hero-split { grid-template-columns: 1fr; gap: 28px; }
+    }
+
+    /* Five doors — auto-fit so cards never go below ~240px */
+    .door-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0;
+      border-top: 1px solid var(--ink);
+      border-bottom: 1px solid var(--ink);
+    }
+    .door {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 24px 20px;
+      border-left: 1px solid var(--rule);
+      border-top: 1px solid transparent;
+      background: var(--paper);
+      transition: background 140ms;
+      min-height: 220px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .door:first-child { border-left: 0; }
+    .door:hover { background: var(--paper-2); }
+    .door-num { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--ink-3); }
+    .door-label { font-family: var(--serif); font-size: 22px; line-height: 1.15; letter-spacing: -0.01em; color: var(--ink); margin: 0; }
+    .door-blurb { font-family: var(--serif); font-size: 14.5px; line-height: 1.5; color: var(--ink-2); margin: 0; }
+    .door-sub { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.10em; color: var(--signal); text-transform: uppercase; }
+
+    @media (max-width: 540px) {
+      .door-grid { grid-template-columns: 1fr; }
+      .door { border-left: 0 !important; border-top: 1px solid var(--rule); min-height: 0; }
+      .door:first-child { border-top: 0; }
+    }
+  </style>
 
 </HubLayout>

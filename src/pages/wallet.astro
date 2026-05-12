@@ -1,9 +1,12 @@
 ---
 import HubLayout from '@/layouts/HubLayout.astro';
 import SeeAlso from '@/components/SeeAlso.astro';
+import ViewKeyDemo from '@/components/demos/ViewKeyDemo.astro';
+import ShieldedTransparent from '@/components/diagrams/ShieldedTransparent.astro';
+import { HARDWARE_WALLETS } from '@/data/chain';
 ---
 
-<HubLayout active="wallet" title="Adamant — Wallet" description="Reference wallet for the Adamant protocol. Privacy by default; selective disclosure deliberate.">
+<HubLayout active="wallet" title="Adamant — Wallet" description="Reference wallet for the Adamant protocol. Privacy by default; selective disclosure on intent. Burn-to-mint, view keys, social recovery, hardware support.">
 
   <section class="page-intro">
     <div class="container">
@@ -12,20 +15,28 @@ import SeeAlso from '@/components/SeeAlso.astro';
         <h1 class="title">Shielded by default,<br/><em style="font-style:italic; color:var(--ink-2);">disclosed by intent.</em></h1>
       </div>
       <div>
-        <p class="lede">
-          The reference wallet for Adamant — built by the same engineers who wrote the protocol specification. Apache 2.0, self-custodial, view-key disclosure. Every screen below reflects the intended UX of the production application.
-        </p>
+        <p class="lede">The reference wallet for Adamant — Apache 2.0, self-custodial, default-shielded. Native iOS, native Android, desktop reference. Every screen below reflects the intended UX of the production application.</p>
         <p class="mono small" style="color: var(--ink-3); margin-top: 14px;">prototype only · holds no real assets · pre-launch</p>
+        <div style="display:flex; gap:8px; margin-top:18px; flex-wrap: wrap;">
+          <a href="#balance" class="tag">Balances</a>
+          <a href="#send" class="tag">Send</a>
+          <a href="#receive" class="tag">Receive · QR</a>
+          <a href="#view-keys" class="tag">View keys</a>
+          <a href="#history" class="tag">History</a>
+          <a href="#burn" class="tag">Burn-to-mint</a>
+          <a href="#fees" class="tag">Fees</a>
+          <a href="#recovery" class="tag">Recovery</a>
+          <a href="#hardware" class="tag">Hardware</a>
+          <a href="#mobile" class="tag">Mobile</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Pre-launch overlay + balance preview -->
-  <section style="padding: 32px 0;">
+  <!-- BALANCES + SEND -->
+  <section id="balance" style="padding: 32px 0;">
     <div class="container">
       <div style="display:grid; grid-template-columns: 360px 1fr; gap: 32px;" class="w-grid">
-
-        <!-- Side: balances -->
         <div style="display: flex; flex-direction: column; gap: 24px;">
           <div style="border: 1px solid var(--ink); padding: 24px; background: var(--paper);">
             <div style="display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-2);">
@@ -42,14 +53,14 @@ import SeeAlso from '@/components/SeeAlso.astro';
             <p class="mono small" style="color: var(--ink-3); margin-top: 14px;">visible on the public ledger</p>
           </div>
           <div style="border: 1px dashed var(--rule-2); padding: 14px 16px; background: var(--paper-2);">
-            <p class="serif" style="font-size: 14px; line-height: 1.5; color: var(--ink-2); margin: 0;">Privacy is the default. Sender, recipient, amount, and contract calls are encrypted before the transaction leaves the device. Selective disclosure is opt-in per scope, never automatic.</p>
+            <p class="serif" style="font-size: 14px; line-height: 1.5; color: var(--ink-2); margin: 0;">Adamant accounts default to <strong>OWNER_UPGRADEABLE</strong>, dual-signature (Ed25519 + ML-DSA), with 2-of-3 social recovery (WP §4.8). The wallet sets this up in the same number of taps as a legacy single-key wallet.</p>
           </div>
         </div>
 
-        <!-- Main: send + tx history (placeholder) -->
         <div style="display:flex; flex-direction: column; gap: 24px;">
-          <div style="border: 1px solid var(--ink);">
-            <div style="display:flex; justify-content:space-between; padding: 14px 18px; border-bottom: 1px solid var(--rule);">
+          <!-- SEND -->
+          <div id="send" style="border: 1px solid var(--ink);">
+            <div style="display:flex; justify-content:space-between; padding: 14px 18px; border-bottom: 1px solid var(--rule); flex-wrap: wrap; gap: 8px;">
               <span class="label">Send</span>
               <div style="display:inline-flex; border: 1px solid var(--rule-2);">
                 <span style="padding: 6px 12px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.10em; text-transform: uppercase; background: var(--ink); color: var(--paper);">Shielded</span>
@@ -58,53 +69,60 @@ import SeeAlso from '@/components/SeeAlso.astro';
             </div>
             <div class="send-row" style="display:grid; grid-template-columns: 160px 1fr; border-bottom: 1px solid var(--rule);">
               <div class="send-lab" style="padding: 14px 18px; border-right: 1px solid var(--rule);"><span class="label">Recipient</span></div>
-              <div class="send-val" style="padding: 14px 18px; font-family: var(--mono); font-size: 13px; color: var(--ink-3);">adm1…  (paste a stealth address)</div>
+              <div class="send-val" style="padding: 14px 18px; font-family: var(--mono); font-size: 13px; color: var(--ink-3);">adm1…  (paste stealth address) · or scan QR</div>
             </div>
             <div class="send-row" style="display:grid; grid-template-columns: 160px 1fr; border-bottom: 1px solid var(--rule);">
               <div class="send-lab" style="padding: 14px 18px; border-right: 1px solid var(--rule);"><span class="label">Amount</span></div>
               <div class="send-val" style="padding: 14px 18px; font-family: var(--mono); font-size: 16px; color: var(--ink-3);">— ADM</div>
             </div>
+            <div class="send-row" style="display:grid; grid-template-columns: 160px 1fr; border-bottom: 1px solid var(--rule);">
+              <div class="send-lab" style="padding: 14px 18px; border-right: 1px solid var(--rule);"><span class="label">Memo · encrypted</span></div>
+              <div class="send-val" style="padding: 14px 18px; font-family: var(--mono); font-size: 13px; color: var(--ink-3);">Optional. ChaCha20-Poly1305 + ML-KEM-768 envelope.</div>
+            </div>
             <div class="send-row" style="display:grid; grid-template-columns: 160px 1fr; background: var(--paper-2);">
-              <div class="send-lab" style="padding: 14px 18px; border-right: 1px solid var(--rule);"><span class="label">Encryption</span></div>
-              <div class="send-val" style="padding: 14px 18px; font-family: var(--mono); font-size: 13px;">Threshold (N≥15) · time-lock VDF (N&lt;15)</div>
+              <div class="send-lab" style="padding: 14px 18px; border-right: 1px solid var(--rule);"><span class="label">Mempool regime</span></div>
+              <div class="send-val" style="padding: 14px 18px; font-family: var(--mono); font-size: 13px;">Threshold (N≥15) · time-lock VDF (N&lt;15) · auto</div>
             </div>
           </div>
 
-          <div style="border: 1px solid var(--rule); background: var(--paper);">
+          <!-- RECEIVE -->
+          <div id="receive" style="border: 1px solid var(--rule); background: var(--paper);">
             <div style="display:flex; justify-content:space-between; padding: 12px 16px; border-bottom: 1px solid var(--rule);">
-              <span class="label">Recent activity</span>
-              <span class="mono small" style="color: var(--ink-3);">none · pre-launch</span>
+              <span class="label">Receive</span>
+              <span class="mono small" style="color: var(--ink-3);">stealth address + payment request</span>
             </div>
-            <div style="padding: 32px 16px; color: var(--ink-3); font-family: var(--serif); font-style: italic;">No transactions yet — wallet does not connect to a live network.</div>
-          </div>
-
-          <div style="border: 1px solid var(--spec); padding: 22px; background: var(--spec-bg); display: grid; grid-template-columns: 1fr; gap: 12px;">
-            <span class="label" style="color: var(--spec);">Specification phase · informational</span>
-            <p class="serif" style="font-size: 16px; line-height: 1.5; color: var(--ink); margin: 0; max-width: 64ch;">
-              The reference wallet ships open-source from the first commit, the same day the chain is live. Native iOS, native Android, and a desktop reference build. After mainnet, the team's role is maintenance; the ecosystem ships its own wallets.
-            </p>
+            <div style="display:grid; grid-template-columns: 220px 1fr; gap: 0;" class="net-grid">
+              <div style="padding: 24px; border-right: 1px solid var(--rule); text-align:center;">
+                <div style="width: 160px; height: 160px; margin: 0 auto; background: repeating-conic-gradient(var(--ink) 0% 25%, var(--paper) 0% 50%) 50% / 16px 16px; border: 1px solid var(--ink);"></div>
+                <p class="mono small" style="margin-top: 12px; color: var(--ink-3);">QR · stealth address</p>
+              </div>
+              <div style="padding: 18px;">
+                <span class="label">Payment request URI</span>
+                <pre class="mono" style="font-size: 11.5px; background: var(--paper-2); padding: 12px; margin: 8px 0 0; overflow-x: auto; border: 1px solid var(--rule); white-space: pre-wrap; word-break: break-all;">adamant:adm1…?amount=10&amp;memo=invoice%2342&amp;label=Vendor</pre>
+                <p class="mono small" style="margin-top: 12px; color: var(--ink-3);">Stealth addresses are derived from a long-lived viewing key via ML-KEM-768. Each payment uses a fresh, one-time address; observers cannot link payments to the same recipient (WP §7.2).</p>
+              </div>
+            </div>
           </div>
         </div>
-
       </div>
     </div>
   </section>
 
-  <!-- View-key disclosure section -->
-  <section class="section">
+  <!-- VIEW KEYS -->
+  <section class="section" id="view-keys">
     <div class="container">
       <div class="section-head">
         <div class="num-mark">§ 01 / Disclosure</div>
         <div>
           <h2 class="title">View keys, not court orders.</h2>
-          <p class="subtitle">Selective disclosure under the user's control. Generate a key that lets a counterparty, tax authority, or auditor see exactly the transactions you choose — within a date range, an amount range, or a label scope — without granting any spending authority. Revocable. Auditable.</p>
+          <p class="subtitle">Issue a scoped, revocable view key to a counterparty, tax authority, or auditor. They see what you choose to show — within a date range, an amount band, or a counterparty filter. They never gain spending authority. You can revoke at any time.</p>
         </div>
       </div>
 
       <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink);" class="vk-grid">
         {[
-          { n: '01', h: 'Scope', d: 'Date range, amount range, contract scope, or counterparty filter. The view key only reveals what its scope permits.' },
-          { n: '02', h: 'Authority', d: 'View only — no spending. Cannot move funds, cannot sign on the user\'s behalf, cannot derive the spending key.' },
+          { n: '01', h: 'Scope', d: 'Date range, amount range, counterparty filter, contract scope. The view key only reveals what its scope permits. WP §4.4.2.' },
+          { n: '02', h: 'Authority', d: 'View only — no spending. Cannot move funds, cannot sign on your behalf, cannot derive the spending key. One-way trapdoor.' },
           { n: '03', h: 'Revocable', d: 'Each view key has an expiry and may be revoked at any time. Revocation is a single on-chain transaction.' },
         ].map((c, i) => (
           <div style={`padding: 22px 18px; ${i>0 ? 'border-left: 1px solid var(--rule);' : ''}`}>
@@ -113,6 +131,273 @@ import SeeAlso from '@/components/SeeAlso.astro';
             <p class="serif" style="font-size: 14px; line-height: 1.5; color: var(--ink-2); margin-top: 10px;">{c.d}</p>
           </div>
         ))}
+      </div>
+
+      <ShieldedTransparent />
+      <ViewKeyDemo />
+
+      <div style="border: 1px solid var(--rule); margin-top: 32px;">
+        <div style="display:flex; justify-content:space-between; padding: 12px 16px; border-bottom: 1px solid var(--rule);">
+          <span class="label">Issued view keys</span>
+          <span class="mono small" style="color: var(--ink-3);">none · pre-launch</span>
+        </div>
+        <div class="scroll-x">
+          <table class="ledger">
+            <thead>
+              <tr><th>Label</th><th>Scope</th><th>Issued</th><th>Expires</th><th>Status</th><th class="r">Action</th></tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="6" style="color: var(--ink-3); font-style: italic; padding: 22px 12px; text-align:center;">No view keys issued yet.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HISTORY -->
+  <section class="section" id="history">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 02 / History</div>
+        <div>
+          <h2 class="title">Transaction history.</h2>
+          <p class="subtitle">Your view of your own activity. Labels and notes are stored locally and encrypted with your account key. Export CSV under any view-key scope you've issued.</p>
+        </div>
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap: wrap; margin-bottom: 14px;">
+        <span class="tag">All</span>
+        <span class="tag">Sent</span>
+        <span class="tag">Received</span>
+        <span class="tag">Shielded</span>
+        <span class="tag">Transparent</span>
+        <span class="tag">Contracts</span>
+      </div>
+      <div class="scroll-x">
+        <table class="ledger">
+          <thead>
+            <tr><th>Date</th><th>Direction</th><th>Counterparty</th><th class="r">Amount</th><th>Label</th><th>Memo</th><th>Tx</th></tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="7" style="color: var(--ink-3); padding: 32px 16px; text-align: center; font-style: italic;">No transactions yet — wallet is not connected to a live network.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top: 18px; display:flex; gap: 12px; flex-wrap: wrap;">
+        <button class="mono" style="border: 1px solid var(--ink); padding: 10px 14px; background: var(--paper); font-size: 11px; letter-spacing: 0.10em; text-transform: uppercase;">Export CSV (scoped)</button>
+        <button class="mono" style="border: 1px solid var(--rule-2); padding: 10px 14px; background: var(--paper); font-size: 11px; letter-spacing: 0.10em; text-transform: uppercase;">Add label / note</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADDRESS BOOK + MULTI-ACCOUNT -->
+  <section class="section">
+    <div class="container">
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 32px;" class="net-grid">
+        <div>
+          <div class="section-head" style="margin-bottom: 18px;">
+            <div class="num-mark">§ 03</div>
+            <div><h2 class="title" style="font-size: 28px;">Address book.</h2></div>
+          </div>
+          <div style="border: 1px solid var(--rule);">
+            <div style="padding: 12px 16px; border-bottom: 1px solid var(--rule);"><span class="label">Contacts · stored locally</span></div>
+            <div class="scroll-x">
+              <table class="ledger">
+                <thead><tr><th>Name</th><th>Address</th><th>Notes</th></tr></thead>
+                <tbody>
+                  <tr><td colspan="3" style="color: var(--ink-3); padding: 22px 12px; text-align:center; font-style: italic;">No contacts yet.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="section-head" style="margin-bottom: 18px;">
+            <div class="num-mark">§ 04</div>
+            <div><h2 class="title" style="font-size: 28px;">Accounts &amp; watch-only.</h2></div>
+          </div>
+          <div style="border: 1px solid var(--rule);">
+            <div style="padding: 12px 16px; border-bottom: 1px solid var(--rule);"><span class="label">Wallets · select to switch</span></div>
+            <div style="padding: 14px 16px; border-bottom: 1px solid var(--rule); display:flex; justify-content:space-between;">
+              <div>
+                <div class="serif" style="font-size: 17px;">Personal · OWNER_UPGRADEABLE</div>
+                <div class="mono small" style="color: var(--ink-3);">Ed25519 + ML-DSA · 2-of-3 recovery</div>
+              </div>
+              <span class="tag solid">active</span>
+            </div>
+            <div style="padding: 14px 16px; border-bottom: 1px solid var(--rule); display:flex; justify-content:space-between;">
+              <div>
+                <div class="serif" style="font-size: 17px;">Cold · IMMUTABLE</div>
+                <div class="mono small" style="color: var(--ink-3);">Air-gapped device · ML-DSA only</div>
+              </div>
+              <span class="tag">watch</span>
+            </div>
+            <div style="padding: 14px 16px;">
+              <a class="mono small link" href="#">+ Add wallet · derive from seed, hardware, or watch-only address</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BURN-TO-MINT INTEGRATION -->
+  <section class="section" id="burn">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 05 / Acquire</div>
+        <div>
+          <h2 class="title">Burn-to-mint.</h2>
+          <p class="subtitle">During the launch phase, the only way to acquire newly-minted ADM. Burn BTC, ETH, USDT, or USDC at a verifiably-unspendable source-chain address; the validator set verifies the proof and mints ADM at the fixed launch-phase rate.</p>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 32px;" class="net-grid">
+        <div style="border: 1px solid var(--ink);">
+          <div style="padding: 14px 18px; border-bottom: 1px solid var(--rule);"><span class="label">Step 1 · select source asset</span></div>
+          <div style="display:flex; flex-wrap: wrap;">
+            {['BTC','ETH','USDT','USDC'].map((a, i) => (
+              <div style={`flex:1; min-width: 25%; padding: 16px 14px; text-align: center; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; ${i===0 ? 'background: var(--ink); color: var(--paper);' : ''}`}>{a}</div>
+            ))}
+          </div>
+          <div style="padding: 14px 18px; border-bottom: 1px solid var(--rule);"><span class="label">Step 2 · amount &amp; destination</span></div>
+          <div style="padding: 16px 18px; font-family: var(--mono); font-size: 13px; color: var(--ink-3);">2 500 USD-eq &nbsp;→&nbsp; 50 000 ADM &nbsp;→&nbsp; adm1…</div>
+          <div style="padding: 14px 18px; border-top: 1px solid var(--rule); background: var(--paper-2);"><span class="label">Step 3 · sign &amp; broadcast burn on source chain</span></div>
+          <div style="padding: 14px 18px;"><span class="mono small" style="color: var(--ink-3);">BTC 6 conf · ETH 32 epochs · USDT/USDC 64 conf</span></div>
+        </div>
+        <div style="border: 1px solid var(--rule); background: var(--paper);">
+          <div style="padding: 14px 18px; border-bottom: 1px solid var(--rule);"><span class="label">Per-address claim cap · WP §10.2.3</span></div>
+          <table class="ledger" style="margin: 0;">
+            <thead><tr><th>Window</th><th class="r">Cap · % of burn pool</th></tr></thead>
+            <tbody>
+              <tr><td>Months 0–1</td><td class="r">1%</td></tr>
+              <tr><td>Months 1–3</td><td class="r">2%</td></tr>
+              <tr><td>Months 3–6</td><td class="r">4%</td></tr>
+              <tr><td>Months 6–12</td><td class="r">8%</td></tr>
+              <tr><td>Month 12+</td><td class="r">uncapped</td></tr>
+            </tbody>
+          </table>
+          <p class="small" style="padding: 14px 18px; margin: 0;">Burns are <strong>full-or-nothing</strong>: if a claim would push past the sub-counter or the cap, the claim reverts (and the source-chain transaction is rejected where possible).</p>
+        </div>
+      </div>
+
+      <p class="small" style="margin-top: 18px;">Stablecoins: 1 USDT/USDC → 20 ADM, fixed. BTC/ETH: rate calibrated to USD-equivalent at protocol design time, constant through launch — not a live oracle.</p>
+    </div>
+  </section>
+
+  <!-- FEES -->
+  <section class="section" id="fees">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 06 / Fees</div>
+        <div>
+          <h2 class="title">Multi-dimensional fees.</h2>
+          <p class="subtitle">Adamant prices compute, bandwidth, state, mempool, and disclosure separately. The wallet collapses them into a single ADM number you can review before signing — but the breakdown is always visible.</p>
+        </div>
+      </div>
+      <div class="scroll-x">
+        <table class="ledger">
+          <thead>
+            <tr><th>Dimension</th><th>Unit</th><th>Estimated</th><th>What it pays for</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Compute (F.01)</td><td class="mono">gas-eq</td><td class="mono">—</td><td>Verifier cycles + signature ops.</td></tr>
+            <tr><td>Bandwidth (F.02)</td><td class="mono">bytes</td><td class="mono">—</td><td>On-DAG bytes (ciphertext priced).</td></tr>
+            <tr><td>State (F.03)</td><td class="mono">slots</td><td class="mono">—</td><td>New shielded notes / transparent UTXOs.</td></tr>
+            <tr><td>Mempool (F.04)</td><td class="mono">regime</td><td class="mono">—</td><td>Threshold is cheaper than VDF.</td></tr>
+            <tr><td>Disclosure (F.05)</td><td class="mono">kB</td><td class="mono">—</td><td>Optional, paid only on view-key disclosure.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small" style="margin-top: 16px;">Each transaction pays the sum across dimensions. Base fee is burned (EIP-1559-style) — sustained usage is deflationary against new issuance (WP §10.4).</p>
+    </div>
+  </section>
+
+  <!-- RECOVERY -->
+  <section class="section" id="recovery">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 07 / Recovery</div>
+        <div>
+          <h2 class="title">Recovery — your problem, our building blocks.</h2>
+          <p class="subtitle">Adamant provides no protocol-level recovery (Principle I). The account model lets you build the right one for your threat model: social, time-locked, multi-device, inheritance, or hardware-secured.</p>
+        </div>
+      </div>
+      <div class="claim-grid">
+        {[
+          { n: '01', h: 'Social recovery',     d: 'k-of-n guardians can rotate keys without the original. Default for reference wallet: 2-of-3.' },
+          { n: '02', h: 'Time-locked recovery',d: 'Recovery key gains rotation power after a delay (e.g. 7 days). You can cancel using your primary key.' },
+          { n: '03', h: 'Multi-device',        d: '2-of-3 across phone, laptop, hardware wallet. Loss of one device does not compromise the account.' },
+          { n: '04', h: 'Inheritance / dead-man\'s-switch', d: 'After a configurable inactivity period, beneficiary keys gain transaction authority. Any signed transaction resets the clock.' },
+          { n: '05', h: 'Hardware-attested',   d: 'Recovery keys held in HSMs or secure elements. Validation logic accepts attestation evidence.' },
+          { n: '06', h: 'IMMUTABLE',           d: 'No rotation, ever. Choose only with explicit informed consent — the protocol cannot help if you lose the key.' },
+        ].map((c) => (
+          <article class="claim-card">
+            <span class="num">{`R.${c.n}`}</span>
+            <h3>{c.h}</h3>
+            <p>{c.d}</p>
+          </article>
+        ))}
+      </div>
+      <p class="small" style="margin-top: 18px;"><strong>Wallet default:</strong> OWNER_UPGRADEABLE, dual-signature (Ed25519 + ML-DSA), 2-of-3 social recovery. Reference wallets <em>SHOULD NOT</em> default new users to single-key IMMUTABLE (WP §4.6.3).</p>
+    </div>
+  </section>
+
+  <!-- HARDWARE -->
+  <section class="section" id="hardware">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 08 / Hardware</div>
+        <div>
+          <h2 class="title">Hardware-wallet roadmap.</h2>
+          <p class="subtitle">ML-DSA support is new on commercial hardware wallets. The reference wallet ships with software keys at launch; hardware integration follows.</p>
+        </div>
+      </div>
+      <div class="scroll-x">
+        <table class="ledger">
+          <thead>
+            <tr><th>Brand</th><th>Model</th><th>Classical (Ed25519)</th><th>Post-quantum (ML-DSA)</th><th>Target</th></tr>
+          </thead>
+          <tbody>
+            {HARDWARE_WALLETS.map((h) => (
+              <tr>
+                <td>{h.brand}</td>
+                <td class="mono">{h.model}</td>
+                <td><span class="tag">{h.classical}</span></td>
+                <td><span class="tag">{h.pq}</span></td>
+                <td class="mono small">{h.target}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOBILE -->
+  <section class="section" id="mobile">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 09 / Mobile</div>
+        <div>
+          <h2 class="title">Phone-first by construction.</h2>
+          <p class="subtitle">A phone can fully verify the chain via recursive proofs (Halo 2). The reference wallet runs as a Node Watcher tier client by default — your wallet checks the chain itself, without trusting a server.</p>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 32px;" class="net-grid">
+        <div style="border: 1px solid var(--ink); padding: 24px;">
+          <span class="label">iOS</span>
+          <div class="serif" style="font-size: 32px; margin-top: 8px;">App Store · TestFlight</div>
+          <p class="mono small" style="color: var(--ink-3); margin-top: 12px;">Available at mainnet activation. TestFlight builds during public testnet.</p>
+          <div style="height: 80px; margin-top: 14px; background: repeating-linear-gradient(45deg, transparent 0 18px, oklch(0% 0 0 / 0.022) 18px 19px); display:flex; align-items:center; justify-content:center;"><span class="serif" style="font-style:italic; color: var(--ink-3);">badges render at launch</span></div>
+        </div>
+        <div style="border: 1px solid var(--ink); padding: 24px;">
+          <span class="label">Android</span>
+          <div class="serif" style="font-size: 32px; margin-top: 8px;">Play Store · F-Droid · APK</div>
+          <p class="mono small" style="color: var(--ink-3); margin-top: 12px;">Reproducible builds on F-Droid. APK + signing keys published in the reference-wallet repository.</p>
+          <div style="height: 80px; margin-top: 14px; background: repeating-linear-gradient(45deg, transparent 0 18px, oklch(0% 0 0 / 0.022) 18px 19px); display:flex; align-items:center; justify-content:center;"><span class="serif" style="font-style:italic; color: var(--ink-3);">badges render at launch</span></div>
+        </div>
       </div>
     </div>
   </section>

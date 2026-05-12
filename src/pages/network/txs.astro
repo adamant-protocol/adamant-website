@@ -1,0 +1,61 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import ExplorerSearch from '@/components/ExplorerSearch.astro';
+import { MOCK_TXS } from '@/data/chain';
+---
+<HubLayout active="network" title="Adamant — Transactions" description="Latest transactions. Hash, block, fee, encryption regime, finalisation status.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Explorer · /network/txs</div>
+        <h1 class="title">Transactions.</h1>
+      </div>
+      <div>
+        <p class="lede">Every transaction the chain has finalised. Sender, recipient, and amount are encrypted for shielded transactions by default; the public view shows what an observer can see, and what a view key would reveal.</p>
+        <div style="margin-top: 18px;"><ExplorerSearch /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="scroll-x">
+        <table class="ledger">
+          <thead>
+            <tr>
+              <th>Hash</th>
+              <th>Block</th>
+              <th>Timestamp</th>
+              <th class="r">Fee</th>
+              <th>Privacy</th>
+              <th>Regime</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {MOCK_TXS.map((t, i) => (
+              <tr>
+                <td><a class="link" href={`/network/tx/${i}`}>—</a></td>
+                <td>—</td>
+                <td>—</td>
+                <td class="r">—</td>
+                <td><span class="tag">{t.shielded ? 'Shielded' : 'Transparent'}</span></td>
+                <td><span class="tag">{t.regime === 'vdf' ? 'VDF' : 'Threshold'}</span></td>
+                <td><span class="tag">pending</span></td>
+              </tr>
+            ))}
+            <tr><td colspan="7" class="mono small" style="color: var(--ink-3); padding: 22px 12px; text-align:center;">No transactions yet — chain is in specification phase.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout" style="margin-top: 28px;">
+        <div class="mark-c">§</div>
+        <div>
+          <p>For shielded transactions, observers see only the encrypted envelope, the validity proof, and the fee. <a class="link" href="/wallet#view-keys">View keys</a> permit scoped decryption — by date, amount, or counterparty — without granting spending authority (WP §7.4).</p>
+          <small>— Privacy by default</small>
+        </div>
+      </div>
+    </div>
+  </section>
+</HubLayout>

@@ -1,0 +1,155 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import PhaseLine from '@/components/PhaseLine.astro';
+import Provenance from '@/components/Provenance.astro';
+import BurnToMint from '@/components/diagrams/BurnToMint.astro';
+import ShieldedTransparent from '@/components/diagrams/ShieldedTransparent.astro';
+import DagBft from '@/components/diagrams/DagBft.astro';
+import RecursiveProof from '@/components/diagrams/RecursiveProof.astro';
+---
+<HubLayout active="home" title="Adamant — Start here" description="Adamant in five steps. The shortest path from zero to a working mental model of the protocol.">
+
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Start · /start</div>
+        <h1 class="title">Adamant in five steps.</h1>
+      </div>
+      <div>
+        <p class="lede">A five-minute scroll. By the end, you can explain what Adamant is, where ADM comes from, how privacy works, how the chain stays alive, and what to read next. No prior crypto knowledge required.</p>
+        <PhaseLine variant="inline" />
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 01 — WHAT -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 01 / What it is</div>
+        <div>
+          <h2 class="title">A base layer that holds money.</h2>
+          <p class="subtitle">Adamant is a Layer 1 blockchain protocol. Not a smart-contract playground, not a scaling layer — a settlement layer designed to outlive its builders.</p>
+        </div>
+      </div>
+      <RecursiveProof />
+      <p class="serif" style="font-size: 17px; line-height: 1.55; color: var(--ink); max-width: 64ch;">
+        A small set of validators produces blocks. A recursive zero-knowledge proof attests to every transaction since genesis. A phone can verify the whole chain from a single anchor. There is no foundation that can pause it, no admin key that can move funds, no governance contract that can rewrite the rules.
+      </p>
+    </div>
+  </section>
+
+  <!-- STEP 02 — ADM -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 02 / How ADM exists</div>
+        <div>
+          <h2 class="title">Burn to mint.</h2>
+          <p class="subtitle">The only way ADM enters circulation during the launch phase: burn an external asset (BTC, ETH, USDT, USDC) at a verifiably-unspendable address; the validator set verifies the burn proof and mints ADM at the launch-phase rate.</p>
+        </div>
+      </div>
+      <BurnToMint />
+      <div class="pool-mini">
+        <div class="pool-mini-bar">
+          <div class="pool-mini-seg" style="flex: 70;"><span class="label">Burn 70 %</span></div>
+          <div class="pool-mini-seg alt" style="flex: 30;"><span class="label">Validator 30 %</span></div>
+        </div>
+        <p class="small" style="margin-top: 12px;">100 000 000 ADM total. 70 M drains through burn-to-mint. 30 M drains through validator block rewards. Five-year cap; unclaimed at the cap is destroyed. No foundation allocation, no premine, no investor round (WP §10.2).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 03 — PRIVACY -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 03 / How privacy works</div>
+        <div>
+          <h2 class="title">Shielded by default, disclosed by intent.</h2>
+          <p class="subtitle">Adamant transactions encrypt sender, recipient, amount and memo on-device before broadcast. The validity proof rides alongside. Observers see the envelope and the proof; only the holder &mdash; or a view-key recipient &mdash; reads the contents.</p>
+        </div>
+      </div>
+      <ShieldedTransparent />
+      <p class="serif" style="font-size: 17px; line-height: 1.55; color: var(--ink); max-width: 64ch;">
+        Selective disclosure is user-controlled. Issue a view key scoped to a date range, an amount band, a counterparty, or a contract; revoke it whenever. The protocol contains no mechanism by which anyone &mdash; including validators, the original implementers, or governments &mdash; can compel decryption against your will (WP §4.4).
+      </p>
+    </div>
+  </section>
+
+  <!-- STEP 04 — STAYING ALIVE -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 04 / How the chain stays alive</div>
+        <div>
+          <h2 class="title">A small active set, transferable but continuous.</h2>
+          <p class="subtitle">Floor 7. Ceiling 75 at launch. First-come, first-served with mutual-consent slot transfer. Below the floor, the chain halts on disagreement rather than producing blocks under reduced safety.</p>
+        </div>
+      </div>
+      <DagBft />
+      <div class="claim-grid" style="margin-top: 16px;">
+        <article class="claim-card">
+          <span class="num">A.01</span>
+          <h3>Node Runner</h3>
+          <p>Stake floor <span class="mono">1 000 ADM</span>. Produces blocks. 28-day unbonding. Subject to liveness, equivocation, and double-sign slashing.</p>
+        </article>
+        <article class="claim-card">
+          <span class="num">A.02</span>
+          <h3>Node Watcher</h3>
+          <p>Stake floor <span class="mono">100 ADM</span>. Publishes attestations and DA samples. 7-day unbonding. Slashable for false claims.</p>
+        </article>
+        <article class="claim-card">
+          <span class="num">A.03</span>
+          <h3>Genesis cohort</h3>
+          <p>The first 75 active-set slots receive a permanent on-chain marker (non-transferable) and a tradeable Genesis NFT (WP §8.1.9).</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 05 — WHERE NEXT -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 05 / Where to go next</div>
+        <div>
+          <h2 class="title">Five doors.</h2>
+          <p class="subtitle">Continue from whichever role you arrived as.</p>
+        </div>
+      </div>
+      <div class="claim-grid">
+        <a class="claim-card" href="/wallet"><span class="num">D.01</span><h3>Use ADM</h3><p>Wallet · burn-to-mint · view keys.</p></a>
+        <a class="claim-card" href="/operator"><span class="num">D.02</span><h3>Run a node</h3><p>Operator dashboard · stake floors · economics.</p></a>
+        <a class="claim-card" href="/developers"><span class="num">D.03</span><h3>Build on it</h3><p>SDKs · JSON-RPC · Adamant Move VM.</p></a>
+        <a class="claim-card" href="/security"><span class="num">D.04</span><h3>Audit it</h3><p>Primitives · threat model · reproducible builds.</p></a>
+        <a class="claim-card" href="/spec"><span class="num">D.05</span><h3>Read the spec</h3><p>Thirteen sections, parsed inline.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <Provenance section="Onboarding · 5 steps" />
+    </div>
+  </section>
+
+</HubLayout>
+
+<style>
+  .pool-mini { margin-top: 20px; }
+  .pool-mini-bar {
+    display: flex;
+    height: 36px;
+    border: 1px solid var(--ink);
+  }
+  .pool-mini-seg {
+    background: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .pool-mini-seg .label { font-size: 10px; letter-spacing: 0.14em; color: var(--paper); }
+  .pool-mini-seg.alt { background: var(--paper-2); border-left: 1px solid var(--ink); }
+  .pool-mini-seg.alt .label { color: var(--ink); }
+</style>

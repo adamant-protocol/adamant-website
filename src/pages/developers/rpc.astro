@@ -1,0 +1,102 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import { RPC_METHODS, PUBLIC_RPC } from '@/data/chain';
+---
+<HubLayout active="developers" title="Adamant — JSON-RPC reference" description="JSON-RPC + WebSocket reference for the Adamant chain. Methods, params, return types, examples, rate limits.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Developers · /developers/rpc</div>
+        <h1 class="title">JSON-RPC reference.</h1>
+      </div>
+      <div>
+        <p class="lede">A small surface of methods, designed to be implementable on a phone. Subscriptions over WebSocket for live updates. Pre-launch, public endpoints return <span class="mono">specification</span> placeholders.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 01 / Methods</div>
+        <div><h2 class="title">Methods.</h2><p class="subtitle">Stable across the launch phase. Additions require a hard fork; removals do not happen.</p></div>
+      </div>
+      <div class="scroll-x">
+        <table class="ledger">
+          <thead><tr><th>Method</th><th>Params</th><th>Returns</th><th>Notes</th></tr></thead>
+          <tbody>
+            {RPC_METHODS.map((m) => (
+              <tr>
+                <td class="mono">{m.m}</td>
+                <td class="mono small">{m.p}</td>
+                <td class="mono small">{m.r}</td>
+                <td>{m.d}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 02 / Example</div>
+        <div><h2 class="title">Request &amp; response.</h2></div>
+      </div>
+      <pre class="mono" style="background: var(--paper-2); border: 1px solid var(--rule); padding: 18px; overflow-x: auto; font-size: 12.5px;">{`curl -X POST https://rpc.adamantprotocol.com \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "adamant_blockHeight",
+    "params": []
+  }'
+
+# response (live):
+{ "jsonrpc": "2.0", "id": 1, "result": 184217 }
+
+# response (pre-launch):
+{ "jsonrpc": "2.0", "id": 1, "result": null,
+  "meta": { "phase": "specification" } }`}</pre>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 03 / WebSocket</div>
+        <div><h2 class="title">Subscriptions.</h2></div>
+      </div>
+      <pre class="mono" style="background: var(--paper-2); border: 1px solid var(--rule); padding: 18px; overflow-x: auto; font-size: 12.5px;">{`// Subscribe to new finalised blocks
+ws.send(JSON.stringify({
+  jsonrpc: "2.0", id: 1,
+  method: "adamant_subscribe",
+  params: ["blocks"]
+}));
+
+// Topics: "blocks" | "mempool" | "validators" | "burns"`}</pre>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 04 / Endpoints</div>
+        <div><h2 class="title">Public RPC endpoints.</h2><p class="subtitle">Community-operated. Use as load-balanced fallbacks; for high-throughput integrations, run your own service node.</p></div>
+      </div>
+      <div class="scroll-x">
+        <table class="ledger">
+          <thead><tr><th>URL</th><th>Region</th><th>Operator</th><th>Notes</th></tr></thead>
+          <tbody>
+            {PUBLIC_RPC.map((r) => (
+              <tr><td class="mono">{r.url}</td><td>{r.region}</td><td>{r.operator}</td><td>pre-launch</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="small" style="margin-top: 18px;">Rate limits: 100 RPS per IP, 10 subscriptions per connection. Production traffic should run a local Service Node — see <a class="link" href="/developers/run-a-node">/developers/run-a-node</a>.</p>
+    </div>
+  </section>
+</HubLayout>

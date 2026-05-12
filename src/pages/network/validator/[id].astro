@@ -1,0 +1,73 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import ExplorerSearch from '@/components/ExplorerSearch.astro';
+
+export function getStaticPaths() {
+  return Array.from({ length: 75 }, (_, i) => ({ params: { id: String(i + 1) } }));
+}
+
+const { id } = Astro.params;
+const isCohort = Number(id) <= 75;
+---
+<HubLayout active="network" title={`Adamant — Validator #${id}`} description={`Per-validator page for slot ${id}. Bond, delegators, uptime, slashing record, cohort marker.`}>
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Explorer · /network/validator/{id}</div>
+        <h1 class="title">Validator <span class="mono">#{id}</span>{isCohort && <span class="tag solid" style="margin-left: 14px; vertical-align: middle;">Genesis cohort</span>}</h1>
+      </div>
+      <div>
+        <p class="lede">Slot #{id}. Operator address, bond, delegations, uptime, slashing record, rewards history. The cohort marker on the operator's <em>original</em> address is immovable and survives slot transfer (WP §8.1.9).</p>
+        <div style="margin-top: 18px;"><ExplorerSearch /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div style="display:grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink);" class="gn-cohort-stats">
+        <div style="padding: 14px 18px;"><span class="label">Status</span><div class="mono" style="font-size: 22px; margin-top: 4px;" data-spec="true">unallocated</div></div>
+        <div style="padding: 14px 18px; border-left: 1px solid var(--rule);"><span class="label">Bonded · ADM</span><div class="mono" style="font-size: 22px; margin-top: 4px;" data-spec="true">—</div></div>
+        <div style="padding: 14px 18px; border-left: 1px solid var(--rule);"><span class="label">Delegators</span><div class="mono" style="font-size: 22px; margin-top: 4px;" data-spec="true">—</div></div>
+        <div style="padding: 14px 18px; border-left: 1px solid var(--rule);"><span class="label">Uptime · 30d</span><div class="mono" style="font-size: 22px; margin-top: 4px;" data-spec="true">—</div></div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.4fr 1fr; gap: 32px; margin-top: 32px;" class="net-grid">
+        <div style="border: 1px solid var(--rule);">
+          <div style="padding: 12px 16px; border-bottom: 1px solid var(--rule);"><span class="label">Uptime · last 90 epochs</span></div>
+          <div style="padding: 22px; height: 140px; background: repeating-linear-gradient(45deg, transparent 0 18px, oklch(0% 0 0 / 0.022) 18px 19px); display: flex; align-items: center; justify-content: center;"><span class="serif" style="font-style:italic; color: var(--ink-3);">Heatmap renders at activation.</span></div>
+        </div>
+        <div>
+          <div style="border: 1px solid var(--rule);">
+            <div style="padding: 12px 16px; border-bottom: 1px solid var(--rule);"><span class="label">Slashing record</span></div>
+            <div style="padding: 22px; color: var(--ink-3); font-style: italic; font-family: var(--serif);">No slashing events.</div>
+          </div>
+          <div style="border: 1px solid var(--rule); margin-top: 18px;">
+            <div style="padding: 12px 16px; border-bottom: 1px solid var(--rule);"><span class="label">Cohort marker</span></div>
+            <div style="padding: 18px;">
+              {isCohort ? (
+                <>
+                  <p class="serif" style="margin: 0; font-size: 15px; line-height: 1.5; color: var(--ink-2);">This slot belongs to the genesis cohort. The marker is attached to the operator's original address, not to the slot. If the slot is later transferred, the marker stays.</p>
+                  <p class="mono small" style="margin-top: 10px; color: var(--ink-3);">Position · {id} / 75 &nbsp;·&nbsp; Genesis NFT · tradeable</p>
+                </>
+              ) : (
+                <p class="mono small" style="color: var(--ink-3); margin: 0;">Not a genesis cohort slot.</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 32px;" class="scroll-x">
+        <table class="ledger">
+          <thead>
+            <tr><th>Epoch</th><th class="r">Blocks proposed</th><th class="r">Attestations</th><th class="r">Reward · ADM</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="5" class="mono small" style="color: var(--ink-3); padding: 32px 16px; text-align:center; font-style: italic;">No epoch history yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</HubLayout>

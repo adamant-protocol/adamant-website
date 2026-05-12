@@ -1,130 +1,136 @@
 ---
 import HubLayout from '@/layouts/HubLayout.astro';
 import SeeAlso from '@/components/SeeAlso.astro';
+import ExplorerSearch from '@/components/ExplorerSearch.astro';
+import { MOCK_BLOCKS, MOCK_TXS } from '@/data/chain';
 ---
 
-<HubLayout active="network" title="Adamant — Network" description="Operational view of the live chain. Validator set, recent blocks, mempool, throughput.">
+<HubLayout active="network" title="Adamant — Explorer" description="Block explorer for the Adamant chain. Blocks, transactions, addresses, validators, mempool, burns, genesis NFTs.">
 
   <section class="page-intro">
     <div class="container">
       <div>
-        <div class="crumb">§ Network · operational view</div>
-        <h1 class="title">Operational view<br/><em style="font-style:italic; color:var(--ink-2);">of the live chain.</em></h1>
+        <div class="crumb">§ Explorer · /network</div>
+        <h1 class="title">Public record<br/><em style="font-style:italic; color:var(--ink-2);">of the live chain.</em></h1>
       </div>
       <div>
         <p class="lede">
-          What is happening on the chain right now. Validator set, recent blocks, mempool, throughput. This page is intended for monitoring; the data on it is the canonical record. During the specification phase, all live values are placeholders.
+          What is happening on the chain. Blocks, transactions, addresses, validators, mempool, burn-to-mint registry, genesis NFTs. During the specification phase all live values are placeholders; the URL space is real and will populate at testnet activation.
         </p>
+        <div style="margin-top: 18px;">
+          <ExplorerSearch />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick links / tab strip -->
+  <section style="padding: 28px 0 0;">
+    <div class="container">
+      <div class="xp-tabs">
+        <a href="/network" class="xp-tab is-active">Overview</a>
+        <a href="/network/blocks" class="xp-tab">Blocks</a>
+        <a href="/network/txs" class="xp-tab">Transactions</a>
+        <a href="/network/validators" class="xp-tab">Validators</a>
+        <a href="/network/mempool" class="xp-tab">Mempool</a>
+        <a href="/network/burns" class="xp-tab">Burn registry</a>
+        <a href="/network/genesis-nft" class="xp-tab">Genesis NFTs</a>
+        <a href="/network/charts" class="xp-tab">Charts</a>
+        <a href="/network/peers" class="xp-tab">Peers</a>
       </div>
     </div>
   </section>
 
   <!-- HEALTH SUMMARY -->
-  <section class="section" style="padding: 32px 0;">
+  <section class="section" style="padding: 24px 0 32px;">
     <div class="container">
-      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap: 24px;" class="net-health">
+      <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink);" class="net-health">
         {[
-          { label: 'Throughput · TPS', target: '≥ 50 000 floor' },
-          { label: 'Average finality · ms', target: 'sub-second target' },
-          { label: 'Active validators', target: 'floor 7 · ceiling 75' },
-        ].map((c) => (
-          <div style="border: 1px solid var(--rule); padding: 16px; background: var(--paper);">
+          { label: 'Block height',          target: 'last finalised'              },
+          { label: 'Throughput · TPS',      target: '≥ 50 000 floor (WP §2.4)'   },
+          { label: 'Finality · ms',         target: 'sub-second target (WP §8)'   },
+          { label: 'Active set',            target: 'floor 7 · ceiling 75'        },
+        ].map((c, i) => (
+          <div style={`padding: 18px 18px; ${i>0?'border-left: 1px solid var(--rule);':''}`}>
             <span class="label">{c.label}</span>
-            <span class="v" data-spec="true" style="font-family: var(--mono); font-size: 28px; line-height: 1; margin-top: 6px; display:block; color: var(--ink-2);">specification</span>
-            <div style="height: 80px; margin-top: 14px; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-style: italic; color: var(--ink-3); font-size: 14px;">no live chain</div>
-            <span class="mono small" style="color: var(--ink-3); margin-top: 8px; display: block;">{c.target}</span>
+            <span class="v" data-spec="true" style="font-family: var(--mono); font-size: 26px; line-height: 1; margin-top: 6px; display:block; color: var(--ink-2);">specification</span>
+            <span class="mono small" style="color: var(--ink-3); margin-top: 8px; display:block;">{c.target}</span>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- VALIDATORS + RECENT BLOCKS + MEMPOOL -->
+  <!-- LATEST BLOCKS + TXS -->
   <section style="padding: 0 0 32px;">
     <div class="container">
-      <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px;" class="net-grid">
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 32px;" class="net-grid">
 
-        <!-- LEFT: validators -->
-        <div>
-          <div style="border: 1px solid var(--rule); background: var(--paper);">
-            <div style="display:flex; justify-content:space-between; align-items:center; padding: 12px 16px; border-bottom: 1px solid var(--rule);">
-              <span class="label">Active validator set · 0 of 75</span>
-              <span class="mono small" style="color: var(--ink-3);">specification phase</span>
-            </div>
-            <div class="scroll-x">
-              <table class="ledger">
-                <thead>
+        <!-- LATEST BLOCKS -->
+        <div style="border: 1px solid var(--rule); background: var(--paper);">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding: 12px 16px; border-bottom: 1px solid var(--rule);">
+            <span class="label">Latest blocks · 12</span>
+            <a class="mono small" href="/network/blocks" style="color: var(--ink-3);">All blocks ↗</a>
+          </div>
+          <div class="scroll-x">
+            <table class="ledger">
+              <thead>
+                <tr><th>Height</th><th>Proposer</th><th class="r">Txs</th><th class="r">Fee · ADM</th><th class="r">Final · ms</th></tr>
+              </thead>
+              <tbody>
+                {MOCK_BLOCKS.slice(0, 8).map((b) => (
                   <tr>
-                    <th style="width: 56px;">#</th>
-                    <th>Address</th>
-                    <th class="r">Uptime · 7d</th>
-                    <th class="r">Latency</th>
-                    <th class="r">Bonded</th>
-                    <th class="r">Rewards · ep</th>
-                    <th>Status</th>
+                    <td><a class="link" href={`/network/block/${b.i + 1}`}>—</a></td>
+                    <td class="addr">—</td>
+                    <td class="r">—</td>
+                    <td class="r">—</td>
+                    <td class="r">—</td>
                   </tr>
-                </thead>
-                <tbody>
-                  <tr><td colspan="7" style="color: var(--ink-3); padding: 32px 16px; font-family: var(--serif); font-style: italic;">No validators yet — set begins forming at testnet activation.</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div style="border: 1px solid var(--rule); background: var(--paper); margin-top: 24px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; padding: 12px 16px; border-bottom: 1px solid var(--rule);">
-              <span class="label">Standby queue · 0</span>
-              <span class="mono small" style="color: var(--ink-3);">in registration order</span>
-            </div>
-            <div style="padding: 24px 16px; color: var(--ink-3); font-family: var(--serif); font-style: italic;">Standby queue is empty.</div>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
 
-        <!-- RIGHT: recent blocks + mempool + composition -->
-        <div style="display:flex; flex-direction: column; gap: 24px;">
-          <div style="border: 1px solid var(--rule); background: var(--paper);">
-            <div style="display:flex; justify-content:space-between; align-items:center; padding: 12px 16px; border-bottom: 1px solid var(--rule);">
-              <span class="label">Recent blocks</span>
-              <span class="mono small" style="color: var(--ink-3);">last 8</span>
-            </div>
-            <div style="padding: 32px 16px; color: var(--ink-3); font-family: var(--serif); font-style: italic;">No blocks yet — chain is in specification phase.</div>
+        <!-- LATEST TXS -->
+        <div style="border: 1px solid var(--rule); background: var(--paper);">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding: 12px 16px; border-bottom: 1px solid var(--rule);">
+            <span class="label">Latest transactions · 14</span>
+            <a class="mono small" href="/network/txs" style="color: var(--ink-3);">All transactions ↗</a>
           </div>
-
-          <div style="border: 1px solid var(--rule); background: var(--paper);">
-            <div style="display:flex; justify-content:space-between; align-items:center; padding: 12px 16px; border-bottom: 1px solid var(--rule);">
-              <span class="label">Mempool</span>
-              <span class="mono small" style="color: var(--ink-3);">two-regime · threshold + VDF time-lock</span>
-            </div>
-            <div style="display:flex; justify-content: space-between; padding: 18px 16px;">
-              <div>
-                <div class="label">Pending</div>
-                <div class="mono" style="font-size: 22px; font-variant-numeric: tabular-nums; color: var(--ink-2);" data-spec="true">specification</div>
-              </div>
-              <div>
-                <div class="label">Encryption</div>
-                <div class="mono" style="font-size: 13px; line-height: 1.2; max-width: 22ch; text-align: right; margin-top: 8px;">Threshold (N≥15)<br/>Time-lock VDF (N&lt;15)</div>
-              </div>
-            </div>
-          </div>
-
-          <div style="border: 1px solid var(--rule); background: var(--paper);">
-            <div style="display:flex; justify-content:space-between; align-items:center; padding: 12px 16px; border-bottom: 1px solid var(--rule);">
-              <span class="label">Active set composition</span>
-              <span class="mono small" style="color: var(--ink-3);">at activation</span>
-            </div>
-            <div style="padding: 16px;">
-              <div style="display:flex; height: 38px; border: 1px solid var(--rule);">
-                <div style="flex: 75; background: var(--paper-3);"></div>
-              </div>
-              <div style="display:flex; justify-content: space-between; margin-top: 10px;" class="mono small">
-                <span><span style="display:inline-block; width:8px; height:8px; background: var(--ink); margin-right:6px;"></span>Cohort</span>
-                <span><span style="display:inline-block; width:8px; height:8px; background: var(--ink-3); margin-right:6px;"></span>Post-cohort</span>
-                <span><span style="display:inline-block; width:8px; height:8px; background: var(--paper-3); border:1px solid var(--rule); margin-right:6px;"></span>Open</span>
-              </div>
-            </div>
+          <div class="scroll-x">
+            <table class="ledger">
+              <thead>
+                <tr><th>Hash</th><th>Block</th><th class="r">Fee</th><th>Regime</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                {MOCK_TXS.slice(0, 8).map((t) => (
+                  <tr>
+                    <td><a class="link" href={`/network/tx/${t.i}`}>—</a></td>
+                    <td>—</td>
+                    <td class="r">—</td>
+                    <td><span class="tag">{t.regime === 'vdf' ? 'VDF' : 'Threshold'}</span></td>
+                    <td><span class="tag">pending</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
 
+      </div>
+    </div>
+  </section>
+
+  <!-- ENDPOINTS NOTE -->
+  <section class="section">
+    <div class="container">
+      <div class="callout" data-reveal>
+        <div class="mark-c">§</div>
+        <div>
+          <p>Wallets and applications can subscribe to live updates via JSON-RPC and WebSocket. The endpoint surface, method list, and rate limits are documented in <a class="link" href="/developers/rpc">/developers/rpc</a>. During pre-launch, queries return <span class="mono">specification</span> placeholders.</p>
+          <small>— Explorer API</small>
+        </div>
       </div>
     </div>
   </section>
@@ -134,8 +140,38 @@ import SeeAlso from '@/components/SeeAlso.astro';
 </HubLayout>
 
 <style>
-@media (max-width: 980px) {
-  .net-grid { grid-template-columns: 1fr !important; }
-  .net-health { grid-template-columns: 1fr !important; }
-}
+  .xp-tabs {
+    display: flex;
+    gap: 0;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .xp-tab {
+    flex: 0 0 auto;
+    padding: 12px 18px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    border-right: 1px solid var(--rule);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .xp-tab:hover { background: var(--paper-2); color: var(--ink); }
+  .xp-tab.is-active { background: var(--ink); color: var(--paper); }
+  .xp-tab:last-child { border-right: 0; }
+  @media (max-width: 980px) {
+    .net-grid { grid-template-columns: 1fr !important; }
+    .net-health { grid-template-columns: repeat(2, 1fr) !important; }
+    .net-health > div:nth-child(odd) { border-left: 0 !important; }
+    .net-health > div:nth-child(n+3) { border-top: 1px solid var(--rule); }
+  }
+  @media (max-width: 540px) {
+    .net-health { grid-template-columns: 1fr !important; }
+    .net-health > div { border-left: 0 !important; border-top: 1px solid var(--rule); }
+    .net-health > div:first-child { border-top: 0; }
+  }
 </style>

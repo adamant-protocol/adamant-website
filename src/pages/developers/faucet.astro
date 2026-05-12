@@ -1,0 +1,37 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+---
+<HubLayout active="developers" title="Adamant — Faucet" description="Testnet faucet. Rate-limited test ADM for development.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Developers · /developers/faucet</div>
+        <h1 class="title">Testnet faucet.</h1>
+      </div>
+      <div>
+        <p class="lede">Test ADM, capped per address per day. For local development and CI. Production load belongs on burn-to-mint, not the faucet.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div style="border: 1px solid var(--ink); padding: 28px;">
+        <span class="label">Request · pre-launch</span>
+        <div style="display:flex; gap: 0; border: 1px solid var(--rule-2); margin-top: 12px;">
+          <input class="mono" placeholder="adm1… (testnet address)" style="flex:1; border: 0; padding: 14px 16px; font-size: 13px; background: var(--paper); color: var(--ink-2); outline: none; min-width: 0;"/>
+          <button class="mono" disabled style="border: 0; border-left: 1px solid var(--rule-2); background: var(--ink-3); color: var(--paper); padding: 14px 18px; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; cursor: not-allowed;">Drip (offline)</button>
+        </div>
+        <p class="mono small" style="color: var(--ink-3); margin-top: 14px;">Faucet activates at public testnet. Rate limit will be 100 testnet ADM per address per 24h.</p>
+      </div>
+
+      <div class="callout" style="margin-top: 28px;">
+        <div class="mark-c">§</div>
+        <div>
+          <p>Testnet ADM is not transferable to mainnet. Burn-to-mint is the only path for real ADM. The faucet is an integration tool, not a launch mechanism.</p>
+          <small>— Faucet policy</small>
+        </div>
+      </div>
+    </div>
+  </section>
+</HubLayout>

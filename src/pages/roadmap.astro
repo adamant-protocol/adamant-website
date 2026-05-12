@@ -1,0 +1,147 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import Provenance from '@/components/Provenance.astro';
+
+const STAGES = [
+  {
+    code: 'R.01',
+    name: 'Specification',
+    status: 'shipped',
+    desc: 'Whitepaper v0.1 published; thirteen sections, parsed inline at /spec.',
+    entry: 'A public, versioned document that fully describes the protocol.',
+    gates: [
+      { g: 'All thirteen sections complete', ok: true },
+      { g: 'No outstanding TODO blocks in spec text', ok: true },
+      { g: 'Material decisions logged in /updates', ok: true },
+    ],
+  },
+  {
+    code: 'R.02',
+    name: 'Cryptographic audits',
+    status: 'in flight',
+    desc: 'Independent review of every consensus-critical primitive and the synthesis around them.',
+    entry: 'Per-primitive audit reports published verbatim alongside the commit they targeted.',
+    gates: [
+      { g: 'Halo 2 wrapper audit complete', ok: false },
+      { g: 'Threshold-BLS DKG audit complete', ok: false },
+      { g: 'Wesolowski VDF parameter review', ok: false },
+      { g: 'Adamant Move VM audit', ok: false },
+    ],
+  },
+  {
+    code: 'R.03',
+    name: 'Reference implementation',
+    status: 'in flight',
+    desc: 'A single-binary Rust client implementing all four roles; see /developers/status for module readiness.',
+    entry: 'CI passing across all crates; reproducible-build pipeline produces a verifiable release artefact.',
+    gates: [
+      { g: 'Consensus crate · feature complete', ok: false },
+      { g: 'Mempool · two-regime operational', ok: false },
+      { g: 'Shielded VM execution · feature complete', ok: false },
+      { g: 'Reference wallet · sign + verify', ok: false },
+    ],
+  },
+  {
+    code: 'R.04',
+    name: 'Public testnet',
+    status: 'queued',
+    desc: 'Open network exercise with the reference client. Open to anyone; carries no value.',
+    entry: 'At least 7 independently-operated Node Runners online for 30 consecutive days at Tier II (N≥15) with no consensus failures.',
+    gates: [
+      { g: '7+ operators across 4+ ASNs', ok: false },
+      { g: '30-day stability at Tier II', ok: false },
+      { g: 'Mempool regime transitions exercised', ok: false },
+      { g: 'View-key disclosure exercised end-to-end', ok: false },
+    ],
+  },
+  {
+    code: 'R.05',
+    name: 'Mainnet',
+    status: 'queued',
+    desc: 'The chain self-activates the moment 7 validators are simultaneously registered, stake-eligible, and online.',
+    entry: 'Audits clean, reference implementation feature-complete, testnet stable, security tier signal aligned.',
+    gates: [
+      { g: 'All R.02 audits resolved', ok: false },
+      { g: 'Reference implementation released under reproducible build', ok: false },
+      { g: 'Public testnet ran for ≥ 90 days at Tier II+', ok: false },
+      { g: 'Genesis cohort registration opens', ok: false },
+    ],
+  },
+];
+---
+<HubLayout active="home" title="Adamant — Roadmap" description="Entry conditions, not calendar dates. Each stage opens when its prerequisites are met.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Roadmap · /roadmap</div>
+        <h1 class="title">No dates.<br/><em style="font-style:italic; color:var(--ink-2);">Entry conditions.</em></h1>
+      </div>
+      <div>
+        <p class="lede">Adamant does not commit to calendar dates. Each stage opens when its prerequisites are met and not before. This is the whitepaper&rsquo;s voice applied to project planning.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <ol class="rm-list">
+        {STAGES.map((s) => (
+          <li class="rm-row">
+            <div class="rm-col rm-code">
+              <div class="mono rm-codename">{s.code}</div>
+              <div style="margin-top: 8px;"><span class="tag">{s.status}</span></div>
+            </div>
+            <div class="rm-col rm-body">
+              <h3 class="serif rm-title">{s.name}</h3>
+              <p class="serif rm-desc">{s.desc}</p>
+              <p class="mono small rm-entry">Entry: {s.entry}</p>
+            </div>
+            <div class="rm-col rm-gates">
+              <span class="label">Gates</span>
+              <ul>
+                {s.gates.map((g) => (
+                  <li>
+                    <span class={g.ok ? 'gap-yes' : 'gap-no'}>{g.ok ? '●' : '○'}</span>
+                    <span>{g.g}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <style>
+        .rm-list { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--ink); }
+        .rm-row {
+          display: grid;
+          grid-template-columns: 110px minmax(0, 1.2fr) minmax(0, 1fr);
+          gap: 32px;
+          align-items: start;
+          padding: 32px 0;
+          border-bottom: 1px solid var(--rule);
+        }
+        .rm-codename { font-size: 11px; letter-spacing: 0.14em; color: var(--ink-3); }
+        .rm-title { font-size: 28px; line-height: 1.1; margin: 0 0 10px; letter-spacing: -0.01em; }
+        .rm-desc  { font-size: 16px; line-height: 1.55; color: var(--ink-2); margin: 0; max-width: 56ch; }
+        .rm-entry { margin-top: 12px; color: var(--ink-3); letter-spacing: 0.06em; }
+        .rm-gates ul { list-style: none; padding: 0; margin: 8px 0 0; display: flex; flex-direction: column; gap: 6px; }
+        .rm-gates li { font-family: var(--serif); font-size: 14px; line-height: 1.4; color: var(--ink-2); display: flex; gap: 10px; align-items: baseline; }
+        @media (max-width: 980px) {
+          .rm-row { grid-template-columns: 100px 1fr; gap: 16px 20px; }
+          .rm-body, .rm-gates { grid-column: 1 / -1; }
+        }
+        @media (max-width: 540px) {
+          .rm-row { grid-template-columns: 1fr; padding: 22px 0; }
+          .rm-title { font-size: 22px; }
+        }
+      </style>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <Provenance section="Roadmap · WP §12" />
+    </div>
+  </section>
+</HubLayout>
