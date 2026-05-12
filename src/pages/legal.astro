@@ -1,0 +1,55 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+---
+<HubLayout active="about" title="Adamant — Legal" description="Terms of use for the Adamant website. Privacy policy.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Legal · /legal</div>
+        <h1 class="title">Terms &amp; privacy<br/><em style="font-style:italic; color:var(--ink-2);">for this website.</em></h1>
+      </div>
+      <div>
+        <p class="lede">The protocol has no terms — it's code. The website does. This is the legal posture of <span class="mono">adamantprotocol.com</span>, separate from the chain.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 01 / Terms</div><div><h2 class="title">Terms of use.</h2></div></div>
+      <ol style="list-style: decimal; padding-left: 22px; font-family: var(--serif); font-size: 16px; line-height: 1.6; color: var(--ink-2); max-width: 64ch;">
+        <li>Use of the website is at your own risk. Nothing on this site is financial, legal, or tax advice.</li>
+        <li>The website is provided "as is" without warranty of any kind, express or implied.</li>
+        <li>You are responsible for compliance with the laws of your jurisdiction. Adamant's privacy-by-default design does not relieve you of legal obligations you may have.</li>
+        <li>The protocol is unowned. The website is maintained by contributors at the public repository; pull requests are welcome.</li>
+        <li>"Adamant", "ADM", and the mark are project identifiers, not trademarks of any single entity. Use them honestly.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 02 / Privacy</div><div><h2 class="title">Privacy policy.</h2></div></div>
+      <p class="serif" style="font-size: 16px; line-height: 1.6; color: var(--ink-2); max-width: 64ch;">A privacy chain with a leaky website would be embarrassing. The website tries not to be embarrassing.</p>
+      <ul class="serif" style="font-size: 16px; line-height: 1.7; color: var(--ink-2); max-width: 64ch; margin-top: 12px;">
+        <li><strong>No analytics.</strong> No Google Analytics, no Mixpanel, no Plausible, no Fathom. Visit counters live in the CDN log only.</li>
+        <li><strong>No cookies set by us.</strong> The phase switcher uses <span class="mono">localStorage</span> for a single key (<span class="mono">adamant.phase</span>) — entirely on your device.</li>
+        <li><strong>No third-party scripts</strong> other than Google Fonts (font files only, no tracking pixels). We may move to self-hosted fonts post-mainnet.</li>
+        <li><strong>CDN logs.</strong> Vercel retains short-lived edge logs (IP, timestamp, path) per their privacy policy. We never read these for marketing purposes.</li>
+        <li><strong>No newsletter, no signups.</strong> If we ever add one, opt-in only.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="callout">
+        <div class="mark-c">§</div>
+        <div>
+          <p>This page is maintained at the same repository as the rest of the site. Material changes happen via pull request and are visible in the commit log.</p>
+          <small>— Last updated: 2026-05-01</small>
+        </div>
+      </div>
+    </div>
+  </section>
+</HubLayout>

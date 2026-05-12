@@ -1,0 +1,66 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import SeeAlso from '@/components/SeeAlso.astro';
+---
+<HubLayout active="developers" title="Adamant — Developers" description="Build on Adamant. SDKs, JSON-RPC reference, run-a-node, faucet, Move language, view-key format, stealth-address derivation.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Developers · /developers</div>
+        <h1 class="title">Build on Adamant,<br/><em style="font-style:italic; color:var(--ink-2);">with the protocol itself.</em></h1>
+      </div>
+      <div>
+        <p class="lede">Everything required to integrate with the chain, run validators, generate proofs, ship wallets, and write Move contracts that touch shielded value. Apache 2.0, public from the first commit.</p>
+        <div style="display:flex; gap:8px; margin-top:18px; flex-wrap: wrap;">
+          <a href="/developers/rpc" class="tag">JSON-RPC</a>
+          <a href="/developers/sdks" class="tag">SDKs</a>
+          <a href="/developers/run-a-node" class="tag">Run a node</a>
+          <a href="/developers/faucet" class="tag">Faucet</a>
+          <a href="/developers/move" class="tag">Adamant Move</a>
+          <a href="/developers/burn-format" class="tag">Burn-tx format</a>
+          <a href="/developers/view-keys" class="tag">View keys</a>
+          <a href="/developers/stealth-addresses" class="tag">Stealth addresses</a>
+          <a href="/developers/status" class="tag">Implementation status</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="claim-grid">
+        {[
+          { n: '01', h: 'JSON-RPC + WebSocket', href: '/developers/rpc', d: 'Method list, params, examples, rate limits. Subscribe to blocks, mempool, validators, burns.' },
+          { n: '02', h: 'SDKs',                href: '/developers/sdks', d: 'Rust (canonical), TypeScript, Go. Same surface as the reference client.' },
+          { n: '03', h: 'Run a node',          href: '/developers/run-a-node', d: 'Node Runner, Node Watcher, Service Node, Prover. Sample configs, ports, system requirements.' },
+          { n: '04', h: 'Faucet',              href: '/developers/faucet', d: 'Test-net ADM, capped per address. Rate-limited; not for production load.' },
+          { n: '05', h: 'Adamant Move',        href: '/developers/move', d: 'Move-based VM. Objects, resources, #[shielded] functions, Move Prover for static verification.' },
+          { n: '06', h: 'Burn-tx format',      href: '/developers/burn-format', d: 'Per-source-chain spec: BTC OP_RETURN payload, ETH burn precompile, USDT/USDC burn destinations.' },
+          { n: '07', h: 'View-key format',     href: '/developers/view-keys', d: 'Encoding, scope bits, sub-key derivation. Worked disclosure example.' },
+          { n: '08', h: 'Stealth addresses',   href: '/developers/stealth-addresses', d: 'ML-KEM-768 derivation, payment-request URI scheme.' },
+          { n: '09', h: 'Implementation status',href: '/developers/status', d: 'Module-by-module readiness. What is shipped, stubbed, or planned.' },
+        ].map((c) => (
+          <a class="claim-card" href={c.href} style="cursor: pointer;">
+            <span class="num">{`D.${c.n}`}</span>
+            <h3>{c.h}</h3>
+            <p style="margin: auto 0 0; padding-top: 14px; border-top: 1px solid var(--rule);">{c.d}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="callout">
+        <div class="mark-c">§</div>
+        <div>
+          <p>The reference implementation is the source of truth for execution. The whitepaper is the source of truth for protocol behaviour. Where they disagree, file an issue.</p>
+          <small>— Repository: <a class="link" href="https://github.com/adamant-protocol" rel="noopener" target="_blank">github.com/adamant-protocol</a></small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <SeeAlso current="developers" />
+</HubLayout>

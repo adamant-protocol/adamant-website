@@ -1,0 +1,108 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+---
+<HubLayout active="developers" title="Adamant — Run a node" description="Run-a-node guide. Node Runner, Node Watcher, Service Node, Prover. Hardware, config, ports, ops.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Developers · /developers/run-a-node</div>
+        <h1 class="title">Run a node.</h1>
+      </div>
+      <div>
+        <p class="lede">Four roles. Two staked (Node Runner, Node Watcher), two permissionless (Prover, Service Node). Any one of them can run on residential fibre. The reference client is a single Rust binary; configuration is a small TOML file.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 01 / Quickstart</div>
+        <div><h2 class="title">Five commands.</h2></div>
+      </div>
+      <pre class="mono" style="background: var(--paper-2); border: 1px solid var(--rule); padding: 18px; overflow-x: auto; font-size: 12.5px;">{`# 1. Install (Rust 1.75+)
+cargo install --git https://github.com/adamant-protocol/adamant-node --tag v0.1.0
+
+# 2. Initialise local data dir
+adamant-node init --role watcher --data-dir ~/.adamant
+
+# 3. Generate keys (Ed25519 + ML-DSA)
+adamant-node keys generate --out ~/.adamant/keys
+
+# 4. Edit config
+$EDITOR ~/.adamant/config.toml
+
+# 5. Run
+adamant-node run --data-dir ~/.adamant`}</pre>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 02 / Hardware</div>
+        <div><h2 class="title">Per role.</h2></div>
+      </div>
+      <div class="scroll-x">
+        <table class="ledger">
+          <thead><tr><th>Role</th><th>CPU</th><th>RAM</th><th>Storage</th><th>Network</th><th>Stake</th></tr></thead>
+          <tbody>
+            <tr><td>Node Runner</td><td>4–8 cores</td><td>16 GB</td><td>2 TB NVMe</td><td>1 Gbps symmetric, &lt;100ms WAN</td><td class="mono">1 000 ADM</td></tr>
+            <tr><td>Node Watcher</td><td>2–4 cores</td><td>8 GB</td><td>500 GB SSD</td><td>25 Mbps</td><td class="mono">100 ADM</td></tr>
+            <tr><td>Service Node</td><td>4+ cores</td><td>16+ GB</td><td>2+ TB</td><td>1 Gbps</td><td class="mono">—</td></tr>
+            <tr><td>Prover</td><td>GPU recommended</td><td>32+ GB</td><td>200 GB</td><td>100 Mbps</td><td class="mono">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 03 / Config</div>
+        <div><h2 class="title">config.toml.</h2></div>
+      </div>
+      <pre class="mono" style="background: var(--paper-2); border: 1px solid var(--rule); padding: 18px; overflow-x: auto; font-size: 12.5px;">{`[node]
+role        = "runner"         # runner | watcher | service | prover
+data_dir    = "/var/lib/adamant"
+chain_id    = "0x4d41"         # mainnet (adamant/mainnet)
+
+[network]
+listen_addr = "/ip4/0.0.0.0/tcp/30303"
+bootnodes   = [
+  "/dns4/boot0.adamantprotocol.com/tcp/30303/p2p/12D3KooW…",
+  "/dns4/boot1.adamantprotocol.com/tcp/30303/p2p/12D3KooW…",
+]
+
+[rpc]
+listen_addr = "127.0.0.1:8545"
+ws_addr     = "127.0.0.1:8546"
+
+[validator]
+bond        = "1000_000_000_000"   # 1 000 ADM in base units (10^-9)
+fee_payer   = "self"
+
+[keys]
+ed25519     = "/etc/adamant/keys/ed25519.key"
+mldsa       = "/etc/adamant/keys/mldsa.key"`}</pre>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="num-mark">§ 04 / Ops</div>
+        <div><h2 class="title">Day-to-day.</h2></div>
+      </div>
+      <div class="claim-grid">
+        <article class="claim-card"><span class="num">OPS.01</span><h3>Uptime &gt; 2 epochs</h3><p>Liveness failure (no participation in &gt;2 consecutive epochs) costs 0.5% of stake and active-set removal. Re-registration goes to the back of the standby queue.</p></article>
+        <article class="claim-card"><span class="num">OPS.02</span><h3>Key rotation</h3><p>Use a session subkey for the hot validator process; keep the master in cold storage. Rotate every 90 days as routine hygiene.</p></article>
+        <article class="claim-card"><span class="num">OPS.03</span><h3>Snapshots</h3><p>Reproducible snapshot every epoch; restore in &lt;15 min from clean. Reference client ships <span class="mono">adamant-node restore</span>.</p></article>
+        <article class="claim-card"><span class="num">OPS.04</span><h3>Monitoring</h3><p>Prometheus metrics on <span class="mono">/metrics</span>. Default Grafana dashboards in the repo.</p></article>
+        <article class="claim-card"><span class="num">OPS.05</span><h3>Backups</h3><p>Recovery seed in two air-gapped locations. Slashing for double-sign is 100% — assume the worst.</p></article>
+        <article class="claim-card"><span class="num">OPS.06</span><h3>Slot transfer</h3><p>Transferable by mutual consent at an epoch boundary. The genesis cohort marker does <em>not</em> transfer with the slot.</p></article>
+      </div>
+    </div>
+  </section>
+</HubLayout>

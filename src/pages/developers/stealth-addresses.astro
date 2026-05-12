@@ -1,0 +1,65 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+---
+<HubLayout active="developers" title="Adamant — Stealth addresses" description="ML-KEM-768 stealth address derivation. Payment-request URI scheme.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Developers · /developers/stealth-addresses</div>
+        <h1 class="title">Stealth addresses.</h1>
+      </div>
+      <div>
+        <p class="lede">A stealth address is a one-time recipient derived from a long-lived viewing key. Observers cannot link two payments to the same recipient. Adamant uses ML-KEM-768 for the underlying key-agreement, providing post-quantum security at the privacy layer (WP §7.2).</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 01 / Derivation</div><div><h2 class="title">Sender-side.</h2></div></div>
+      <pre class="mono" style="background: var(--paper-2); border: 1px solid var(--rule); padding: 18px; overflow-x: auto; font-size: 12.5px;">{`// Recipient publishes  (V, T)
+//   V  = ML-KEM-768 public encapsulation key  (view)
+//   T  = Ed25519 + ML-DSA hybrid public key   (transfer)
+
+// Sender:
+let (ct, k)   = mlkem768_encapsulate(V);
+let nonce     = SHA3-256("ADAMANT-v1-stealth-nonce" || ct);
+let one_time  = T + hash_to_scalar(k || nonce) * G;       // Ed25519 component
+                + ML-DSA derivation                       // PQ component
+let dest_addr = bech32m("adm1", SHA3-256(one_time));
+
+// Tx envelope carries (ct, dest_addr, ciphertext_memo, halo2_proof).`}</pre>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 02 / Discovery</div><div><h2 class="title">Recipient-side.</h2></div></div>
+      <pre class="mono" style="background: var(--paper-2); border: 1px solid var(--rule); padding: 18px; overflow-x: auto; font-size: 12.5px;">{`// Recipient scans the chain for envelopes whose ct decapsulates to a key
+// matching their view key. Match probability per scan is small but
+// constant; the wallet performs this in a background scan.
+
+for env in chain.envelopes() {
+    let k = mlkem768_decapsulate(view_sk, env.ct);
+    if hash_to_scalar(k || nonce(env.ct)) yields env.dest_addr {
+        // payment is to us; decrypt memo and amount
+    }
+}`}</pre>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 03 / URI scheme</div><div><h2 class="title">Payment requests.</h2></div></div>
+      <pre class="mono" style="background: var(--paper-2); border: 1px solid var(--rule); padding: 18px; overflow-x: auto; font-size: 12.5px;">{`adamant:<addr>
+       ?amount=<base_units>     // optional
+       &memo=<urlencoded>       // optional
+       &label=<urlencoded>      // optional, sender-side hint only
+       &expiry=<unix-ms>        // optional, request invalid after
+
+// Wallets parse, present amount in ADM (10^-9 base units),
+// encrypt memo with the recipient's view key,
+// and broadcast as a shielded transaction.`}</pre>
+    </div>
+  </section>
+</HubLayout>

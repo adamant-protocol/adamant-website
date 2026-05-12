@@ -1,0 +1,51 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+---
+<HubLayout active="developers" title="Adamant — Burn-tx format" description="Per-source-chain spec for burn-to-mint transactions. BTC OP_RETURN, ETH burn precompile, USDT/USDC burn addresses.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Developers · /developers/burn-format</div>
+        <h1 class="title">Burn-tx format.</h1>
+      </div>
+      <div>
+        <p class="lede">For each supported source chain, the exact construction the validator set verifies. Wallets following this spec produce burns that the chain will mint against; anything else gets rejected.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 01 / Bitcoin</div><div><h2 class="title">BTC.</h2></div></div>
+      <p class="serif" style="font-size: 16px; line-height: 1.5; max-width: 70ch;">A standard P2WPKH spend whose output #0 is to a verifiably-unspendable burn address (provably no preimage). OP_RETURN output #1 carries the Adamant destination.</p>
+      <pre class="mono" style="background: var(--paper-2); border: 1px solid var(--rule); padding: 18px; overflow-x: auto; font-size: 12.5px;">{`vout[0]  P2WSH  OP_FALSE OP_RETURN <0x00 * 20>   amount  (burn)
+vout[1]  OP_RETURN  0x41 0x44 0x4D ('ADM') || version(1) || dest_addr(32B)
+                                                            || cap_window(1B)`}</pre>
+      <p class="small" style="margin-top: 14px;">6 source-chain confirmations required. The Adamant validator set verifies via light-client headers and a Merkle proof of inclusion.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 02 / Ethereum</div><div><h2 class="title">ETH.</h2></div></div>
+      <pre class="mono" style="background: var(--paper-2); border: 1px solid var(--rule); padding: 18px; overflow-x: auto; font-size: 12.5px;">{`// Burn precompile call (provisional, subject to whitepaper §11 light-client spec).
+interface IAdamantBurn {
+    function burn(bytes32 destAddr, uint8 capWindow) external payable;
+}
+// The precompile consumes msg.value; tokens are unrecoverable.
+// emits Burn(bytes32 destAddr, uint256 amount, uint8 capWindow)`}</pre>
+      <p class="small" style="margin-top: 14px;">32 epoch finality. ABI generated from the canonical interface in <span class="mono">adamant-bridge/eth</span>.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 03 / USDT &amp; USDC</div><div><h2 class="title">Stablecoin burns.</h2></div></div>
+      <p class="serif" style="font-size: 16px; line-height: 1.5; max-width: 70ch;">USDT (ERC-20) and USDC (ERC-20) on Ethereum mainnet, transferred to the verifiably-unspendable burn address. The transfer log + destination commitment provides the burn proof.</p>
+      <pre class="mono" style="background: var(--paper-2); border: 1px solid var(--rule); padding: 18px; overflow-x: auto; font-size: 12.5px;">{`erc20.transfer(BURN_ADDR, amount);
+// then commit Adamant destination off-chain via a log:
+emit AdamantDest(bytes32 destAddr, uint8 capWindow);`}</pre>
+      <p class="small" style="margin-top: 14px;">64 source-chain confirmations. Rate: 1 USDT/USDC → 20 ADM, fixed for the launch phase.</p>
+    </div>
+  </section>
+</HubLayout>

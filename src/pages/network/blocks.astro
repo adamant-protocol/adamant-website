@@ -1,0 +1,56 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import ExplorerSearch from '@/components/ExplorerSearch.astro';
+import { MOCK_BLOCKS } from '@/data/chain';
+---
+<HubLayout active="network" title="Adamant — Blocks" description="Latest finalised blocks. Proposer, transaction count, fee total, finality time.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Explorer · /network/blocks</div>
+        <h1 class="title">Blocks.</h1>
+      </div>
+      <div>
+        <p class="lede">Every finalised block since genesis, newest first. Each row links to a per-block detail page showing the full vertex header and the encryption-regime split for that round.</p>
+        <div style="margin-top: 18px;"><ExplorerSearch /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="scroll-x">
+        <table class="ledger">
+          <thead>
+            <tr>
+              <th style="width: 80px;">Height</th>
+              <th>Proposer</th>
+              <th>Timestamp</th>
+              <th class="r">Txs</th>
+              <th class="r">Fee · ADM</th>
+              <th class="r">Final · ms</th>
+              <th>Threshold</th>
+              <th>VDF</th>
+            </tr>
+          </thead>
+          <tbody>
+            {MOCK_BLOCKS.map((b, i) => (
+              <tr>
+                <td class="mono"><a class="link" href={`/network/block/${i + 1}`}>—</a></td>
+                <td class="addr">—</td>
+                <td>—</td>
+                <td class="r">—</td>
+                <td class="r">—</td>
+                <td class="r">—</td>
+                <td>—</td>
+                <td>—</td>
+              </tr>
+            ))}
+            <tr><td colspan="8" class="mono small" style="color: var(--ink-3); padding: 22px 12px; text-align:center;">No finalised blocks yet — chain is in specification phase.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small" style="margin-top: 18px;">Block time targets approximately 8 seconds (WP §10.2.3). Finality is sub-second for transactions that do not require shared-state consensus (WP §2.4).</p>
+    </div>
+  </section>
+</HubLayout>

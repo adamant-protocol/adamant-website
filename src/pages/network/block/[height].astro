@@ -1,0 +1,66 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import ExplorerSearch from '@/components/ExplorerSearch.astro';
+
+export function getStaticPaths() {
+  return Array.from({ length: 12 }, (_, i) => ({ params: { height: String(i + 1) } }));
+}
+
+const { height } = Astro.params;
+---
+<HubLayout active="network" title={`Adamant — Block ${height}`} description={`Per-block detail page for height ${height}. Proposer, transactions, fee, finality, encryption regime split.`}>
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Explorer · /network/block/{height}</div>
+        <h1 class="title">Block <span class="mono">#{height}</span></h1>
+      </div>
+      <div>
+        <p class="lede">Per-block detail. Header fields, transaction list, proposer, finality time, encryption-regime split for this round. <span class="mono small" style="color: var(--ink-3);">specification phase — values are placeholders.</span></p>
+        <div style="margin-top: 18px;"><ExplorerSearch /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 32px;" class="net-grid">
+        <div style="border: 1px solid var(--ink);">
+          <div style="padding: 14px 18px; border-bottom: 1px solid var(--ink);"><span class="label">Header</span></div>
+          {[
+            ['Height', height],
+            ['Proposer', '—'],
+            ['Timestamp', '—'],
+            ['Parent', '—'],
+            ['DAG round', '—'],
+            ['Vertex hash', '—'],
+            ['Aggregate signature (BLS12-381)', '—'],
+            ['State commitment (KZG)', '—'],
+            ['Mempool regime', 'VDF (pre-launch)'],
+            ['Finality · ms', '—'],
+          ].map(([k, v]) => (
+            <div style="display:grid; grid-template-columns: 200px 1fr; border-bottom: 1px solid var(--rule);" class="send-row">
+              <div class="send-lab" style="padding: 12px 18px; border-right: 1px solid var(--rule);"><span class="label">{k}</span></div>
+              <div class="send-val mono" style="padding: 12px 18px; font-size: 13px; color: var(--ink-2);">{v}</div>
+            </div>
+          ))}
+        </div>
+
+        <div>
+          <div style="border: 1px solid var(--rule);">
+            <div style="padding: 14px 18px; border-bottom: 1px solid var(--rule);"><span class="label">Transactions in this block · 0</span></div>
+            <div style="padding: 32px 16px; color: var(--ink-3); font-family: var(--serif); font-style: italic;">No transactions — chain is in specification phase.</div>
+          </div>
+          <div style="border: 1px solid var(--rule); margin-top: 18px;">
+            <div style="padding: 14px 18px; border-bottom: 1px solid var(--rule);"><span class="label">Fee summary</span></div>
+            <div style="padding: 18px;">
+              <div style="display:flex; justify-content:space-between;" class="mono small"><span>Total fee · ADM</span><span>—</span></div>
+              <div style="display:flex; justify-content:space-between; margin-top:6px;" class="mono small"><span>Burned (EIP-1559-style)</span><span>—</span></div>
+              <div style="display:flex; justify-content:space-between; margin-top:6px;" class="mono small"><span>Proposer reward</span><span>—</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</HubLayout>

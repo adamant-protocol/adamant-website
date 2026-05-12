@@ -1,0 +1,60 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import ExplorerSearch from '@/components/ExplorerSearch.astro';
+import { BURN_REGISTRY } from '@/data/chain';
+---
+<HubLayout active="network" title="Adamant — Burn registry" description="Live record of every burn-to-mint event. Source chain, transaction hash, amount, recipient.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Explorer · /network/burns</div>
+        <h1 class="title">Burn-to-mint registry.</h1>
+      </div>
+      <div>
+        <p class="lede">Every ADM in circulation entered through one of two paths: a verified source-chain burn or a validator block reward. The burn registry is the public record of path A — what was burned, where, and how much ADM was minted in proof.</p>
+        <div style="margin-top: 18px;"><ExplorerSearch /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div style="display:grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink);" class="gn-cohort-stats">
+        <div style="padding: 14px 18px;"><span class="label">Total burned · USD-eq</span><div class="mono" style="font-size: 28px; margin-top: 4px;" data-spec="true">—</div></div>
+        <div style="padding: 14px 18px; border-left: 1px solid var(--rule);"><span class="label">ADM minted</span><div class="mono" style="font-size: 28px; margin-top: 4px;" data-spec="true">0 / 70 000 000</div></div>
+        <div style="padding: 14px 18px; border-left: 1px solid var(--rule);"><span class="label">Unique addresses</span><div class="mono" style="font-size: 28px; margin-top: 4px;" data-spec="true">—</div></div>
+        <div style="padding: 14px 18px; border-left: 1px solid var(--rule);"><span class="label">Largest cap window</span><div class="mono" style="font-size: 22px; margin-top: 4px;" data-spec="true">1% · m0–m1</div></div>
+      </div>
+
+      <div style="margin-top: 28px;" class="scroll-x">
+        <table class="ledger">
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Source</th>
+              <th>Source-chain tx</th>
+              <th class="r">USD-eq</th>
+              <th class="r">ADM minted</th>
+              <th>Destination</th>
+            </tr>
+          </thead>
+          <tbody>
+            {BURN_REGISTRY.map((b) => (
+              <tr>
+                <td>—</td>
+                <td><span class="tag">{b.source}</span></td>
+                <td class="mono small">—</td>
+                <td class="r">—</td>
+                <td class="r">—</td>
+                <td class="addr">—</td>
+              </tr>
+            ))}
+            <tr><td colspan="6" class="mono small" style="color: var(--ink-3); padding: 22px 12px; text-align:center;">No burns recorded — chain is in specification phase.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="small" style="margin-top: 18px;">Source-chain confirmations: BTC 6, ETH 32 epochs, USDT/USDC 64. Per-address claim caps grow 1% &rarr; 2% &rarr; 4% &rarr; 8% &rarr; uncapped over months 1, 3, 6, 12 from genesis (WP §10.2.3).</p>
+    </div>
+  </section>
+</HubLayout>

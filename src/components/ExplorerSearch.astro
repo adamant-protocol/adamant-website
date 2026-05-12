@@ -1,0 +1,53 @@
+---
+// A no-JS search bar that infers route from input shape on submit.
+// 64-hex → tx, 40-hex/adm1 prefix → address, #N → cohort, digits → block.
+---
+<form class="xp-search" role="search" method="GET" action="/network/search">
+  <input
+    class="xp-search-input mono"
+    type="search"
+    name="q"
+    placeholder="Search by tx hash · block · address · cohort #"
+    aria-label="Explorer search"
+    autocomplete="off"
+    spellcheck="false"
+  />
+  <button class="xp-search-btn mono" type="submit">Search</button>
+</form>
+
+<style>
+  .xp-search {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+    align-items: stretch;
+  }
+  .xp-search-input {
+    flex: 1;
+    border: 0;
+    background: transparent;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--ink);
+    outline: none;
+    min-width: 0;
+  }
+  .xp-search-input::placeholder { color: var(--ink-3); }
+  .xp-search-btn {
+    padding: 14px 18px;
+    border: 0;
+    border-left: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .xp-search-btn:hover { background: var(--ink-2); }
+  @media (max-width: 540px) {
+    .xp-search-input { padding: 12px 12px; font-size: 12.5px; }
+    .xp-search-btn { padding: 12px 14px; font-size: 10.5px; }
+  }
+</style>

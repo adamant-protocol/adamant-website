@@ -1,0 +1,50 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+
+const MODULES = [
+  { code: 'adamant-crypto',     name: 'Cryptographic primitives',   status: 'in-progress', notes: 'SHA3, BLAKE3, Ed25519, ML-DSA, ML-KEM, BLS, Poseidon. Halo 2 wrapper pre-audit.' },
+  { code: 'adamant-objects',    name: 'Object model & state',       status: 'in-progress', notes: 'ObjectId / TypeId / mutability enforcement. Rent model stubbed.' },
+  { code: 'adamant-vm',         name: 'Adamant Move VM',            status: 'stubbed',     notes: 'Move bytecode interpreter; #[shielded] codegen WIP.' },
+  { code: 'adamant-consensus',  name: 'DAG-BFT consensus',          status: 'in-progress', notes: 'Mysticeti-shaped vertex/round implementation; VRF in place.' },
+  { code: 'adamant-mempool',    name: 'Two-regime mempool',         status: 'stubbed',     notes: 'Threshold-BLS DKG harness; VDF time-lock primitives wired.' },
+  { code: 'adamant-net',        name: 'Networking (libp2p)',        status: 'in-progress', notes: 'Custom Adamant-specific gossipsub topics; anti-DoS budget mid-design.' },
+  { code: 'adamant-rpc',        name: 'JSON-RPC + WebSocket',       status: 'in-progress', notes: 'Method surface stable; subscription wire format frozen.' },
+  { code: 'adamant-wallet',     name: 'Reference wallet',           status: 'stubbed',     notes: 'Native iOS + Android shells; key management + view-key UI in progress.' },
+  { code: 'adamant-bridge',     name: 'Source-chain light clients', status: 'stubbed',     notes: 'BTC headers, ETH consensus, USDT/USDC observers.' },
+  { code: 'adamant-prover',     name: 'Prover market',              status: 'spec only',   notes: 'Open market protocol; reference prover GPU-accelerated.' },
+];
+---
+<HubLayout active="developers" title="Adamant — Implementation status" description="Module-by-module readiness of the reference Rust client.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Developers · /developers/status</div>
+        <h1 class="title">Implementation status.</h1>
+      </div>
+      <div>
+        <p class="lede">A truthful, module-by-module readiness table for the reference Rust client. <strong>shipped</strong> means feature-complete, audited, and exercised on a public testnet. <strong>in-progress</strong> means code exists, runs, and is iterating. <strong>stubbed</strong> means interfaces exist but bodies are placeholders. <strong>spec only</strong> means it's in the whitepaper and not yet code.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="scroll-x">
+        <table class="ledger">
+          <thead><tr><th>Crate</th><th>Module</th><th>Status</th><th>Notes</th></tr></thead>
+          <tbody>
+            {MODULES.map((m) => (
+              <tr>
+                <td class="mono">{m.code}</td>
+                <td>{m.name}</td>
+                <td><span class="tag">{m.status}</span></td>
+                <td>{m.notes}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="small" style="margin-top: 18px;">Status is read off the reference repository at build time. To verify any line of this table, open the linked crate's <span class="mono">README</span> and CI status.</p>
+    </div>
+  </section>
+</HubLayout>

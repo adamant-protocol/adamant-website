@@ -1,0 +1,64 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+---
+<HubLayout active="developers" title="Adamant — View-key format" description="Encoding, scope bits, sub-view-key derivation, on-chain disclosure protocol.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Developers · /developers/view-keys</div>
+        <h1 class="title">View-key format.</h1>
+      </div>
+      <div>
+        <p class="lede">View keys give scoped, revocable decryption authority without spending authority. The construction follows Zcash Sapling sub-view-keys, refined for Adamant's multi-dimensional scope (date range + amount + counterparty + contract).</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 01 / Encoding</div><div><h2 class="title">Bech32m, prefix <span class="mono">vkey1</span>.</h2></div></div>
+      <pre class="mono" style="background: var(--paper-2); border: 1px solid var(--rule); padding: 18px; overflow-x: auto; font-size: 12.5px;">{`vkey1 <bech32m-payload>
+
+payload  = version(1B)
+        || scope_bits(2B)        // bitmask: DATE | AMOUNT | COUNTERPARTY | CONTRACT
+        || not_before(8B, unix-ms)
+        || not_after(8B, unix-ms)
+        || amount_min(8B)        // base units (10^-9 ADM); 0 = any
+        || amount_max(8B)        // 0 = any
+        || counterparty_hash(32B)// SHA3-256 of bech32m address; 0 = any
+        || contract_id(32B)      // ObjectId; 0 = any
+        || derived_pubkey(32B)
+        || sig(64B)              // master spending key signs the scope`}</pre>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 02 / Derivation</div><div><h2 class="title">Sub-keys from a master.</h2></div></div>
+      <pre class="mono" style="background: var(--paper-2); border: 1px solid var(--rule); padding: 18px; overflow-x: auto; font-size: 12.5px;">{`master_view_key  = SHAKE-256("ADAMANT-v1-view-master" || spend_key, 32)
+
+sub_view_key(scope) = HKDF-SHA3-256(
+    salt   = "ADAMANT-v1-view-sub",
+    ikm    = master_view_key,
+    info   = canonical_serialise(scope),
+    L      = 32
+)`}</pre>
+      <p class="small" style="margin-top: 16px;">Sub-keys cannot derive other sub-keys; each scope has exactly one canonical key. Revocation publishes an on-chain revocation record keyed by <span class="mono">derived_pubkey</span>.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 03 / Disclosure</div><div><h2 class="title">Decrypting under a sub-key.</h2></div></div>
+      <pre class="mono" style="background: var(--paper-2); border: 1px solid var(--rule); padding: 18px; overflow-x: auto; font-size: 12.5px;">{`use adamant_sdk::view::{ViewKey, Disclosure};
+
+let vk: ViewKey = ViewKey::decode("vkey1...")?;
+let d  = Disclosure::scan(&client, &vk, range).await?;
+
+for tx in d.iter() {
+    println!("{} -> {} : {} ADM", tx.from, tx.to, tx.amount);
+}`}</pre>
+      <p class="small" style="margin-top: 16px;">Scans run locally. The chain has no idea who is decrypting; it only verifies signature validity if the disclosure is published on-chain (paying fee dimension F.05).</p>
+    </div>
+  </section>
+</HubLayout>

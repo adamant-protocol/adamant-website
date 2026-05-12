@@ -1,0 +1,52 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import ExplorerSearch from '@/components/ExplorerSearch.astro';
+
+const q = (Astro.url.searchParams.get('q') ?? '').trim();
+
+// Infer the route from the input shape. Pre-launch we just suggest routes.
+function classify(raw: string): { kind: string; target: string | null } {
+  if (!raw) return { kind: 'empty', target: null };
+  if (/^#\d+$/.test(raw)) return { kind: 'cohort', target: `/network/validator/${raw.replace('#', '')}` };
+  if (/^\d+$/.test(raw)) return { kind: 'block', target: `/network/block/${raw}` };
+  if (/^0x[0-9a-fA-F]{64}$/.test(raw) || /^[0-9a-fA-F]{64}$/.test(raw)) return { kind: 'tx', target: `/network/tx/${raw}` };
+  if (/^adm1[0-9a-z]+/i.test(raw) || /^0x[0-9a-fA-F]{40}$/.test(raw)) return { kind: 'address', target: `/network/address/${raw}` };
+  return { kind: 'unknown', target: null };
+}
+
+const result = classify(q);
+---
+<HubLayout active="network" title={`Adamant — Search · ${q || '—'}`} description="Explorer search results.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Explorer · /network/search</div>
+        <h1 class="title">Search.</h1>
+      </div>
+      <div>
+        <p class="lede">Query: <span class="mono">{q || '(empty)'}</span></p>
+        <div style="margin-top: 18px;"><ExplorerSearch /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      {result.kind === 'empty' && <p class="serif" style="font-size: 18px; color: var(--ink-2);">Enter a transaction hash, block height, address, or cohort number (e.g. <span class="mono">#42</span>).</p>}
+      {result.kind !== 'empty' && result.target && (
+        <div style="border: 1px solid var(--ink); padding: 22px;">
+          <span class="label">Match · {result.kind}</span>
+          <p class="serif" style="font-size: 18px; line-height: 1.5; margin-top: 8px;">
+            Interpreted as a <strong>{result.kind}</strong>. <a class="link" href={result.target}>Open {result.target} →</a>
+          </p>
+        </div>
+      )}
+      {result.kind === 'unknown' && (
+        <div style="border: 1px solid var(--warn); padding: 22px; background: var(--warn-bg);">
+          <span class="label" style="color: var(--warn);">Unrecognised input</span>
+          <p class="serif" style="font-size: 16px; line-height: 1.5; margin-top: 8px;">Couldn't classify <span class="mono">{q}</span> as a transaction hash, block, address, or cohort number. Check the format and try again.</p>
+        </div>
+      )}
+    </div>
+  </section>
+</HubLayout>

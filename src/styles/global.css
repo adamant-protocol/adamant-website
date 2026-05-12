@@ -48,6 +48,28 @@ html, body {
 html { overflow-x: hidden; }
 body { overflow-x: clip; }
 
+/* Accessibility: skip-to-content link, focus-visible, reduced motion already handled */
+.skip-to-content {
+  position: absolute;
+  left: -10000px;
+  top: 0;
+  z-index: 100;
+  padding: 10px 14px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+}
+.skip-to-content:focus { left: 8px; top: 8px; }
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+button:focus-visible,
+a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
 body {
   background-image: radial-gradient(oklch(0% 0 0 / 0.018) 1px, transparent 1px);
   background-size: 3px 3px;

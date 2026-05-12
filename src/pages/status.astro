@@ -1,0 +1,77 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import SeeAlso from '@/components/SeeAlso.astro';
+import { INCIDENT_LOG, PUBLIC_RPC, PHASE } from '@/data/chain';
+---
+<HubLayout active="status" title="Adamant — Status" description="Glanceable network health. Active set proximity to floor, last finalised block, security tier, incident log.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Status · /status</div>
+        <h1 class="title">Chain status,<br/><em style="font-style:italic; color:var(--ink-2);">at a glance.</em></h1>
+      </div>
+      <div>
+        <p class="lede">A single page that answers: "is the chain healthy right now?" Floor proximity, last finalised block, security tier, mempool regime. The detailed explorer is at <a class="link" href="/network">/network</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 32px;" class="net-grid">
+        <div style="border: 1px solid var(--ink); padding: 32px; background: var(--paper);">
+          <span class="label">Overall</span>
+          <div class="serif" style="font-size: 56px; line-height: 1; letter-spacing: -0.02em; margin-top: 12px;" data-spec="true">specification</div>
+          <p class="mono small" style="color: var(--ink-3); margin-top: 16px;">{PHASE.label} · {PHASE.tagline}</p>
+        </div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--ink);">
+          {[
+            { l: 'Active set', v: '0 / 75', s: 'floor 7' },
+            { l: 'Security tier', v: '—', s: 'I · 7–14 · II · 15–29 · III · 30+' },
+            { l: 'Last block', v: '—', s: 'finalised' },
+            { l: 'Mempool regime', v: 'VDF', s: 'pre-launch' },
+          ].map((c, i) => (
+            <div style={`padding: 18px; ${i % 2 === 1 ? 'border-left: 1px solid var(--rule);' : ''} ${i >= 2 ? 'border-top: 1px solid var(--rule);' : ''}`}>
+              <span class="label">{c.l}</span>
+              <div class="mono" style="font-size: 22px; margin-top: 6px;" data-spec="true">{c.v}</div>
+              <div class="mono small" style="color: var(--ink-3); margin-top: 6px;">{c.s}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 01 / Incidents</div><div><h2 class="title">Incident log.</h2></div></div>
+      <div class="scroll-x">
+        <table class="ledger">
+          <thead><tr><th>Date</th><th>Severity</th><th>Title</th><th>Notes</th></tr></thead>
+          <tbody>
+            {INCIDENT_LOG.map((i) => (
+              <tr><td>{i.date}</td><td>{i.severity}</td><td>{i.title}</td><td class="mono small">{i.body}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 02 / RPC</div><div><h2 class="title">Public endpoints.</h2></div></div>
+      <div class="scroll-x">
+        <table class="ledger">
+          <thead><tr><th>URL</th><th>Region</th><th>Operator</th><th>Notes</th></tr></thead>
+          <tbody>
+            {PUBLIC_RPC.map((r) => (<tr><td class="mono">{r.url}</td><td>{r.region}</td><td>{r.operator}</td><td>pre-launch</td></tr>))}
+          </tbody>
+        </table>
+      </div>
+      <p class="small" style="margin-top: 14px;">Endpoint list is community-operated. Run your own with <a class="link" href="/developers/run-a-node">/developers/run-a-node</a>.</p>
+    </div>
+  </section>
+
+  <SeeAlso current="status" />
+</HubLayout>

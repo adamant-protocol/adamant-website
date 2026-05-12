@@ -1,0 +1,153 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import SeeAlso from '@/components/SeeAlso.astro';
+import { POST_GENESIS_EMISSION, SLASHING_CONDITIONS, FEE_DIMENSIONS, fmtAdm } from '@/data/chain';
+---
+<HubLayout active="genesis" title="Adamant — Tokenomics" description="Token mechanics. Launch phase + post-genesis emission, fee market, staking economy, slashing.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Tokenomics · /tokenomics</div>
+        <h1 class="title">ADM mechanics,<br/><em style="font-style:italic; color:var(--ink-2);">end to end.</em></h1>
+      </div>
+      <div>
+        <p class="lede">ADM is native, 10<sup>-9</sup>-divisible, used for fees and staking. There is no fixed supply cap — issuance and burn balance over time. Launch phase ends at pool exhaustion or 5 years, whichever comes first.</p>
+        <div style="display:flex; gap:8px; margin-top:18px; flex-wrap: wrap;">
+          <a href="#supply" class="tag">Supply</a>
+          <a href="#emission" class="tag">Post-genesis emission</a>
+          <a href="#fees" class="tag">Fee market</a>
+          <a href="#stake" class="tag">Staking</a>
+          <a href="#slashing" class="tag">Slashing</a>
+          <a href="#apr" class="tag">APR calculator</a>
+          <a href="#delegation" class="tag">Delegation</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUPPLY -->
+  <section class="section" id="supply">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 01 / Supply</div><div><h2 class="title">Total supply.</h2><p class="subtitle">No hard cap. Launch-phase pool plus post-genesis issuance net of fee burn.</p></div></div>
+      <div style="display:grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink);" class="gn-cohort-stats">
+        <div style="padding: 16px 18px;"><span class="label">Decimals</span><div class="mono" style="font-size: 28px; margin-top: 4px;">10<sup>-9</sup></div></div>
+        <div style="padding: 16px 18px; border-left: 1px solid var(--rule);"><span class="label">Genesis pool</span><div class="mono" style="font-size: 28px; margin-top: 4px;">{fmtAdm(100_000_000)}</div></div>
+        <div style="padding: 16px 18px; border-left: 1px solid var(--rule);"><span class="label">Launch cap</span><div class="mono" style="font-size: 28px; margin-top: 4px;">5 years</div></div>
+        <div style="padding: 16px 18px; border-left: 1px solid var(--rule);"><span class="label">Unclaimed at cap</span><div class="mono" style="font-size: 22px; margin-top: 4px;">destroyed</div></div>
+      </div>
+      <p class="small" style="margin-top: 18px;">Unclaimed pool at the 5-year time cap is <strong>destroyed</strong>, not redistributed. Preserves the no-insider-allocation property (WP §10.2.4).</p>
+    </div>
+  </section>
+
+  <!-- POST-GENESIS EMISSION -->
+  <section class="section" id="emission">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 02 / Emission</div><div><h2 class="title">Post-genesis schedule.</h2><p class="subtitle">When the pool drains, issuance switches to a fixed schedule. No governance lever; only hard-fork revision.</p></div></div>
+      <div class="scroll-x">
+        <table class="ledger">
+          <thead><tr><th>Phase</th><th>Rule</th><th>Source</th><th>Cap</th></tr></thead>
+          <tbody>
+            {POST_GENESIS_EMISSION.map((p) => (
+              <tr><td>{p.phase}</td><td>{p.rule}</td><td>{p.source}</td><td class="mono">{p.cap}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEE MARKET -->
+  <section class="section" id="fees">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 03 / Fees</div><div><h2 class="title">Multi-dimensional fee market.</h2><p class="subtitle">Compute, bandwidth, state, mempool, disclosure — priced separately. Base fee burned (EIP-1559-style).</p></div></div>
+      <div class="scroll-x">
+        <table class="ledger">
+          <thead><tr><th>Code</th><th>Dimension</th><th>Unit</th><th>What it pays for</th></tr></thead>
+          <tbody>
+            {FEE_DIMENSIONS.map((f) => (
+              <tr><td class="mono">{f.code}</td><td>{f.name}</td><td class="mono small">{f.unit}</td><td>{f.d}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="small" style="margin-top: 16px;">Under sustained use, fees burned approximately equal new issuance, producing rough stability with mild deflation (WP §10.1.2).</p>
+    </div>
+  </section>
+
+  <!-- STAKE -->
+  <section class="section" id="stake">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 04 / Stake</div><div><h2 class="title">Stake floors.</h2></div></div>
+      <div class="gn-stake" style="display:grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink);">
+        <div style="padding: 32px 24px; border-right: 1px solid var(--rule);">
+          <span class="label">Node Runner</span>
+          <div class="mono" style="font-size: 56px; margin-top: 8px; line-height: 1;">1 000 <span style="color:var(--mute); font-size: 28px;">ADM</span></div>
+          <p class="serif" style="font-size: 16px; line-height: 1.45; color: var(--ink-2); max-width: 56ch; margin-top: 16px;">Self-bond + delegations both count. 28-day unbonding. Subject to liveness, equivocation, double-sign slashing.</p>
+        </div>
+        <div style="padding: 32px 24px;">
+          <span class="label">Node Watcher</span>
+          <div class="mono" style="font-size: 56px; margin-top: 8px; line-height: 1;">100 <span style="color:var(--mute); font-size: 28px;">ADM</span></div>
+          <p class="serif" style="font-size: 16px; line-height: 1.45; color: var(--ink-2); max-width: 56ch; margin-top: 16px;">Uncapped set. 7-day unbonding. Slashable for false attestations.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLASHING -->
+  <section class="section" id="slashing">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 05 / Slashing</div><div><h2 class="title">Slashing conditions.</h2></div></div>
+      <div class="scroll-x">
+        <table class="ledger">
+          <thead><tr><th>Code</th><th>Condition</th><th>Penalty</th><th>Bond</th><th>Detection</th><th>Recovery</th></tr></thead>
+          <tbody>
+            {SLASHING_CONDITIONS.map((s) => (
+              <tr><td class="mono">{s.code}</td><td>{s.name}</td><td><span class="tag">{s.penalty}</span></td><td>{s.unbond}</td><td>{s.detect}</td><td>{s.recover}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- APR -->
+  <section class="section" id="apr">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 06 / APR</div><div><h2 class="title">Validator APR calculator.</h2><p class="subtitle">Pre-launch model. Inputs are placeholders; the calculator updates from RPC once mainnet is live.</p></div></div>
+      <div style="border: 1px solid var(--ink); padding: 0;">
+        <div class="send-row" style="display:grid; grid-template-columns: 200px 1fr; border-bottom: 1px solid var(--rule);">
+          <div class="send-lab" style="padding: 14px 18px; border-right: 1px solid var(--rule);"><span class="label">Bond size · ADM</span></div>
+          <div class="send-val mono" style="padding: 14px 18px;">1 000</div>
+        </div>
+        <div class="send-row" style="display:grid; grid-template-columns: 200px 1fr; border-bottom: 1px solid var(--rule);">
+          <div class="send-lab" style="padding: 14px 18px; border-right: 1px solid var(--rule);"><span class="label">Active set · N</span></div>
+          <div class="send-val mono" style="padding: 14px 18px;">42</div>
+        </div>
+        <div class="send-row" style="display:grid; grid-template-columns: 200px 1fr; border-bottom: 1px solid var(--rule);">
+          <div class="send-lab" style="padding: 14px 18px; border-right: 1px solid var(--rule);"><span class="label">Delegated · ADM</span></div>
+          <div class="send-val mono" style="padding: 14px 18px;">0</div>
+        </div>
+        <div class="send-row" style="display:grid; grid-template-columns: 200px 1fr; background: var(--paper-2);">
+          <div class="send-lab" style="padding: 14px 18px; border-right: 1px solid var(--rule);"><span class="label">Est. APR · launch phase</span></div>
+          <div class="send-val mono" style="padding: 14px 18px; font-size: 22px;" data-spec="true">specification</div>
+        </div>
+      </div>
+      <p class="small" style="margin-top: 16px;">Validator selection is first-come-first-served (WP §8.1.3); delegation affects <em>economics</em> not <em>selection</em>. More delegated stake = larger share of validator rewards, same probability of being in the active set.</p>
+    </div>
+  </section>
+
+  <!-- DELEGATION -->
+  <section class="section" id="delegation">
+    <div class="container">
+      <div class="section-head"><div class="num-mark">§ 07 / Delegation</div><div><h2 class="title">Delegation.</h2></div></div>
+      <div class="claim-grid">
+        <article class="claim-card"><span class="num">DG.01</span><h3>What it does</h3><p>Lets non-operators earn yield by sharing in validator rewards. Stake is bonded; delegator receives a share commission negotiated off-protocol.</p></article>
+        <article class="claim-card"><span class="num">DG.02</span><h3>Slashing exposure</h3><p>Delegators are slashed pro-rata with the validator. Choose validators with public uptime records and known operational discipline.</p></article>
+        <article class="claim-card"><span class="num">DG.03</span><h3>Unbonding</h3><p>28-day unbonding period (Node Runner), matching the validator. Withdrawn stake is locked through this window — slashable in retrospect during it.</p></article>
+        <article class="claim-card"><span class="num">DG.04</span><h3>Selection-neutral</h3><p>Delegation does not affect a validator's position in the active set. The mechanism rewards continuity and registration order, not stake size.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <SeeAlso current="genesis" />
+</HubLayout>

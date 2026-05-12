@@ -1,0 +1,35 @@
+---
+import HubLayout from '@/layouts/HubLayout.astro';
+import SeeAlso from '@/components/SeeAlso.astro';
+import { GLOSSARY } from '@/data/chain';
+
+const sorted = [...GLOSSARY].sort((a, b) => a.term.localeCompare(b.term));
+---
+<HubLayout active="about" title="Adamant — Glossary" description="Plain-language definitions of every term Adamant uses.">
+  <section class="page-intro">
+    <div class="container">
+      <div>
+        <div class="crumb">§ Glossary · /glossary</div>
+        <h1 class="title">Glossary.</h1>
+      </div>
+      <div>
+        <p class="lede">Every term Adamant uses, explained in one or two sentences. If a property cannot be explained without jargon, the property is not yet correctly stated (Principle VI).</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <dl style="margin: 0; padding: 0; border-top: 1px solid var(--ink);">
+        {sorted.map((g) => (
+          <div style="display:grid; grid-template-columns: 240px 1fr; gap: 24px; padding: 18px 0; border-bottom: 1px solid var(--rule);" class="negation-row">
+            <dt class="serif" style="font-size: 20px; line-height: 1.2; letter-spacing: -0.005em; margin: 0; color: var(--ink);">{g.term}</dt>
+            <dd class="serif" style="margin: 0; font-size: 15.5px; line-height: 1.55; color: var(--ink-2); max-width: 70ch;">{g.d}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <SeeAlso current="about" />
+</HubLayout>
