@@ -75,6 +75,22 @@
   --rad-sm: 3px;
   --rad:    5px;
   --rad-lg: 8px;
+
+  /* legacy aliases — many page templates reference these names. Map
+   * them to the cinematic tokens so inline styles resolve correctly. */
+  --rule:      var(--line);
+  --rule-2:    var(--line-2);
+  --paper:     var(--bg);
+  --paper-2:   var(--surface);
+  --paper-3:   var(--surface-2);
+  --mute:      var(--faint);
+  --warn-bg:   rgba(255,255,255,0.06);
+  --spec-bg:   rgba(255,255,255,0.04);
+  --spec:      var(--accent);
+  --ok:        var(--accent);
+  --ok-bg:     rgba(255,255,255,0.04);
+  --signal:    var(--accent);
+  --signal-bg: rgba(255,255,255,0.04);
 }
 
 body[data-density="compact"] { --pad: 24px; }
@@ -330,8 +346,26 @@ small, .small { font-size: 12.5px; color: var(--ink-2); }
 }
 
 
-/* ─── 05  BUTTONS + LINKS + TAGS ──────────────────────────────── */
+/* ─── 05  BUTTONS + LINKS + TAGS ──────────────────────────────────
+ * One coherent button + pill system. All pill-shape elements share
+ * the same border, radius, padding scale, and hover treatment so the
+ * site reads as one design.
+ *
+ *   .btn               outline button (default)
+ *   .btn.primary       solid mint button (rare CTA)
+ *   .btn.ghost         no border, hover only
+ *   .btn.sm            smaller, mono variant — used for inline links
+ *                       like "Markdown source ↗" / "RSS · atom"
+ *
+ *   .tag               pill-shaped chip used for in-page anchors,
+ *                       filter labels, phase indicators
+ *   .tag.solid         inverted (dark text on white)
+ *   .tag.is-active     selected state for tab groups
+ *
+ *   a.link             plain inline link with hairline underline
+ * ──────────────────────────────────────────────────────────────── */
 
+/* Outline button — default rectangular CTA */
 .btn {
   display: inline-flex; align-items: center; gap: 10px;
   height: 44px;
@@ -340,26 +374,46 @@ small, .small { font-size: 12.5px; color: var(--ink-2); }
   border-radius: var(--rad);
   font-family: var(--mono);
   font-size: 12.5px;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
   color: var(--ink);
+  background: transparent;
+  white-space: nowrap;
   transition: border-color .15s, background .15s, color .15s, transform .15s;
+  cursor: pointer;
 }
-.btn:hover { border-color: var(--ink); transform: translateY(-1px); }
-.btn.primary {
-  background: var(--accent); color: #000; border-color: var(--accent);
-  font-weight: 600;
-}
+.btn:hover { border-color: var(--ink); transform: translateY(-1px); background: rgba(255,255,255,0.04); }
+.btn.primary { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 600; }
 .btn.primary:hover { background: #fff; border-color: #fff; }
+.btn.ghost { border-color: transparent; }
+.btn.ghost:hover { border-color: var(--line-strong); }
+
+/* Compact button used as inline CTA links, e.g. "Markdown source ↗" */
+.btn.sm,
+.btn-sm {
+  height: 32px;
+  padding: 0 14px;
+  font-size: 11px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  border-color: var(--line-2);
+}
+.btn.sm:hover, .btn-sm:hover { border-color: var(--ink); transform: translateY(-1px); }
 .btn .arrow { transition: transform .15s; }
 .btn:hover .arrow { transform: translateX(2px); }
 
-a.link { border-bottom: 1px solid var(--line-2); }
+/* Plain inline link with hairline underline */
+a.link { border-bottom: 1px solid var(--line-2); transition: border-color .15s, color .15s; }
 a.link:hover { border-bottom-color: var(--ink); color: var(--ink); }
 
-/* Tag-style pill links (chiclets in page intros and on filter rows) */
+/* Pill chip — used for tags, anchor chiclets, in-page jump links,
+ * phase indicators, role tabs, asset tabs. One single visual. */
 a.tag,
-.tag {
-  display: inline-flex; align-items: center;
+.tag,
+.chip,
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-family: var(--mono);
   font-size: 10.5px;
   letter-spacing: 0.10em;
@@ -368,11 +422,22 @@ a.tag,
   padding: 7px 12px;
   border: 1px solid var(--line-2);
   border-radius: 999px;
-  transition: border-color .15s, color .15s, background .15s;
+  background: transparent;
   white-space: nowrap;
+  cursor: pointer;
+  transition: border-color .15s, color .15s, background .15s;
 }
-a.tag:hover, .tag:hover { border-color: var(--ink); color: var(--ink); }
-.tag.solid { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+a.tag:hover, .tag:hover,
+.chip:hover, .pill:hover { border-color: var(--ink); color: var(--ink); }
+.tag.solid, .chip.solid, .pill.solid { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.tag.is-active, .chip.is-active, .pill.is-active {
+  border-color: var(--ink);
+  color: var(--ink);
+  background: rgba(255,255,255,0.06);
+}
+.tag.ok    { color: var(--accent); border-color: var(--accent); }
+.tag.warn  { color: var(--warn); border-color: var(--warn); }
+.tag.faint { color: var(--faint); border-color: var(--line); }
 
 
 /* ─── 06  CMD-BAR (floating header) + DROPDOWNS + DRAWER ──────── */
@@ -460,26 +525,29 @@ a.tag:hover, .tag:hover { border-color: var(--ink); color: var(--ink); }
 }
 .cmd-nav-item.open .cmd-chev { transform: rotate(180deg); opacity: 1; }
 
-/* Dropdown panel — sits below its trigger. Constrained to viewport. */
+/* Dropdown panel — sits below its trigger. Single column, fixed
+ * width, so descriptions never collide with adjacent column text.
+ * Important: white-space resets to normal so descriptions can wrap
+ * (cmd-bar parent sets nowrap to keep the nav row from breaking). */
 .cmd-pop {
   position: absolute;
   top: calc(100% + 12px);
   left: 50%;
   transform: translateX(-50%) translateY(-8px);
   z-index: 71;
-  width: max-content;
-  min-width: 460px;
-  max-width: min(600px, calc(100vw - 32px));
-  background: rgba(10,10,10,0.92);
+  width: 340px;
+  max-width: calc(100vw - 32px);
+  background: #0a0a0a;
   -webkit-backdrop-filter: blur(22px) saturate(160%);
   backdrop-filter: blur(22px) saturate(160%);
   border: 1px solid rgba(255,255,255,0.14);
   border-radius: 14px;
-  padding: 18px;
+  padding: 14px;
   box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 24px 60px rgba(0,0,0,0.65);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+  white-space: normal;
   transition: opacity .18s ease, transform .22s cubic-bezier(.2,.8,.2,1), visibility .18s;
 }
 .cmd-nav-item.open .cmd-pop {
@@ -494,30 +562,44 @@ a.tag:hover, .tag:hover { border-color: var(--ink); color: var(--ink); }
   top: -6px; left: 50%;
   transform: translateX(-50%) rotate(45deg);
   width: 10px; height: 10px;
-  background: rgba(10,10,10,0.92);
+  background: rgba(10,10,10,0.985);
   border-left: 1px solid rgba(255,255,255,0.14);
   border-top:  1px solid rgba(255,255,255,0.14);
 }
+/* Single-column item list. Stacks primary then secondary groups
+ * vertically — readable and never collides with a neighbouring col. */
 .cmd-pop-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
-.cmd-pop-col { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.cmd-pop-col { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.cmd-pop-col + .cmd-pop-col {
+  margin-top: 6px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
 .cmd-pop a {
-  display: flex; flex-direction: column; gap: 3px;
+  display: flex; flex-direction: column; gap: 4px;
   padding: 10px 12px;
   border-radius: 8px;
   font-family: var(--sans);
   transition: background .15s, color .15s;
   text-decoration: none;
   color: var(--ink-2);
+  min-width: 0;
 }
 .cmd-pop a:hover,
 .cmd-pop a:focus-visible,
 .cmd-pop a[aria-current="page"] { background: rgba(255,255,255,0.05); outline: none; }
 .cmd-pop-label { font-size: 14px; font-weight: 500; letter-spacing: -0.01em; color: var(--ink); }
-.cmd-pop-desc  { font-size: 12px; line-height: 1.45; color: var(--dim); font-family: var(--mono); }
+.cmd-pop-desc  {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--dim);
+  font-family: var(--mono);
+  overflow-wrap: anywhere;
+}
 .cmd-pop-foot {
   margin-top: 10px;
   padding: 12px 14px 8px;
@@ -2035,9 +2117,8 @@ table.ledger td.r, table.ledger th.r { text-align: right; }
   .page-intro { padding: 70px 0 36px; }
   section.section { padding: 64px 0; }
 
-  /* CmdBar dropdown — single column, narrower */
-  .cmd-pop { min-width: min(360px, calc(100vw - 32px)); }
-  .cmd-pop-grid { grid-template-columns: 1fr; }
+  /* CmdBar dropdown narrower on tiny screens */
+  .cmd-pop { width: calc(100vw - 32px); }
 
   /* tiny components */
   .ledger > .row { grid-template-columns: 80px 1fr 80px; }
