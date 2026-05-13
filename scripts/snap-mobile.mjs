@@ -19,7 +19,7 @@ const PAGES = [
   { slug: 'faq', path: '/faq' },
 ];
 
-const OUT = process.argv[2] || '/tmp/snaps/main-v1';
+const OUT = process.argv[2] || '/tmp/snaps/mobile';
 mkdirSync(OUT, { recursive: true });
 
 const WIDTHS = [320, 375, 414, 768];
