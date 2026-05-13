@@ -2098,11 +2098,12 @@ table.ledger td.r, table.ledger th.r { text-align: right; }
     opacity: 0.95;
   }
 
+  /* Center the headline vertically in the hero (above the globe dome). */
   .dive-headline {
-    top: 18%;
+    top: 50%;
+    transform: translateY(-50%);
     opacity: 1;
     padding: 0 18px;
-    transform: none;
   }
   .dive-headline h1 { font-size: clamp(30px, 9vw, 52px); }
   .dive-city, .dive-horizon, .dive-fog { display: none; }
