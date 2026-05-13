@@ -2072,6 +2072,18 @@ table.ledger td.r, table.ledger th.r { text-align: right; }
   .update { grid-template-columns: 110px 70px 1fr; gap: 14px; padding: 18px 16px; }
   .update-entry { grid-template-columns: 1fr; gap: 12px; }
 
+  /* Cinematic dive section: a 280vh sticky-scroll is too tall on
+   * phones — users see ~2000px of mostly-black space before real
+   * content appears. Collapse to a single viewport + an editorial
+   * card section instead. */
+  .dive-section { height: 100vh; }
+  .dive-stage { height: 100vh; }
+  .dive-globe-wrap { transform: translate(-50%, 30%) scale(0.85); }
+  .dive-headline { top: 28%; opacity: 1; transform: none; }
+  .dive-headline h1 { font-size: clamp(30px, 9vw, 56px); }
+  .dive-city, .dive-horizon, .dive-fog { display: none; }
+  .dive-scroll { display: none; }
+
   /* About / framings / principles / negation rows collapse */
   .framings-row,
   .principles-row,
@@ -2094,10 +2106,6 @@ table.ledger td.r, table.ledger th.r { text-align: right; }
   /* Roadmap / glossary stack */
   .gl-row { grid-template-columns: 1fr; gap: 8px; }
   .rm-row, .rm-entry { grid-template-columns: 1fr; gap: 8px; }
-
-  /* Hero dive headline shrinks */
-  .dive-headline { top: 24%; }
-  .dive-headline h1 { font-size: clamp(36px, 9vw, 64px); }
 
   /* HUD corners — keep only TL + BR on small screens */
   .hud-corner.tr, .hud-corner.bl { display: none; }
