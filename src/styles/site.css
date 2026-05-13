@@ -2078,33 +2078,39 @@ table.ledger td.r, table.ledger th.r { text-align: right; }
 
   /* Cinematic dive section on mobile: collapse from 280vh sticky-
    * scroll (which buried real content under 2000px of dark space)
-   * into a compact ~85vh hero. Globe sits behind the title and
-   * extends just below it for atmosphere; city/horizon/fog are
-   * desktop-only flourishes. */
-  .dive-section { height: auto; min-height: 85vh; }
-  .dive-stage { position: relative; height: 85vh; min-height: 540px; }
-  /* The globe canvas is 2200px (sized for desktop). At full scale
-   * on a 375px viewport the sphere is far wider than the screen and
-   * reads as scattered dots rather than a globe. Scale it down so
-   * the full sphere fits behind/below the title. */
+   * into a compact hero. Title top, globe top-dome at the bottom
+   * (half on, half off) — mirrors the desktop composition. */
+  .dive-section { height: auto; min-height: 64vh; }
+  .dive-stage { position: relative; height: 64vh; min-height: 420px; }
+
+  /* Shrink the canvas itself (Globe.jsx sets size in CSS px) so the
+   * wrap is the same size and translate(-50%) centers correctly.
+   * Translate Y pushes the wrap down so the sphere's CENTER sits
+   * roughly at stage bottom — only the top dome shows inside the
+   * stage, the rest is clipped (matches desktop composition). */
+  .dive-globe-wrap .globe-canvas {
+    width: 620px !important;
+    height: 620px !important;
+  }
   .dive-globe-wrap {
-    transform: translate(-50%, 30%) scale(0.35);
     transform-origin: center center;
+    transform: translate(-50%, 65%);
     opacity: 0.95;
   }
+
   .dive-headline {
-    top: 22%;
+    top: 18%;
     opacity: 1;
     padding: 0 18px;
+    transform: none;
   }
   .dive-headline h1 { font-size: clamp(30px, 9vw, 52px); }
   .dive-city, .dive-horizon, .dive-fog { display: none; }
   .dive-scroll { display: none; }
-  /* HUD corner brackets and heavy overlay grain don't read on phone. */
   .hero-hud { display: none; }
   .dive-letterbox { display: none; }
-  /* The 75% bottom darken in dive-vignette buries the globe on
-   * mobile — keep a softer top fade, drop the bottom darkening. */
+  /* Vignette: keep a soft top fade so the cmd-bar reads against
+   * the sky; drop the bottom darkening that masked the globe. */
   .dive-vignette {
     background:
       radial-gradient(ellipse 130% 80% at center 30%, transparent 50%, rgba(0,0,0,0.35) 100%);
