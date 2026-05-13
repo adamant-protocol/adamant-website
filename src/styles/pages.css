@@ -1054,3 +1054,252 @@ button:focus-visible, a:focus-visible {
   .page-intro { padding: 70px 0 36px; }
   section.section { padding: 64px 0; }
 }
+
+/* ============================================================
+ * MOBILE FIX PASS — addresses overflow on inline-styled grids,
+ * matrix and table containers, and stat strips across pages.
+ * Inline `grid-template-columns` settings on pages override the
+ * class rules above, so these need `!important` to win.
+ * ============================================================ */
+
+/* Global safety: anything that does not need to overflow should not.
+ * Pages with intentional horizontal scrollers (matrix, tables) wrap them
+ * in their own `overflow-x: auto` containers; this clip stops any other
+ * stray pixels from creating a body scroll. */
+* { min-width: 0; }
+html, body { overflow-x: clip; max-width: 100%; }
+img, svg, video, canvas { max-width: 100%; }
+/* Globe canvas on the home page is intentionally oversized; let it stay
+ * absolutely positioned and clipped by its container. */
+.dive-stage canvas, .dive-globe-wrap, .dive-globe-wrap canvas { max-width: none; }
+
+/* Common containers that must clip their oversized children at the page edge. */
+.dive-section, .dive-stage, .matrix, main, .wrap { max-width: 100%; }
+
+/* Long mono / data strings need to wrap on mobile, otherwise they push
+ * their parent past the viewport. */
+@media (max-width: 760px) {
+  .mono, .data, .send-val, .ledger td, .ledger th,
+  .matrix-cell, .pool-cell .v, .status-cell .v {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  /* Short uppercase labels keep their tracking. */
+  .label, .eyebrow, .tag, .crumb, .cmd-nav-link { overflow-wrap: normal; word-break: normal; }
+}
+
+/* ─── ABOUT — props-full-head + props-full-row stack on mobile ─ */
+@media (max-width: 900px) {
+  .props-full-head { display: none !important; }
+  .props-full-row {
+    grid-template-columns: 56px minmax(0, 1fr) !important;
+    gap: 8px 14px !important;
+    padding: 14px 0 !important;
+  }
+  /* Hide BTC/ETH/XMR/ZEC/MINA dot cells (3..7) and the ADM dot cell (9). */
+  .props-full-row > div:nth-child(n+3):nth-child(-n+7) { display: none !important; }
+  .props-full-row > div:nth-child(9) { display: none !important; }
+  /* Detail cell (8) spans column 2. */
+  .props-full-row > div:nth-child(8) {
+    grid-column: 2 / -1 !important;
+    padding: 0 !important;
+  }
+  /* Tiers grid stacks fully on small mobile. */
+  .tiers-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ─── ABOUT inline-styled rows: principles / framings / negation ─ */
+@media (max-width: 760px) {
+  .principles-row,
+  .framings-row,
+  .negation-row {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+    padding: 18px 0 !important;
+  }
+  .principles-row > div,
+  .framings-row > div,
+  .framings-row > p,
+  .negation-row > span { padding: 0 !important; }
+}
+
+/* ─── GENESIS / SPEC / TOKENOMICS — generic stat strip stacking ── */
+@media (max-width: 760px) {
+  /* Inline-style grids using repeat(4, 1fr) or 5/6 cols become 1 col. */
+  [class*="-stats"][style*="repeat(4"],
+  [class*="-stats"][style*="repeat(5"],
+  [class*="-stats"][style*="repeat(6"],
+  .op-stats,
+  .meta-strip,
+  .gn-cohort-stats,
+  .gn-assets,
+  .gn-rule-grid {
+    grid-template-columns: 1fr !important;
+  }
+  /* Their child cells lose left/right borders, swap to top borders. */
+  .op-stats > div,
+  .meta-strip > div,
+  .gn-cohort-stats > div,
+  .gn-assets > div,
+  .gn-rule-grid > div,
+  .gn-rule-grid > article {
+    border-left: 0 !important;
+    border-right: 0 !important;
+    border-top: 1px solid var(--line, var(--rule, rgba(255,255,255,0.08))) !important;
+  }
+  .op-stats > div:first-child,
+  .meta-strip > div:first-child,
+  .gn-cohort-stats > div:first-child,
+  .gn-assets > div:first-child,
+  .gn-rule-grid > div:first-child,
+  .gn-rule-grid > article:first-child { border-top: 0 !important; }
+}
+
+/* ─── OPERATOR — role-tabs and stat-strip stack on mobile ─────── */
+@media (max-width: 760px) {
+  .role-tabs > div {
+    flex: 1 1 50% !important;
+    min-width: 0 !important;
+    padding: 12px 12px !important;
+  }
+}
+@media (max-width: 540px) {
+  .role-tabs > div { flex: 1 1 100% !important; }
+}
+
+/* ─── WALLET — w-grid + send rows + balance cards ─────────────── */
+@media (max-width: 900px) {
+  .w-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+}
+@media (max-width: 760px) {
+  .send-row { grid-template-columns: 1fr !important; }
+  .send-row > .send-lab,
+  .send-row > .send-val { border-right: 0 !important; padding: 10px 14px !important; }
+  .send-row > .send-lab { border-bottom: 1px solid var(--line, rgba(255,255,255,0.08)); }
+  /* Big italic balance numbers shrink on small mobile. */
+  .w-grid > div > div > div[data-spec="true"] {
+    font-size: 36px !important;
+    overflow-wrap: anywhere;
+  }
+}
+@media (max-width: 400px) {
+  .w-grid > div > div > div[data-spec="true"] { font-size: 28px !important; }
+}
+
+/* ─── NETWORK — net-grid stacks ───────────────────────────────── */
+@media (max-width: 900px) {
+  .net-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+  .net-health { grid-template-columns: 1fr !important; }
+}
+
+/* ─── OPERATOR body grid + rewards twin-cell ──────────────────── */
+@media (max-width: 900px) {
+  .op-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+}
+@media (max-width: 760px) {
+  .op-grid > div:nth-child(2) > div:first-child {
+    grid-template-columns: 1fr !important;
+  }
+  .op-grid > div:nth-child(2) > div:first-child > div:nth-child(2) {
+    border-left: 0 !important;
+    border-top: 1px solid var(--ink, var(--line, rgba(255,255,255,0.08))) !important;
+  }
+  .op-grid > div:nth-child(2) > div:first-child .mono[data-spec="true"] {
+    font-size: 26px !important;
+  }
+}
+@media (max-width: 400px) {
+  .op-grid > div:nth-child(2) > div:first-child .mono[data-spec="true"] {
+    font-size: 20px !important;
+  }
+}
+
+/* ─── CARD HEADERS — flex space-between label + caption stack ─── */
+@media (max-width: 540px) {
+  .net-grid > div > div > div[style*="justify-content:space-between"],
+  .net-grid > div > div > div[style*="justify-content: space-between"],
+  .op-grid > div > div > div[style*="justify-content:space-between"],
+  .op-grid > div > div > div[style*="justify-content: space-between"],
+  .w-grid > div > div > div[style*="justify-content:space-between"],
+  .w-grid > div > div > div[style*="justify-content: space-between"] {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 4px !important;
+    padding: 12px 14px !important;
+  }
+}
+
+/* ─── UPDATES entries stack on mobile ─────────────────────────── */
+@media (max-width: 760px) {
+  .update-entry { grid-template-columns: 1fr !important; gap: 12px !important; }
+  .update { grid-template-columns: 1fr !important; gap: 10px !important; padding: 18px 16px !important; }
+}
+
+/* ─── ALL ledger tables in scroll-x containers ────────────────── */
+.scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; min-width: 0; }
+.scroll-x table { min-width: max-content; }
+@media (max-width: 760px) {
+  table.ledger { font-size: 11.5px; }
+  table.ledger th, table.ledger td { padding: 8px 10px; vertical-align: top; }
+  table.ledger thead th { font-size: 9.5px; letter-spacing: 0.10em; }
+}
+
+/* ─── SECURITY page table needs scroll wrap ───────────────────── */
+@media (max-width: 760px) {
+  /* Security ledger tables — make them scrollable wherever they are. */
+  table.ledger { display: block; overflow-x: auto; max-width: 100%; }
+  table.ledger thead, table.ledger tbody { display: table; min-width: 100%; }
+  /* Reset for nested in scroll-x (already wrapped). */
+  .scroll-x table.ledger { display: table; }
+}
+
+/* ─── TOKENOMICS / SPEC pages — generic responsive grids ──────── */
+@media (max-width: 760px) {
+  /* Inline grids with multiple fr columns collapse. */
+  [style*="grid-template-columns: repeat(4"],
+  [style*="grid-template-columns:repeat(4"],
+  [style*="grid-template-columns: repeat(5"],
+  [style*="grid-template-columns:repeat(5"],
+  [style*="grid-template-columns: repeat(6"],
+  [style*="grid-template-columns:repeat(6"] {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  /* Very wide inline grids - go single column. */
+  [style*="grid-template-columns: repeat(5"][style*="1fr"],
+  [style*="grid-template-columns:repeat(5"][style*="1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+@media (max-width: 540px) {
+  [style*="grid-template-columns: repeat(4"],
+  [style*="grid-template-columns:repeat(4"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ─── CMD-BAR drops to logo + menu on tablet too if cramped ──── */
+@media (max-width: 900px) {
+  .cmd-bar { gap: 12px; padding: 8px 16px; max-width: calc(100vw - 24px); }
+}
+
+/* ─── HUD corner brackets clip on small screens — already hidden
+ *     at <=760 in cinematic.css; make sure top-right keeps clear
+ *     of the cmd-bar at all sizes. */
+@media (max-width: 1080px) {
+  .hud-corner.tr { right: 14px; }
+  .hud-corner.tl { left: 14px; }
+}
+
+/* ─── FOOTER — readable spacing on mobile ─────────────────────── */
+@media (max-width: 760px) {
+  footer .container { padding-left: 16px; padding-right: 16px; }
+  footer a { word-break: break-word; overflow-wrap: anywhere; }
+}
+
+/* ─── SECTION HEADS — tighten on small mobile ─────────────────── */
+@media (max-width: 540px) {
+  section.section { padding: 32px 0; }
+  .page-intro { padding: 28px 0 20px; }
+  .page-intro h1.title { font-size: 30px; line-height: 1.04; }
+  .page-intro .lede { font-size: 16px; line-height: 1.45; }
+}
