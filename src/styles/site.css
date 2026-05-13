@@ -140,13 +140,17 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--ink); outline-o
 
 /* `.wrap` and `.container` are the *only* width primitives used on
  * the site. Both resolve to identical max-width + gutters. Every
- * section, hero, or grid must be wrapped in one of them. */
+ * section, hero, or grid must be wrapped in one of them.
+ *
+ * Important: use `padding-inline` so combining `.wrap` with another
+ * class that sets vertical padding (e.g. `.section`) doesn't wipe
+ * out the horizontal gutter. */
 .wrap,
 .container {
   width: 100%;
   max-width: var(--container);
-  margin: 0 auto;
-  padding: 0 var(--pad);
+  margin-inline: auto;
+  padding-inline: var(--pad);
 }
 
 .hr,
@@ -158,15 +162,15 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--ink); outline-o
   margin: 18px 0;
 }
 
-/* Section block used by every inner page. Padding scales down on
- * smaller viewports in the responsive section. */
+/* Section block used by every inner page. `padding-block` only so it
+ * composes with `.wrap`'s horizontal padding without conflict. */
 .section,
 section.section {
   position: relative;
-  padding: 112px 0;
+  padding-block: 112px;
 }
 .section.tight,
-section.section.tight { padding: 80px 0; }
+section.section.tight { padding-block: 80px; }
 .section + .section,
 section.section + section.section { border-top: 1px solid var(--line); }
 
@@ -254,7 +258,7 @@ section.section + section.section { border-top: 1px solid var(--line); }
 .page-intro,
 .page-hero {
   position: relative;
-  padding: 132px 0 88px;
+  padding-block: 132px 88px;
   border-bottom: 1px solid var(--line);
   overflow: hidden;
   background: var(--bg);
@@ -1863,7 +1867,7 @@ table.ledger td.r, table.ledger th.r { text-align: right; }
 
 .foot {
   border-top: 1px solid var(--line);
-  padding: 96px 0 36px;
+  padding-block: 96px 36px;
   background: var(--bg);
   position: relative;
 }
@@ -2035,7 +2039,7 @@ table.ledger td.r, table.ledger th.r { text-align: right; }
   .frames { grid-template-columns: 1fr; }
 
   /* inner pages */
-  .page-intro { padding: 96px 0 56px; }
+  .page-intro { padding-block: 96px 56px; }
   .page-intro > .container { grid-template-columns: 1fr; gap: 28px; }
   .w-grid { grid-template-columns: 1fr; }
   .op-grid, .claim-grid { grid-template-columns: 1fr; }
@@ -2072,17 +2076,40 @@ table.ledger td.r, table.ledger th.r { text-align: right; }
   .update { grid-template-columns: 110px 70px 1fr; gap: 14px; padding: 18px 16px; }
   .update-entry { grid-template-columns: 1fr; gap: 12px; }
 
-  /* Cinematic dive section: a 280vh sticky-scroll is too tall on
-   * phones — users see ~2000px of mostly-black space before real
-   * content appears. Collapse to a single viewport + an editorial
-   * card section instead. */
-  .dive-section { height: 100vh; }
-  .dive-stage { height: 100vh; }
-  .dive-globe-wrap { transform: translate(-50%, 30%) scale(0.85); }
-  .dive-headline { top: 28%; opacity: 1; transform: none; }
-  .dive-headline h1 { font-size: clamp(30px, 9vw, 56px); }
+  /* Cinematic dive section on mobile: collapse from 280vh sticky-
+   * scroll (which buried real content under 2000px of dark space)
+   * into a compact ~85vh hero. Globe sits behind the title and
+   * extends just below it for atmosphere; city/horizon/fog are
+   * desktop-only flourishes. */
+  .dive-section { height: auto; min-height: 85vh; }
+  .dive-stage { position: relative; height: 85vh; min-height: 540px; }
+  /* The globe canvas is 2200px (sized for desktop). At full scale
+   * on a 375px viewport the sphere is far wider than the screen and
+   * reads as scattered dots rather than a globe. Scale it down so
+   * the full sphere fits behind/below the title. */
+  .dive-globe-wrap {
+    transform: translate(-50%, 30%) scale(0.35);
+    transform-origin: center center;
+    opacity: 0.95;
+  }
+  .dive-headline {
+    top: 22%;
+    opacity: 1;
+    padding: 0 18px;
+  }
+  .dive-headline h1 { font-size: clamp(30px, 9vw, 52px); }
   .dive-city, .dive-horizon, .dive-fog { display: none; }
   .dive-scroll { display: none; }
+  /* HUD corner brackets and heavy overlay grain don't read on phone. */
+  .hero-hud { display: none; }
+  .dive-letterbox { display: none; }
+  /* The 75% bottom darken in dive-vignette buries the globe on
+   * mobile — keep a softer top fade, drop the bottom darkening. */
+  .dive-vignette {
+    background:
+      radial-gradient(ellipse 130% 80% at center 30%, transparent 50%, rgba(0,0,0,0.35) 100%);
+  }
+  .dive-grain { opacity: 0.6; }
 
   /* About / framings / principles / negation rows collapse */
   .framings-row,
@@ -2095,7 +2122,7 @@ table.ledger td.r, table.ledger th.r { text-align: right; }
   .status-strip .status-cell { border-bottom: 1px solid var(--line); }
 
   /* Section padding */
-  section.section { padding: 80px 0; }
+  section.section { padding-block: 80px; }
   .section-head { margin-bottom: 36px; }
 
   /* Footer column scale */
@@ -2122,8 +2149,8 @@ table.ledger td.r, table.ledger th.r { text-align: right; }
 
 @media (max-width: 540px) {
   :root { --pad: 18px; }
-  .page-intro { padding: 70px 0 36px; }
-  section.section { padding: 64px 0; }
+  .page-intro { padding-block: 70px 36px; }
+  section.section { padding-block: 64px; }
 
   /* CmdBar dropdown narrower on tiny screens */
   .cmd-pop { width: calc(100vw - 32px); }
