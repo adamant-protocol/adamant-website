@@ -483,11 +483,21 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .dive-letterbox {
   position: absolute; left: 0; right: 0;
   height: 5.5vh; min-height: 36px; max-height: 64px;
-  background: #000;
   z-index: 8; pointer-events: none;
 }
-.dive-letterbox.t { top: 0;    border-bottom: 1px solid rgba(255,255,255,0.07); }
-.dive-letterbox.b { bottom: 0; border-top:    1px solid rgba(255,255,255,0.07); }
+/* Top letterbox: no solid fill — the globe/sky shows through behind the
+ * floating cmd-bar. A subtle gradient softens the cmd-bar's top edge into
+ * the sky without painting a solid black band. */
+.dive-letterbox.t {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 100%);
+  border-bottom: 0;
+}
+.dive-letterbox.b {
+  bottom: 0;
+  background: #000;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
 
 .dive-headline {
   position: absolute;
@@ -661,57 +671,6 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   82%  { opacity: 1; clip-path: inset(55% 0 30% 0); transform: translateX(7px); }
   84%  { opacity: 1; clip-path: inset(75% 0 12% 0); transform: translateX(-3px); }
   86%  { opacity: 0; }
-}
-
-/* ─── WARP TUNNEL ────────────────────────────────────────────── */
-
-.warp-section {
-  position: relative;
-  background: #000;
-}
-.warp-sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow: hidden;
-}
-.warp-canvas {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  display: block;
-}
-.warp-overlay {
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  pointer-events: none;
-  z-index: 2;
-}
-.warp-headline {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.22em;
-  color: rgba(255,255,255,0.45);
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
-.warp-big {
-  font-family: var(--sans);
-  font-weight: 300;
-  font-size: clamp(32px, 5.5vw, 80px);
-  letter-spacing: -0.03em;
-  color: #fff;
-  text-align: center;
-  max-width: 900px;
-  line-height: 1.05;
-  mix-blend-mode: screen;
-  filter: drop-shadow(0 0 40px rgba(0,0,0,0.85));
-  padding: 0 6vw;
-}
-.warp-big .it {
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: -0.01em;
 }
 
 /* ─── section primitives ─────────────────────────────────────── */

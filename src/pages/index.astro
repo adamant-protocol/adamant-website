@@ -1,7 +1,6 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import WorldDive from '@/components/home/WorldDive.jsx';
-import WarpField from '@/components/home/WarpField.jsx';
 import PropertyMatrix from '@/components/home/PropertyMatrix.astro';
 import Mechanisms from '@/components/home/Mechanisms.astro';
 import Genesis from '@/components/home/Genesis.astro';
@@ -28,15 +27,6 @@ import { PHASE } from '@/data/chain';
   <!-- Editorial sections -->
   <PropertyMatrix />
   <Mechanisms />
-
-  <!-- Cinematic warp inter-tunnel — leads into tiers -->
-  <WarpField client:visible height="200vh">
-    <div class="warp-headline">— PROTOCOL → PARTICIPATION —</div>
-    <div class="warp-big">
-      <span class="it">Not a token launch.</span><br />
-      A chain that asks who shows up.
-    </div>
-  </WarpField>
 
   <TheatreTiers />
   <Genesis />
